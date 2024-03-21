@@ -1,0 +1,22 @@
+{
+  "name": "schemas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "validate": "node --import=tsimp/import scripts/validate.ts",
+    "build": "node --import=tsimp/import scripts/build.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@actions/core": "^1.10.1",
+    "@sinclair/typebox": "^0.32.15",
+    "@types/node": "^20.11.25",
+    "ajv": "^8.12.0",
+    "just-safe-get": "^4.2.0",
+    "tsimp": "^2.0.11"
+  }
+}
