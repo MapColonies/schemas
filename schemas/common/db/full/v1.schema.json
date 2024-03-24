@@ -3,7 +3,7 @@
   "description": "The full database schema including schema and database name",
   "allOf": [
     {
-      "$ref": "https://mapcolonies.com/common/db/v1"
+      "$ref": "https://mapcolonies.com/common/db/partial/v1"
     },
     {
       "type": "object",

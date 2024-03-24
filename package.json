@@ -13,10 +13,14 @@
   "license": "ISC",
   "devDependencies": {
     "@actions/core": "^1.10.1",
+    "@map-colonies/prettier-config": "^0.0.1",
     "@sinclair/typebox": "^0.32.15",
     "@types/node": "^20.11.25",
     "ajv": "^8.12.0",
+    "json-schema-to-ts": "^3.0.1",
     "just-safe-get": "^4.2.0",
-    "tsimp": "^2.0.11"
+    "prettier": "^3.2.5",
+    "tsimp": "^2.0.11",
+    "zx": "^7.2.3"
   }
 }
