@@ -1,6 +1,7 @@
 import path, { join } from 'node:path';
-import fs from 'node:fs';
+import fs, { readFile } from 'node:fs';
 import fsPromise from 'node:fs/promises';
+import { compile, compileFromFile } from 'json-schema-to-typescript';
 import 'zx/globals';
 
 // list directory contents
@@ -11,6 +12,29 @@ const filesToDelete = [];
 
 if (fs.existsSync(buildDir)) {
   await fsPromise.rm(buildDir, { recursive: true });
+}
+
+async function* filesTreeGenerator(directory: string): AsyncGenerator<fs.Dirent> {
+  const directories = [directory];
+  while (directories.length > 0) {
+    const currentDirectory = directories.pop() as string;
+    const files = await fsPromise.readdir(currentDirectory, { withFileTypes: true });
+
+    for (const file of files) {
+      const fullPath = path.join(currentDirectory, file.name);
+
+      if (file.isDirectory()) {
+        directories.push(path.join(fullPath));
+        continue;
+      }
+
+      if (!file.isFile()) {
+        throw new Error(`Unexpected file type: ${fullPath}`);
+      }
+
+      yield file;
+    }
+  }
 }
 
 for (const directory of directories) {
@@ -54,11 +78,9 @@ for (const directory of directories) {
 
     await fsPromise.writeFile(`${fileDestPath}.ts`, `export default ${content.trimEnd()} as const;\n`, { encoding: 'utf-8' });
     filesToDelete.push(`${fileDestPath}.ts`);
-    
+
     const fileVersion = file.name.split('.')[0];
-    filesToImportToIndex.push(
-      `export { default as ${directory.split(path.sep).at(-1)}_${fileVersion} } from './${fileVersion}.schema.js'`
-    );
+    filesToImportToIndex.push(`export { default as ${directory.split(path.sep).at(-1)}_${fileVersion} } from './${fileVersion}.schema.js'`);
   }
 
   if (filesToImportToIndex.length > 0) {
@@ -66,6 +88,27 @@ for (const directory of directories) {
     await fsPromise.writeFile(indexFilePath, filesToImportToIndex.join('\n'), { encoding: 'utf-8' });
     filesToDelete.push(indexFilePath);
   }
+}
+
+for await (const file of filesTreeGenerator('schemas')) {
+  const fileDestPath = path.join(buildDir, file.path, path.basename(file.name, path.extname(file.name)));
+  const compiledType = await compileFromFile(`${fileDestPath}.json`, {
+    $refOptions: {
+      resolve: {
+        mapcolonies: {
+          canRead: /^https:\/\/mapcolonies.com\/.*/,
+          order: 1,
+          read: async (file) => {
+            console.log(file);
+            const subPath = file.url.split('https://mapcolonies.com/')[1];
+
+            return fsPromise.readFile(join('schemas', subPath + '.schema.json'), { encoding: 'utf-8' });
+          },
+        },
+      },
+    },
+  });
+  await fsPromise.writeFile(`${fileDestPath}.gen.d.ts`, compiledType, { encoding: 'utf-8' });
 }
 
 await $`tsc -p tsconfig.build.json`;

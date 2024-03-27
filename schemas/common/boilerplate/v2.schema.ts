@@ -19,7 +19,7 @@ const openapiConfig = Type.Object(
       description: 'The path to the OpenAPI UI',
     }),
   },
-  { description: 'OpenAPI configuration' }
+  { description: 'OpenAPI configuration', additionalProperties: false}
 );
 
 const telemetry = Type.Object(
@@ -27,15 +27,15 @@ const telemetry = Type.Object(
     logger: Type.Object({
       level: Type.Union(
         [Type.Literal('trace'), Type.Literal('debug'), Type.Literal('info'), Type.Literal('warn'), Type.Literal('error'), Type.Literal('fatal')],
-        { default: 'info', description: 'The log level' }
+        { default: 'info', description: 'The log level', additionalProperties: false }
       ),
       prettyPrint: Type.Boolean({
         default: false,
         description: 'Whether to pretty print logs',
       }),
-    }),
+    }, { description: 'Logger configuration', additionalProperties: false }),
   },
-  { description: 'Telemetry configuration' }
+  { description: 'Telemetry configuration', additionalProperties: false }
 );
 
 const server = Type.Object(
@@ -44,10 +44,10 @@ const server = Type.Object(
     request: Type.Object({
       payload: Type.Object({
         limit: Type.String({ default: '1mb', description: 'The maximum payload size of an incoming request' }),
-      }),
-    }),
+      }, {additionalProperties: false}),
+    }, {additionalProperties: false}),
   },
-  { description: 'Server configuration' }
+  { description: 'Server configuration', additionalProperties: false }
 );
 
 export default Type.Strict(
@@ -61,6 +61,7 @@ export default Type.Strict(
       $schema: 'http://json-schema.org/draft-07/schema#',
       description: 'Boilerplate basic configuration',
       $id: 'https://mapcolonies.com/common/boilerplate/v2',
+      additionalProperties: false,
     }
   )
 );

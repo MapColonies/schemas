@@ -1,12 +1,19 @@
 {
   "$id": "https://mapcolonies.com/common/db/full/v1",
   "description": "The full database schema including schema and database name",
+  "type": "object",
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/common/db/partial/v1"
     },
     {
+      "$ref": "#/definitions/db"
+    }
+  ],
+  "definitions": {
+    "db": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "schema": {
           "type": "string",
@@ -21,5 +28,5 @@
         }
       }
     }
-  ]
+  }
 }

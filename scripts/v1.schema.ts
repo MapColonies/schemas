@@ -1,4 +1,49 @@
-{
+/**
+ * database configuration for postgres
+ */
+export interface HttpsMapcoloniesComCommonDbPartialV1 {
+  /**
+   * the host of the database
+   */
+  host?: string;
+  /**
+   * the port of the database
+   */
+  port?: number;
+  /**
+   * the username of the database
+   */
+  username?: string;
+  /**
+   * the password of the database
+   */
+  password?: string;
+  /**
+   * ssl configuration
+   */
+  ssl?: {
+    /**
+     * enable ssl
+     */
+    enabled?: boolean;
+    /**
+     * the path to the ca file
+     */
+    ca?: string;
+    /**
+     * the path to the cert file
+     */
+    cert?: string;
+    /**
+     * the path to the key file
+     */
+    key?: string;
+  };
+}
+
+export const symbolAvi: unique symbol = Symbol.for('avi');
+
+export default {
   "$id": "https://mapcolonies.com/common/db/partial/v1",
   "description": "database configuration for postgres",
   "additionalProperties": false,
@@ -29,7 +74,6 @@
       "type": "object",
       "description": "ssl configuration",
       "additionalProperties": false,
-
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -68,4 +112,4 @@
       }
     }
   }
-}
+} as const;
