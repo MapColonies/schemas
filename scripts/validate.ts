@@ -1,8 +1,8 @@
 import fsPromise from 'node:fs/promises';
 import fs from 'node:fs';
 import AjvModule from 'ajv';
-import get from 'just-safe-get';
-import path, { join } from 'node:path';
+import path from 'node:path';
+import { $RefParser } from '@apidevtools/json-schema-ref-parser';
 import { presult, result, setErrorsOnAction, printErrorsToConsole, FileError } from './util/index.js';
 import { AsyncLocalStorage } from 'node:async_hooks';
 
@@ -12,8 +12,6 @@ const asyncLocalStorage = new AsyncLocalStorage<{
 }>();
 
 const errors: FileError[] = [];
-
-const refsMap = new Map<string, Set<string>>();
 
 function handleError(msg: string, id?: string): void {
   const fileContext = asyncLocalStorage.getStore();
@@ -42,73 +40,77 @@ function handleError(msg: string, id?: string): void {
   });
 }
 
-function validateRef(ref: string): boolean {
-  // https://mapcolonies.com/common/port/v2
-  if (!ref.startsWith('https://mapcolonies.com/')) {
-    handleError(`Error validating ${ref}: $ref is incorrect, it should be in the following format: https://mapcolonies.com/directory/version`);
-    return false;
-  }
-  const refPath = ref.substring(24);
-  const basePath = path.join('schemas', refPath);
-  if (!fs.existsSync(basePath + '.schema.json') && !fs.existsSync(basePath + '.schema.ts')) {
-    handleError(`Error validating ${ref}: $ref is incorrect, could not find the file referenced`);
-    return false;
-  }
-  return true;
-}
+async function validateRefs(schema: string) {
+  const parser = new $RefParser();
 
-function validateRefs(schema: any) {
-  let keys = Object.keys(schema);
+  const resolver = {
+    order: 1,
+    canRead: /^https:\/\/mapcolonies.com\/.*/,
+    read: async (file: { url: string; hash: string; extension: string }) => {
+      const subPath = file.url.split('https://mapcolonies.com/')[1];
 
-  for (const key of keys) {
-    const value = get(schema, key);
-
-    if (key.endsWith('$ref')) {
-      // we assume that the $ref and $id are defined
-      const refValue = (value as string).substring(24);
-      const id = schema.$id.substring(24) as string;
-
-      const isValidated = validateRef(get(schema, key));
-
-      if (isValidated) {
-        const refsSet = refsMap.get(id);
-        if (refsSet) {
-          refsSet.add(refValue);
-        } else {
-          refsMap.set(id, new Set([refValue]));
-        }
+      if (fs.existsSync(path.join('schemas', subPath + '.schema.json'))) {
+        return fsPromise.readFile(path.join('schemas', subPath + '.schema.json'), { encoding: 'utf-8' });
       }
-    }
 
-    if (schema !== Object(schema)) {
-      continue;
-    }
+      if (fs.existsSync(path.join('schemas', subPath + '.schema.ts'))) {
+        return (await import(path.join('..', 'schemas', subPath + '.schema.ts'))).default;
+      }
 
-    if (Array.isArray(value)) {
-      keys.push(...value.map((_, i) => `${key}[${i}]`));
-    }
+      throw new Error(`Could not find the file ${subPath} referenced in the error it wasn't TS or JSON`);
+    },
+  };
 
-    if (typeof value === 'object') {
-      keys.push(...Object.keys(value).map((k) => `${key}.${k}`));
+  const [error, refsObj] = await presult(
+    parser.resolve(schema, {
+      dereference: {
+        circular: false,
+      },
+      resolve: {
+        file: false,
+        http: false,
+        mapcolonies: resolver,
+      },
+    })
+  );
+
+  if (error) {
+    return handleError(`Error resolving refs: ${error.message}`);
+  }
+
+  const refs = Object.values(refsObj.values());
+  const id = refs[0].$id;
+
+  let idCount = 0;
+
+  for (const ref of refs) {
+    if (ref.$id === id) {
+      idCount++;
     }
+  }
+
+  if (refsObj.circular || idCount > 1) {
+    handleError(`Error validating refs: circular reference detected`);
   }
 }
 
 async function validateSchema(schema: any, file: string) {
   const ajv = new AjvModule.default();
-  
+
   const res = ajv.validateSchema(schema);
   if (!res) {
     return handleError(`Error validating file: ${ajv.errorsText()}`);
   }
 
-  const fileWithoutSchema = file.substring(8);
+  const fileWithoutSchema = file.substring(8, file.indexOf('.schema'));
+  const normalizedIdSubPath = fileWithoutSchema.replaceAll(path.win32.sep, path.posix.sep);
 
-  if (schema.$id !== 'https://mapcolonies.com/' + fileWithoutSchema.substring(0, fileWithoutSchema.indexOf('.schema'))) {
+  // if (schema.$id !== 'https://mapcolonies.com/' + fileWithoutSchema.substring(0, fileWithoutSchema.indexOf('.schema'))) {
+  if (!schema.$id || !new RegExp(`https://mapcolonies.com/${normalizedIdSubPath}(#.*)?`).test(schema.$id) || schema.$id.includes('..')) {
     return handleError(`Error validating file: $id is incorrect, it should be in the following format: https://mapcolonies.com/directory/version`);
   }
 
-  validateRefs(schema);
+  await validateRefs(schema);
 }
 
 async function validateJsonFile(file: string) {
@@ -127,9 +129,9 @@ async function validateTsFile(file: string) {
   if (error) {
     return handleError(`Error importing file: ${error.message}`);
   }
-   if (!schema.default) {
+  if (!schema.default) {
     return handleError(`Error validating file: default export is missing`);
-   }
+  }
 
   await validateSchema(schema.default, file);
 }
@@ -184,29 +186,6 @@ for (const directory of directories) {
   }
 }
 
-// helper function for the cyclic reference check
-function isRefCircular(refsToCheck: Set<string>, originalId: string): boolean {
-  for (const ref of refsToCheck) {
-    if (ref === originalId) {
-      return true;
-    }
-    if (refsMap.get(ref) && isRefCircular(refsMap.get(ref)!, originalId)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-// check for circular references
-for (const [id, parentRefsSet] of refsMap.entries()) {
-  for (const ref of parentRefsSet) {
-    if (refsMap.get(ref) && isRefCircular(refsMap.get(ref)!, id)) {
-      handleError(`Error validating ${id}: circular reference detected with ${ref}`, id);
-      break;
-    }
-  }
-}
-
 if (errors.length > 0) {
   if (process.env.GITHUB_ACTIONS) {
     setErrorsOnAction(errors);
@@ -214,3 +193,5 @@ if (errors.length > 0) {
   printErrorsToConsole(errors);
   process.exit(1);
 }
+
+console.log('All schemas are valid');

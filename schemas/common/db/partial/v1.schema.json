@@ -1,8 +1,8 @@
 {
   "$id": "https://mapcolonies.com/common/db/partial/v1",
   "description": "database configuration for postgres",
-  "additionalProperties": false,
   "type": "object",
+  "required": ["ssl"],
   "properties": {
     "host": {
       "type": "string",
@@ -26,10 +26,13 @@
       "default": "postgres"
     },
     "ssl": {
+      "$ref": "#/definitions/ssl"
+    }
+  },
+  "definitions": {
+    "ssl": {
       "type": "object",
       "description": "ssl configuration",
-      "additionalProperties": false,
-
       "properties": {
         "enabled": {
           "type": "boolean",

@@ -13,7 +13,7 @@
   "definitions": {
     "db": {
       "type": "object",
-      "additionalProperties": false,
+      "required": ["database"],
       "properties": {
         "schema": {
           "type": "string",
@@ -23,7 +23,6 @@
         "database": {
           "type": "string",
           "description": "The database name",
-          "default": "postgres",
           "maxLength": 63
         }
       }

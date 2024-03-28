@@ -19,35 +19,44 @@ const openapiConfig = Type.Object(
       description: 'The path to the OpenAPI UI',
     }),
   },
-  { description: 'OpenAPI configuration', additionalProperties: false}
+  { description: 'OpenAPI configuration' }
 );
 
 const telemetry = Type.Object(
   {
-    logger: Type.Object({
-      level: Type.Union(
-        [Type.Literal('trace'), Type.Literal('debug'), Type.Literal('info'), Type.Literal('warn'), Type.Literal('error'), Type.Literal('fatal')],
-        { default: 'info', description: 'The log level', additionalProperties: false }
-      ),
-      prettyPrint: Type.Boolean({
-        default: false,
-        description: 'Whether to pretty print logs',
-      }),
-    }, { description: 'Logger configuration', additionalProperties: false }),
+    logger: Type.Object(
+      {
+        level: Type.Union(
+          [Type.Literal('trace'), Type.Literal('debug'), Type.Literal('info'), Type.Literal('warn'), Type.Literal('error'), Type.Literal('fatal')],
+          { default: 'info', description: 'The log level' }
+        ),
+        prettyPrint: Type.Boolean({
+          default: false,
+          description: 'Whether to pretty print logs',
+        }),
+      },
+      { description: 'Logger configuration' }
+    ),
   },
-  { description: 'Telemetry configuration', additionalProperties: false }
+  { description: 'Telemetry configuration' }
 );
 
 const server = Type.Object(
   {
     port: Type.Integer({ minimum: 1, maximum: 65535, default: 8080, description: 'The port the server will listen on' }),
-    request: Type.Object({
-      payload: Type.Object({
-        limit: Type.String({ default: '1mb', description: 'The maximum payload size of an incoming request' }),
-      }, {additionalProperties: false}),
-    }, {additionalProperties: false}),
+    request: Type.Object(
+      {
+        payload: Type.Object(
+          {
+            limit: Type.String({ default: '1mb', description: 'The maximum payload size of an incoming request' }),
+          },
+          {}
+        ),
+      },
+      {}
+    ),
   },
-  { description: 'Server configuration', additionalProperties: false }
+  { description: 'Server configuration' }
 );
 
 export default Type.Strict(
@@ -61,7 +70,6 @@ export default Type.Strict(
       $schema: 'http://json-schema.org/draft-07/schema#',
       description: 'Boilerplate basic configuration',
       $id: 'https://mapcolonies.com/common/boilerplate/v2',
-      additionalProperties: false,
     }
   )
 );

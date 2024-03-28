@@ -4,7 +4,7 @@ import { SchemaOptionss } from '@sinclair/typebox';
 
 declare module '@sinclair/typebox' {
   export interface SchemaOptions {
-    'x-env-value'?: string;
-    'x-populate-as-env'?: boolean;
+    'X-ENV-VALUE'?: string;
+    'X-POPULATE-AS-ENV'?: boolean;
   }
 }
