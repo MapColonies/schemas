@@ -11,8 +11,10 @@ const asyncLocalStorage = new AsyncLocalStorage<{
   file: string;
 }>();
 
+
 const errors: FileError[] = [];
 
+// function to add all errors to the errors array with location context
 function handleError(msg: string, id?: string): void {
   const fileContext = asyncLocalStorage.getStore();
 
@@ -78,6 +80,7 @@ async function validateRefs(schema: string) {
     return handleError(`Error resolving refs: ${error.message}`);
   }
 
+  // here we check if the refs are circular. if more than one schema contains the same id, it is considered circular
   const refs = Object.values(refsObj.values());
   const id = refs[0].$id;
 
@@ -97,6 +100,7 @@ async function validateRefs(schema: string) {
 async function validateSchema(schema: any, file: string) {
   const ajv = new AjvModule.default();
 
+  // validate the schema against the json schema schema
   const res = ajv.validateSchema(schema);
   if (!res) {
     return handleError(`Error validating file: ${ajv.errorsText()}`);
@@ -105,7 +109,7 @@ async function validateSchema(schema: any, file: string) {
   const fileWithoutSchema = file.substring(8, file.indexOf('.schema'));
   const normalizedIdSubPath = fileWithoutSchema.replaceAll(path.win32.sep, path.posix.sep);
 
-  // if (schema.$id !== 'https://mapcolonies.com/' + fileWithoutSchema.substring(0, fileWithoutSchema.indexOf('.schema'))) {
+  // we check that id is in the following format https://mapcolonies.com/directory/version
   if (!schema.$id || !new RegExp(`https://mapcolonies.com/${normalizedIdSubPath}(#.*)?`).test(schema.$id) || schema.$id.includes('..')) {
     return handleError(`Error validating file: $id is incorrect, it should be in the following format: https://mapcolonies.com/directory/version`);
   }

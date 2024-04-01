@@ -1,20 +1,33 @@
 {
   "name": "@map-colonies/schemas",
-  "version": "1.0.2",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Package for all of MapColonies config schemas",
   "main": "./build/schemas/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MapColonies/schemas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MapColonies/schemas/issues"
+  },
+  "homepage": "https://github.com/MapColonies/schemas#readme"
+,
   "type": "module",
   "scripts": {
     "validate": "node --import=tsimp/import scripts/validate.ts",
-    "build": "node --import=tsimp/import scripts/build.ts"
+    "build": "node --import=tsimp/import scripts/build.ts",
+    "prepare": "husky"
   },
   "files": [
     "build/**/*"
   ],
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "CptSchnitz",
+  "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^19.2.1",
+    "@commitlint/config-conventional": "^19.1.0",
+    "husky":"^9.0.11",
     "@actions/core": "^1.10.1",
     "@apidevtools/json-schema-ref-parser": "^11.5.4",
     "@map-colonies/prettier-config": "^0.0.1",
@@ -22,8 +35,6 @@
     "@types/node": "^20.11.25",
     "ajv": "^8.12.0",
     "camelcase": "^8.0.0",
-    "json-schema-to-typescript": "^13.1.2",
-    "just-safe-get": "^4.2.0",
     "prettier": "^3.2.5",
     "tsimp": "^2.0.11",
     "zx": "^7.2.3"
