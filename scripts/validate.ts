@@ -3,16 +3,16 @@ import fs from 'node:fs';
 import AjvModule from 'ajv';
 import path from 'node:path';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
-import { presult, result, setErrorsOnAction, printErrorsToConsole, FileError } from './util/index.js';
+import { presult, result} from './util/index.js';
 import { AsyncLocalStorage } from 'node:async_hooks';
+import { ErrorHandler } from './util/errorHandling.js';
 
 const asyncLocalStorage = new AsyncLocalStorage<{
   directory: string;
   file: string;
 }>();
 
-
-const errors: FileError[] = [];
+const errorHandler = new ErrorHandler();
 
 // function to add all errors to the errors array with location context
 function handleError(msg: string, id?: string): void {
@@ -35,7 +35,7 @@ function handleError(msg: string, id?: string): void {
     }
   }
 
-  errors.push({
+  errorHandler.addError({
     file: file ?? undefined,
     directory: directory ?? undefined,
     error: msg,
@@ -190,11 +190,8 @@ for (const directory of directories) {
   }
 }
 
-if (errors.length > 0) {
-  if (process.env.GITHUB_ACTIONS) {
-    setErrorsOnAction(errors);
-  }
-  printErrorsToConsole(errors);
+if (errorHandler.getErrors().length > 0) {
+  errorHandler.outputErrors();
   process.exit(1);
 }
 

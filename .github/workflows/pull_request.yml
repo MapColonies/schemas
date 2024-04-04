@@ -22,3 +22,22 @@ jobs:
 
       - name: Run the validations
         run: npm run validate
+  check_for_changed_files:
+    name: Run 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out TS Project Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+
+      - name: Install TS Project dependencies
+        run: npm ci
+
+      - name: Run the validations
+        run: npm run check-files-changed
