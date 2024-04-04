@@ -16,6 +16,7 @@
   "scripts": {
     "validate": "node --import=tsimp/import scripts/validate.ts",
     "build": "node --import=tsimp/import scripts/build.ts",
+    "prepack": "npm run build",
     "prepare": "husky"
   },
   "files": [
