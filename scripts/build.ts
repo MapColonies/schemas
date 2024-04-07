@@ -30,7 +30,7 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
   const directory = file.path;
   const fullPath = path.join(directory, file.name);
   const fileVersion = file.name.split('.')[0];
-  const schemaName = camelCase(directory.substring(7).replaceAll(path.sep, '_') + '_' + fileVersion);
+  const schemaName = camelCase(directory.substring(schemasFolder.length).replaceAll(path.sep, '_') + '_' + fileVersion);
 
   let content: any;
   let fileDestPath: string;
