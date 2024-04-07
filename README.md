@@ -43,7 +43,7 @@ Example of JSON schema in native json format:
 ```
 - The JSON Schema version used is [Draft-07](https://json-schema.org/draft-07/json-schema-release-notes).
 - Each schema should contain the ID field with the value based on the relative location of the schema in the schemas folder.
-- If the schema is in Typescript, it should have an default export that is a valid JSON Schema. For convenience, the package [typebox](https://github.com/sinclairzx81/typebox) is installed to help generating JSON Schemas.
+- If the schema is in Typescript, it should have a default export that is a valid JSON Schema. For convenience, the package [typebox](https://github.com/sinclairzx81/typebox) is installed to help generating JSON Schemas.
 
 The same example as above, but using typebox:
 ```typescript

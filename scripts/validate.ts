@@ -158,7 +158,7 @@ for (const directory of directories) {
 
   for (const file of files) {
     await asyncLocalStorage.run({ directory, file: file.name }, async () => {
-      // the correct structure is is either only directories or only files, so if its not a file at this stage, it is an error
+      // the correct structure is either only directories or only files, so if its not a file at this stage, it is an error
       if (!file.isFile()) {
         return handleError(`Found a directory when a file was expected`);
       }
