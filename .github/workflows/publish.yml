@@ -1,7 +1,9 @@
 on:
+  workflow_dispatch:
   release: 
     types: [published]
-
+    branches: [master]
+    
 jobs:
   publish:
     runs-on: ubuntu-latest
