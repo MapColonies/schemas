@@ -6,7 +6,7 @@ const latestTag = await $`git --no-pager describe --tags $(git rev-list --tags -
 const latestTagCommitSha = await $`git --no-pager rev-list -n 1 ${latestTag.stdout.trim()}`;
 const diff = await $`git --no-pager diff --name-status ${latestTagCommitSha.stdout.trim()} HEAD schemas`;
 
-const gitDiffRegex = /^(?<action>A|M|D)\s+(?<file>schemas\/.+\.schema\.(?:json|ts))/;
+const gitDiffRegex = /^(?<action>M|D)\s+(?<file>schemas\/.+\.schema\.(?:json|ts))/;
 
 const addedAndModifiedFiles = diff.stdout
   .split('\n')
@@ -21,7 +21,7 @@ const errorHandler = new ErrorHandler();
 errorHandler.addError(
   ...addedAndModifiedFiles.map(([action, file]) => ({
     file,
-    error: `Schema files should not be ${action === 'A' ? 'added' : 'modified'} outside of a release.`,
+    error: `Schema files should not be ${action === 'D' ? 'deleted' : 'modified'} outside of a release.`,
     directory: 'schemas',
   }))
 );
