@@ -4,7 +4,7 @@ on: [pull_request, workflow_dispatch]
 
 jobs:
   validate_schemas:
-    name: Run 
+    name: validate schemas 
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
       - name: Run the validations
         run: npm run validate
   check_for_changed_files:
-    name: Run 
+    name: check for changed schemas
     runs-on: ubuntu-latest
 
     steps:
