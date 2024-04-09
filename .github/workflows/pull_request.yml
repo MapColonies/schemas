@@ -2,13 +2,13 @@ name: pull_request
 
 on: [pull_request, workflow_dispatch]
 
-permissions: 
-  pull-requests: write 
+permissions:
+  pull-requests: write
   contents: read
 
 jobs:
   validate_schemas:
-    name: validate schemas 
+    name: validate schemas
     runs-on: ubuntu-latest
 
     steps:
@@ -69,13 +69,13 @@ jobs:
         id: json_properties
         uses: ActionsTools/read-json-action@main
         with:
-          file_path: "package.json"
+          file_path: 'package.json'
       - uses: azure/CLI@v2
         env:
           AZURE_STORAGE_SAS_TOKEN: ${{ secrets.SAS_TOKEN }}
         with:
           inlineScript: |
-            az storage blob upload --name schemas-$GITHUB_SHA.tgz --account-name ghatmpstorage --container-name=npm-packages --file ${{steps.json_properties.outputs.name}}-${{steps.json_properties.outputs.version}}.tgz
+            az storage blob upload --name schemas-$GITHUB_SHA.tgz --account-name ghatmpstorage --container-name=npm-packages --file map-colonies-schemas-${{steps.json_properties.outputs.version}}.tgz
       - name: Comment on PR
         uses: thollander/actions-comment-pull-request@v2
         with:
