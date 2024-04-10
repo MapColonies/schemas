@@ -2,9 +2,13 @@ name: pull_request
 
 on: [pull_request, workflow_dispatch]
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   validate_schemas:
-    name: validate schemas 
+    name: validate schemas
     runs-on: ubuntu-latest
 
     steps:
@@ -45,3 +49,45 @@ jobs:
 
       - name: Run the validations
         run: npm run check-files-changed
+
+  upload_package:
+    needs: [validate_schemas, check_for_changed_files]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out TS Project Git repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+      - name: Install TS Project dependencies
+        run: npm ci
+      - name: Pack the package
+        run: npm pack
+      - name: get properties
+        id: json_properties
+        uses: ActionsTools/read-json-action@main
+        with:
+          file_path: 'package.json'
+      - uses: azure/CLI@v2
+        env:
+          AZURE_STORAGE_SAS_TOKEN: ${{ secrets.SAS_TOKEN }}
+        with:
+          inlineScript: |
+            az storage blob upload --name schemas-$GITHUB_SHA.tgz --account-name ghatmpstorage --container-name=npm-packages --file map-colonies-schemas-${{steps.json_properties.outputs.version}}.tgz
+      - name: Comment on PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Hi it is me, your friendly bot helper! :wave:
+            I've packed this commit for you :blush:
+            You can install it like this:
+            ```json
+            {
+              "dependencies": {
+                  "@map-colonies/schemas": "https://ghatmpstorage.blob.core.windows.net/npm-packages/schemas-${{ github.sha }}.tgz"
+              }
+            }
+            ```
+            The link will expire in a week :hourglass:
