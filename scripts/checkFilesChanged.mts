@@ -1,5 +1,5 @@
 import 'zx/globals';
-import { ErrorHandler } from './util/errorHandling.js';
+import { ErrorHandler } from './util/errorHandling.mjs';
 
 const latestTag = await $`git --no-pager describe --tags $(git rev-list --tags --max-count=1)`;
 
