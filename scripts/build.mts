@@ -4,7 +4,7 @@ import fsPromise from 'node:fs/promises';
 import camelCase from 'camelcase';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
 import 'zx/globals';
-import { filesTreeGenerator } from './util/index.js';
+import { filesTreeGenerator } from './util/index.mjs';
 
 const buildDir = 'build';
 const schemasFolder = 'schemas';
@@ -36,7 +36,7 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
   let fileDestPath: string;
   const ext = path.extname(file.name);
   switch (ext) {
-    case '.ts':
+    case '.mts':
       content = (await import(path.join('..', fullPath))).default;
       break;
     case '.json':
@@ -50,7 +50,7 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
   if (!content.title) {
     content.title = schemaName;
   }
-  
+
   const contentStringified = JSON.stringify(content);
 
   fileDestPath = path.join(buildDir, directory, path.basename(file.name, ext));
