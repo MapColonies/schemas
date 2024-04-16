@@ -20,7 +20,6 @@ export interface FileError {
   error: string;
 }
 
-
 /**
  * Represents an error handler that collects and manages file errors.
  */

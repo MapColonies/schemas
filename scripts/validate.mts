@@ -3,9 +3,9 @@ import fs from 'node:fs';
 import AjvModule from 'ajv';
 import path from 'node:path';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
-import { presult, result} from './util/index.js';
+import { presult, result } from './util/index.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { ErrorHandler } from './util/errorHandling.js';
+import { ErrorHandler } from './util/errorHandling.mjs';
 
 const asyncLocalStorage = new AsyncLocalStorage<{
   directory: string;
@@ -28,8 +28,8 @@ function handleError(msg: string, id?: string): void {
     const fileNameStart = id.substring(lastSlashIndex + 1);
     if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.json`))) {
       file = `${fileNameStart}.schema.json`;
-    } else if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.ts`))) {
-      file = `${fileNameStart}.schema.ts`;
+    } else if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.mts`))) {
+      file = `${fileNameStart}.schema.mts`;
     } else {
       throw new Error(`Could not find the file ${fileNameStart} referenced in the error`);
     }
@@ -55,8 +55,8 @@ async function validateRefs(schema: string) {
         return fsPromise.readFile(path.join('schemas', subPath + '.schema.json'), { encoding: 'utf-8' });
       }
 
-      if (fs.existsSync(path.join('schemas', subPath + '.schema.ts'))) {
-        return (await import(path.join('..', 'schemas', subPath + '.schema.ts'))).default;
+      if (fs.existsSync(path.join('schemas', subPath + '.schema.mts'))) {
+        return (await import(path.join('..', 'schemas', subPath + '.schema.mts'))).default;
       }
 
       throw new Error(`Could not find the file ${subPath} referenced in the error it wasn't TS or JSON`);
@@ -180,7 +180,7 @@ for (const directory of directories) {
         case 'json':
           await validateJsonFile(filePath);
           break;
-        case 'ts':
+        case 'mts':
           await validateTsFile(filePath);
           break;
         default:

@@ -11,12 +11,11 @@
     "url": "https://github.com/MapColonies/schemas/issues"
   },
   "homepage": "https://github.com/MapColonies/schemas#readme",
-  "type": "module",
   "scripts": {
-    "validate": "node --import=tsimp/import scripts/validate.ts",
-    "build": "node --import=tsimp/import scripts/build.ts",
+    "validate": "node --import=tsimp/import scripts/validate.mts",
+    "build": "node --import=tsimp/import scripts/build.mts",
     "prepack": "npm run build",
-    "check-files-changed": "node --import=tsimp/import scripts/checkFilesChanged.ts",
+    "check-files-changed": "node --import=tsimp/import scripts/checkFilesChanged.mts",
     "prepare": "husky"
   },
   "files": [
