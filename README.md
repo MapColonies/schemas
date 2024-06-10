@@ -16,13 +16,13 @@ When a new version is released, an NPM package containing all the schemas, and t
     ├── common/
     │   └── db/
     │       ├── v1.schema.json
-    │       └── v2.schema.mts
+    │       └── v2.schema.json
     └── raster/
         ├── mapproxy/
         │   ├── v1.schema.json
         │   └── v2.schema.json
         └── pycsw/
-            └── v1.schema.mts
+            └── v1.schema.json
 ```
 
 ## Schema versioning
@@ -33,7 +33,7 @@ Once a new version of the package has been released, schemas should not be edite
 
 ## Schema files
 
-- The schema files are a [JSON Schema](https://json-schema.org/) in either JSON or Typescript format.
+- The schema files are a [JSON Schema](https://json-schema.org/) in either JSON ~~or Typescript~~ format.
   Example of JSON schema in native json format:
 
 ```json
@@ -50,9 +50,9 @@ Once a new version of the package has been released, schemas should not be edite
 
 - The JSON Schema version used is [Draft-07](https://json-schema.org/draft-07/json-schema-release-notes).
 - Each schema should contain the ID field with the value based on the relative location of the schema in the schemas folder.
-- If the schema is in Typescript, it should have a default export that is a valid JSON Schema. For convenience, the package [typebox](https://github.com/sinclairzx81/typebox) is installed to help generating JSON Schemas.
+- ~~If the schema is in Typescript, it should have a default export that is a valid JSON Schema. For convenience, the package [typebox](https://github.com/sinclairzx81/typebox) is installed to help generating JSON Schemas.~~
 
-The same example as above, but using typebox:
+<!-- The same example as above, but using typebox:
 
 ```typescript
 import { Type } from '@sinclair/typebox';
@@ -65,7 +65,7 @@ const schema = Type.Object(
 );
 
 export default Type.Strict(schema);
-```
+``` -->
 
 - Schemas can be composed from other schemas using the key words [AllOf, OneOf, AnyOf](https://json-schema.org/understanding-json-schema/reference/combining) and using [references](https://json-schema.org/understanding-json-schema/structuring).
   Example of schema with internal reference:
@@ -131,7 +131,7 @@ To run the script write the following command into your terminal: `npm run valid
 The script contains the following validations:
 
 - Each folder contains either folders or only schema files (schema | markdown).
-- The schema files are in the correct format - Typescript or JSON.
+- The schema files are in the correct format - ~~Typescript or~~ JSON.
 - The files in the folders are in ascending order (v1,v2,v3,...).
 - Each file contains a valid JSON Schema.
 - The ID of each schema is in the correct structure - https://mapcolonies.com/directory/v1.schema.json#subReference
