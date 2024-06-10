@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/MapColonies/schemas/compare/v0.0.1...v0.1.0) (2024-06-10)
+
+
+### Features
+
+* removed mts support for now ([#6](https://github.com/MapColonies/schemas/issues/6)) ([d35e8bc](https://github.com/MapColonies/schemas/commit/d35e8bc676a3af75c73851fa9e288df8da85cbb2))
+
 ## 0.0.1 (2024-04-08)
 
 
