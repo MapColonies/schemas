@@ -28,8 +28,8 @@ function handleError(msg: string, id?: string): void {
     const fileNameStart = id.substring(lastSlashIndex + 1);
     if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.json`))) {
       file = `${fileNameStart}.schema.json`;
-    } else if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.mts`))) {
-      file = `${fileNameStart}.schema.mts`;
+      // } else if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.mts`))) {
+      //   file = `${fileNameStart}.schema.mts`;
     } else {
       throw new Error(`Could not find the file ${fileNameStart} referenced in the error`);
     }
@@ -55,9 +55,9 @@ async function validateRefs(schema: string) {
         return fsPromise.readFile(path.join('schemas', subPath + '.schema.json'), { encoding: 'utf-8' });
       }
 
-      if (fs.existsSync(path.join('schemas', subPath + '.schema.mts'))) {
-        return (await import(path.join('..', 'schemas', subPath + '.schema.mts'))).default;
-      }
+      // if (fs.existsSync(path.join('schemas', subPath + '.schema.mts'))) {
+      //   return (await import(path.join('..', 'schemas', subPath + '.schema.mts'))).default;
+      // }
 
       throw new Error(`Could not find the file ${subPath} referenced in the error it wasn't TS or JSON`);
     },
@@ -180,9 +180,9 @@ for (const directory of directories) {
         case 'json':
           await validateJsonFile(filePath);
           break;
-        case 'mts':
-          await validateTsFile(filePath);
-          break;
+        // case 'mts':
+        //   await validateTsFile(filePath);
+        //   break;
         default:
           return handleError(`Found a file that was not expected ${filePath}`);
       }

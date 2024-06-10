@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mapcolonies.com/common/boilerplate/v1",
+  "type": "object",
+  "properties": {
+    "openapiConfig": {
+      "type": "object",
+      "properties": {
+        "filePath": { "default": "./openapi3.yaml", "description": "Path to the OpenAPI 3.0 spec file", "type": "string" },
+        "basePath": { "default": "/docs", "type": "string" },
+        "rawPath": { "default": "/api", "type": "string" },
+        "uiPath": { "default": "/api", "type": "string" }
+      },
+      "required": ["filePath", "basePath", "rawPath", "uiPath"]
+    },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "logger": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "default": "info",
+              "anyOf": [
+                { "const": "trace", "type": "string" },
+                { "const": "debug", "type": "string" },
+                { "const": "info", "type": "string" },
+                { "const": "warn", "type": "string" },
+                { "const": "error", "type": "string" },
+                { "const": "fatal", "type": "string" }
+              ]
+            },
+            "prettyPrint": { "default": false, "type": "boolean" }
+          },
+          "required": ["level", "prettyPrint"]
+        }
+      },
+      "required": ["logger"]
+    },
+    "server": {
+      "type": "object",
+      "properties": {
+        "port": { "minimum": 1, "maximum": 65535, "default": 8080, "type": "integer" },
+        "request": {
+          "type": "object",
+          "properties": { "payload": { "type": "object", "properties": { "limit": { "default": "1mb", "type": "string" } }, "required": ["limit"] } },
+          "required": ["payload"]
+        }
+      },
+      "required": ["port", "request"]
+    }
+  },
+  "required": ["openapiConfig", "telemetry", "server"],
+  "title": "commonBoilerplateV1"
+}
