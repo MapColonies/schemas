@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/MapColonies/schemas/compare/v0.1.0...v0.2.0) (2024-06-17)
+
+
+### Features
+
+* created new version of partial s3 ([#9](https://github.com/MapColonies/schemas/issues/9)) ([9639222](https://github.com/MapColonies/schemas/commit/9639222d3fe6f24ddfa19fa773dbf8dae1bd9332))
+
 ## [0.1.0](https://github.com/MapColonies/schemas/compare/v0.0.1...v0.1.0) (2024-06-10)
 
 
