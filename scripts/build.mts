@@ -10,7 +10,7 @@ const buildDir = 'build';
 const schemasFolder = 'schemas';
 
 const filesToDelete = [];
-const filesToImportToIndex: string[] = [];
+const filesToImportToIndex: string[] = ["export type { typeSymbol } from './symbol'"];
 
 // create the root build directory
 if (fs.existsSync(buildDir)) {
