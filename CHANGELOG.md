@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/MapColonies/schemas/compare/v0.2.0...v0.2.1) (2024-06-30)
+
+
+### Bug Fixes
+
+* changed build to generate export to the type symbol ([#11](https://github.com/MapColonies/schemas/issues/11)) ([d84e5ad](https://github.com/MapColonies/schemas/commit/d84e5ad0b80cb2009d367cbdc180dc05d774c4d7))
+
 ## [0.2.0](https://github.com/MapColonies/schemas/compare/v0.1.0...v0.2.0) (2024-06-17)
 
 
