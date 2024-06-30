@@ -1,6 +1,6 @@
 {
   "name": "@map-colonies/schemas",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Package for all of MapColonies config schemas",
   "main": "./build/schemas/index.js",
   "repository": {
