@@ -2,6 +2,7 @@
   "$id": "https://mapcolonies.com/common/telemetry/shared/v1",
   "title": "commonTelemetrySharedV1",
   "description": "Telemetry shared configuration",
+  "type": "object",
   "default": {},
   "properties": {
     "serviceName": {

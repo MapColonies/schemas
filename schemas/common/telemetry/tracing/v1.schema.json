@@ -2,6 +2,7 @@
   "$id": "https://mapcolonies.com/common/telemetry/tracing/v1",
   "title": "commonTelemetryTracingV1",
   "description": "Telemetry tracing configuration",
+  "type": "object",
   "default": {},
   "properties": {
     "isEnabled": {
