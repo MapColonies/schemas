@@ -1,0 +1,41 @@
+{
+  "$id": "https://mapcolonies.com/common/telemetry/tracing/v1",
+  "title": "commonTelemetryTracingV1",
+  "description": "Telemetry tracing configuration",
+  "default": {},
+  "properties": {
+    "isEnabled": {
+      "description": "Whether tracing is enabled",
+      "type": "boolean",
+      "x-env-value": "TELEMETRY_TRACING_ENABLED",
+      "default": false
+    },
+    "url": {
+      "description": "The URL of the otlp endpoint",
+      "type": "string",
+      "pattern": "^http(s)?://.*$",
+      "format": "uri",
+      "x-env-value": "TELEMETRY_TRACING_URL"
+    },
+    "traceRatio": {
+      "description": "The ratio of traces to sample",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "x-env-value": "TELEMETRY_TRACING_RATIO"
+    },
+    "debug": {
+      "description": "Whether to enable debug mode",
+      "type": "boolean",
+      "x-env-value": "TELEMETRY_TRACING_DEBUG"
+    }
+  },
+  "examples": [
+    {
+      "isEnabled": true,
+      "url": "http://localhost:4318/v1/traces",
+      "traceRatio": 0.1,
+      "debug": true
+    }
+  ]
+}
