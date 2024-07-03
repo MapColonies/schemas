@@ -62,9 +62,11 @@
         },
         "request": {
           "type": "object",
+          "default": {},
           "properties": {
             "payload": {
               "type": "object",
+              "default": {},
               "properties": { "limit": { "default": "1mb", "description": "The maximum payload size of an incoming request", "type": "string" } },
               "required": ["limit"]
             }
