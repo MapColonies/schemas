@@ -3,7 +3,6 @@
   "title": "commonTelemetryTracingV1",
   "description": "Telemetry tracing configuration",
   "type": "object",
-  "default": {},
   "properties": {
     "isEnabled": {
       "description": "Whether tracing is enabled",

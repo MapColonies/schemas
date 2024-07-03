@@ -3,7 +3,6 @@
   "title": "commonTelemetrySharedV1",
   "description": "Telemetry shared configuration",
   "type": "object",
-  "default": {},
   "properties": {
     "serviceName": {
       "description": "The name of the service",
