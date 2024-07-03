@@ -24,10 +24,10 @@
       "default": {},
       "properties": {
         "shared": {
-          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/shared/v1", "default": {} }]
+          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/shared/v1" }, { "default": {} }]
         },
         "tracing": {
-          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1", "default": {} }]
+          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1" }, { "default": {} }]
         },
         "logger": {
           "description": "Logger configuration",
