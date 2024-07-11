@@ -10,6 +10,14 @@
       "description": "OpenAPI configuration",
       "type": "object",
       "default": {},
+      "examples": [
+        {
+          "filePath": "./openapi3.yaml",
+          "basePath": "/docs",
+          "rawPath": "/api",
+          "uiPath": "/api"
+        }
+      ],
       "properties": {
         "filePath": { "default": "./openapi3.yaml", "description": "Path to the OpenAPI 3.0 spec file", "type": "string" },
         "basePath": { "default": "/docs", "description": "The base path for the OpenAPI UI and raw OpenAPI spec", "type": "string" },
@@ -22,6 +30,13 @@
       "description": "Telemetry configuration",
       "type": "object",
       "default": {},
+      "examples": [
+        {
+          "shared": { "serviceName": "boilerplate" },
+          "tracing": { "isEnabled": false },
+          "logger": { "level": "info", "prettyPrint": false }
+        }
+      ],
       "properties": {
         "shared": {
           "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/shared/v1" }, { "default": {} }]
@@ -40,7 +55,7 @@
               "x-env-value": "LOG_LEVEL",
               "enum": ["trace", "debug", "info", "warn", "error", "fatal"]
             },
-            "prettyPrint": { "default": false, "description": "Whether to pretty print logs", "type": "boolean" }
+            "prettyPrint": { "default": false, "description": "Whether to pretty print logs", "type": "boolean", "x-env-value": "LOG_PRETTY_PRINT" }
           },
           "required": ["level", "prettyPrint"]
         }
@@ -51,6 +66,12 @@
       "description": "Server configuration",
       "type": "object",
       "default": {},
+      "examples": [
+        {
+          "port": 8080,
+          "request": { "payload": { "limit": "1mb" } }
+        }
+      ],
       "properties": {
         "port": {
           "minimum": 1,
