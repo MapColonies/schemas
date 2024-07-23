@@ -114,6 +114,10 @@ async function validateSchema(schema: any, file: string) {
     return handleError(`Error validating file: $id is incorrect, it should be in the following format: https://mapcolonies.com/directory/version`);
   }
 
+  if (schema.type !== 'object') {
+    return handleError(`Error validating file: type should be object`);
+  }
+
   await validateRefs(schema);
 }
 
