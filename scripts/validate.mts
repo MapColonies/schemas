@@ -98,12 +98,26 @@ async function validateRefs(schema: string) {
 }
 
 async function validateSchema(schema: any, file: string) {
-  const ajv = new AjvModule.default();
+  const ajv = new AjvModule.default({
+    keywords: ['x-env-value', 'x-populate-as-env'],
+    allErrors: true,
+    loadSchema: async (uri: string) => ({ type: 'object' }),
+  });
 
   // validate the schema against the json schema schema
   const res = ajv.validateSchema(schema);
   if (!res) {
     return handleError(`Error validating file: ${ajv.errorsText()}`);
+  }
+
+  try {
+    const validate = await ajv.compileAsync(schema);
+    validate({});
+  } catch (error) {
+    if (error instanceof Error) {
+      return handleError(`Error validating file: ${error.message}`);
+    }
+    return handleError(`Error validating file: an unknown error occurred while checking the schema against ajv`);
   }
 
   const fileWithoutSchema = file.substring(8, file.indexOf('.schema'));
