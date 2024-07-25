@@ -9,14 +9,14 @@ const diff = await $`git --no-pager diff --name-status ${latestTagCommitSha.stdo
 
 const gitDiffRegex = /^(?<action>M|D)\s+(?<file>schemas\/.+\.schema\.(?:json|ts))/;
 
-const addedAndModifiedFiles = diff.stdout
+const deletedAndModifiedFiles = diff.stdout
   .split('\n')
   .filter((line) => gitDiffRegex.test(line))
   .map((line) => line.split('\t'));
 
 const badFiles: string[][] = [];
 
-for (const [action, file] of addedAndModifiedFiles) {
+for (const [action, file] of deletedAndModifiedFiles) {
   if (action === 'D') {
     badFiles.push([action, file]);
     continue;
