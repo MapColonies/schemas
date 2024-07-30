@@ -1,7 +1,8 @@
 import fsPromise from 'node:fs/promises';
 import fs from 'node:fs';
-import AjvModule from 'ajv';
 import path from 'node:path';
+import AjvModule from 'ajv';
+import addFormats from 'ajv-formats';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
 import { presult, result } from './util/index.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -98,12 +99,29 @@ async function validateRefs(schema: string) {
 }
 
 async function validateSchema(schema: any, file: string) {
-  const ajv = new AjvModule.default();
+  const ajv = new AjvModule.default({
+    keywords: ['x-env-value', 'x-populate-as-env'],
+    allErrors: true,
+    loadSchema: async (uri: string) => ({ type: 'object' }),
+  });
+
+  // @ts-expect-error https://github.com/ajv-validator/ajv-formats/issues/85
+  addFormats(ajv);
 
   // validate the schema against the json schema schema
   const res = ajv.validateSchema(schema);
   if (!res) {
     return handleError(`Error validating file: ${ajv.errorsText()}`);
+  }
+
+  try {
+    const validate = await ajv.compileAsync(schema);
+    validate({});
+  } catch (error) {
+    if (error instanceof Error) {
+      return handleError(`Error validating file: ${error.message}`);
+    }
+    return handleError(`Error validating file: an unknown error occurred while checking the schema against ajv`);
   }
 
   const fileWithoutSchema = file.substring(8, file.indexOf('.schema'));
@@ -112,6 +130,10 @@ async function validateSchema(schema: any, file: string) {
   // we check that id is in the following format https://mapcolonies.com/directory/version
   if (!schema.$id || !new RegExp(`https://mapcolonies.com/${normalizedIdSubPath}(#.*)?`).test(schema.$id) || schema.$id.includes('..')) {
     return handleError(`Error validating file: $id is incorrect, it should be in the following format: https://mapcolonies.com/directory/version`);
+  }
+
+  if (schema.type !== 'object') {
+    return handleError(`Error validating file: type should be object`);
   }
 
   await validateRefs(schema);
