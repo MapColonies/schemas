@@ -1,7 +1,8 @@
 import fsPromise from 'node:fs/promises';
 import fs from 'node:fs';
-import AjvModule from 'ajv';
 import path from 'node:path';
+import AjvModule from 'ajv';
+import addFormats from 'ajv-formats';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
 import { presult, result } from './util/index.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -103,6 +104,9 @@ async function validateSchema(schema: any, file: string) {
     allErrors: true,
     loadSchema: async (uri: string) => ({ type: 'object' }),
   });
+
+  // @ts-expect-error https://github.com/ajv-validator/ajv-formats/issues/85
+  addFormats(ajv);
 
   // validate the schema against the json schema schema
   const res = ajv.validateSchema(schema);
