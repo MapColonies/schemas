@@ -1,0 +1,101 @@
+{
+  "description": "Boilerplate basic configuration",
+  "$id": "https://mapcolonies.com/common/boilerplate/v4",
+  "type": "object",
+  "title": "commonBoilerplateV4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "required": ["openapiConfig", "telemetry", "server"],
+  "properties": {
+    "openapiConfig": {
+      "description": "OpenAPI configuration",
+      "type": "object",
+      "default": {},
+      "examples": [
+        {
+          "filePath": "./openapi3.yaml",
+          "basePath": "/docs",
+          "rawPath": "/api",
+          "uiPath": "/api"
+        }
+      ],
+      "properties": {
+        "filePath": { "default": "./openapi3.yaml", "description": "Path to the OpenAPI 3.0 spec file", "type": "string" },
+        "basePath": { "default": "/docs", "description": "The base path for the OpenAPI UI and raw OpenAPI spec", "type": "string" },
+        "rawPath": { "default": "/api", "description": "The path to the raw OpenAPI spec", "type": "string" },
+        "uiPath": { "default": "/api", "description": "The path to the OpenAPI UI", "type": "string" }
+      },
+      "required": ["filePath", "basePath", "rawPath", "uiPath"]
+    },
+    "telemetry": {
+      "description": "Telemetry configuration",
+      "type": "object",
+      "default": {},
+      "examples": [
+        {
+          "shared": { "serviceName": "boilerplate" },
+          "tracing": { "isEnabled": false },
+          "logger": { "level": "info", "prettyPrint": false }
+        }
+      ],
+      "properties": {
+        "shared": {
+          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/base/v1" }, { "default": {} }]
+        },
+        "tracing": {
+          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1" }, { "default": {} }]
+        },
+        "logger": {
+          "description": "Logger configuration",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "level": {
+              "default": "info",
+              "description": "The log level",
+              "x-env-value": "LOG_LEVEL",
+              "enum": ["trace", "debug", "info", "warn", "error", "fatal"]
+            },
+            "prettyPrint": { "default": false, "description": "Whether to pretty print logs", "type": "boolean", "x-env-value": "LOG_PRETTY_PRINT" }
+          },
+          "required": ["level", "prettyPrint"]
+        }
+      },
+      "required": ["logger", "shared", "tracing"]
+    },
+    "server": {
+      "description": "Server configuration",
+      "type": "object",
+      "default": {},
+      "examples": [
+        {
+          "port": 8080,
+          "request": { "payload": { "limit": "1mb" } }
+        }
+      ],
+      "properties": {
+        "port": {
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 8080,
+          "description": "The port the server will listen on",
+          "type": "integer",
+          "x-env-value": "SERVER_PORT"
+        },
+        "request": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "payload": {
+              "type": "object",
+              "default": {},
+              "properties": { "limit": { "default": "1mb", "description": "The maximum payload size of an incoming request", "type": "string" } },
+              "required": ["limit"]
+            }
+          },
+          "required": ["payload"]
+        }
+      },
+      "required": ["port", "request"]
+    }
+  }
+}
