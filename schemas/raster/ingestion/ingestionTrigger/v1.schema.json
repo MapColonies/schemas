@@ -5,7 +5,7 @@
   "required": ["services", "jobManager", "httpRetry", "validationValuesByInfo", "storageExplorer"],
   "allOf": [
     {
-      "$ref": "https://mapcolonies.com/common/boilerplate/v3"
+      "$ref": "https://mapcolonies.com/common/boilerplate/v4"
     },
     {
       "type": "object",
