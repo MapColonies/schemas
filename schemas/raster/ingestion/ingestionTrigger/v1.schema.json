@@ -1,0 +1,131 @@
+{
+  "$id": "https://mapcolonies.com/raster/ingestion/ingestionTrigger/v1",
+  "description": "The full ingestion trigger service schema",
+  "type": "object",
+  "required": ["services", "jobManager", "httpRetry", "validationValuesByInfo", "storageExplorer"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v3"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "services": {
+          "$ref": "https://mapcolonies.com/raster/common/servicesUrls/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "httpRetry": {
+          "$ref": "https://mapcolonies.com/raster/common/httpRetry/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "jobManager": {
+          "$ref": "https://mapcolonies.com/raster/common/jobManager/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "disableHttpClientLogs": {
+          "type": "boolean",
+          "x-env-value": "DISABLE_HTTP_CLIENT_LOGS",
+          "default": false
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "storageExplorer": {
+          "$ref": "#/definitions/storageExplorer"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "validationValuesByInfo": {
+          "$ref": "#/definitions/validationValuesByInfo"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "storageExplorer": {
+      "type": "object",
+      "properties": {
+        "layerSourceDir": {
+          "type": "string",
+          "default": "/layerSources",
+          "x-env-value": "STORAGE_EXPLORER_LAYER_SOURCE_DIR"
+        },
+        "displayNameDir": {
+          "type": "string",
+          "x-env-value": "STORAGE_EXPLORER_DISPLAY_NAME_DIR"
+        },
+        "watchDirectory": {
+          "type": "string",
+          "default": "watch",
+          "x-env-value": "STORAGE_EXPLORER_WATCH_DIRECTORY"
+        },
+        "validFileExtensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "x-env-value": "STORAGE_EXPLORER_VALID_FILE_EXTENSIONS"
+        }
+      },
+      "required": ["displayNameDir", "validFileExtensions", "layerSourceDir", "watchDirectory"]
+    },
+    "validationValuesByInfo": {
+      "type": "object",
+      "properties": {
+        "crs": {
+          "type": "array",
+          "items": {
+            "enum": [4326]
+          },
+          "default": [4326],
+          "minItems": 1,
+          "x-env-value": "CRS"
+        },
+        "fileFormat": {
+          "type": "array",
+          "items": {
+            "enum": ["GPKG"]
+          },
+          "default": ["GPKG"],
+          "minItems": 1,
+          "x-env-value": "FILE_FORMAT"
+        },
+        "tileSize": {
+          "type": "number",
+          "default": 256,
+          "const": 256,
+          "x-env-value": "TILE_SIZE"
+        },
+        "resolutionFixedPointTolerance": {
+          "type": "number",
+          "default": 12,
+          "x-env-value": "RESOLUTION_FIXED_POINT_TOLERANCE"
+        },
+        "extentBufferInMeters": {
+          "type": "number",
+          "default": 50,
+          "x-env-value": "EXTENT_BUFFER_IN_METERS"
+        }
+      },
+      "required": ["crs", "fileFormat", "tileSize", "resolutionFixedPointTolerance", "extentBufferInMeters"]
+    }
+  }
+}
