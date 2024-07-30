@@ -9,7 +9,7 @@
       "default": 5
     },
     "delay": {
-      "type": "string",
+      "oneOf": [{ "type": "number" }, { "const": "exponential" }],
       "x-env-value": "HTTP_RETRY_DELAY",
       "default": "exponential"
     },
