@@ -51,30 +51,33 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
     content.title = schemaName;
   }
 
-  const contentStringified = JSON.stringify(content);
+  const stringifiedSchema = JSON.stringify(content);
 
   fileDestPath = path.join(buildDir, directory, path.basename(file.name, ext));
 
   await fsPromise.mkdir(path.dirname(fileDestPath), { recursive: true });
 
   // write the json file with the generated schema
-  await fsPromise.writeFile(`${fileDestPath}.json`, contentStringified, {
+  await fsPromise.writeFile(`${fileDestPath}.json`, stringifiedSchema, {
     encoding: 'utf-8',
   });
 
   const relativePath = path.relative(path.join(buildDir, directory), path.join(buildDir, schemasFolder));
 
+  const typescriptFileName = `${fileDestPath}.ts`;
+
   // write the ts file with the generated schema
   await fsPromise.writeFile(
-    `${fileDestPath}.ts`,
+    typescriptFileName,
     `import { FromSchema } from 'json-schema-to-ts';
 import { typeSymbol } from '${path.join(relativePath, 'symbol.js')}';
-export default { 
-  [typeSymbol]: '' as unknown as schemaType,
-${contentStringified.trimEnd().substring(1)} as const;\n`,
+const exported = { 
+  [typeSymbol]: '' as unknown as intermediateSchemaType,
+${stringifiedSchema.trimEnd().substring(1)} as const;\n`,
     { encoding: 'utf-8' }
   );
-  filesToDelete.push(`${fileDestPath}.ts`);
+
+  filesToDelete.push(typescriptFileName);
 
   // add the file to the index file at the root of the package
   filesToImportToIndex.push(
@@ -87,7 +90,7 @@ const parser = new $RefParser();
 for await (const file of filesTreeGenerator(schemasFolder)) {
   const fileDestPath = path.join(buildDir, file.path, path.basename(file.name, path.extname(file.name)));
 
-  const schema = await parser.dereference(`${fileDestPath}.json`, {
+  const dereferencedSchema = await parser.dereference(`${fileDestPath}.json`, {
     dereference: {
       circular: false,
     },
@@ -104,14 +107,27 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
     },
   });
 
-  await fsPromise.appendFile(`${fileDestPath}.ts`, '\nconst schema = ' + JSON.stringify(schema) + 'as const;\n', { encoding: 'utf-8' });
-  await fsPromise.appendFile(
-    `${fileDestPath}.ts`,
-    'export type schemaType = FromSchema<typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;',
-    {
-      encoding: 'utf-8',
-    }
-  );
+  const schemaTs = 'const schema = ' + JSON.stringify(dereferencedSchema) + 'as const;';
+
+  const intermediateSchemaType = 'type intermediateSchemaType = FromSchema<typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;';
+
+  const schemaType = 'export type schemaType = (typeof exported)[typeof typeSymbol];';
+
+  const exportDefault = 'export default exported;';
+
+  // await fsPromise.appendFile(`${fileDestPath}.ts`, '\nconst schema = ' + JSON.stringify(dereferencedSchema) + 'as const;\n', { encoding: 'utf-8' });
+  // await fsPromise.appendFile(
+  //   `${fileDestPath}.ts`,
+  //   'type intermediateSchemaType = FromSchema<typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;',
+  //   {
+  //     encoding: 'utf-8',
+  //   }
+  // );
+
+  // await fsPromise.appendFile(`${fileDestPath}.ts`, 'export type schemaType = (typeof exported)[typeof typeSymbol];\n', { encoding: 'utf-8' });
+  // await fsPromise.appendFile(`${fileDestPath}.ts`, 'export default exported;');
+
+  await fsPromise.appendFile(`${fileDestPath}.ts`, [schemaTs, intermediateSchemaType, schemaType, exportDefault].join('\n'));
 }
 
 // create the index file at the root of the package with imports to all the schemas
