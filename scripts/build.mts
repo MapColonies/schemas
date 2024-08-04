@@ -115,18 +115,6 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
 
   const exportDefault = 'export default exported;';
 
-  // await fsPromise.appendFile(`${fileDestPath}.ts`, '\nconst schema = ' + JSON.stringify(dereferencedSchema) + 'as const;\n', { encoding: 'utf-8' });
-  // await fsPromise.appendFile(
-  //   `${fileDestPath}.ts`,
-  //   'type intermediateSchemaType = FromSchema<typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;',
-  //   {
-  //     encoding: 'utf-8',
-  //   }
-  // );
-
-  // await fsPromise.appendFile(`${fileDestPath}.ts`, 'export type schemaType = (typeof exported)[typeof typeSymbol];\n', { encoding: 'utf-8' });
-  // await fsPromise.appendFile(`${fileDestPath}.ts`, 'export default exported;');
-
   await fsPromise.appendFile(`${fileDestPath}.ts`, [schemaTs, intermediateSchemaType, schemaType, exportDefault].join('\n'));
 }
 
