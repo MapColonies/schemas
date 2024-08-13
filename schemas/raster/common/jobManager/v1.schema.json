@@ -27,7 +27,7 @@
     "supportedIngestionSwapTypes": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "object"
       },
       "x-env-value": "SUPPORTED_INGESTION_SWAP_TYPES"
     },
