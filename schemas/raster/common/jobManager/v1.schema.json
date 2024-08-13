@@ -25,11 +25,17 @@
       "x-env-value": "INGESTION_SWAP_UPDATE_JOB_TYPE"
     },
     "supportedIngestionSwapTypes": {
-      "type": "object",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
       "x-env-value": "SUPPORTED_INGESTION_SWAP_TYPES"
     },
     "forbiddenJobTypesForParallelIngestion": {
-      "type": "object",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
       "x-env-value": "FORBIDDEN_TYPES_FOR_PARALLEL_INGESTION"
     }
   },
