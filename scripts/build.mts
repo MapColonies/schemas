@@ -107,7 +107,7 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
     },
   });
 
-  const schemaTs = 'const schema = ' + JSON.stringify(dereferencedSchema) + 'as const;';
+  const schemaTs = 'const schema = ' + JSON.stringify(dereferencedSchema) + ' as const;';
 
   const intermediateSchemaType = 'type intermediateSchemaType = FromSchema<typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;';
 
