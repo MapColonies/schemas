@@ -27,6 +27,15 @@
     "supportedIngestionSwapTypes": {
       "type": "array",
       "items": {
+        "properties": {
+          "productType": {
+            "type": "string"
+          },
+          "productSubType": {
+            "type": "string"
+          }
+        },
+        "required": ["productType", "productSubType"],
         "type": "object"
       },
       "x-env-value": "SUPPORTED_INGESTION_SWAP_TYPES"
