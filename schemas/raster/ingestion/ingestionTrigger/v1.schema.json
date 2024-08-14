@@ -93,8 +93,9 @@
         "crs": {
           "type": "array",
           "items": {
-            "enum": [4326]
+            "type": "number"
           },
+          "uniqueItems": true,
           "default": [4326],
           "minItems": 1,
           "x-env-value": "CRS"
@@ -102,7 +103,7 @@
         "fileFormat": {
           "type": "array",
           "items": {
-            "enum": ["GPKG"]
+            "type": "string"
           },
           "default": ["GPKG"],
           "minItems": 1,
