@@ -1,0 +1,30 @@
+{
+  "$id": "https://mapcolonies.com/common/telemetry/base/v1",
+  "title": "commonTelemetryBaseV1",
+  "description": "Telemetry base configuration",
+  "type": "object",
+  "properties": {
+    "serviceName": {
+      "description": "The name of the service",
+      "type": "string",
+      "x-env-value": "TELEMETRY_SERVICE_NAME"
+    },
+    "serviceVersion": {
+      "description": "The version of the service",
+      "type": "string",
+      "x-env-value": "TELEMETRY_SERVICE_VERSION"
+    },
+    "hostname": {
+      "description": "The hostname of the service",
+      "type": "string",
+      "x-env-value": "TELEMETRY_HOST_NAME"
+    }
+  },
+  "examples": [
+    {
+      "serviceName": "service-name",
+      "serviceVersion": "1.0.0",
+      "hostname": "localhost"
+    }
+  ]
+}
