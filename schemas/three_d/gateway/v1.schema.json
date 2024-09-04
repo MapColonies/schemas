@@ -1,0 +1,105 @@
+{
+  "$id": "https://mapcolonies.com/three_d/gateway/v1",
+  "description": "The store-trigger schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["externalServices", "storage", "paths", "validation"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v4"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "storage": {
+          "$ref": "https://mapcolonies.com/three_d/common/provider/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "externalServices": {
+          "$ref": "#/definitions/externalServices"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "$ref": "#/definitions/paths"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "validation": {
+          "$ref": "#/definitions/validation"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "externalServices": {
+      "type": "object",
+      "required": ["storeTrigger", "catalog", "lookupTables"],
+      "properties": {
+        "storeTrigger": {
+          "type": "string",
+          "format": "url",
+          "description": "Store trigger URL"
+        },
+        "catalog": {
+          "type": "string",
+          "format": "url",
+          "description": "3D catalog URL"
+        },
+        "lookupTables": {
+          "type": "object",
+          "description": "Lookup-tables URL",
+          "required": ["url", "subUrl"],
+          "properties": {
+            "url": {
+              "format": "url",
+              "type": "string"
+            },
+            "subUrl": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "required": ["basePath"],
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "basePath": {
+              "type": "string",
+              "description": "Path that will be displayed for users"
+            }
+          }
+        },
+        {
+          "$ref": "https://mapcolonies.com/common/nfs/v1",
+          "$comment": "TODO: solves the duplicate refs block issue"
+        }
+      ]
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "percentageLimit": {
+          "type": "number",
+          "description": "Percentage limit between the footprint and the tileset.json",
+          "default": 10
+        }
+      }
+    }
+  }
+}

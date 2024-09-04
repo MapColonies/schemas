@@ -1,0 +1,66 @@
+{
+  "$id": "https://mapcolonies.com/three_d/jobSyncer/v1",
+  "description": "The full job-syncer schema",
+  "type": "object",
+  "required": ["jobManager", "catalog"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v4"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "jobManager": {
+          "$ref": "https://mapcolonies.com/three_d/common/jobManager/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "intervalMs": {
+          "type": "number",
+          "description": "Cron-Job interval in milliseconds",
+          "default": 3000
+        },
+        "catalog": {
+          "type": "object",
+          "description": "Catalog properties",
+          "required": ["url", "link"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "the url of the catalog (CRUD)"
+            },
+            "link": {
+              "type": "object",
+              "description": "the schema of the column \"link\" in catalog DB",
+              "required": ["url"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the link",
+                  "default": ""
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the link",
+                  "default": ""
+                },
+                "protocol": {
+                  "type": "string",
+                  "description": "The protocol of the link",
+                  "default": "3DTiles"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The link itself"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
