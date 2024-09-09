@@ -11,7 +11,7 @@
       "type": "object",
       "properties": {
         "jobManager": {
-          "$ref": "https://mapcolonies.com/three_d/common/jobManager/v1"
+          "$ref": "https://mapcolonies.com/infra/jobManager/forClients/v1"
         }
       }
     },

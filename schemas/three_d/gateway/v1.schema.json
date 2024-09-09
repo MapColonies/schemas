@@ -48,12 +48,10 @@
       "properties": {
         "storeTrigger": {
           "type": "string",
-          "format": "url",
           "description": "Store trigger URL"
         },
         "catalog": {
           "type": "string",
-          "format": "url",
           "description": "3D catalog URL"
         },
         "lookupTables": {
@@ -62,7 +60,6 @@
           "required": ["url", "subUrl"],
           "properties": {
             "url": {
-              "format": "url",
               "type": "string"
             },
             "subUrl": {

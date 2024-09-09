@@ -13,7 +13,27 @@
       "properties": {
         "jobManager": {
           "type": "object",
-          "$ref": "https://mapcolonies.com/three_d/common/jobManager/v1",
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/infra/jobManager/forClients/v1"
+            },
+            {
+              "properties": {
+                "extraConfigs": {
+                  "type": "object",
+                  "default": {},
+                  "properties": {
+                    "taskBatches": {
+                      "type": "number",
+                      "description": "How many paths a task can contain",
+                      "default": 1000,
+                      "x-env-value": "TASK_BATCHES"
+                    }
+                  }
+                }
+              }
+            }
+          ],
           "required": ["task", "job", "url"]
         }
       }

@@ -1,12 +1,11 @@
 {
-  "$id": "https://mapcolonies.com/three_d/common/jobManager/v1",
-  "description": "The job manager schema (as a client)",
+  "$id": "https://mapcolonies.com/infra/jobManager/forClients/v1",
+  "description": "The job manager schema for a client",
   "type": "object",
   "required": ["url", "job"],
   "properties": {
     "url": {
       "type": "string",
-      "format": "url",
       "description": "The url of job-manager",
       "x-env-value": "JOB_MANAGER_URL"
     },
@@ -32,16 +31,10 @@
           "description": "The type of the task",
           "x-env-value": "TASK_TYPE"
         },
-        "batches": {
-          "type": "number",
-          "description": "How many paths a task can contain",
-          "default": 100,
-          "x-env-value": "TASK_BATCHES"
-        },
         "pollingIntervalTime": {
           "type": "number",
           "description": "Polling interval time to queue task (in milliseconds)",
-          "default": 3000,
+          "default": 5000,
           "x-env-value": "TASK_POLLING_INTERVAL_TIME"
         },
         "maxAttempts": {
@@ -59,7 +52,6 @@
       "properties": {
         "url": {
           "type": "string",
-          "format": "url",
           "description": "The url of heartbeat-manager",
           "x-env-value": "HEARTBEAT_URL"
         },

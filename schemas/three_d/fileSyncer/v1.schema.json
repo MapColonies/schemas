@@ -3,7 +3,7 @@
   "description": "The file-syncer schema",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["jobManager", "source", "destination"],
+  "required": ["jobManager", "storage"],
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/common/boilerplate/v4"
@@ -13,8 +13,8 @@
       "properties": {
         "jobManager": {
           "type": "object",
-          "$ref": "https://mapcolonies.com/three_d/common/jobManager/v1",
-          "required": ["task", "job", "url", "heartbeat"]
+          "required": ["task", "heartbeat"],
+          "$ref": "https://mapcolonies.com/infra/jobManager/forClients/v1"
         }
       }
     },
@@ -22,11 +22,17 @@
       "type": "object",
       "description": "I can't set the source and destination under storage. The file-syncer doesn't get the schema",
       "properties": {
-        "source": {
-          "$ref": "#/definitions/provider"
-        },
-        "destination": {
-          "$ref": "#/definitions/provider"
+        "storage": {
+          "type": "object",
+          "required": ["source", "destination"],
+          "properties": {
+            "source": {
+              "$ref": "#/definitions/provider"
+            },
+            "destination": {
+              "$ref": "#/definitions/provider"
+            }
+          }
         }
       },
       "$comment": "TODO: solves the duplicate refs block issue"
