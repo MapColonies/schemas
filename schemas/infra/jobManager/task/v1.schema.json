@@ -1,0 +1,16 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobManager/task/v1",
+  "description": "The task schema for job manager",
+  "type": "object",
+  "required": ["types"],
+  "properties": {
+    "types": {
+      "type": "array",
+      "description": "The task types",
+      "items": {
+        "type": "string"
+      },
+      "x-env-value": "TASK_TYPES"
+    }
+  }
+}
