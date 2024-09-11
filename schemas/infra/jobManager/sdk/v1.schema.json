@@ -1,0 +1,25 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobManager/sdk/v1",
+  "description": "The job manager SDK full schema",
+  "type": "object",
+  "required": ["url", "job"],
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The url of job-manager",
+          "format": "uri",
+          "x-env-value": "JOB_MANAGER_URL"
+        },
+        "job": {
+          "$ref": "https://mapcolonies.com/infra/jobManager/job/v1"
+        },
+        "task": {
+          "$ref": "https://mapcolonies.com/infra/jobManager/task/v1"
+        }
+      }
+    }
+  ]
+}

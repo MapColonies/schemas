@@ -1,0 +1,16 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobManager/job/v1",
+  "description": "The job schema for job manager",
+  "type": "object",
+  "required": ["types"],
+  "properties": {
+    "types": {
+      "type": "array",
+      "description": "The job types",
+      "items": {
+        "type": "string"
+      },
+      "x-env-value": "JOB_TYPES"
+    }
+  }
+}
