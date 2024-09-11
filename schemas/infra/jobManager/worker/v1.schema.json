@@ -22,11 +22,11 @@
         "task": {
           "type": "object",
           "properties": {
-            "pollingIntervalTime": {
+            "pollingIntervalTimeMS": {
               "type": "number",
               "description": "Polling interval time to queue task (in milliseconds)",
               "default": 5000,
-              "x-env-value": "TASK_POLLING_INTERVAL_TIME"
+              "x-env-value": "TASK_POLLING_INTERVAL_TIME_MS"
             },
             "maxAttempts": {
               "type": "number",
