@@ -19,12 +19,6 @@
           "type": "string",
           "description": "The bucket name",
           "x-env-value": "S3_BUCKET"
-        },
-        "storageClass": {
-          "type": "string",
-          "description": "The storage class to store newly created objects",
-          "default": "STANDARD",
-          "x-env-value": "S3_STORAGE_CLASS"
         }
       }
     }

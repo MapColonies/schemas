@@ -49,6 +49,12 @@
       "description": "The signature version of S3",
       "default": "v4",
       "x-env-value": "S3_SIG_VERSION"
+    },
+    "storageClass": {
+      "type": "string",
+      "description": "The storage class to store newly created objects",
+      "default": "STANDARD",
+      "x-env-value": "S3_STORAGE_CLASS"
     }
   }
 }
