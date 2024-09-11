@@ -25,11 +25,6 @@
           "description": "The storage class to store newly created objects",
           "default": "STANDARD",
           "x-env-value": "S3_STORAGE_CLASS"
-        },
-        "maxAttempts": {
-          "type": "number",
-          "description": "The max attempts for executing S3 command",
-          "default": 3
         }
       }
     }

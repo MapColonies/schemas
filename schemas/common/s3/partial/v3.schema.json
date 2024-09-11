@@ -26,13 +26,6 @@
       "default": 9000,
       "x-env-value": "S3_PORT"
     },
-    "protocol": {
-      "type": "string",
-      "enum": ["http", "https"],
-      "description": "The protocol of S3 (http/https)",
-      "default": "http",
-      "x-env-value": "S3_PROTOCOL"
-    },
     "region": {
       "type": "string",
       "description": "The AWS region to which this client will send requests",
