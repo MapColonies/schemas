@@ -2,6 +2,7 @@
   "$id": "https://mapcolonies.com/common/telemetry/base/v1",
   "title": "commonTelemetryBaseV1",
   "description": "Telemetry base configuration",
+  "default": {},
   "type": "object",
   "properties": {
     "serviceName": {

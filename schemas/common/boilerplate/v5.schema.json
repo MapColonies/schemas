@@ -39,28 +39,16 @@
       ],
       "properties": {
         "shared": {
-          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/base/v1" }, { "default": {} }]
+          "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
         },
         "tracing": {
-          "allOf": [{ "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1" }, { "default": {} }]
+          "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
         },
         "logger": {
-          "description": "Logger configuration",
-          "type": "object",
-          "default": {},
-          "properties": {
-            "level": {
-              "default": "info",
-              "description": "The log level",
-              "x-env-value": "LOG_LEVEL",
-              "enum": ["trace", "debug", "info", "warn", "error", "fatal"]
-            },
-            "prettyPrint": { "default": false, "description": "Whether to pretty print logs", "type": "boolean", "x-env-value": "LOG_PRETTY_PRINT" }
-          },
-          "required": ["level", "prettyPrint"]
+          "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
         }
       },
-      "required": ["logger"]
+      "required": ["logger", "shared", "tracing"]
     },
     "server": {
       "description": "Server configuration",
