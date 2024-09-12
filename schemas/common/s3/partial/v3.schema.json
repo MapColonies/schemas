@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://mapcolonies.com/common/s3/partial/v3",
   "type": "object",
-  "required": ["accessKeyId", "secretAccessKey", "host"],
+  "required": ["accessKeyId", "secretAccessKey", "endpoint"],
   "properties": {
     "accessKeyId": {
       "type": "string",
@@ -14,17 +14,10 @@
       "description": "The secret access key of the bucket",
       "x-env-value": "S3_SECRET_KEY"
     },
-    "host": {
+    "endpoint": {
       "type": "string",
-      "description": "The host of S3",
-      "default": "localhost",
-      "x-env-value": "S3_HOST"
-    },
-    "port": {
-      "type": "number",
-      "description": "The port of S3",
-      "default": 9000,
-      "x-env-value": "S3_PORT"
+      "description": "The endpoint of S3",
+      "x-env-value": "S3_ENDPOINT"
     },
     "region": {
       "type": "string",
