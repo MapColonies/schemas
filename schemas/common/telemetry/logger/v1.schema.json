@@ -1,6 +1,6 @@
 {
   "$id": "https://mapcolonies.com/common/telemetry/logger/v1",
-  "title": "commonTelemetryLoggerV1",
+  "title": "telemetryLoggerV1",
   "description": "Telemetry logger configuration",
   "type": "object",
   "default": {},
