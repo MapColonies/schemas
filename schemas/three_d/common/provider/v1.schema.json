@@ -45,7 +45,14 @@
     "properties": {
       "config": {
         "type": "object",
-        "$ref": "https://mapcolonies.com/common/nfs/v1"
+        "properties": {
+          "pvPath": {
+            "type": "string",
+            "description": "The path for the mounted volume",
+            "x-env-value": "PV_PATH"
+          }
+        },
+        "required": ["pvPath"]
       }
     }
   }
