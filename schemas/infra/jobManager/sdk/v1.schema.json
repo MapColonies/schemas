@@ -2,17 +2,14 @@
   "$id": "https://mapcolonies.com/infra/jobManager/sdk/v1",
   "description": "The job manager SDK full schema",
   "type": "object",
-  "required": ["url", "job"],
+  "required": ["job"],
   "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/infra/jobManager/base/v1"
+    },
     {
       "type": "object",
       "properties": {
-        "url": {
-          "type": "string",
-          "description": "The url of job-manager",
-          "format": "uri",
-          "x-env-value": "JOB_MANAGER_URL"
-        },
         "job": {
           "$ref": "https://mapcolonies.com/infra/jobManager/job/v1"
         },
