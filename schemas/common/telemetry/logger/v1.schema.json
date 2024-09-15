@@ -30,7 +30,7 @@
       "default": false,
       "description": "Whether to pretty print logs",
       "type": "boolean",
-      "x-env-value": "LOG_PRETTY_PRINT"
+      "x-env-value": "LOG_PRETTY_PRINT_ENABLED"
     }
   }
 }
