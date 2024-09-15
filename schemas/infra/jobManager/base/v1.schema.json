@@ -1,0 +1,14 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobManager/base/v1",
+  "description": "The base schema for job manager",
+  "type": "object",
+  "required": ["url"],
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "The url of job-manager",
+      "format": "uri",
+      "x-env-value": "JOB_MANAGER_URL"
+    }
+  }
+}
