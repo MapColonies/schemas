@@ -60,7 +60,7 @@
           "required": ["level", "prettyPrint"]
         }
       },
-      "required": ["logger", "shared", "tracing"]
+      "required": ["logger"]
     },
     "server": {
       "description": "Server configuration",
@@ -93,9 +93,31 @@
             }
           },
           "required": ["payload"]
+        },
+        "response": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "compression": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Whether to compress response bodies for all request that traverse through the middleware"
+                },
+                "options": {
+                  "type": ["null", "object"],
+                  "default": null,
+                  "description": "Options properties of compression"
+                }
+              }
+            }
+          }
         }
       },
-      "required": ["port", "request"]
+      "required": ["port", "request", "response"]
     }
   }
 }

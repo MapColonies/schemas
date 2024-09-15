@@ -1,0 +1,37 @@
+{
+  "$id": "https://mapcolonies.com/common/s3/full/v1",
+  "description": "The full S3 schema including bucket",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/s3/partial/v2"
+    },
+    {
+      "$ref": "#/definitions/S3"
+    }
+  ],
+  "definitions": {
+    "S3": {
+      "type": "object",
+      "required": ["bucket"],
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "description": "The bucket name",
+          "x-env-value": "S3_BUCKET"
+        },
+        "storageClass": {
+          "type": "string",
+          "description": "The storage class to store newly created objects",
+          "default": "STANDARD",
+          "x-env-value": "S3_STORAGE_CLASS"
+        },
+        "maxAttempts": {
+          "type": "number",
+          "description": "The max attempts for executing S3 command",
+          "default": 3
+        }
+      }
+    }
+  }
+}
