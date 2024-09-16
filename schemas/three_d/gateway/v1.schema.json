@@ -1,0 +1,104 @@
+{
+  "$id": "https://mapcolonies.com/three_d/gateway/v1",
+  "description": "The store-trigger schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["externalServices", "storage", "paths", "validation"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v5"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "storage": {
+          "$ref": "https://mapcolonies.com/three_d/common/provider/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "externalServices": {
+          "$ref": "#/definitions/externalServices"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "$ref": "#/definitions/paths"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "validation": {
+          "$ref": "#/definitions/validation"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "externalServices": {
+      "type": "object",
+      "required": ["storeTrigger", "catalog", "lookupTables"],
+      "properties": {
+        "storeTrigger": {
+          "type": "string",
+          "description": "Store trigger URL",
+          "x-env-value": "STORE_TRIGGER_URL"
+        },
+        "catalog": {
+          "type": "string",
+          "description": "3D catalog URL",
+          "x-env-value": "CATALOG_URL"
+        },
+        "lookupTables": {
+          "type": "object",
+          "description": "Lookup-tables URL",
+          "required": ["url", "subUrl"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "x-env-value": "LOOKUP_TABLES_URL"
+            },
+            "subUrl": {
+              "type": "string",
+              "x-env-value": "LOOKUP_TABLES_SUB_URL"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "required": ["basePath"],
+      "properties": {
+        "basePath": {
+          "type": "string",
+          "description": "Path that will be displayed for users",
+          "x-env-value": "BASE_PATH"
+        },
+        "pvPath": {
+          "type": "string",
+          "description": "The path for the mounted volume",
+          "x-env-value": "PV_PATH"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "percentageLimit": {
+          "type": "number",
+          "description": "Percentage limit between the footprint and the tileset.json",
+          "default": 10,
+          "x-env-value": "PERCENTAGE_LIMIT"
+        }
+      }
+    }
+  }
+}
