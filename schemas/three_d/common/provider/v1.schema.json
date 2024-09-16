@@ -1,0 +1,51 @@
+{
+  "$id": "https://mapcolonies.com/three_d/common/provider/v1",
+  "description": "The provider schema (NFS or S3)",
+  "type": "object",
+  "required": ["provider", "config"],
+  "properties": {
+    "provider": {
+      "enum": ["S3", "NFS"],
+      "description": "The provider: S3/NFS"
+    }
+  },
+  "if": {
+    "type": "object",
+    "properties": {
+      "provider": {
+        "const": "S3"
+      }
+    }
+  },
+  "then": {
+    "type": "object",
+    "properties": {
+      "config": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/s3/full/v1"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "maxAttempts": {
+                "type": "number",
+                "description": "How many times a request will be made",
+                "default": 3
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "else": {
+    "type": "object",
+    "properties": {
+      "config": {
+        "$ref": "https://mapcolonies.com/three_d/common/nfs/v1"
+      }
+    }
+  }
+}
