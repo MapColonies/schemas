@@ -75,19 +75,21 @@
     },
     "paths": {
       "type": "object",
-      "required": ["basePath"],
-      "properties": {
-        "basePath": {
-          "type": "string",
-          "description": "Path that will be displayed for users",
-          "x-env-value": "BASE_PATH"
+      "allOf": [
+        {
+          "required": ["basePath"],
+          "properties": {
+            "basePath": {
+              "type": "string",
+              "description": "Path that will be displayed for users",
+              "x-env-value": "BASE_PATH"
+            }
+          }
         },
-        "pvPath": {
-          "type": "string",
-          "description": "The path for the mounted volume",
-          "x-env-value": "PV_PATH"
+        {
+          "$ref": "https://mapcolonies.com/three_d/common/nfs/v1"
         }
-      }
+      ]
     },
     "validation": {
       "type": "object",
