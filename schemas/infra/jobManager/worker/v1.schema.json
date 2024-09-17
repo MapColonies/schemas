@@ -1,0 +1,65 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobManager/worker/v1",
+  "description": "The worker schema for job manager",
+  "type": "object",
+  "required": ["task", "heartbeat"],
+  "allOf": [
+    {
+      "type": "object",
+      "description": "Heartbeat manager configurations",
+      "properties": {
+        "heartbeat": {
+          "$ref": "#/definitions/heartbeat"
+        }
+      }
+    },
+    {
+      "$ref": "https://mapcolonies.com/infra/jobManager/sdk/v1"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "object",
+          "properties": {
+            "pollingIntervalTimeMS": {
+              "type": "number",
+              "description": "Polling interval time to queue task (in milliseconds)",
+              "default": 5000,
+              "exclusiveMinimum": 0,
+              "x-env-value": "TASK_POLLING_INTERVAL_TIME_MS"
+            },
+            "maxAttempts": {
+              "type": "number",
+              "description": "Max attempts of working on task",
+              "default": 3,
+              "exclusiveMinimum": 0,
+              "x-env-value": "TASK_MAX_ATTEMPTS"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "heartbeat": {
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/infra/jobManager/heartbeatManager/v1"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "pingingIntervalTimeMS": {
+              "type": "number",
+              "description": "Interval time to ping heartbeat on task (in milliseconds)",
+              "default": 5000,
+              "exclusiveMinimum": 0,
+              "x-env-value": "HEARTBEAT_PINGING_INTERVAL_TIME_MS"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

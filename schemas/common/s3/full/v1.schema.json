@@ -1,0 +1,26 @@
+{
+  "$id": "https://mapcolonies.com/common/s3/full/v1",
+  "description": "The full S3 schema including bucket",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/s3/partial/v3"
+    },
+    {
+      "$ref": "#/definitions/S3"
+    }
+  ],
+  "definitions": {
+    "S3": {
+      "type": "object",
+      "required": ["bucket"],
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "description": "The bucket name",
+          "x-env-value": "S3_BUCKET"
+        }
+      }
+    }
+  }
+}
