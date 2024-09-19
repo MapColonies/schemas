@@ -2,6 +2,7 @@
   "$id": "https://mapcolonies.com/infra/jobManager/worker/v1",
   "description": "The worker schema for job manager",
   "type": "object",
+  "unevaluatedProperties": false,
   "required": ["task", "heartbeat"],
   "allOf": [
     {
@@ -59,7 +60,8 @@
             }
           }
         }
-      ]
+      ],
+      "unevaluatedProperties": false
     }
   }
 }

@@ -4,6 +4,7 @@
   "description": "Telemetry base configuration",
   "default": {},
   "type": "object",
+  "unevaluatedProperties": false,
   "properties": {
     "serviceName": {
       "description": "The name of the service",

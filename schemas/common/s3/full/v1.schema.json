@@ -2,9 +2,10 @@
   "$id": "https://mapcolonies.com/common/s3/full/v1",
   "description": "The full S3 schema including bucket",
   "type": "object",
+  "unevaluatedProperties": false,
   "allOf": [
     {
-      "$ref": "https://mapcolonies.com/common/s3/partial/v3"
+      "$ref": "https://mapcolonies.com/common/s3/partial/v1"
     },
     {
       "$ref": "#/definitions/S3"
