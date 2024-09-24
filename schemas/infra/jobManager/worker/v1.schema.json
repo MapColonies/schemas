@@ -44,6 +44,7 @@
   ],
   "definitions": {
     "heartbeat": {
+      "type": "object",
       "allOf": [
         {
           "$ref": "https://mapcolonies.com/infra/jobManager/heartbeatManager/v1"
