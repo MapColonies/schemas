@@ -5,6 +5,7 @@
   "type": "object",
   "default": {},
   "required": ["level", "prettyPrint"],
+  "unevaluatedProperties": false,
   "properties": {
     "level": {
       "$ref": "#/definitions/level"

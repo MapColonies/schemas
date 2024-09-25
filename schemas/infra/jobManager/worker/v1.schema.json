@@ -2,6 +2,7 @@
   "$id": "https://mapcolonies.com/infra/jobManager/worker/v1",
   "description": "The worker schema for job manager",
   "type": "object",
+  "unevaluatedProperties": false,
   "required": ["task", "heartbeat"],
   "allOf": [
     {
@@ -43,6 +44,7 @@
   ],
   "definitions": {
     "heartbeat": {
+      "type": "object",
       "allOf": [
         {
           "$ref": "https://mapcolonies.com/infra/jobManager/heartbeatManager/v1"
@@ -59,7 +61,8 @@
             }
           }
         }
-      ]
+      ],
+      "unevaluatedProperties": false
     }
   }
 }

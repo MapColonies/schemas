@@ -1,55 +1,117 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Boilerplate basic configuration",
   "$id": "https://mapcolonies.com/common/boilerplate/v1",
   "type": "object",
+  "title": "commonBoilerplateV1",
+  "required": ["openapiConfig", "telemetry", "server"],
   "properties": {
     "openapiConfig": {
+      "description": "OpenAPI configuration",
       "type": "object",
+      "default": {},
+      "examples": [
+        {
+          "filePath": "./openapi3.yaml",
+          "basePath": "/docs",
+          "rawPath": "/api",
+          "uiPath": "/api"
+        }
+      ],
       "properties": {
         "filePath": { "default": "./openapi3.yaml", "description": "Path to the OpenAPI 3.0 spec file", "type": "string" },
-        "basePath": { "default": "/docs", "type": "string" },
-        "rawPath": { "default": "/api", "type": "string" },
-        "uiPath": { "default": "/api", "type": "string" }
+        "basePath": { "default": "/docs", "description": "The base path for the OpenAPI UI and raw OpenAPI spec", "type": "string" },
+        "rawPath": { "default": "/api", "description": "The path to the raw OpenAPI spec", "type": "string" },
+        "uiPath": { "default": "/api", "description": "The path to the OpenAPI UI", "type": "string" }
       },
+      "unevaluatedProperties": false,
       "required": ["filePath", "basePath", "rawPath", "uiPath"]
     },
     "telemetry": {
+      "description": "Telemetry configuration",
       "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "examples": [
+        {
+          "shared": { "serviceName": "boilerplate" },
+          "tracing": { "isEnabled": false },
+          "logger": { "level": "info", "prettyPrint": false }
+        }
+      ],
       "properties": {
+        "shared": {
+          "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+        },
+        "tracing": {
+          "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+        },
         "logger": {
-          "type": "object",
-          "properties": {
-            "level": {
-              "default": "info",
-              "anyOf": [
-                { "const": "trace", "type": "string" },
-                { "const": "debug", "type": "string" },
-                { "const": "info", "type": "string" },
-                { "const": "warn", "type": "string" },
-                { "const": "error", "type": "string" },
-                { "const": "fatal", "type": "string" }
-              ]
-            },
-            "prettyPrint": { "default": false, "type": "boolean" }
-          },
-          "required": ["level", "prettyPrint"]
+          "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
         }
       },
-      "required": ["logger"]
+      "required": ["logger", "shared", "tracing"]
     },
     "server": {
+      "description": "Server configuration",
       "type": "object",
+      "unevaluatedProperties": false,
+      "default": {},
+      "examples": [
+        {
+          "port": 8080,
+          "request": { "payload": { "limit": "1mb" } }
+        }
+      ],
       "properties": {
-        "port": { "minimum": 1, "maximum": 65535, "default": 8080, "type": "integer" },
+        "port": {
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 8080,
+          "description": "The port the server will listen on",
+          "type": "integer",
+          "x-env-value": "SERVER_PORT"
+        },
         "request": {
           "type": "object",
-          "properties": { "payload": { "type": "object", "properties": { "limit": { "default": "1mb", "type": "string" } }, "required": ["limit"] } },
+          "default": {},
+          "properties": {
+            "payload": {
+              "type": "object",
+              "default": {},
+              "properties": { "limit": { "default": "1mb", "description": "The maximum payload size of an incoming request", "type": "string" } },
+              "unevaluatedProperties": false,
+              "required": ["limit"]
+            }
+          },
+          "unevaluatedProperties": false,
           "required": ["payload"]
+        },
+        "response": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "compression": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Whether to compress response bodies for all request that traverse through the middleware"
+                },
+                "options": {
+                  "type": ["null", "object"],
+                  "default": null,
+                  "description": "Options properties of compression"
+                }
+              },
+              "unevaluatedProperties": false
+            }
+          },
+          "unevaluatedProperties": false
         }
       },
-      "required": ["port", "request"]
+      "required": ["port", "request", "response"]
     }
-  },
-  "required": ["openapiConfig", "telemetry", "server"],
-  "title": "commonBoilerplateV1"
+  }
 }

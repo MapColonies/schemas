@@ -3,6 +3,7 @@
   "description": "The job manager SDK full schema",
   "type": "object",
   "required": ["job"],
+  "unevaluatedProperties": false,
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/infra/jobManager/base/v1"

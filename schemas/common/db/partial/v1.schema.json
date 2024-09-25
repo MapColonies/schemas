@@ -52,6 +52,7 @@
           "description": "the path to the key file"
         }
       },
+      "unevaluatedProperties": false,
       "if": {
         "properties": {
           "enabled": {
