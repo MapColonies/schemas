@@ -1,6 +1,6 @@
 {
   "$id": "https://mapcolonies.com/infra/jobManager/job/v1",
-  "description": "The job schema for job manager",
+  "description": "The partial job schema for job manager",
   "type": "object",
   "required": ["types"],
   "properties": {
