@@ -124,7 +124,7 @@ await fsPromise.writeFile(indexFilePath, filesToImportToIndex.join('\n') + '\n',
 filesToDelete.push(indexFilePath);
 
 // compile the typescript files
-await $`npx tsc -p tsconfig.build.json`;
+await $`tsc -p tsconfig.build.json`;
 
 // delete the ts files
 await Promise.all(filesToDelete.map((file) => fsPromise.rm(file)));
