@@ -1,6 +1,6 @@
 {
   "name": "@map-colonies/schemas",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Package for all of MapColonies config schemas",
   "main": "./build/schemas/index.js",
   "repository": {
@@ -40,9 +40,7 @@
     "prettier": "^3.2.5",
     "pretty-quick": "^4.0.0",
     "tsimp": "^2.0.11",
-    "zx": "^7.2.3"
-  },
-  "dependencies": {
-    "json-schema-to-ts": "^3.0.1"
+    "zx": "^7.2.3",
+    "json-schema-to-ts": "^3.1.1"
   }
 }

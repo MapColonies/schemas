@@ -1,7 +1,8 @@
 import fsPromise from 'node:fs/promises';
 import fs from 'node:fs';
 import path from 'node:path';
-import AjvModule from 'ajv';
+import AjvModule from 'ajv/dist/2019.js';
+import * as draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' assert { type: 'json' };
 import addFormats from 'ajv-formats';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
 import { presult, result } from './util/index.mjs';
@@ -102,8 +103,11 @@ async function validateSchema(schema: any, file: string) {
   const ajv = new AjvModule.default({
     keywords: ['x-env-value', 'x-populate-as-env'],
     allErrors: true,
+    discriminator: true,
     loadSchema: async (uri: string) => ({ type: 'object' }),
   });
+
+  ajv.addMetaSchema(draft7MetaSchema, 'http://json-schema.org/draft-07/schema#');
 
   // @ts-expect-error https://github.com/ajv-validator/ajv-formats/issues/85
   addFormats(ajv);

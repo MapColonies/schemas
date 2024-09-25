@@ -1,0 +1,37 @@
+{
+  "$id": "https://mapcolonies.com/common/telemetry/logger/v1",
+  "title": "telemetryLoggerV1",
+  "description": "Telemetry logger configuration",
+  "type": "object",
+  "default": {},
+  "required": ["level", "prettyPrint"],
+  "unevaluatedProperties": false,
+  "properties": {
+    "level": {
+      "$ref": "#/definitions/level"
+    },
+    "prettyPrint": {
+      "$ref": "#/definitions/prettyPrint"
+    }
+  },
+  "examples": [
+    {
+      "level": "info",
+      "prettyPrint": false
+    }
+  ],
+  "definitions": {
+    "level": {
+      "default": "info",
+      "description": "The log level",
+      "x-env-value": "LOG_LEVEL",
+      "enum": ["trace", "debug", "info", "warn", "error", "fatal"]
+    },
+    "prettyPrint": {
+      "default": false,
+      "description": "Whether to pretty print logs",
+      "type": "boolean",
+      "x-env-value": "LOG_PRETTY_PRINT_ENABLED"
+    }
+  }
+}

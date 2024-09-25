@@ -10,6 +10,7 @@
       "$ref": "#/definitions/db"
     }
   ],
+  "unevaluatedProperties": false,
   "definitions": {
     "db": {
       "type": "object",
