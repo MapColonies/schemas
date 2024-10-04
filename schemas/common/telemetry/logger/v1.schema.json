@@ -3,7 +3,6 @@
   "title": "telemetryLoggerV1",
   "description": "Telemetry logger configuration",
   "type": "object",
-  "default": {},
   "required": ["level", "prettyPrint"],
   "unevaluatedProperties": false,
   "properties": {
