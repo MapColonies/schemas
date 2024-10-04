@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/MapColonies/schemas/compare/v1.0.0...v1.0.1) (2024-10-04)
+
+
+### Bug Fixes
+
+* bad default is now validated ([3038734](https://github.com/MapColonies/schemas/commit/30387340183f360bf0e5980feea239a6e19bd914))
+
 ## [1.0.0](https://github.com/MapColonies/schemas/compare/v0.2.1...v1.0.0) (2024-09-25)
 
 
