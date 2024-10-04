@@ -104,6 +104,7 @@ async function validateSchema(schema: any, file: string) {
     keywords: ['x-env-value', 'x-populate-as-env'],
     allErrors: true,
     discriminator: true,
+    useDefaults: true,
     loadSchema: async (uri: string) => ({ type: 'object' }),
   });
 
