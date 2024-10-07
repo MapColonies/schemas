@@ -1,0 +1,19 @@
+{
+  "$id": "https://mapcolonies.com/infra/opala/manager/v1",
+  "description": "The opala manager service schema",
+  "title": "opalaManagerSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v6"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        }
+      }
+    }
+  ]
+}
