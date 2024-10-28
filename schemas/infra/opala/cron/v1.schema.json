@@ -57,7 +57,28 @@
           "examples": ["*/1 * * * *"]
         },
         "s3": {
-          "$ref": "https://mapcolonies.com/common/s3/full/v1"
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/s3/partial/v1"
+            },
+            {
+              "type": "object",
+              "required": ["key", "bucket"],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "specific key of bundle inside s3",
+                  "x-env-value": "S3_KEY"
+                },
+                "bucket": {
+                  "type": "string",
+                  "description": "specific bucket name inside s3",
+                  "x-env-value": "S3_BUCKET"
+                }
+              }
+            }
+          ]
         }
       }
     },

@@ -5,10 +5,11 @@
   "type": "object",
   "allOf": [
     {
-      "$ref": "https://mapcolonies.com/common/boilerplate/v6"
+      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
     },
     {
       "type": "object",
+      "required": ["db"],
       "properties": {
         "db": {
           "$ref": "https://mapcolonies.com/common/db/full/v1"
