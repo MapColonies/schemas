@@ -5,44 +5,9 @@ import AjvModule from 'ajv/dist/2019.js';
 import * as draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' assert { type: 'json' };
 import addFormats from 'ajv-formats';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
-import { presult, result } from './util/index.mjs';
-import { AsyncLocalStorage } from 'node:async_hooks';
-import { ErrorHandler } from './util/errorHandling.mjs';
-
-const asyncLocalStorage = new AsyncLocalStorage<{
-  directory: string;
-  file: string;
-}>();
-
-const errorHandler = new ErrorHandler();
-
-// function to add all errors to the errors array with location context
-function handleError(msg: string, id?: string): void {
-  const fileContext = asyncLocalStorage.getStore();
-
-  let directory = fileContext?.directory;
-  let file = fileContext?.file;
-
-  if (id) {
-    const lastSlashIndex = id.lastIndexOf('/');
-    directory = path.join('schemas', id.substring(0, lastSlashIndex));
-
-    const fileNameStart = id.substring(lastSlashIndex + 1);
-    if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.json`))) {
-      file = `${fileNameStart}.schema.json`;
-      // } else if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.mts`))) {
-      //   file = `${fileNameStart}.schema.mts`;
-    } else {
-      throw new Error(`Could not find the file ${fileNameStart} referenced in the error`);
-    }
-  }
-
-  errorHandler.addError({
-    file: file ?? undefined,
-    directory: directory ?? undefined,
-    error: msg,
-  });
-}
+import { presult, result } from '../util/index.mjs';
+import { handleError, fileLocationLocalStorage, errorHandler } from './errors.mjs';
+import { validateConfigs } from './validateConfigs.mjs';
 
 async function validateRefs(schema: string) {
   const parser = new $RefParser();
@@ -168,6 +133,7 @@ async function validateTsFile(file: string) {
 }
 
 const directories = ['schemas'];
+const foundConfigFiles: { directory: string; fileName: string }[] = [];
 
 for (const directory of directories) {
   let files = await fsPromise.readdir(directory, { withFileTypes: true });
@@ -184,7 +150,7 @@ for (const directory of directories) {
   let fileOrderCounter = 1;
 
   for (const file of files) {
-    await asyncLocalStorage.run({ directory, file: file.name }, async () => {
+    await fileLocationLocalStorage.run({ directory, file: file.name }, async () => {
       // the correct structure is either only directories or only files, so if its not a file at this stage, it is an error
       if (!file.isFile()) {
         return handleError(`Found a directory when a file was expected`);
@@ -192,8 +158,17 @@ for (const directory of directories) {
 
       const fileNameParts = file.name.split('.');
 
+      if (fileNameParts.length !== 3) {
+        return handleError(`file name is not in the correct format`);
+      }
+
+      if (fileNameParts[1] === 'configs') {
+        foundConfigFiles.push({ directory, fileName: file.name });
+        return;
+      }
+
       // check that the file name contains the schema keyword
-      if (fileNameParts.length !== 3 || fileNameParts[1] !== 'schema') {
+      if (fileNameParts[1] !== 'schema') {
         return handleError(`file was not expected in this location`);
       }
 
@@ -216,6 +191,8 @@ for (const directory of directories) {
     });
   }
 }
+
+validateConfigs(foundConfigFiles);
 
 if (errorHandler.getErrors().length > 0) {
   errorHandler.outputErrors();

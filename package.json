@@ -12,10 +12,10 @@
   },
   "homepage": "https://github.com/MapColonies/schemas#readme",
   "scripts": {
-    "validate": "node --import=tsimp/import scripts/validate.mts",
-    "build": "node --import=tsimp/import scripts/build.mts",
+    "validate": "tsx scripts/validate/validate.mts",
+    "build": "tsx scripts/build.mts",
     "prepack": "npm run build",
-    "check-files-changed": "node --import=tsimp/import scripts/checkFilesChanged.mts",
+    "check-files-changed": "tsx scripts/checkFilesChanged.mts",
     "prepare": "husky"
   },
   "files": [
@@ -26,6 +26,7 @@
   "license": "MIT",
   "devDependencies": {
     "@actions/core": "^1.10.1",
+    "@apideck/better-ajv-errors": "^0.3.6",
     "@apidevtools/json-schema-ref-parser": "^11.5.4",
     "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "^19.1.0",
@@ -37,10 +38,10 @@
     "camelcase": "^8.0.0",
     "fast-json-patch": "^3.1.1",
     "husky": "^9.0.11",
+    "json-schema-to-ts": "^3.1.1",
     "prettier": "^3.2.5",
     "pretty-quick": "^4.0.0",
-    "tsimp": "^2.0.11",
-    "zx": "^7.2.3",
-    "json-schema-to-ts": "^3.1.1"
+    "tsx": "^4.19.2",
+    "zx": "^8.2.1"
   }
 }
