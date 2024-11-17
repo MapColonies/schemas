@@ -1,4 +1,5 @@
-import { promises as fsPromise } from 'fs';
+import { promises as fsPromise } from 'node:fs';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { ValidationError, betterAjvErrors } from '@apideck/better-ajv-errors';
 import * as configsSchema from '../schemas/configs.schema.json' assert { type: 'json' };
 import AjvModule from 'ajv';
@@ -38,13 +39,25 @@ async function loadAndParseConfigs(file: string): Promise<[false] | [true, confi
   }
 }
 
+async function validateSchemaExists(file: string, folder: string): Promise<boolean> {
+  console.log(file, folder);
+  return false;
+}
+
 export type ConfigFile = {
   directory: string;
   fileName: string;
 };
 
-export function validateConfigs(configFiles: ConfigFile[]): void {
+export async function validateConfigs(configFiles: ConfigFile[]): Promise<void> {
   for (const configFile of configFiles) {
+    // check that there is a schema for the config file (by file name)
+    await validateSchemaExists(configFile.fileName, configFile.directory);
+    // check that the config file is valid against the configs schema
+    // check that name is unique across all config files
+    // check that all refs are valid
+    // check that the resolved config is valid against the matching schema
+
     loadAndParseConfigs;
   }
 }

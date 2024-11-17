@@ -192,7 +192,9 @@ for (const directory of directories) {
   }
 }
 
-validateConfigs(foundConfigFiles);
+if (errorHandler.getErrors().length === 0) {
+  validateConfigs(foundConfigFiles);
+}
 
 if (errorHandler.getErrors().length > 0) {
   errorHandler.outputErrors();
