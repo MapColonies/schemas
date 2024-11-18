@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/MapColonies/schemas/compare/v1.0.1...v1.1.0) (2024-11-18)
+
+
+### Features
+
+* adding x-env-value attributes too all db's properties ([#45](https://github.com/MapColonies/schemas/issues/45)) ([6fc4e84](https://github.com/MapColonies/schemas/commit/6fc4e84de65e8b73c04eda615bb37c32eed5018c))
+* implementing schemas for opa-la packages ([#44](https://github.com/MapColonies/schemas/issues/44)) ([c343218](https://github.com/MapColonies/schemas/commit/c3432180fe75ef7015ababe367aedfe6c4d4e84c))
+
 ## [1.0.1](https://github.com/MapColonies/schemas/compare/v1.0.0...v1.0.1) (2024-10-04)
 
 
