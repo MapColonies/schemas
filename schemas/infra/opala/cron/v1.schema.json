@@ -1,0 +1,95 @@
+{
+  "$id": "https://mapcolonies.com/infra/opala/cron/v1",
+  "description": "The opala cron service schema",
+  "title": "opalaCronSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "type": "object",
+      "required": ["telemetry", "cron", "db"],
+      "properties": {
+        "telemetry": {
+          "$ref": "#/definitions/telemetry"
+        },
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        },
+        "cron": {
+          "$ref": "#/definitions/crons"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "crons": {
+      "type": "object",
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": ["np"]
+        },
+        {
+          "required": ["stage"]
+        },
+        {
+          "required": ["prod"]
+        }
+      ],
+      "properties": {
+        "np": {
+          "$ref": "#/definitions/cron"
+        },
+        "prod": {
+          "$ref": "#/definitions/cron"
+        },
+        "stage": {
+          "$ref": "#/definitions/cron"
+        }
+      }
+    },
+    "cron": {
+      "type": "object",
+      "required": ["pattern", "s3"],
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "description": "The cron timing spec",
+          "examples": ["*/1 * * * *"]
+        },
+        "s3": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/s3/partial/v1"
+            },
+            {
+              "type": "object",
+              "required": ["key", "bucket"],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "specific key of bundle inside s3",
+                  "x-env-value": "S3_KEY"
+                },
+                "bucket": {
+                  "type": "string",
+                  "description": "specific bucket name inside s3",
+                  "x-env-value": "S3_BUCKET"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "required": ["logger"],
+      "properties": {
+        "logger": {
+          "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
+        }
+      }
+    }
+  }
+}
