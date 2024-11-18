@@ -1,0 +1,72 @@
+{
+  "$id": "https://mapcolonies.com/three_d/jobSyncer/v1",
+  "description": "The job-syncer schema",
+  "type": "object",
+  "required": ["jobManager", "catalog"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v5"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "jobManager": {
+          "$ref": "https://mapcolonies.com/infra/jobManager/sdk/v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "intervalMS": {
+          "type": "number",
+          "description": "Cron-Job interval in milliseconds",
+          "default": 3000,
+          "x-env-value": "INTERVAL_MS"
+        },
+        "catalog": {
+          "type": "object",
+          "description": "Catalog properties",
+          "required": ["url", "link"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "the url of the catalog (CRUD)",
+              "x-env-value": "CATALOG_URL"
+            },
+            "link": {
+              "type": "object",
+              "description": "the schema of the column \"link\" in catalog DB",
+              "required": ["url"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the link",
+                  "default": "",
+                  "x-env-value": "LINK_NAME"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the link",
+                  "default": "",
+                  "x-env-value": "LINK_DESCRIPTION"
+                },
+                "protocol": {
+                  "type": "string",
+                  "description": "The protocol of the link",
+                  "default": "3DTiles",
+                  "x-env-value": "LINK_PROTOCOL"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The link itself",
+                  "x-env-value": "LINK_URL"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
