@@ -1,0 +1,19 @@
+{
+  "$id": "https://mapcolonies.com/three_d/catalog/v1",
+  "description": "The full catalog schema",
+  "type": "object",
+  "required": ["db"],
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        }
+      }
+    },
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v5"
+    }
+  ]
+}
