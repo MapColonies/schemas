@@ -1,6 +1,6 @@
 import * as fsPromise from 'node:fs/promises';
 import * as fs from 'node:fs';
-import path from 'node:path';
+import posixPath from 'node:path';
 
 /**
  * Wraps a promise and returns a tuple with either an error or the resolved value.
@@ -49,10 +49,10 @@ export async function* filesTreeGenerator(directory: string): AsyncGenerator<fs.
     const files = await fsPromise.readdir(currentDirectory, { withFileTypes: true });
 
     for (const file of files) {
-      const fullPath = path.join(currentDirectory, file.name);
+      const fullPath = posixPath.join(currentDirectory, file.name);
 
       if (file.isDirectory()) {
-        directories.push(path.join(fullPath));
+        directories.push(posixPath.join(fullPath));
         continue;
       }
 

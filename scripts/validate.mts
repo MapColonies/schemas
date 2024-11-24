@@ -1,35 +1,34 @@
 import fsPromise from 'node:fs/promises';
 import fs from 'node:fs';
-import path from 'node:path';
-import { AsyncLocalStorage } from 'node:async_hooks';
+import posixPath from 'node:path';
 import AjvModule from 'ajv/dist/2019.js';
 import * as draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' assert { type: 'json' };
 import addFormats from 'ajv-formats';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
-import { presult, result } from '../util/index.mjs';
-import { validateConfigs } from './validateConfigs.mjs';
-import { ErrorHandler } from '../util/errorHandling.mjs';
+import { presult, result } from './util/index.mjs';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { ErrorHandler } from './util/errorHandling.mjs';
 
-export const fileLocationLocalStorage = new AsyncLocalStorage<{
+const asyncLocalStorage = new AsyncLocalStorage<{
   directory: string;
   file: string;
 }>();
 
-export const errorHandler = new ErrorHandler();
+const errorHandler = new ErrorHandler();
 
 // function to add all errors to the errors array with location context
-export function handleError(msg: string, id?: string): void {
-  const fileContext = fileLocationLocalStorage.getStore();
+function handleError(msg: string, id?: string): void {
+  const fileContext = asyncLocalStorage.getStore();
 
   let directory = fileContext?.directory;
   let file = fileContext?.file;
 
   if (id) {
     const lastSlashIndex = id.lastIndexOf('/');
-    directory = path.join('schemas', id.substring(0, lastSlashIndex));
+    directory = posixPath.join('schemas', id.substring(0, lastSlashIndex));
 
     const fileNameStart = id.substring(lastSlashIndex + 1);
-    if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.json`))) {
+    if (fs.existsSync(posixPath.join(directory, `${fileNameStart}.schema.json`))) {
       file = `${fileNameStart}.schema.json`;
       // } else if (fs.existsSync(path.join(directory, `${fileNameStart}.schema.mts`))) {
       //   file = `${fileNameStart}.schema.mts`;
@@ -54,8 +53,8 @@ async function validateRefs(schema: string) {
     read: async (file: { url: string; hash: string; extension: string }) => {
       const subPath = file.url.split('https://mapcolonies.com/')[1];
 
-      if (fs.existsSync(path.join('schemas', subPath + '.schema.json'))) {
-        return fsPromise.readFile(path.join('schemas', subPath + '.schema.json'), { encoding: 'utf-8' });
+      if (fs.existsSync(posixPath.join('schemas', subPath + '.schema.json'))) {
+        return fsPromise.readFile(posixPath.join('schemas', subPath + '.schema.json'), { encoding: 'utf-8' });
       }
 
       // if (fs.existsSync(path.join('schemas', subPath + '.schema.mts'))) {
@@ -131,7 +130,7 @@ async function validateSchema(schema: any, file: string) {
   }
 
   const fileWithoutSchema = file.substring(8, file.indexOf('.schema'));
-  const normalizedIdSubPath = fileWithoutSchema.replaceAll(path.win32.sep, path.posix.sep);
+  const normalizedIdSubPath = fileWithoutSchema.replaceAll(posixPath.win32.sep, posixPath.posix.sep);
 
   // we check that id is in the following format https://mapcolonies.com/directory/version
   if (!schema.$id || !new RegExp(`https://mapcolonies.com/${normalizedIdSubPath}(#.*)?`).test(schema.$id) || schema.$id.includes('..')) {
@@ -157,7 +156,7 @@ async function validateJsonFile(file: string) {
 }
 
 async function validateTsFile(file: string) {
-  const [error, schema] = await presult(import(path.join('..', file)));
+  const [error, schema] = await presult(import(posixPath.join('..', file)));
   if (error) {
     return handleError(`Error importing file: ${error.message}`);
   }
@@ -169,24 +168,23 @@ async function validateTsFile(file: string) {
 }
 
 const directories = ['schemas'];
-const foundConfigFiles: { directory: string; fileName: string }[] = [];
 
 for (const directory of directories) {
   let files = await fsPromise.readdir(directory, { withFileTypes: true });
 
   // sort all files so that we can validate the order and filter out any markdown files
-  files = files.filter((file) => path.extname(file.name) !== '.md').sort((a, b) => a.name.localeCompare(b.name));
+  files = files.filter((file) => posixPath.extname(file.name) !== '.md').sort((a, b) => a.name.localeCompare(b.name));
 
   // if all files are directories, we just add them to the list of directories to check
   if (files.every((file) => file.isDirectory())) {
-    directories.push(...files.map((file) => path.join(directory, file.name)));
+    directories.push(...files.map((file) => posixPath.join(directory, file.name)));
     continue;
   }
 
   let fileOrderCounter = 1;
 
   for (const file of files) {
-    await fileLocationLocalStorage.run({ directory, file: file.name }, async () => {
+    await asyncLocalStorage.run({ directory, file: file.name }, async () => {
       // the correct structure is either only directories or only files, so if its not a file at this stage, it is an error
       if (!file.isFile()) {
         return handleError(`Found a directory when a file was expected`);
@@ -194,17 +192,8 @@ for (const directory of directories) {
 
       const fileNameParts = file.name.split('.');
 
-      if (fileNameParts.length !== 3) {
-        return handleError(`file name is not in the correct format`);
-      }
-
-      if (fileNameParts[1] === 'configs') {
-        foundConfigFiles.push({ directory, fileName: file.name });
-        return;
-      }
-
       // check that the file name contains the schema keyword
-      if (fileNameParts[1] !== 'schema') {
+      if (fileNameParts.length !== 3 || fileNameParts[1] !== 'schema') {
         return handleError(`file was not expected in this location`);
       }
 
@@ -213,7 +202,7 @@ for (const directory of directories) {
         return handleError(`schema is not in the correct order, expected v${fileOrderCounter - 1} but got ${fileNameParts[0]}`);
       }
 
-      const filePath = path.join(directory, file.name);
+      const filePath = posixPath.join(directory, file.name);
       switch (fileNameParts[2]) {
         case 'json':
           await validateJsonFile(filePath);
@@ -226,10 +215,6 @@ for (const directory of directories) {
       }
     });
   }
-}
-
-if (errorHandler.getErrors().length === 0) {
-  await validateConfigs(foundConfigFiles, errorHandler);
 }
 
 if (errorHandler.getErrors().length > 0) {
