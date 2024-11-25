@@ -3,11 +3,11 @@ import fs from 'node:fs';
 import * as posixPath from 'node:path/posix';
 import * as path from 'node:path';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { ValidationError, betterAjvErrors } from '@apideck/better-ajv-errors';
+import { betterAjvErrors } from '@apideck/better-ajv-errors';
 import * as configsSchema from '../schemas/configs.schema.json' assert { type: 'json' };
 import AjvModule from 'ajv';
 import { ErrorHandler } from '../util/errorHandling.mjs';
-import { ConfigReference, listConfigRefs, replaceRefs } from './core.mjs';
+import { listConfigRefs, replaceRefs, validateConfig } from './core.mjs';
 
 export type ConfigFile = {
   directory: string;
@@ -74,7 +74,6 @@ async function validateSchemaExists(): Promise<boolean> {
   }
 
   const schemaPath = path.join(path.dirname(context.configFilePath), `v${context.schemaVersion}.schema.json`);
-  console.log(schemaPath);
 
   if (!fs.existsSync(schemaPath)) {
     context.handleError(`Schema file matching the config file does not exist`);
@@ -144,37 +143,76 @@ async function validateConfigInstance(config: configInstance) {
   });
 }
 
-function getAllConfigRefs(refList: ConfigReference[]): (ConfigReference & { config: any })[] {
-  if (refList.length === 0) {
-    return [];
-  }
+function listAllRefs(config: any): Parameters<typeof replaceRefs>[1] {
+  const refNames = new Set<string>();
 
-  for (const ref of refList) {
-    const config = seenConfigs.get(ref.configName);
-    if (!config) {
-      throw new Error(`The config ${ref.configName} does not exist`);
+  function inner(value: any) {
+    const refList = listConfigRefs(value);
+
+    if (refList.length === 0) {
+      return;
     }
 
-    const nestedRefs = listConfigRefs(config);
-    refList.push(...nestedRefs);
+    for (const ref of refList) {
+      const config = seenConfigs.get(ref.configName);
+      if (!config) {
+        throw new Error(`The config ${ref.configName} does not exist`);
+      }
+      refNames.add(ref.configName);
+      inner(config);
+    }
   }
+
+  inner(config);
+
+  const result: Parameters<typeof replaceRefs>[1] = [];
+
+  for (const configName of refNames.values()) {
+    result.push({ configName, config: seenConfigs.get(configName), version: 'latest' });
+  }
+
+  return result;
 }
 
 async function validateAndReplaceRefs(): Promise<boolean> {
+  const fileContext = fileAsyncStorage.getStore();
   const configContext = configAsyncStorage.getStore();
-  if (!configContext) {
+  if (!configContext || !fileContext) {
     throw new Error('Context not initialized properly');
   }
 
-  const refsList = listConfigRefs(configContext.configValue);
-  replaceRefs(configContext.configValue, refs);
+  try {
+    const refsList = listAllRefs(configContext.configValue);
+    replaceRefs(configContext.configValue, refsList);
 
+    return true;
+  } catch (error) {
+    if (!(error instanceof Error)) {
+      throw error;
+    }
+    fileContext.handleError(error.message);
+    return false;
+  }
+}
+
+async function validateConfigValues(): Promise<boolean> {
+  const fileContext = fileAsyncStorage.getStore();
+  const configContext = configAsyncStorage.getStore();
+  if (!configContext || !fileContext || !fileContext.schema) {
+    throw new Error('Context not initialized properly');
+  }
+
+  const res = await validateConfig(configContext.configValue, fileContext.schema);
+
+  if (!res[0]) {
+    fileContext.handleError(res[1]);
+    return false;
+  }
   return true;
 }
-async function validateConfigValues(): Promise<boolean> {}
 
 const configFileValidators: (() => Promise<boolean>)[] = [validateSchemaExists, loadAndValidateConfigFiles];
-const configInstanceValidators: (() => Promise<boolean>)[] = [validateAndReplaceRefs];
+const configInstanceValidators: (() => Promise<boolean>)[] = [validateAndReplaceRefs, validateConfigValues];
 
 export async function validateConfigs(configFiles: ConfigFile[], errorHandler: ErrorHandler): Promise<void> {
   function handleError(msg: string): void {
@@ -195,12 +233,6 @@ export async function validateConfigs(configFiles: ConfigFile[], errorHandler: E
   }
 
   for (const configFile of configFiles) {
-    // check that there is a schema for the config file (by file name)
-    // check that the config file is valid against the configs schema
-    // check that name is unique across all config files
-    // check that all refs are valid
-    // check that the resolved config is valid against the matching schema
-
     await validateConfigFile(configFile, handleError);
   }
 }

@@ -1,7 +1,12 @@
 // to be replaced by core package in the future
-import type { JSONSchemaType } from 'ajv';
-import { default as AjvModule } from 'ajv';
+import type { JSONSchemaType, AnySchemaObject } from 'ajv';
+import { default as AjvModule } from 'ajv/dist/2019.js';
+import addFormatsImport from 'ajv-formats';
+import type { JSONSchema } from '@apidevtools/json-schema-ref-parser';
+import { betterAjvErrors } from '@apideck/better-ajv-errors';
 import pointer, { JsonObject } from 'json-pointer';
+
+const addFormats = addFormatsImport.default;
 
 export type ConfigReference = {
   configName: string;
@@ -23,20 +28,46 @@ const configRefSchema: JSONSchemaType<ConfigReference> = {
   additionalProperties: false,
 };
 
-const ajv = new AjvModule.default({});
+const configAjv = addFormats(
+  new AjvModule.default({
+    loadSchema: async (uri): Promise<AnySchemaObject> => {
+      return {};
+    },
+    keywords: ['x-env-value'],
+    useDefaults: true,
+  })
+);
+
+const refAjv = new AjvModule.default({});
 
 function validateRef(ref: unknown): ref is ConfigReference {
-  return ajv.validate(configRefSchema, ref);
+  return refAjv.validate(configRefSchema, ref);
+}
+
+export async function validateConfig(config: any, schema: JSONSchema): Promise<[true] | [false, string]> {
+  const validate = await configAjv.compileAsync(schema);
+  const res = validate(config);
+
+  if (!res) {
+    const betterError = betterAjvErrors({
+      data: config,
+      errors: validate.errors,
+      schema: schema as AnySchemaObject,
+    });
+    return [false, betterError[0].message];
+  }
+
+  return [true];
 }
 
 export function listConfigRefs(config: any): ConfigReference[] {
   const refs: ConfigReference[] = [];
-
   pointer.walk(config, (val, key) => {
     if (key.endsWith('$ref/configName')) {
       const refPointer = key.slice(0, key.lastIndexOf('/'));
 
       const val = pointer.get(config, refPointer) as unknown;
+
       if (!validateRef(val)) {
         throw new Error(`The reference is not valid: ${JSON.stringify(val)}`);
       }
