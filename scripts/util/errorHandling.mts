@@ -1,3 +1,4 @@
+import * as posixPath from 'node:path';
 import * as core from '@actions/core';
 
 /**
@@ -57,7 +58,7 @@ export class ErrorHandler {
   private setErrorsOnAction() {
     for (const error of this.errors) {
       core.error(error.error, {
-        file: error.file && error.directory ? path.resolve(error.directory, error.file) : undefined,
+        file: error.file && error.directory ? posixPath.resolve(error.directory, error.file) : undefined,
       });
     }
   }
