@@ -1,4 +1,5 @@
 // to be replaced by core package in the future
+import fs from 'node:fs';
 import type { JSONSchemaType, AnySchemaObject } from 'ajv';
 import { default as AjvModule } from 'ajv/dist/2019.js';
 import addFormatsImport from 'ajv-formats';
@@ -31,10 +32,14 @@ const configRefSchema: JSONSchemaType<ConfigReference> = {
 const configAjv = addFormats(
   new AjvModule.default({
     loadSchema: async (uri): Promise<AnySchemaObject> => {
-      return {};
+      const schemaPath = uri.replace('https://mapcolonies.com', 'schemas') + '.schema.json';
+      const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf-8'));
+      delete schema.$id;
+      return schema;
     },
     keywords: ['x-env-value'],
     useDefaults: true,
+    addUsedSchema: false,
   })
 );
 

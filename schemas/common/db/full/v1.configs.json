@@ -1,0 +1,9 @@
+[
+  {
+    "name": "full-db",
+    "value": {
+      "$ref": { "configName": "base-db", "version": "latest" },
+      "database": "full"
+    }
+  }
+]
