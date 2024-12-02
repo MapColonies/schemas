@@ -1,0 +1,12 @@
+[
+  {
+    "name": "avi",
+    "value": {
+      "avi": "avi",
+      "$ref": { "configName": "boilerplate", "version": 1 },
+      "db": {
+        "$ref": { "configName": "full-db", "version": 1 }
+      }
+    }
+  }
+]
