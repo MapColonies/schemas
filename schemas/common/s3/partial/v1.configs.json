@@ -1,0 +1,10 @@
+[
+  {
+    "name": "s3",
+    "value": {
+      "accessKeyId": "3",
+      "secretAccessKey": "3",
+      "endpoint": "3"
+    }
+  }
+]

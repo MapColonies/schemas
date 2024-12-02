@@ -107,10 +107,11 @@ export function replaceRefs(obj: JsonObject, refs: (ConfigReference & { config: 
   for (const [path, ref] of paths) {
     const config = refs.find((r) => r.configName === ref.configName && (ref.version === 'latest' || r.version === ref.version));
     if (!config) {
-      throw new Error(`could not find ref in db: ${JSON.stringify(ref)}`);
+      throw new Error(`could not find ref: ${JSON.stringify(ref)}`);
     }
 
     // replace the reference in the child object
+
     replaceRefs(config.config, refs);
 
     const prevValue = pointer.get(obj, path) as Record<string, unknown>;
@@ -124,7 +125,7 @@ export function replaceRefs(obj: JsonObject, refs: (ConfigReference & { config: 
 
     if (path === '') {
       Object.assign(obj, replacementValue);
-      return;
+      continue;
     }
 
     pointer.set(obj, path, replacementValue);

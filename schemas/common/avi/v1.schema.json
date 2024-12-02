@@ -1,0 +1,34 @@
+{
+  "$id": "https://mapcolonies.com/common/avi/v1",
+  "type": "object",
+  "title": "commonAviV1",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
+    },
+    {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/avi"
+    }
+  ],
+
+  "definitions": {
+    "avi": {
+      "type": "object",
+      "required": ["avi"],
+      "properties": {
+        "avi": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

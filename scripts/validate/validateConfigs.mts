@@ -57,7 +57,7 @@ async function validateConfigInstance() {
 }
 
 function listAllRefs(config: any): Parameters<typeof replaceRefs>[1] {
-  const refNames = new Set<string>();
+  const refNames = new Map<string, 'latest' | 1>();
 
   function inner(value: any) {
     const refList = listConfigRefs(value);
@@ -71,7 +71,7 @@ function listAllRefs(config: any): Parameters<typeof replaceRefs>[1] {
       if (!config) {
         throw new Error(`The config ${ref.configName} does not exist`);
       }
-      refNames.add(ref.configName);
+      refNames.set(ref.configName, ref.version);
       inner(config);
     }
   }
@@ -80,8 +80,8 @@ function listAllRefs(config: any): Parameters<typeof replaceRefs>[1] {
 
   const result: Parameters<typeof replaceRefs>[1] = [];
 
-  for (const configName of refNames.values()) {
-    result.push({ configName, config: seenConfigs.get(configName), version: 'latest' });
+  for (const [configName, version] of refNames.entries()) {
+    result.push({ configName, config: seenConfigs.get(configName), version });
   }
 
   return result;
@@ -196,6 +196,9 @@ async function validateAndReplaceRefs(): Promise<boolean> {
 
   try {
     const refsList = listAllRefs(configContext.configValue);
+    if (refsList.length === 0) {
+      return true;
+    }
     replaceRefs(configContext.configValue, refsList);
 
     return true;
