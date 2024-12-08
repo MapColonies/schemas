@@ -16,6 +16,7 @@ When a new version is released, an NPM package containing all the schemas, and t
     ├── common/
     │   └── db/
     │       ├── v1.schema.json
+    |       └── v1.configs.json
     │       └── v2.schema.json
     └── raster/
         ├── mapproxy/
@@ -137,6 +138,33 @@ The script contains the following validations:
 - The ID of each schema is in the correct structure - https://mapcolonies.com/directory/v1.schema.json#subReference
 - All the references in the schema are valid and point to other schemas in the repo.
 - There are no circular references.
+
+## Default configs
+
+It's possible to define default config instances that will be deployed automatically wherever config management is deployed. The default config should be placed in the same folder as the schema and should be named `v{version}.configs.json`. The file contains array of config names and their respective values. The default config should be a valid JSON object that complies with the schema. It's possible to use references to other configs in the repo. Because those config files are deployed automatically when no config with such name already exists, their version will always be `1`.
+
+The format of the default config file is as follows:
+
+```json
+[
+  {
+    "name": "base-database",
+    "value": {
+      "ssl": { "enabled": false }
+    }
+  }
+]
+```
+
+### Validations
+
+The following validations are performed on the default config files:
+
+1. Checks that there is a schema for each config file.
+2. Checks that the configs file is valid.
+3. Check that the config name is unique across all config files.
+4. Check that all refs are valid.
+5. Check that the resolved configs are valid against their matching schema.
 
 ## Release
 
