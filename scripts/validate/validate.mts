@@ -198,7 +198,7 @@ for (const directory of directories) {
         return handleError(`file name is not in the correct format`);
       }
 
-      if (fileNameParts[1] === 'configs') {
+      if (fileNameParts[1] === 'configs' && fileNameParts[2] === 'json') {
         foundConfigFiles.push({ directory, fileName: file.name });
         return;
       }
