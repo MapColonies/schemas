@@ -35,19 +35,7 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
   let content: any;
   let fileDestPath: string;
   const ext = path.extname(file.name);
-  // switch (ext) {
-  //   case '.mts':
-  //     content = (await import(path.join('..', fullPath))).default;
-  //     break;
-  //   case '.json':
-  //     if (file.name.endsWith('.schema.json')) {
-  //       content = JSON.parse(await fsPromise.readFile(fullPath, 'utf-8'));
-  //       break;
-  //     }
-  //     continue;
-  //   default:
-  //     continue;
-  // }
+
   if (file.name.endsWith('.schema.json')) {
     content = JSON.parse(await fsPromise.readFile(fullPath, 'utf-8'));
   } else if (file.name.endsWith('.schema.mts')) {
