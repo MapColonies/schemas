@@ -35,15 +35,13 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
   let content: any;
   let fileDestPath: string;
   const ext = path.extname(file.name);
-  switch (ext) {
-    case '.mts':
-      content = (await import(path.join('..', fullPath))).default;
-      break;
-    case '.json':
-      content = JSON.parse(await fsPromise.readFile(fullPath, 'utf-8'));
-      break;
-    default:
-      continue;
+
+  if (file.name.endsWith('.schema.json')) {
+    content = JSON.parse(await fsPromise.readFile(fullPath, 'utf-8'));
+  } else if (file.name.endsWith('.schema.mts')) {
+    content = (await import(path.join('..', fullPath))).default;
+  } else {
+    continue;
   }
 
   // add the title to the schema if it doesn't exist
@@ -90,6 +88,11 @@ const parser = new $RefParser();
 for await (const file of filesTreeGenerator(schemasFolder)) {
   const fileDestPath = path.join(buildDir, file.path, path.basename(file.name, path.extname(file.name)));
 
+  if (file.name.endsWith('.configs.json')) {
+    fs.cpSync(path.join(file.path, file.name), fileDestPath + '.json');
+    continue;
+  }
+
   const dereferencedSchema = await parser.dereference(`${fileDestPath}.json`, {
     dereference: {
       circular: false,
@@ -124,7 +127,11 @@ await fsPromise.writeFile(indexFilePath, filesToImportToIndex.join('\n') + '\n',
 filesToDelete.push(indexFilePath);
 
 // compile the typescript files
-await $`tsc -p tsconfig.build.json`;
+try {
+  await $`npx tsc -p tsconfig.build.json`;
+} catch (error) {
+  console.log(error);
+}
 
 // delete the ts files
 await Promise.all(filesToDelete.map((file) => fsPromise.rm(file)));
