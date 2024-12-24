@@ -1,0 +1,13 @@
+{
+  "$id": "https://mapcolonies.com/three_d/common/nfs/v1",
+  "description": "The NFS schema",
+  "type": "object",
+  "properties": {
+    "pvPath": {
+      "type": "string",
+      "description": "The path for the mounted volume",
+      "x-env-value": "PV_PATH"
+    }
+  },
+  "required": ["pvPath"]
+}
