@@ -1,0 +1,66 @@
+{
+  "$id": "https://mapcolonies.com/three_d/fileSyncer/v1",
+  "description": "The file-syncer schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["jobManager", "storage"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v5"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "jobManager": {
+          "$ref": "#/definitions/jobManager"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "description": "I can't set the source and destination under storage. The file-syncer doesn't get the schema",
+      "properties": {
+        "storage": {
+          "type": "object",
+          "required": ["source", "destination"],
+          "properties": {
+            "source": {
+              "$ref": "#/definitions/provider"
+            },
+            "destination": {
+              "$ref": "#/definitions/provider"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "provider": {
+      "$ref": "https://mapcolonies.com/three_d/common/provider/v1"
+    },
+    "jobManager": {
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/infra/jobManager/worker/v1"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "task": {
+              "type": "object",
+              "properties": {
+                "poolSize": {
+                  "type": "number",
+                  "description": "How many tasks the service will fetch and process in an interval",
+                  "default": 5,
+                  "x-env-value": "TASK_POOL_SIZE"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
