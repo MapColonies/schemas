@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/MapColonies/schemas/compare/v1.1.0...v1.2.0) (2025-01-14)
+
+
+### Features
+
+* add schema with metrics to boilerplate ([#50](https://github.com/MapColonies/schemas/issues/50)) ([16eab1a](https://github.com/MapColonies/schemas/commit/16eab1a2950ab285e5904ccb04fae6b37f684daf))
+* default configs ([#48](https://github.com/MapColonies/schemas/issues/48)) ([5dce479](https://github.com/MapColonies/schemas/commit/5dce479bcdaaf4bf1c0aef5cc3b31d65485c0b5e))
+
 ## [1.1.0](https://github.com/MapColonies/schemas/compare/v1.0.1...v1.1.0) (2024-11-18)
 
 
