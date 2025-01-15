@@ -61,7 +61,7 @@ jobs:
           inlineScript: |
             az storage blob upload --name schemas-$GITHUB_SHA.tgz --account-name ghatmpstorage --container-name=npm-packages --file map-colonies-schemas-${{steps.json_properties.outputs.version}}.tgz
       - name: Comment on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
             Hi it is me, your friendly bot helper! :wave:
