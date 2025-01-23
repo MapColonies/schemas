@@ -1,0 +1,16 @@
+{
+  "title": "GeoJSON MultiPolygon",
+  "type": "object",
+  "required": ["type", "coordinates"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["MultiPolygon"]
+    },
+    "coordinates": {
+      "type": "array",
+      "items": { "$ref": "./polygonCoordinates.schema.json" }
+    },
+    "bbox": { "$ref": "./boundingBox.schema.json" }
+  }
+}
