@@ -44,36 +44,7 @@
                 "description": "The translation code for the country's region.",
                 "type": "string"
               },
-              "geometry": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": ["Polygon", "MultiPolygon"],
-                    "description": "The type of geometry (Polygon or MultiPolygon)."
-                  },
-                  "coordinates": {
-                    "description": "The geographic coordinates of the geometry.",
-                    "type": "array",
-                    "items": {
-                      "description": "A polygon or multi-polygon structure.",
-                      "type": "array",
-                      "items": {
-                        "description": "A coordinate as [longitude, latitude].",
-                        "type": "array",
-                        "items": {
-                          "description": "Longitude or Latitude value.",
-                          "type": "number"
-                        },
-                        "minItems": 2,
-                        "maxItems": 2
-                      }
-                    }
-                  }
-                },
-                "additionalProperties": false,
-                "required": ["type", "coordinates"]
-              }
+              "geometry": { "$ref": "../../geoJsonSchemas/geometrySchema.schema.json" }
             },
             "additionalProperties": false,
             "required": ["icon", "regionTranslationCode", "geometry"]
