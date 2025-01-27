@@ -1,0 +1,10 @@
+[
+  {
+    "name": "s3-connection",
+    "value": {
+      "accessKeyId": "tbd",
+      "secretAccessKey": "tbd",
+      "endpoint": "https://tbd"
+    }
+  }
+]

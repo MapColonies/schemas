@@ -1,0 +1,8 @@
+[
+  {
+    "name": "common-tracing",
+    "value": {
+      "url": "http://collector-address:4318/v1/traces"
+    }
+  }
+]
