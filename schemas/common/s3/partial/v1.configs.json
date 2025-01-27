@@ -1,0 +1,10 @@
+[
+  {
+    "name": "s3-connection",
+    "value": {
+      "accessKeyId": "access-key-id",
+      "secretAccessKey": "secret-access-key",
+      "endpoint": "https://localhost:9000"
+    }
+  }
+]
