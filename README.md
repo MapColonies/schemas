@@ -9,7 +9,7 @@ When a new version is released, an NPM package containing all the schemas, and t
 - All schemas created should be nested under the schemas folder.
 - The folder structure indicates the name and location of the schema.
 - Each schema file should be named in ascending order (v1, v2, v3, ...).
-- Schema references should be relative to the root schemas folder. For example, the reference to the the db schema in common is `https://mapcolonies.com/common/db/v1`.
+- Schema references should be relative to the root schemas folder. For example, the reference to the db schema in common is `https://mapcolonies.com/common/db/v1`.
 
 ```
 └── schemas/
@@ -49,7 +49,7 @@ Once a new version of the package has been released, schemas should not be edite
 }
 ```
 
-- The JSON Schema version used is [Draft-07](https://json-schema.org/draft-07/json-schema-release-notes).
+- The JSON Schema version used is [Draft-09](https://json-schema.org/draft/2019-09).
 - Each schema should contain the ID field with the value based on the relative location of the schema in the schemas folder.
 - ~~If the schema is in Typescript, it should have a default export that is a valid JSON Schema. For convenience, the package [typebox](https://github.com/sinclairzx81/typebox) is installed to help generating JSON Schemas.~~
 
