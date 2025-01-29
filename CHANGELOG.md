@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/MapColonies/schemas/compare/v1.2.0...v1.3.0) (2025-01-29)
+
+
+### Features
+
+* added default configs ([#56](https://github.com/MapColonies/schemas/issues/56)) ([aacd20f](https://github.com/MapColonies/schemas/commit/aacd20fb5b04ab865e8379ba2d747601c0956bdb))
+* added opala default configs ([#58](https://github.com/MapColonies/schemas/issues/58)) ([878cd62](https://github.com/MapColonies/schemas/commit/878cd62246a032ef4bf4452fc7d8d69a3231b3fd))
+
 ## [1.2.0](https://github.com/MapColonies/schemas/compare/v1.1.0...v1.2.0) (2025-01-14)
 
 
