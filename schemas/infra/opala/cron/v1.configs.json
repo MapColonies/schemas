@@ -15,7 +15,7 @@
         "prod": {
           "pattern": "*/5 * * * *",
           "s3": {
-            "$ref": { "configName": "infra-opala-prod-s3", "version": "latest" },
+            "$ref": { "configName": "infra-opala-s3", "version": "latest" },
             "key": "prod-bundle"
           }
         }
