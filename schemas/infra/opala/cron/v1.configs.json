@@ -1,0 +1,25 @@
+[
+  {
+    "name": "infra-auth-cron",
+    "value": {
+      "telemetry": {
+        "logger": {
+          "level": "info",
+          "prettyPrint": false
+        }
+      },
+      "db": {
+        "$ref": { "configName": "infra-opala-db", "version": "latest" }
+      },
+      "cron": {
+        "prod": {
+          "pattern": "*/5 * * * *",
+          "s3": {
+            "$ref": { "configName": "infra-opala-s3", "version": "latest" },
+            "key": "prod-bundle"
+          }
+        }
+      }
+    }
+  }
+]
