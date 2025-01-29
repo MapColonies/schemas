@@ -1,6 +1,6 @@
 [
   {
-    "name": "infra-opala-prod-s3",
+    "name": "infra-opala-s3",
     "value": {
       "$ref": { "configName": "s3-connection", "version": "latest" },
       "bucket": "infra-opala"
