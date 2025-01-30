@@ -25,7 +25,6 @@ updates:
       patch:
         update-types:
           - patch
-          - minor
   # dev-deps
   - package-ecosystem: npm
     schedule:
@@ -36,7 +35,9 @@ updates:
     labels:
       - 'infra'
     commit-message:
-      prefix: 'deps'
+      prefix: 'devdeps'
+    ignore:
+      - dependency-name: '@types/node'
     reviewers:
       - '@MapColonies/infra'
     groups:
