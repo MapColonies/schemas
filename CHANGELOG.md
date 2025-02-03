@@ -1,5 +1,66 @@
 # Changelog
 
+## [0.0.1](https://github.com/MapColonies/schemas/compare/schemas-v1.3.0...schemas-v0.0.1) (2025-02-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* set every latest version as only version ([#42](https://github.com/MapColonies/schemas/issues/42))
+
+### Features
+
+* add boilerplate schema ([137e6c5](https://github.com/MapColonies/schemas/commit/137e6c5f39f35f9ba1147fee3e2e1e40794a7621))
+* add description to partial schema ([5df7d0c](https://github.com/MapColonies/schemas/commit/5df7d0c2f9ae5d24c17ed58aee4c98b8e66edbc8))
+* add job manager schema ([4bae35e](https://github.com/MapColonies/schemas/commit/4bae35e22d0cd78e386c2d1916b2f29f019db692))
+* add number validation ([9c969b6](https://github.com/MapColonies/schemas/commit/9c969b6b47ab782790aafa604f173bf65fd56ac2))
+* add s3 schema ([f8493ea](https://github.com/MapColonies/schemas/commit/f8493eacb2bb9228afc4389d68c24cb9531d2f27))
+* add schema with metrics to boilerplate ([#50](https://github.com/MapColonies/schemas/issues/50)) ([16eab1a](https://github.com/MapColonies/schemas/commit/16eab1a2950ab285e5904ccb04fae6b37f684daf))
+* added ajv formats ([#21](https://github.com/MapColonies/schemas/issues/21)) ([750ef31](https://github.com/MapColonies/schemas/commit/750ef31e2a517714de1708dffe354bb6ee23eb83))
+* added check that schemas is valid according to ajv ([#18](https://github.com/MapColonies/schemas/issues/18)) ([a47780a](https://github.com/MapColonies/schemas/commit/a47780a433fa855067ef86552af6b8ee54c7641b))
+* added default configs ([#56](https://github.com/MapColonies/schemas/issues/56)) ([aacd20f](https://github.com/MapColonies/schemas/commit/aacd20fb5b04ab865e8379ba2d747601c0956bdb))
+* added opala default configs ([#58](https://github.com/MapColonies/schemas/issues/58)) ([878cd62](https://github.com/MapColonies/schemas/commit/878cd62246a032ef4bf4452fc7d8d69a3231b3fd))
+* added telemetry schemas ([#13](https://github.com/MapColonies/schemas/issues/13)) ([6f33f47](https://github.com/MapColonies/schemas/commit/6f33f479d0322fecf144dd1133b0f0bbe6edd324))
+* added validation to allow non breaking changes ([b21c155](https://github.com/MapColonies/schemas/commit/b21c155bb0688d27f5543a0aba6f8f297385bec9))
+* added validation to ensure schema base type is object ([#17](https://github.com/MapColonies/schemas/issues/17)) ([32cbc14](https://github.com/MapColonies/schemas/commit/32cbc149bc598d6731d8c37a74f756b2fd0253ad))
+* adding x-env-value attributes too all db's properties ([#45](https://github.com/MapColonies/schemas/issues/45)) ([6fc4e84](https://github.com/MapColonies/schemas/commit/6fc4e84de65e8b73c04eda615bb37c32eed5018c))
+* created new version of partial s3 ([#9](https://github.com/MapColonies/schemas/issues/9)) ([9639222](https://github.com/MapColonies/schemas/commit/9639222d3fe6f24ddfa19fa773dbf8dae1bd9332))
+* default configs ([#48](https://github.com/MapColonies/schemas/issues/48)) ([5dce479](https://github.com/MapColonies/schemas/commit/5dce479bcdaaf4bf1c0aef5cc3b31d65485c0b5e))
+* implementing schemas for opa-la packages ([#44](https://github.com/MapColonies/schemas/issues/44)) ([c343218](https://github.com/MapColonies/schemas/commit/c3432180fe75ef7015ababe367aedfe6c4d4e84c))
+* initial implementation  ([#1](https://github.com/MapColonies/schemas/issues/1)) ([b1a22e9](https://github.com/MapColonies/schemas/commit/b1a22e9cd14fe4afaa960ef9cf01096743edda15))
+* move logger as separated schema component ([3074ebe](https://github.com/MapColonies/schemas/commit/3074ebea314832380e8bf0c47f1a3c2e7b8e1ef0))
+* removed mts support for now ([#6](https://github.com/MapColonies/schemas/issues/6)) ([d35e8bc](https://github.com/MapColonies/schemas/commit/d35e8bc676a3af75c73851fa9e288df8da85cbb2))
+* upgraded json schema version to 2019-09 ([#34](https://github.com/MapColonies/schemas/issues/34)) ([23867cb](https://github.com/MapColonies/schemas/commit/23867cbfb1827a32ee6dae89813774972fb2deb9))
+
+
+### Bug Fixes
+
+* add folder "jobManager" ([77ff2f7](https://github.com/MapColonies/schemas/commit/77ff2f72faa327c8f8893ed0c4a3368910bcaf24))
+* bad default is now validated ([3038734](https://github.com/MapColonies/schemas/commit/30387340183f360bf0e5980feea239a6e19bd914))
+* changed build to generate export to the type symbol ([#11](https://github.com/MapColonies/schemas/issues/11)) ([d84e5ad](https://github.com/MapColonies/schemas/commit/d84e5ad0b80cb2009d367cbdc180dc05d774c4d7))
+* exported schema type is now pre calculated ([#23](https://github.com/MapColonies/schemas/issues/23)) ([7bb3ebb](https://github.com/MapColonies/schemas/commit/7bb3ebb0233ba724c1f867773a8715c0a3efbf42))
+* id of new boilerplate ([ce6bf9f](https://github.com/MapColonies/schemas/commit/ce6bf9f4645bfb553d11b546b4255775482ada82))
+* pr notes ([ef3d9d8](https://github.com/MapColonies/schemas/commit/ef3d9d876e33a1b5c8722b03125ccf59d763c252))
+* removed env of arrays ([00391bf](https://github.com/MapColonies/schemas/commit/00391bfb4bd56fcebdd71fa095a79f9e8572f549))
+* revert v5 ([179fb9a](https://github.com/MapColonies/schemas/commit/179fb9a524d95644d37964aa79884fdb287514cf))
+
+
+### Code Refactoring
+
+* add time format to interval ([78cfb77](https://github.com/MapColonies/schemas/commit/78cfb77b2ab2399e8b72430874ad91b213f8c65d))
+* change host to endpoint ([24abf07](https://github.com/MapColonies/schemas/commit/24abf07026aa9e44bd9cd410f39816c1e3e8662b))
+* changed package to use mts files instead of .ts and type module in package.json ([#5](https://github.com/MapColonies/schemas/issues/5)) ([d1deb67](https://github.com/MapColonies/schemas/commit/d1deb67c38b9517b9747ab80aa835558890d486a))
+* create schema for every component of job manager ([c9bedfd](https://github.com/MapColonies/schemas/commit/c9bedfdbe99237e1c8d7d7dac1eb26d3f55db91f))
+* pr issues ([a371225](https://github.com/MapColonies/schemas/commit/a371225ce4f4256a7a339d7009012f26bbd34478))
+* renamed variable ([190d202](https://github.com/MapColonies/schemas/commit/190d202443d03524ab7b4122a7969fc1fe8b7678))
+* set base schema for job manager ([dd17920](https://github.com/MapColonies/schemas/commit/dd17920498d8f2ee52d4c378f3df8980c3b732ea))
+* set every latest version as only version ([#42](https://github.com/MapColonies/schemas/issues/42)) ([131cfce](https://github.com/MapColonies/schemas/commit/131cfce70730bcf722d194b547ed1d77015c9235))
+* set storage class as partial instead of full ([e600173](https://github.com/MapColonies/schemas/commit/e600173ef1e35ec2cb88665000669e3aabb977a3))
+
+
+### Miscellaneous Chores
+
+* release 0.0.1 ([432f1b3](https://github.com/MapColonies/schemas/commit/432f1b3d659fe0bd9acec687db8ae6efacf4f49b))
+
 ## [1.3.0](https://github.com/MapColonies/schemas/compare/v1.2.0...v1.3.0) (2025-01-29)
 
 
