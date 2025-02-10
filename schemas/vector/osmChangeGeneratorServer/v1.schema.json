@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/vector/retiler/v1",
+  "$id": "https://mapcolonies.com/vector/osmChangeGeneratorServer/v1",
   "type": "object",
   "title": "vectorOsmChangeGeneratorServerSchemaV1",
   "description": "Vector's osm-change-generator-server schema",
