@@ -8,20 +8,22 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
-      "$ref": "https://mapcolonies.com/common/db/full/v1"
-    },
-    {
       "type": "object",
+      "required": ["db"],
       "properties": {
-        "myDomain": {
-          "$ref": "#/definitions/replicaServerSchemaV1"
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
         }
       }
+    },
+    {
+      "$ref": "#/definitions/objectStorageSchema"
     }
   ],
   "definitions": {
-    "replicaServerSchemaV1": {
+    "objectStorageSchema": {
       "type": "object",
+      "required": ["objectStorage"],
       "properties": {
         "objectStorage": {
           "description": "objectStorage configuration",
