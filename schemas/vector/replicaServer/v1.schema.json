@@ -8,6 +8,9 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
+      "$ref": "https://mapcolonies.com/common/db/full/v1"
+    },
+    {
       "type": "object",
       "properties": {
         "myDomain": {
