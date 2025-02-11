@@ -1,0 +1,289 @@
+{
+  "$id": "https://mapcolonies.com/vector/retiler/v1",
+  "type": "object",
+  "title": "vectorRetilerSchemaV1",
+  "description": "Vector's Retiler schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "$ref": "#/definitions/vectorRetilerSchemaV1"
+    }
+  ],
+  "definitions": {
+    "vectorRetilerSchemaV1": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "object",
+          "properties": {
+            "project": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "x-env-value": "APP_PROJECT_NAME"
+                },
+                "stateUrl": {
+                  "type": "string",
+                  "x-env-value": "APP_PROJECT_STATE_URL"
+                }
+              }
+            },
+            "forceProcess": {
+              "type": "boolean",
+              "x-env-value": "APP_FORCE_PROCESS"
+            },
+            "queueName": {
+              "type": "string",
+              "x-env-value": "QUEUE_NAME"
+            },
+            "parallelism": {
+              "type": "integer",
+              "x-env-value": "APP_JOB_PARALLELISM"
+            },
+            "jobQueue": {
+              "type": "object",
+              "properties": {
+                "waitTimeout": {
+                  "type": "integer",
+                  "x-env-value": "QUEUE_WAIT_TIMEOUT"
+                },
+                "pgBoss": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "type": "string",
+                      "x-env-value": "DB_HOST"
+                    },
+                    "port": {
+                      "type": "integer",
+                      "x-env-value": "DB_PORT"
+                    },
+                    "user": {
+                      "type": "string",
+                      "x-env-value": "DB_USERNAME"
+                    },
+                    "password": {
+                      "type": "string",
+                      "x-env-value": "DB_PASSWORD"
+                    },
+                    "schema": {
+                      "type": "string",
+                      "x-env-value": "DB_SCHEMA"
+                    },
+                    "enableSslAuth": {
+                      "type": "boolean",
+                      "x-env-value": "DB_ENABLE_SSL_AUTH"
+                    },
+                    "sslPaths": {
+                      "type": "object",
+                      "properties": {
+                        "ca": {
+                          "type": "string",
+                          "x-env-value": "DB_CA_PATH"
+                        },
+                        "key": {
+                          "type": "string",
+                          "x-env-value": "DB_KEY_PATH"
+                        },
+                        "cert": {
+                          "type": "string",
+                          "x-env-value": "DB_CERT_PATH"
+                        }
+                      }
+                    },
+                    "database": {
+                      "type": "string",
+                      "x-env-value": "DB_NAME"
+                    },
+                    "noSupervisor": {
+                      "type": "boolean",
+                      "x-env-value": "NO_SUPERVISOR"
+                    }
+                  }
+                }
+              }
+            },
+            "map": {
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "x-env-value": "MAP_PROVIDER"
+                },
+                "url": {
+                  "type": "string",
+                  "x-env-value": "MAP_URL"
+                },
+                "format": {
+                  "type": "string",
+                  "x-env-value": "MAP_FORMAT"
+                },
+                "client": {
+                  "type": "object",
+                  "properties": {
+                    "timeoutMs": {
+                      "type": "integer",
+                      "x-env-value": "MAP_CLIENT_TIMEOUT_MS"
+                    }
+                  }
+                },
+                "wms": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "x-env-value": "MAP_WMS_VERSION"
+                    },
+                    "layers": {
+                      "type": "string",
+                      "x-env-value": "MAP_WMS_LAYERS"
+                    },
+                    "styles": {
+                      "type": "string",
+                      "x-env-value": "MAP_WMS_STYLES"
+                    }
+                  }
+                }
+              }
+            },
+            "tilesStorage": {
+              "type": "object",
+              "$comment": "//TODO: need to accept env JSON. ",
+              "properties": {
+                "providers": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/definitions/S3StorageProviderConfig"
+                      },
+                      {
+                        "$ref": "#/definitions/FsStorageProviderConfig"
+                      }
+                    ]
+                  }
+                },
+                "layout": {
+                  "type": "object",
+                  "properties": {
+                    "format": {
+                      "type": "string",
+                      "x-env-value": "TILES_STORAGE_LAYOUT_FORMAT"
+                    },
+                    "shouldFlipY": {
+                      "type": "boolean",
+                      "x-env-value": "TILES_STORAGE_LAYOUT_SHOULD_FLIP_Y"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "detiler": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "x-env-value": "DETILER_ENABLED",
+              "type": "boolean"
+            },
+            "proceedOnFailure": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "x-env-value": "DETILER_PROCEED_ON_FAILURE",
+                  "type": "boolean"
+                }
+              }
+            },
+            "client": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "array",
+                  "x-env-value": "DETILER_CLIENT_URL"
+                },
+                "timeout": {
+                  "x-env-value": "DETILER_CLIENT_TIMEOUT",
+                  "type": "integer"
+                },
+                "enableRetryStrategy": {
+                  "x-env-value": "DETILER_CLIENT_ENABLE_RETRY_STRATEGY",
+                  "type": "boolean"
+                },
+                "retryStrategy": {
+                  "type": "object",
+                  "properties": {
+                    "retries": {
+                      "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_RETRIES",
+                      "type": "integer"
+                    },
+                    "shouldResetTimeout": {
+                      "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT",
+                      "type": "boolean"
+                    },
+                    "isExponential": {
+                      "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_IS_EXPONENTIAL",
+                      "type": "boolean"
+                    },
+                    "delay": {
+                      "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_DELAY",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "S3StorageProviderConfig": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["s3"]
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "bucketName": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "forcePathStyle": {
+          "type": "boolean"
+        },
+        "credentials": {
+          "type": "object",
+          "properties": {
+            "accessKeyId": {
+              "type": "string"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "FsStorageProviderConfig": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["fs"]
+        },
+        "basePath": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
