@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/MapColonies/schemas/compare/v1.3.0...v1.3.1) (2025-02-11)
+
+
+### Dependency Updates
+
+* downgraded typescript ([#68](https://github.com/MapColonies/schemas/issues/68)) ([53a1e3c](https://github.com/MapColonies/schemas/commit/53a1e3c05c6c6608793958a05678fc6eb17bddc2))
+
 ## [1.3.0](https://github.com/MapColonies/schemas/compare/v1.2.0...v1.3.0) (2025-01-29)
 
 
