@@ -8,11 +8,11 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
-      "$ref": "#/definitions/vectorOsmChangeGeneratorServerSchemaV1"
+      "$ref": "#/definitions/appSchema"
     }
   ],
   "definitions": {
-    "vectorOsmChangeGeneratorServerSchemaV1": {
+    "appSchema": {
       "type": "object",
       "properties": {
         "app": {
