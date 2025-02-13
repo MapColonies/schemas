@@ -1,0 +1,31 @@
+{
+  "$id": "https://mapcolonies.com/vector/osmChangeGeneratorServer/v1",
+  "type": "object",
+  "title": "vectorOsmChangeGeneratorServerSchemaV1",
+  "description": "Vector's osm-change-generator-server schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "object",
+          "properties": {
+            "shouldHandle3D": {
+              "type": "boolean",
+              "default": false,
+              "x-env-value": "APP_SHOULD_HANDLE_3D"
+            }
+          }
+        }
+      }
+    }
+  }
+}
