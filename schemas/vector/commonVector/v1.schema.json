@@ -1,8 +1,8 @@
 {
-  "$id": "https://mapcolonies.com/vector/replicaServer/v1",
+  "$id": "https://mapcolonies.com/vector/common/v1",
   "type": "object",
-  "title": "replicaServerSchemaV1",
-  "description": "Replica Server's schema",
+  "title": "commonVectorSchemaV1",
+  "description": "common Vector's schema",
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
