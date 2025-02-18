@@ -9,6 +9,9 @@
     },
     {
       "$ref": "#/definitions/appSchema"
+    },
+    {
+      "$ref": "#/definitions/queueSchema"
     }
   ],
   "definitions": {
@@ -83,6 +86,46 @@
             "consumeDelay",
             "force"
           ]
+        }
+      }
+    },
+    "queueSchema": {
+      "type": "object",
+      "required": ["queue"],
+      "properties": {
+        "queue": {
+          "description": "queue configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "expireInSeconds": {
+              "type": "integer",
+              "description": "Time in seconds before the queue expires",
+              "default": 600
+            },
+            "retryBackoff": {
+              "type": "boolean",
+              "description": "Flag to enable retry backoff",
+              "default": true
+            },
+            "retryLimit": {
+              "type": "integer",
+              "description": "Maximum number of retry attempts",
+              "default": 3
+            },
+            "retryDelaySeconds": {
+              "type": "integer",
+              "description": "Delay in seconds between retry attempts",
+              "default": 60
+            },
+            "retentionHours": {
+              "type": "integer",
+              "description": "Time in hours to retain the queue",
+              "default": 87660
+            }
+          },
+          "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionHours"]
         }
       }
     }
