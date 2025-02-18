@@ -1,0 +1,90 @@
+{
+  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+  "type": "object",
+  "title": "metatileQueuePopulatorV1",
+  "description": "Metatile Queue Populator's schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/vector/common/v1"
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "required": ["app"],
+      "properties": {
+        "app": {
+          "description": "app configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "projectName": {
+              "type": "string",
+              "description": "The name of the project"
+            },
+            "enableRequestQueueHandling": {
+              "type": "boolean",
+              "description": "Flag to enable request queue handling",
+              "default": true
+            },
+            "requestQueueCheckIntervalSec": {
+              "type": "integer",
+              "description": "Interval in seconds to check the request queue",
+              "default": 30
+            },
+            "tilesBatchSize": {
+              "type": "integer",
+              "description": "Size of the tiles batch",
+              "default": 10000
+            },
+            "metatileSize": {
+              "type": "integer",
+              "description": "Size of the metatile",
+              "default": 8
+            },
+            "consumeDelay": {
+              "type": "object",
+              "description": "Configuration for consume delay",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Flag to enable consume delay",
+                  "default": false
+                }
+              }
+            },
+            "force": {
+              "type": "object",
+              "description": "Force configuration",
+              "properties": {
+                "api": {
+                  "type": "boolean",
+                  "description": "Flag to force API",
+                  "default": false
+                },
+                "expiredTiles": {
+                  "type": "boolean",
+                  "description": "Flag to force expired tiles",
+                  "default": false
+                }
+              }
+            }
+          },
+          "required": [
+            "projectName",
+            "enableRequestQueueHandling",
+            "requestQueueCheckIntervalSec",
+            "tilesBatchSize",
+            "metatileSize",
+            "consumeDelay",
+            "force"
+          ]
+        }
+      }
+    }
+  }
+}
