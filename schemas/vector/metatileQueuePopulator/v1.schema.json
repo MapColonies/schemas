@@ -64,6 +64,11 @@
                   "type": "boolean",
                   "description": "Flag to enable consume delay",
                   "default": false
+                },
+                "delaySec": {
+                  "type": "number",
+                  "description": "number of seconds for consume delay",
+                  "default": false
                 }
               }
             },
