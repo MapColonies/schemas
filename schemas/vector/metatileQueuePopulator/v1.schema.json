@@ -8,6 +8,13 @@
       "$ref": "https://mapcolonies.com/vector/common/v1"
     },
     {
+      "properties": {
+        "telemetry": {
+          "$ref": "#/definitions/metricsSchema"
+        }
+      }
+    },
+    {
       "$ref": "#/definitions/appSchema"
     },
     {
@@ -126,6 +133,32 @@
             }
           },
           "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionHours"]
+        }
+      }
+    },
+    "metricsSchema": {
+      "type": "object",
+      "required": ["metrics"],
+      "properties": {
+        "metrics": {
+          "description": "metrics configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "buckets": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "default": [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 15, 50, 250, 500]
+            }
+          },
+          "required": ["enabled", "buckets"]
         }
       }
     }
