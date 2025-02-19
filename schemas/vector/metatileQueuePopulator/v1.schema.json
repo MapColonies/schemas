@@ -78,13 +78,11 @@
               "properties": {
                 "api": {
                   "type": "boolean",
-                  "description": "Flag to force API",
-                  "default": false
+                  "description": "Flag to force API"
                 },
                 "expiredTiles": {
                   "type": "boolean",
-                  "description": "Flag to force expired tiles",
-                  "default": false
+                  "description": "Flag to force expired tiles"
                 }
               }
             }
