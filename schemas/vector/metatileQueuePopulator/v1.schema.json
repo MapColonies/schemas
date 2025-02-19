@@ -1,0 +1,169 @@
+{
+  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+  "type": "object",
+  "title": "metatileQueuePopulatorV1",
+  "description": "Metatile Queue Populator's schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/vector/common/v1"
+    },
+    {
+      "properties": {
+        "telemetry": {
+          "$ref": "#/definitions/metricsSchema"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    },
+    {
+      "$ref": "#/definitions/queueSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "required": ["app"],
+      "properties": {
+        "app": {
+          "description": "app configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "projectName": {
+              "type": "string",
+              "description": "The name of the project"
+            },
+            "enableRequestQueueHandling": {
+              "type": "boolean",
+              "description": "Flag to enable request queue handling",
+              "default": true
+            },
+            "requestQueueCheckIntervalSec": {
+              "type": "integer",
+              "description": "Interval in seconds to check the request queue",
+              "default": 30
+            },
+            "tilesBatchSize": {
+              "type": "integer",
+              "description": "Size of the tiles batch",
+              "default": 10000
+            },
+            "metatileSize": {
+              "type": "integer",
+              "description": "Size of the metatile",
+              "default": 8
+            },
+            "consumeDelay": {
+              "type": "object",
+              "description": "Configuration for consume delay",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Flag to enable consume delay",
+                  "default": false
+                },
+                "delaySec": {
+                  "type": "number",
+                  "description": "number of seconds for consume delay",
+                  "default": false
+                }
+              }
+            },
+            "force": {
+              "type": "object",
+              "description": "Force configuration",
+              "properties": {
+                "api": {
+                  "type": "boolean",
+                  "description": "Flag to force API"
+                },
+                "expiredTiles": {
+                  "type": "boolean",
+                  "description": "Flag to force expired tiles"
+                }
+              }
+            }
+          },
+          "required": [
+            "projectName",
+            "enableRequestQueueHandling",
+            "requestQueueCheckIntervalSec",
+            "tilesBatchSize",
+            "metatileSize",
+            "consumeDelay",
+            "force"
+          ]
+        }
+      }
+    },
+    "queueSchema": {
+      "type": "object",
+      "required": ["queue"],
+      "properties": {
+        "queue": {
+          "description": "queue configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "expireInSeconds": {
+              "type": "integer",
+              "description": "Time in seconds before the queue expires",
+              "default": 600
+            },
+            "retryBackoff": {
+              "type": "boolean",
+              "description": "Flag to enable retry backoff",
+              "default": true
+            },
+            "retryLimit": {
+              "type": "integer",
+              "description": "Maximum number of retry attempts",
+              "default": 3
+            },
+            "retryDelaySeconds": {
+              "type": "integer",
+              "description": "Delay in seconds between retry attempts",
+              "default": 60
+            },
+            "retentionHours": {
+              "type": "integer",
+              "description": "Time in hours to retain the queue",
+              "default": 87660
+            }
+          },
+          "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionHours"]
+        }
+      }
+    },
+    "metricsSchema": {
+      "type": "object",
+      "required": ["metrics"],
+      "properties": {
+        "metrics": {
+          "description": "metrics configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "buckets": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "default": [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 15, 50, 250, 500]
+            }
+          },
+          "required": ["enabled", "buckets"]
+        }
+      }
+    }
+  }
+}
