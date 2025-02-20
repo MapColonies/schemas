@@ -1,0 +1,64 @@
+{
+  "$id": "https://mapcolonies.com/common/lookupTablesData/countries/v1",
+  "title": "LookupTablesData",
+  "type": "object",
+  "description": "lookupTablesData countries object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
+    },
+    {
+      "type": "object",
+      "required": ["countries"],
+      "properties": {
+        "countries": {
+          "$ref": "#/definitions/countries"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "countries": {
+      "title": "countries",
+      "description": "An array of country objects.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "The country code (e.g., ISO Alpha-3 code).",
+            "type": "string"
+          },
+          "translation": {
+            "description": "The country translations options.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "description": "The country locale language code.",
+                  "type": "string",
+                  "minLength": 2,
+                  "maxLength": 2,
+                  "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+                },
+                "text": {
+                  "description": "The country locale language.",
+                  "type": "string"
+                }
+              },
+              "required": ["locale", "text"],
+              "additionalProperties": false
+            }
+          },
+          "properties": {
+            "description": "The properties for the country.",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value", "translation"]
+      }
+    }
+  }
+}
