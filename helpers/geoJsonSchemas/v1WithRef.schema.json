@@ -1,0 +1,58 @@
+{
+  "$id": "https://mapcolonies.com/common/lookupTablesData/v1",
+  "title": "LookupTablesData",
+  "type": "object",
+  "description": "lookupTablesData object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
+    },
+    {
+      "type": "object",
+      "required": ["countries"],
+      "properties": {
+        "countries": {
+          "$ref": "#/definitions/countries"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "countries": {
+      "title": "countries",
+      "description": "An array of country objects with geometry and other metadata.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "The country code (e.g., ISO Alpha-3 code).",
+            "type": "string"
+          },
+          "translationCode": {
+            "description": "The translation code for the country's name.",
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "icon": {
+                "description": "URL or identifier for the country's icon (may be empty).",
+                "type": "string"
+              },
+              "regionTranslationCode": {
+                "description": "The translation code for the country's region.",
+                "type": "string"
+              },
+              "geometry": { "$ref": "../../geoJsonSchemas/geometrySchema.schema.json" }
+            },
+            "additionalProperties": false,
+            "required": ["icon", "regionTranslationCode", "geometry"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value", "translationCode", "properties"]
+      }
+    }
+  }
+}
