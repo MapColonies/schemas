@@ -1,4 +1,0 @@
-{
-  "title": "GeoJSON Geometry",
-  "oneOf": [{ "$ref": "./polygon.schema.json" }, { "$ref": "./multiPolygon.schema.json" }]
-}
