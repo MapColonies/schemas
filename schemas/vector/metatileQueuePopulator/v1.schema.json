@@ -34,26 +34,31 @@
           "properties": {
             "projectName": {
               "type": "string",
-              "description": "The name of the project"
+              "description": "The name of the project",
+              "x-env-value": "APP_PROJECT_NAME"
             },
             "enableRequestQueueHandling": {
               "type": "boolean",
               "description": "Flag to enable request queue handling",
+              "x-env-value": "APP_ENABLE_REQUEST_QUEUE_HANDLING",
               "default": true
             },
             "requestQueueCheckIntervalSec": {
               "type": "integer",
               "description": "Interval in seconds to check the request queue",
+              "x-env-value": "APP_REQUEST_QUEUE_CHECK_INTERVAL_SEC",
               "default": 30
             },
             "tilesBatchSize": {
               "type": "integer",
               "description": "Size of the tiles batch",
+              "x-env-value": "APP_TILES_BATCH_SIZE",
               "default": 10000
             },
             "metatileSize": {
               "type": "integer",
               "description": "Size of the metatile",
+              "x-env-value": "APP_METATILE_SIZE",
               "default": 8
             },
             "consumeDelay": {
@@ -63,12 +68,18 @@
                 "enabled": {
                   "type": "boolean",
                   "description": "Flag to enable consume delay",
+                  "x-env-value": "APP_CONSUME_DELAY_ENABLED",
                   "default": false
                 },
                 "delaySec": {
                   "type": "number",
                   "description": "number of seconds for consume delay",
+                  "x-env-value": "APP_CONSUME_DELAY_SEC",
                   "default": false
+                },
+                "tilesQueueSizeLimit" : {
+                  "type": "number",
+                  "x-env-value": "APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT"
                 }
               }
             },
@@ -78,11 +89,15 @@
               "properties": {
                 "api": {
                   "type": "boolean",
-                  "description": "Flag to force API"
+                  "description": "Flag to force API",
+                  "x-env-value": "FORCE_API",
+                  "default": false
                 },
                 "expiredTiles": {
                   "type": "boolean",
-                  "description": "Flag to force expired tiles"
+                  "description": "Flag to force expired tiles",
+                  "x-env-value": "FORCE_EXPIRED_TILES",
+                  "default": false
                 }
               }
             }
@@ -112,26 +127,31 @@
             "expireInSeconds": {
               "type": "integer",
               "description": "Time in seconds before the queue expires",
+              "x-env-value": "QUEUE_JOBS_EXPIRE_IN_SECONDS",
               "default": 600
             },
             "retryBackoff": {
               "type": "boolean",
               "description": "Flag to enable retry backoff",
+              "x-env-value": "QUEUE_JOBS_RETRY_BACKOFF",
               "default": true
             },
             "retryLimit": {
               "type": "integer",
               "description": "Maximum number of retry attempts",
+              "x-env-value": "QUEUE_JOBS_RETRY_LIMIT",
               "default": 3
             },
             "retryDelaySeconds": {
               "type": "integer",
               "description": "Delay in seconds between retry attempts",
+              "x-env-value": "QUEUE_JOBS_RETRY_DELAY_SECONDS",
               "default": 60
             },
             "retentionHours": {
               "type": "integer",
               "description": "Time in hours to retain the queue",
+              "x-env-value": "QUEUE_JOBS_RETENTION_HOURS",
               "default": 87660
             }
           },
