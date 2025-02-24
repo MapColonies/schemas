@@ -40,6 +40,7 @@ jobs:
 
   upload_package:
     needs: [validate_schemas, check_for_changed_files]
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Check out TS Project Git repository
