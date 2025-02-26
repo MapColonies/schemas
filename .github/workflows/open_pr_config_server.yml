@@ -1,0 +1,37 @@
+name: Create PR in Config Server
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Create Pull Request in config-server
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "github-actions[bot]"
+
+          # Clone config-server repo
+          git clone https://github.com/your-org/config-server.git
+          cd config-server
+
+          # Update schemas dependency version in package.json
+          npm install your-org/schemas@latest
+          git commit -am "chore: update schemas dependency to ${{ github.event.release.tag_name }}"
+
+          # Push changes and create a PR
+          git push https://${{ secrets.GITHUB_TOKEN }} master:refs/heads/update-schemas-${{ github.event.release.tag_name }}
+          gh pr create --title "chore: update schemas to ${{ github.event.release.tag_name }}" --body "Auto PR for new release of schemas"
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
