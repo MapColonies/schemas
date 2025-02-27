@@ -20,6 +20,7 @@
           "properties": {
             "shouldHandle3D": {
               "type": "boolean",
+              "description": "Should handle 3D geometries. If true, it will add altitude tag with the GeoJson's geo altitude value.",
               "default": false,
               "x-env-value": "APP_SHOULD_HANDLE_3D"
             }
