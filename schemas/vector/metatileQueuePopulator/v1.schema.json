@@ -81,14 +81,31 @@
                   "default": false
                 },
                 "delaySec": {
-                  "type": "number",
+                  "type": "integer",
                   "description": "number of seconds for consume delay",
-                  "x-env-value": "APP_CONSUME_DELAY_SEC",
-                  "default": false
+                  "x-env-value": "APP_CONSUME_DELAY_SEC"
                 },
                 "tilesQueueSizeLimit": {
                   "type": "number",
+                  "description": "Limit of tiles queue size",
                   "x-env-value": "APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT"
+                }
+              },
+              "if": {
+                "properties": {
+                  "enabled": {
+                    "const": true
+                  }
+                }
+              },
+              "then": {
+                "required": ["delaySec", "tilesQueueSizeLimit"]
+              },
+              "else": {
+                "properties": {
+                  "enabled": {
+                    "const": false
+                  }
                 }
               }
             },
