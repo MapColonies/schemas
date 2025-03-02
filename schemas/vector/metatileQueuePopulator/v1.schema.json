@@ -5,12 +5,21 @@
   "description": "Metatile Queue Populator's schema",
   "allOf": [
     {
-      "$ref": "https://mapcolonies.com/vector/common/v1"
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
       "properties": {
         "telemetry": {
           "$ref": "#/definitions/metricsSchema"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
         }
       }
     },
@@ -77,7 +86,7 @@
                   "x-env-value": "APP_CONSUME_DELAY_SEC",
                   "default": false
                 },
-                "tilesQueueSizeLimit" : {
+                "tilesQueueSizeLimit": {
                   "type": "number",
                   "x-env-value": "APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT"
                 }
