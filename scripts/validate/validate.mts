@@ -123,6 +123,7 @@ async function validateSchema(schema: any, file: string) {
   try {
     const validate = await ajv.compileAsync(schema);
     validate({});
+    validateDefaultValues(schema);
   } catch (error) {
     if (error instanceof Error) {
       return handleError(`Error validating file: ${error.message}`);
@@ -166,6 +167,40 @@ async function validateTsFile(file: string) {
   }
 
   await validateSchema(schema.default, file);
+}
+
+// Checks if the default value is from the schema type(s)
+function isMatchingType(value: any, type: string | string[]): boolean {
+  switch (type) {
+    case 'integer':
+      return Number.isInteger(value);
+    default:
+      if (Array.isArray(type)) {
+        return type.some((t) => typeof value === t);
+      }
+      return typeof value === type;
+  }
+}
+
+// Validates default values against their schema types
+function validateDefaultValues(schema: any) {
+  if (!schema.properties) {
+    if (schema.default !== undefined && !isMatchingType(schema.default, schema.type)) {
+      throw new Error(`default value ${schema.default} from type ${typeof schema.default} should be from type ${schema.type}`);
+    }
+    return;
+  }
+
+  for (const key in schema.properties) {
+    const property = schema.properties[key];
+    if (property.default !== undefined && !isMatchingType(property.default, property.type)) {
+      throw new Error(`default value ${property.default} from type ${typeof property.default} should be from type ${property.type}`);
+    }
+
+    if (property.properties) {
+      validateDefaultValues(property);
+    }
+  }
 }
 
 const directories = ['schemas'];
