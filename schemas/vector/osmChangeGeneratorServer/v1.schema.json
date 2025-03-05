@@ -2,7 +2,7 @@
   "$id": "https://mapcolonies.com/vector/osmChangeGeneratorServer/v1",
   "type": "object",
   "title": "vectorOsmChangeGeneratorServerSchemaV1",
-  "description": "Vector's osm-change-generator-server schema",
+  "description": "Vector's Osm-Change-Generator-Server schema",
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
