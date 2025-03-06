@@ -1,26 +1,10 @@
 {
   "$id": "https://mapcolonies.com/common/lookupTablesData/hotAreas/v1",
-  "title": "LookupTablesData",
+  "title": "hotAreas",
+  "description": "An array of hotAreas objects.",
   "type": "object",
-  "description": "lookupTablesData hotAreas object",
-  "allOf": [
-    {
-      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
-    },
-    {
-      "type": "object",
-      "required": ["hotAreas"],
-      "properties": {
-        "hotAreas": {
-          "$ref": "#/definitions/hotAreas"
-        }
-      }
-    }
-  ],
-  "definitions": {
-    "hotAreas": {
-      "title": "hotAreas",
-      "description": "An array of hotAreas objects.",
+  "properties": {
+    "countries": {
       "type": "array",
       "items": {
         "type": "object",

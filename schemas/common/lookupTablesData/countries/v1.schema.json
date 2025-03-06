@@ -1,26 +1,10 @@
 {
   "$id": "https://mapcolonies.com/common/lookupTablesData/countries/v1",
-  "title": "LookupTablesData",
+  "title": "countries",
+  "description": "An array of country objects.",
   "type": "object",
-  "description": "lookupTablesData countries object",
-  "allOf": [
-    {
-      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
-    },
-    {
-      "type": "object",
-      "required": ["countries"],
-      "properties": {
-        "countries": {
-          "$ref": "#/definitions/countries"
-        }
-      }
-    }
-  ],
-  "definitions": {
+  "properties": {
     "countries": {
-      "title": "countries",
-      "description": "An array of country objects.",
       "type": "array",
       "items": {
         "type": "object",

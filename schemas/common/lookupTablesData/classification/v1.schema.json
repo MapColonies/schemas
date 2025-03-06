@@ -1,26 +1,10 @@
 {
   "$id": "https://mapcolonies.com/common/lookupTablesData/classification/v1",
-  "title": "LookupTablesData",
+  "title": "classification",
+  "description": "An array of classification objects.",
   "type": "object",
-  "description": "lookupTablesData classification object",
-  "allOf": [
-    {
-      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
-    },
-    {
-      "type": "object",
-      "required": ["classification"],
-      "properties": {
-        "classification": {
-          "$ref": "#/definitions/classification"
-        }
-      }
-    }
-  ],
-  "definitions": {
-    "classification": {
-      "title": "classification",
-      "description": "An array of classification objects.",
+  "properties": {
+    "countries": {
       "type": "array",
       "items": {
         "type": "object",
