@@ -22,8 +22,6 @@
                 "locale": {
                   "description": "The country locale language code.",
                   "type": "string",
-                  "minLength": 2,
-                  "maxLength": 2,
                   "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
                 },
                 "text": {

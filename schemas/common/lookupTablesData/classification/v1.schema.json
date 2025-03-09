@@ -4,7 +4,7 @@
   "description": "An array of classification objects.",
   "type": "object",
   "properties": {
-    "countries": {
+    "classification": {
       "type": "array",
       "items": {
         "type": "object",

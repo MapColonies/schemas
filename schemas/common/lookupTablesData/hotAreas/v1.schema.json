@@ -4,7 +4,7 @@
   "description": "An array of hotAreas objects.",
   "type": "object",
   "properties": {
-    "countries": {
+    "hotAreas": {
       "type": "array",
       "items": {
         "type": "object",
