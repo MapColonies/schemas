@@ -1,0 +1,26 @@
+{
+  "$id": "https://mapcolonies.com/common/lookupTablesData/classification/v1",
+  "title": "classification",
+  "description": "An array of classification objects.",
+  "type": "object",
+  "properties": {
+    "classification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "The classification code (e.g., ISO Alpha-3 code).",
+            "type": "string"
+          },
+          "translationCode": {
+            "description": "The translation for the classification value.",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value", "translationCode"]
+      }
+    }
+  }
+}
