@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/MapColonies/schemas/compare/v1.3.0...v1.4.0) (2025-03-18)
+
+
+### Features
+
+* new schemes for LookupTalbles data ([#74](https://github.com/MapColonies/schemas/issues/74)) ([17227e7](https://github.com/MapColonies/schemas/commit/17227e71ea3f6a7505df04f040d50582f82e8b7c))
+
+
+### Dependency Updates
+
+* downgraded typescript ([#68](https://github.com/MapColonies/schemas/issues/68)) ([53a1e3c](https://github.com/MapColonies/schemas/commit/53a1e3c05c6c6608793958a05678fc6eb17bddc2))
+
 ## [1.3.0](https://github.com/MapColonies/schemas/compare/v1.2.0...v1.3.0) (2025-01-29)
 
 
