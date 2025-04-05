@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/MapColonies/schemas/compare/v1.4.0...v1.5.0) (2025-04-05)
+
+
+### Features
+
+* extend validator keywords to include 'x-env-format' ([#82](https://github.com/MapColonies/schemas/issues/82)) ([a313911](https://github.com/MapColonies/schemas/commit/a3139112c0ae07101adce9b0c89f77361b97245a))
+
 ## [1.4.0](https://github.com/MapColonies/schemas/compare/v1.3.0...v1.4.0) (2025-03-18)
 
 
