@@ -278,6 +278,7 @@
     },
     "tilesStorageLayout": {
       "type": "object",
+      "required": ["format"],
       "properties": {
         "format": {
           "type": "string",
