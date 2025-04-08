@@ -14,7 +14,7 @@
         "app": {
           "type": "object",
           "description": "Application configuration",
-          "required": ["queueName", "project", "tilesStorage", "jobQueue"],
+          "required": ["queueName", "map", "project", "tilesStorage", "jobQueue", "parallelism"],
           "unevaluatedProperties": false,
           "properties": {
             "project": {
