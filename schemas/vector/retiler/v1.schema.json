@@ -14,7 +14,7 @@
         "app": {
           "type": "object",
           "description": "Application configuration",
-          "required": ["queueName", "project", "tilesStorage"],
+          "required": ["queueName", "project", "tilesStorage", "jobQueue"],
           "properties": {
             "project": {
               "$ref": "#/definitions/project"
