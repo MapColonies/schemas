@@ -67,10 +67,12 @@
     },
     {
       "type": "object",
+      "required": ["detiler"],
       "properties": {
         "detiler": {
           "type": "object",
           "description": "Detiler configuration",
+          "required": ["enabled"],
           "properties": {
             "enabled": {
               "type": "boolean",
@@ -142,6 +144,7 @@
     "map": {
       "type": "object",
       "description": "DigitalMap provider configuration",
+      "required": ["provider", "url", "format", "wms", "client"],
       "properties": {
         "provider": {
           "enum": ["wms", "arcgis"],
@@ -172,6 +175,7 @@
         },
         "wms": {
           "type": "object",
+          "required": ["version", "layers", "styles"],
           "properties": {
             "version": {
               "type": "string",
@@ -307,6 +311,7 @@
     },
     "detilerClient": {
       "type": "object",
+      "required": ["url"],
       "properties": {
         "url": {
           "type": "string",
