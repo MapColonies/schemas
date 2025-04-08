@@ -208,9 +208,11 @@
     },
     "s3TileStorageProvider": {
       "type": "object",
+      "required": ["type", "endpoint", "bucketName", "region", "credentials"],
       "properties": {
         "type": {
-          "enum": ["s3"]
+          "type": "string",
+          "const": "s3"
         },
         "endpoint": {
           "type": "string",
@@ -230,6 +232,7 @@
         },
         "credentials": {
           "type": "object",
+          "required": ["accessKeyId", "secretAccessKey"],
           "properties": {
             "accessKeyId": {
               "type": "string"
@@ -243,9 +246,11 @@
     },
     "fsTileStorageProvider": {
       "type": "object",
+      "required": ["type", "basePath"],
       "properties": {
         "type": {
-          "enum": ["fs"]
+          "type": "string",
+          "const": "fs"
         },
         "basePath": {
           "type": "string",
