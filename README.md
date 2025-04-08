@@ -109,6 +109,7 @@ export default Type.Strict(schema);
 In order to enable extra abilities and features we have added custom properties that can be added to schemas.
 
 - `x-env-value` - The value from which to pull environment variables to override the config values.
+- `x-env-format` - The format of the environment variable. Can be `json`, for primitive values, leave undefined.
 - `x-populate-as-env` - **_experimental_** Whether to place the value into the environment variable defined in `x-env-value`.
 
 ```json

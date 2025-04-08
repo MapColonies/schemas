@@ -37,7 +37,7 @@ const configAjv = addFormats(
       delete schema.$id;
       return schema;
     },
-    keywords: ['x-env-value'],
+    keywords: ['x-env-value', 'x-populate-as-env', 'x-env-format'],
     useDefaults: true,
     addUsedSchema: false,
   })
