@@ -209,12 +209,12 @@
         }
       }
     },
-    "s3TileStorageProvider": {
+    "s3TilesStorageProvider": {
       "type": "object",
-      "required": ["type", "endpoint", "bucketName", "region", "credentials"],
+      "required": ["kind", "endpoint", "bucketName", "region", "credentials"],
       "unevaluatedProperties": false,
       "properties": {
-        "type": {
+        "kind": {
           "type": "string",
           "const": "s3"
         },
@@ -248,12 +248,12 @@
         }
       }
     },
-    "fsTileStorageProvider": {
+    "fsTilesStorageProvider": {
       "type": "object",
-      "required": ["type", "basePath"],
+      "required": ["kind", "basePath"],
       "unevaluatedProperties": false,
       "properties": {
-        "type": {
+        "kind": {
           "type": "string",
           "const": "fs"
         },
@@ -268,10 +268,10 @@
       "items": {
         "anyOf": [
           {
-            "$ref": "#/definitions/s3TileStorageProvider"
+            "$ref": "#/definitions/s3TilesStorageProvider"
           },
           {
-            "$ref": "#/definitions/fsTileStorageProvider"
+            "$ref": "#/definitions/fsTilesStorageProvider"
           }
         ]
       },
