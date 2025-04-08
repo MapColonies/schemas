@@ -100,13 +100,6 @@
               },
               "then": {
                 "required": ["delaySec", "tilesQueueSizeLimit"]
-              },
-              "else": {
-                "properties": {
-                  "enabled": {
-                    "const": false
-                  }
-                }
               }
             },
             "force": {
