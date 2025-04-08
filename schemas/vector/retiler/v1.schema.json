@@ -127,6 +127,7 @@
     },
     "jobQueue": {
       "type": "object",
+      "required": ["waitTimeout", "pgBoss"],
       "properties": {
         "waitTimeout": {
           "type": "integer",
