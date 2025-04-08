@@ -9,10 +9,12 @@
     },
     {
       "type": "object",
+      "required": ["app"],
       "properties": {
         "app": {
           "type": "object",
           "description": "Application configuration",
+          "required": ["queueName", "project", "tilesStorage"],
           "properties": {
             "project": {
               "$ref": "#/definitions/project"
@@ -158,6 +160,7 @@
         },
         "client": {
           "type": "object",
+          "required": ["timeoutMs"],
           "properties": {
             "timeoutMs": {
               "type": "integer",
