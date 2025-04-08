@@ -46,6 +46,7 @@
             "tilesStorage": {
               "type": "object",
               "description": "Tiles storage configuration",
+              "required": ["providers", "layout"],
               "properties": {
                 "providers": {
                   "$ref": "#/definitions/tilesStorageProviders"
@@ -178,6 +179,7 @@
           "required": ["version", "layers", "styles"],
           "properties": {
             "version": {
+              "$comment": "Should I use enum instead of string?",
               "type": "string",
               "description": "WMS version",
               "default": "1.3.0",
