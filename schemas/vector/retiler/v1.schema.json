@@ -212,6 +212,7 @@
     "s3TileStorageProvider": {
       "type": "object",
       "required": ["type", "endpoint", "bucketName", "region", "credentials"],
+      "unevaluatedProperties": false,
       "properties": {
         "type": {
           "type": "string",
@@ -250,6 +251,7 @@
     "fsTileStorageProvider": {
       "type": "object",
       "required": ["type", "basePath"],
+      "unevaluatedProperties": false,
       "properties": {
         "type": {
           "type": "string",
