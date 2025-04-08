@@ -1,0 +1,46 @@
+{
+  "$id": "https://mapcolonies.com/common/lookupTablesData/countries/v1",
+  "title": "countries",
+  "description": "An array of country objects.",
+  "type": "object",
+  "properties": {
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "The country code (e.g., ISO Alpha-3 code).",
+            "type": "string"
+          },
+          "translation": {
+            "description": "The country translations options.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "description": "The country locale language code.",
+                  "type": "string",
+                  "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+                },
+                "text": {
+                  "description": "The country locale language.",
+                  "type": "string"
+                }
+              },
+              "required": ["locale", "text"],
+              "additionalProperties": false
+            }
+          },
+          "properties": {
+            "description": "The properties for the country.",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value", "translation"]
+      }
+    }
+  }
+}

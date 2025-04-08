@@ -1,0 +1,30 @@
+{
+  "$id": "https://mapcolonies.com/common/lookupTablesData/hotAreas/v1",
+  "title": "hotAreas",
+  "description": "An array of hotAreas objects.",
+  "type": "object",
+  "properties": {
+    "hotAreas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "description": "The hotArea name.",
+            "type": "string"
+          },
+          "translationCode": {
+            "description": "The translation for the hotArea value.",
+            "type": "string"
+          },
+          "properties": {
+            "description": "The properties for the hotArea.",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value", "translationCode", "properties"]
+      }
+    }
+  }
+}
