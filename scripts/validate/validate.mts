@@ -102,7 +102,7 @@ async function validateRefs(schema: string) {
 
 async function validateSchema(schema: any, file: string) {
   const ajv = new AjvModule.default({
-    keywords: ['x-env-value', 'x-populate-as-env'],
+    keywords: ['x-env-value', 'x-populate-as-env', 'x-env-format'],
     allErrors: true,
     discriminator: true,
     useDefaults: true,
