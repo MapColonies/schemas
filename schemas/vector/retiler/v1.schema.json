@@ -15,7 +15,6 @@
           "type": "object",
           "description": "Application configuration",
           "required": ["queueName", "map", "project", "tilesStorage", "jobQueue", "parallelism"],
-
           "properties": {
             "project": {
               "$ref": "#/definitions/project"
@@ -70,7 +69,6 @@
     {
       "type": "object",
       "required": ["detiler"],
-
       "properties": {
         "detiler": {
           "type": "object",
@@ -141,14 +139,22 @@
           "x-env-value": "QUEUE_WAIT_TIMEOUT"
         },
         "pgBoss": {
-          "allOf": [{ "$ref": "https://mapcolonies.com/common/db/full/v1" }],
-          "properties": {
-            "noSupervisor": {
-              "type": "boolean",
-              "default": true,
-              "description": "Disable pgBoss supervisor"
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/db/full/v1"
+            },
+            {
+              "type": "object",
+              "unevaluatedProperties": false,
+              "properties": {
+                "noSupervisor": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Disable pgBoss supervisor"
+                }
+              }
             }
-          }
+          ]
         }
       }
     },
@@ -219,7 +225,7 @@
     "s3TilesStorageProvider": {
       "type": "object",
       "required": ["kind", "endpoint", "bucketName", "region", "credentials"],
-
+      "additionalProperties": true,
       "properties": {
         "kind": {
           "type": "string",
@@ -258,7 +264,8 @@
     "fsTilesStorageProvider": {
       "type": "object",
       "required": ["kind", "basePath"],
-
+      "additionalProperties": false,
+      "description": "File system tiles storage provider",
       "properties": {
         "kind": {
           "type": "string",
