@@ -1,0 +1,34 @@
+{
+  "$id": "https://mapcolonies.com/common/db/full/v2",
+  "description": "The full database schema including schema and database name",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/db/partial/v1"
+    },
+    {
+      "$ref": "#/definitions/db"
+    }
+  ],
+  "unevaluatedProperties": true,
+  "definitions": {
+    "db": {
+      "type": "object",
+      "required": ["database"],
+      "properties": {
+        "schema": {
+          "type": "string",
+          "description": "The schema name of the database",
+          "default": "public",
+          "x-env-value": "DB_SCHEMA"
+        },
+        "database": {
+          "type": "string",
+          "description": "The database name",
+          "maxLength": 63,
+          "x-env-value": "DB_NAME"
+        }
+      }
+    }
+  }
+}
