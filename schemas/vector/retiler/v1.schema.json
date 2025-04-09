@@ -141,7 +141,14 @@
           "x-env-value": "QUEUE_WAIT_TIMEOUT"
         },
         "pgBoss": {
-          "$ref": "https://mapcolonies.com/common/db/full/v1"
+          "allOf": [{ "$ref": "https://mapcolonies.com/common/db/full/v1" }],
+          "properties": {
+            "noSupervisor": {
+              "type": "boolean",
+              "default": true,
+              "description": "Disable pgBoss supervisor"
+            }
+          }
         }
       }
     },
