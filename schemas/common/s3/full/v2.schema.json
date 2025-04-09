@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/common/s3/full/v1",
+  "$id": "https://mapcolonies.com/common/s3/full/v2",
   "description": "The full S3 schema including bucket",
   "type": "object",
   "unevaluatedProperties": true,
