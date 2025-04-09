@@ -15,7 +15,7 @@
           "type": "object",
           "description": "Application configuration",
           "required": ["queueName", "map", "project", "tilesStorage", "jobQueue", "parallelism"],
-          "unevaluatedProperties": false,
+
           "properties": {
             "project": {
               "$ref": "#/definitions/project"
@@ -70,7 +70,7 @@
     {
       "type": "object",
       "required": ["detiler"],
-      "unevaluatedProperties": false,
+
       "properties": {
         "detiler": {
           "type": "object",
@@ -219,7 +219,7 @@
     "s3TilesStorageProvider": {
       "type": "object",
       "required": ["kind", "endpoint", "bucketName", "region", "credentials"],
-      "unevaluatedProperties": false,
+
       "properties": {
         "kind": {
           "type": "string",
@@ -258,7 +258,7 @@
     "fsTilesStorageProvider": {
       "type": "object",
       "required": ["kind", "basePath"],
-      "unevaluatedProperties": false,
+
       "properties": {
         "kind": {
           "type": "string",
