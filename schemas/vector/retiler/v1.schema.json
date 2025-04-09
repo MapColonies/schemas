@@ -141,11 +141,10 @@
         "pgBoss": {
           "allOf": [
             {
-              "$ref": "https://mapcolonies.com/common/db/full/v1"
+              "$ref": "https://mapcolonies.com/common/db/full/v2"
             },
             {
               "type": "object",
-              "unevaluatedProperties": false,
               "properties": {
                 "noSupervisor": {
                   "type": "boolean",
