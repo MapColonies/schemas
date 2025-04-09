@@ -1,0 +1,9 @@
+[
+  {
+    "name": "infra-opala-db",
+    "value": {
+      "$ref": { "configName": "db-connection", "version": "latest" },
+      "database": "infra-auth-manager"
+    }
+  }
+]
