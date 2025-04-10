@@ -1,0 +1,70 @@
+{
+  "$id": "https://mapcolonies.com/vector/common/v1",
+  "type": "object",
+  "title": "commonVectorSchemaV1",
+  "description": "common Vector's schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/objectStorageSchema"
+    }
+  ],
+  "definitions": {
+    "objectStorageSchema": {
+      "type": "object",
+      "required": ["objectStorage"],
+      "properties": {
+        "objectStorage": {
+          "description": "objectStorage configuration",
+          "type": "object",
+          "default": {},
+          "unevaluatedProperties": false,
+          "examples": [
+            {
+              "protocol": "http",
+              "host": "some_object_storage_host.com",
+              "port": 9000
+            }
+          ],
+          "properties": {
+            "protocol": {
+              "type": "string",
+              "description": "The object storage's protocol type",
+              "x-env-value": "OBJECT_STORAGE_PROTOCOL"
+            },
+            "host": {
+              "type": "string",
+              "description": "The object storage's host url/address",
+              "x-env-value": "OBJECT_STORAGE_HOST"
+            },
+            "projectId": {
+              "type": "string",
+              "description": "The object storage's project id (optional)",
+              "x-env-value": "OBJECT_STORAGE_PROJECT_ID"
+            },
+            "port": {
+              "minimum": 1,
+              "maximum": 65535,
+              "default": 9000,
+              "description": "The port the server will listen on",
+              "type": "integer",
+              "x-env-value": "OBJECT_STORAGE_PORT"
+            }
+          },
+          "required": ["protocol", "host", "port"]
+        }
+      }
+    }
+  }
+}
