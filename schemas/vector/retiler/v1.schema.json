@@ -47,6 +47,7 @@
               "type": "object",
               "description": "Tiles storage configuration",
               "required": ["providers", "layout"],
+              "unevaluatedProperties": false,
               "properties": {
                 "providers": {
                   "$ref": "#/definitions/tilesStorageProviders"
@@ -224,7 +225,7 @@
     "s3TilesStorageProvider": {
       "type": "object",
       "required": ["kind", "endpoint", "bucketName", "region", "credentials"],
-      "additionalProperties": true,
+      "unevaluatedProperties": false,
       "properties": {
         "kind": {
           "type": "string",
@@ -249,6 +250,7 @@
         "credentials": {
           "type": "object",
           "required": ["accessKeyId", "secretAccessKey"],
+          "unevaluatedProperties": false,
           "properties": {
             "accessKeyId": {
               "type": "string"
@@ -263,7 +265,7 @@
     "fsTilesStorageProvider": {
       "type": "object",
       "required": ["kind", "basePath"],
-      "additionalProperties": false,
+      "unevaluatedProperties": false,
       "description": "File system tiles storage provider",
       "properties": {
         "kind": {
@@ -294,6 +296,7 @@
     "tilesStorageLayout": {
       "type": "object",
       "required": ["format"],
+      "unevaluatedProperties": false,
       "properties": {
         "format": {
           "type": "string",
@@ -352,28 +355,12 @@
         },
         "enableRetryStrategy": {
           "type": "boolean",
+          "default": false,
           "description": "Enable retry strategy",
           "x-env-value": "DETILER_CLIENT_ENABLE_RETRY_STRATEGY"
         },
         "retryStrategy": {
           "$ref": "#/definitions/detilerClientRetryStrategy"
-        }
-      },
-      "if": {
-        "properties": {
-          "enableRetryStrategy": {
-            "const": true
-          }
-        }
-      },
-      "then": {
-        "required": ["retryStrategy"]
-      },
-      "else": {
-        "properties": {
-          "enableRetryStrategy": {
-            "const": false
-          }
         }
       }
     }
