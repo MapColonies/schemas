@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.0](https://github.com/MapColonies/schemas/compare/v1.4.0...v1.5.0) (2025-04-14)
+
+
+### Features
+
+* add vector common schema ([#67](https://github.com/MapColonies/schemas/issues/67)) ([f01879f](https://github.com/MapColonies/schemas/commit/f01879ff668aa3a335b1eb51cf7d8cf3bb469143))
+* allow unevaluated properties for DB and S3 schemas ([#84](https://github.com/MapColonies/schemas/issues/84)) ([d3aea81](https://github.com/MapColonies/schemas/commit/d3aea81fc173def1988781d2bf94103f43f98523))
+* extend validator keywords to include 'x-env-format' ([#82](https://github.com/MapColonies/schemas/issues/82)) ([a313911](https://github.com/MapColonies/schemas/commit/a3139112c0ae07101adce9b0c89f77361b97245a))
+
 ## [1.4.0](https://github.com/MapColonies/schemas/compare/v1.3.0...v1.4.0) (2025-03-18)
 
 
