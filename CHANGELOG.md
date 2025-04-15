@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/MapColonies/schemas/compare/v1.5.0...v1.6.0) (2025-04-14)
+
+
+### Features
+
+* created retiler schema ([#63](https://github.com/MapColonies/schemas/issues/63)) ([67a8a25](https://github.com/MapColonies/schemas/commit/67a8a25e3e63360c30641fb38ce4086833eec438))
+
 ## [1.5.0](https://github.com/MapColonies/schemas/compare/v1.4.0...v1.5.0) (2025-04-14)
 
 
