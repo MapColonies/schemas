@@ -164,7 +164,7 @@
         },
         {
           "type": "object",
-          "required": ["kind", "bucket"],
+          "required": ["kind"],
           "description": "S3 tiles storage provider",
           "properties": {
             "kind": {
