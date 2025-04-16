@@ -47,11 +47,8 @@
             "tilesStorage": {
               "type": "object",
               "description": "Tiles storage configuration",
-              "required": ["providers", "layout"],
+              "required": ["layout"],
               "properties": {
-                "providers": {
-                  "$ref": "#/definitions/tilesStorageProviders"
-                },
                 "layout": {
                   "$ref": "#/definitions/tilesStorageLayout"
                 }
@@ -156,55 +153,6 @@
         }
       },
       "else": {}
-    },
-    "s3TilesStorageProvider": {
-      "allOf": [
-        {
-          "$ref": "https://mapcolonies.com/common/s3/full/v2"
-        },
-        {
-          "type": "object",
-          "required": ["kind"],
-          "description": "S3 tiles storage provider",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "s3"
-            }
-          }
-        }
-      ]
-    },
-    "fsTilesStorageProvider": {
-      "type": "object",
-      "required": ["kind", "basePath"],
-      "description": "File system tiles storage provider",
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "fs"
-        },
-        "basePath": {
-          "type": "string",
-          "description": "File system path"
-        }
-      }
-    },
-    "tilesStorageProviders": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "anyOf": [
-          {
-            "$ref": "#/definitions/s3TilesStorageProvider"
-          },
-          {
-            "$ref": "#/definitions/fsTilesStorageProvider"
-          }
-        ]
-      },
-      "x-env-value": "TILES_STORAGE_PROVIDERS",
-      "x-env-format": "json"
     },
     "tilesStorageLayout": {
       "type": "object",
