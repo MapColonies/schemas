@@ -1,0 +1,57 @@
+[
+  {
+    "name": "vector-retiler-shared",
+    "value": {
+      "telemetry": {
+        "shared": {
+          "serviceName": "retiler"
+        },
+        "tracing": {
+          "isEnabled": false
+        },
+        "logger": {
+          "level": "info",
+          "prettyPrint": false
+        }
+      },
+      "openapiConfig": {
+        "filePath": "./openapi3.yaml",
+        "basePath": "/docs",
+        "rawPath": "/api",
+        "uiPath": "/api"
+      },
+      "server": {
+        "port": 8080,
+        "request": {
+          "payload": {
+            "limit": "1mb"
+          }
+        },
+        "response": {}
+      },
+      "app": {
+        "forceProcess": false,
+        "jobQueue": {
+          "pgBoss": { "noSupervisor": true },
+          "waitTimeout": 60000
+        },
+        "map": {
+          "format": "image/png",
+          "client": {
+            "timeoutMs": 600000
+          }
+        },
+        "parallelism": 15,
+        "tilesStorage": {
+          "layout": {
+            "shouldFlipY": true
+          },
+          "shouldFilterBlankTiles": true
+        }
+      },
+      "detiler": {
+        "enabled": false
+      }
+    }
+  }
+]
