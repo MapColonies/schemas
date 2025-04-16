@@ -60,50 +60,6 @@
           }
         }
       }
-    },
-    {
-      "type": "object",
-      "required": ["detiler"],
-      "properties": {
-        "detiler": {
-          "type": "object",
-          "description": "Detiler configuration",
-          "required": ["enabled"],
-          "properties": {
-            "enabled": {
-              "type": "boolean",
-              "description": "Enable Detiler",
-              "default": false,
-              "x-env-value": "DETILER_ENABLED"
-            },
-            "proceedOnFailure": {
-              "type": "boolean",
-              "default": false,
-              "x-env-value": "DETILER_PROCEED_ON_FAILURE"
-            },
-            "client": {
-              "$ref": "#/definitions/detilerClient"
-            }
-          },
-          "if": {
-            "properties": {
-              "enabled": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "required": ["client"]
-          },
-          "else": {
-            "properties": {
-              "enabled": {
-                "const": false
-              }
-            }
-          }
-        }
-      }
     }
   ],
   "definitions": {
@@ -154,6 +110,7 @@
         },
         "wms": {
           "type": "object",
+          "required": ["version"],
           "properties": {
             "version": {
               "$comment": "Should I use enum instead of string?",
@@ -187,62 +144,21 @@
           "provider": {
             "const": "wms"
           }
-        },
-        "then": {
-          "required": ["wms"],
-          "properties": {
-            "wms": {
-              "required": ["version", "layers", "styles"]
-            }
-          }
-        },
-        "else": {
-          "properties": {
-            "wms": {
-              "required": ["version"]
-            }
+        }
+      },
+      "then": {
+        "required": ["wms"],
+        "properties": {
+          "wms": {
+            "type": "object",
+            "required": ["layers", "styles"]
           }
         }
-      }
+      },
+      "else": {}
     },
     "s3TilesStorageProvider": {
-      "type": "object",
-      "required": ["kind", "endpoint", "bucketName", "region", "credentials"],
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "s3"
-        },
-        "endpoint": {
-          "type": "string",
-          "description": "S3 endpoint"
-        },
-        "bucketName": {
-          "type": "string",
-          "description": "S3 bucket name"
-        },
-        "region": {
-          "type": "string",
-          "description": "S3 region"
-        },
-        "forcePathStyle": {
-          "type": "boolean",
-          "description": "Force path style"
-        },
-        "credentials": {
-          "type": "object",
-          "required": ["accessKeyId", "secretAccessKey"],
-
-          "properties": {
-            "accessKeyId": {
-              "type": "string"
-            },
-            "secretAccessKey": {
-              "type": "string"
-            }
-          }
-        }
-      }
+      "$ref": "https://mapcolonies.com/common/s3/full/v1"
     },
     "fsTilesStorageProvider": {
       "type": "object",
@@ -284,59 +200,6 @@
           "pattern": "^.+\\{z\\}\\/\\{x\\}\\/\\{y\\}\\..+$",
           "description": "Tiles storage layout format",
           "x-env-value": "TILES_STORAGE_LAYOUT_FORMAT"
-        }
-      }
-    },
-    "detilerClientRetryStrategy": {
-      "type": "object",
-      "required": ["retries", "shouldResetTimeout", "isExponential", "delay"],
-      "properties": {
-        "retries": {
-          "type": "integer",
-          "description": "Number of retries",
-          "default": 3,
-          "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_RETRIES"
-        },
-        "shouldResetTimeout": {
-          "type": "boolean",
-          "description": "Should reset timeout",
-          "default": true,
-          "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT"
-        },
-        "isExponential": {
-          "type": "boolean",
-          "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_IS_EXPONENTIAL"
-        },
-        "delay": {
-          "type": "integer",
-          "description": "Delay in milliseconds",
-          "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_DELAY"
-        }
-      }
-    },
-    "detilerClient": {
-      "type": "object",
-      "required": ["url"],
-      "properties": {
-        "url": {
-          "type": "string",
-          "description": "Detiler client URL",
-          "x-env-value": "DETILER_CLIENT_URL"
-        },
-        "timeout": {
-          "type": "integer",
-          "description": "Detiler client timeout in milliseconds",
-          "default": 60000,
-          "x-env-value": "DETILER_CLIENT_TIMEOUT"
-        },
-        "enableRetryStrategy": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable retry strategy",
-          "x-env-value": "DETILER_CLIENT_ENABLE_RETRY_STRATEGY"
-        },
-        "retryStrategy": {
-          "$ref": "#/definitions/detilerClientRetryStrategy"
         }
       }
     }
