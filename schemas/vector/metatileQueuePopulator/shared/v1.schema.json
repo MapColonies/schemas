@@ -1,8 +1,8 @@
 {
-  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
   "type": "object",
-  "title": "metatileQueuePopulatorV1",
-  "description": "Metatile Queue Populator's schema",
+  "title": "metatileQueuePopulatorSharedV1",
+  "description": "Metatile Queue Populator's shared schema",
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
@@ -19,7 +19,7 @@
       "required": ["db"],
       "properties": {
         "db": {
-          "$ref": "https://mapcolonies.com/common/db/full/v1"
+          "$ref": "https://mapcolonies.com/common/db/partial/v1"
         }
       }
     },
@@ -38,14 +38,7 @@
         "app": {
           "description": "app configuration",
           "type": "object",
-          "default": {},
-          "unevaluatedProperties": false,
           "properties": {
-            "projectName": {
-              "type": "string",
-              "description": "The name of the project",
-              "x-env-value": "APP_PROJECT_NAME"
-            },
             "enableRequestQueueHandling": {
               "type": "boolean",
               "description": "Flag to enable request queue handling",
@@ -121,15 +114,7 @@
               }
             }
           },
-          "required": [
-            "projectName",
-            "enableRequestQueueHandling",
-            "requestQueueCheckIntervalSec",
-            "tilesBatchSize",
-            "metatileSize",
-            "consumeDelay",
-            "force"
-          ]
+          "required": ["enableRequestQueueHandling", "requestQueueCheckIntervalSec", "tilesBatchSize", "metatileSize", "consumeDelay", "force"]
         }
       }
     },
@@ -141,7 +126,6 @@
           "description": "queue configuration",
           "type": "object",
           "default": {},
-          "unevaluatedProperties": false,
           "properties": {
             "expireInSeconds": {
               "type": "integer",
@@ -186,7 +170,6 @@
           "description": "metrics configuration",
           "type": "object",
           "default": {},
-          "unevaluatedProperties": false,
           "properties": {
             "enabled": {
               "type": "boolean",
