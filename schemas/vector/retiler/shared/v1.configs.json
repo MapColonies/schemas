@@ -43,6 +43,7 @@
         },
         "parallelism": 15,
         "tilesStorage": {
+          "providers": [],
           "layout": {
             "shouldFlipY": true
           },
