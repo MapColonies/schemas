@@ -1,7 +1,7 @@
 {
   "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
   "type": "object",
-  "title": "metatileQueuePopulatorV1",
+  "title": "metatileQueuePopulatorFullV1",
   "description": "Metatile Queue Populator's full schema",
   "unevaluatedProperties": false,
   "allOf": [
