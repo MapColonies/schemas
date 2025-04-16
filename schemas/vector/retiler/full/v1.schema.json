@@ -158,7 +158,22 @@
       "else": {}
     },
     "s3TilesStorageProvider": {
-      "$ref": "https://mapcolonies.com/common/s3/full/v1"
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/s3/full/v1"
+        },
+        {
+          "type": "object",
+          "required": ["kind", "bucket"],
+          "description": "S3 tiles storage provider",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "s3"
+            }
+          }
+        }
+      ]
     },
     "fsTilesStorageProvider": {
       "type": "object",
