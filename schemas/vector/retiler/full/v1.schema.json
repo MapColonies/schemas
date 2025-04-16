@@ -3,6 +3,7 @@
   "type": "object",
   "title": "vectorRetilerFullSchemaV1",
   "description": "Vector's Retiler full schema",
+  "unevaluatedProperties": false,
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/vector/retiler/shared/v1"
@@ -14,7 +15,6 @@
         "app": {
           "type": "object",
           "description": "Application configuration",
-          "unevaluatedProperties": false,
           "required": ["queueName", "map", "project", "tilesStorage", "jobQueue", "parallelism"],
           "properties": {
             "project": {
@@ -160,7 +160,7 @@
     "s3TilesStorageProvider": {
       "allOf": [
         {
-          "$ref": "https://mapcolonies.com/common/s3/full/v1"
+          "$ref": "https://mapcolonies.com/common/s3/full/v2"
         },
         {
           "type": "object",
