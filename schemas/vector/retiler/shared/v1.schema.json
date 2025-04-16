@@ -152,7 +152,6 @@
     },
     "tilesStorageLayout": {
       "type": "object",
-      "required": ["format"],
       "properties": {
         "shouldFlipY": {
           "type": "boolean",
