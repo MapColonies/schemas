@@ -1,7 +1,7 @@
 {
-  "$id": "https://mapcolonies.com/vector/retiler/v1",
+  "$id": "https://mapcolonies.com/vector/retiler/shared/v1",
   "type": "object",
-  "title": "vectorRetilerSchemaV1",
+  "title": "vectorRetilerSharedSchemaV1",
   "description": "Vector's Retiler schema",
   "allOf": [
     {
@@ -14,22 +14,13 @@
         "app": {
           "type": "object",
           "description": "Application configuration",
-          "required": ["queueName", "map", "project", "tilesStorage", "jobQueue", "parallelism"],
+          "required": ["map", "tilesStorage", "jobQueue", "parallelism"],
           "properties": {
-            "project": {
-              "$ref": "#/definitions/project"
-            },
             "forceProcess": {
               "type": "boolean",
               "description": "Force process all tiles",
               "default": false,
               "x-env-value": "APP_FORCE_PROCESS"
-            },
-            "queueName": {
-              "type": "string",
-              "description": "Job queue name",
-              "default": "retiler-queue",
-              "x-env-value": "QUEUE_NAME"
             },
             "parallelism": {
               "type": "integer",
@@ -46,12 +37,8 @@
             "tilesStorage": {
               "type": "object",
               "description": "Tiles storage configuration",
-              "required": ["providers", "layout"],
-              "unevaluatedProperties": false,
+              "required": ["layout"],
               "properties": {
-                "providers": {
-                  "$ref": "#/definitions/tilesStorageProviders"
-                },
                 "layout": {
                   "$ref": "#/definitions/tilesStorageLayout"
                 },
@@ -113,37 +100,18 @@
     }
   ],
   "definitions": {
-    "project": {
-      "type": "object",
-      "description": "Project configuration",
-      "required": ["name", "stateUrl"],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Project name",
-          "x-env-value": "APP_PROJECT_NAME"
-        },
-        "stateUrl": {
-          "type": "string",
-          "description": "Project rendered state URL",
-          "x-env-value": "APP_PROJECT_STATE_URL"
-        }
-      }
-    },
     "jobQueue": {
       "type": "object",
-      "required": ["waitTimeout", "pgBoss"],
+      "required": ["waitTimeout"],
       "properties": {
         "waitTimeout": {
           "type": "integer",
+          "default": 60000,
           "description": "Job queue wait timeout in milliseconds",
           "x-env-value": "QUEUE_WAIT_TIMEOUT"
         },
         "pgBoss": {
           "allOf": [
-            {
-              "$ref": "https://mapcolonies.com/common/db/full/v2"
-            },
             {
               "type": "object",
               "properties": {
@@ -161,18 +129,8 @@
     "map": {
       "type": "object",
       "description": "DigitalMap provider configuration",
-      "required": ["provider", "url", "format", "wms", "client"],
+      "required": ["format", "client"],
       "properties": {
-        "provider": {
-          "enum": ["wms", "arcgis"],
-          "description": "DigitalMap provider kind",
-          "x-env-value": "MAP_PROVIDER"
-        },
-        "url": {
-          "type": "string",
-          "description": "DigitalMap provider URL",
-          "x-env-value": "MAP_URL"
-        },
         "format": {
           "enum": ["jpg", "jpeg", "image/jpeg", "image/png", "image/webp"],
           "description": "DigitalMap provider output format",
@@ -189,120 +147,13 @@
               "x-env-value": "MAP_CLIENT_TIMEOUT_MS"
             }
           }
-        },
-        "wms": {
-          "type": "object",
-          "required": ["version", "layers", "styles"],
-          "properties": {
-            "version": {
-              "$comment": "Should I use enum instead of string?",
-              "type": "string",
-              "description": "WMS version",
-              "default": "1.3.0",
-              "x-env-value": "MAP_WMS_VERSION"
-            },
-            "layers": {
-              "type": "string",
-              "description": "WMS layers",
-              "x-env-value": "MAP_WMS_LAYERS"
-            },
-            "styles": {
-              "type": "string",
-              "description": "WMS styles",
-              "x-env-value": "MAP_WMS_STYLES"
-            },
-            "isZoomLayers": {
-              "type": "boolean",
-              "description": "Is zoom layers project",
-              "default": false,
-              "x-env-value": "MAP_WMS_ZOOM_LAYERS",
-              "$comment": "This will be deleted in the future with new QGIS versions"
-            }
-          }
         }
       }
-    },
-    "s3TilesStorageProvider": {
-      "type": "object",
-      "required": ["kind", "endpoint", "bucketName", "region", "credentials"],
-      "unevaluatedProperties": false,
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "s3"
-        },
-        "endpoint": {
-          "type": "string",
-          "description": "S3 endpoint"
-        },
-        "bucketName": {
-          "type": "string",
-          "description": "S3 bucket name"
-        },
-        "region": {
-          "type": "string",
-          "description": "S3 region"
-        },
-        "forcePathStyle": {
-          "type": "boolean",
-          "description": "Force path style"
-        },
-        "credentials": {
-          "type": "object",
-          "required": ["accessKeyId", "secretAccessKey"],
-          "unevaluatedProperties": false,
-          "properties": {
-            "accessKeyId": {
-              "type": "string"
-            },
-            "secretAccessKey": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "fsTilesStorageProvider": {
-      "type": "object",
-      "required": ["kind", "basePath"],
-      "unevaluatedProperties": false,
-      "description": "File system tiles storage provider",
-      "properties": {
-        "kind": {
-          "type": "string",
-          "const": "fs"
-        },
-        "basePath": {
-          "type": "string",
-          "description": "File system path"
-        }
-      }
-    },
-    "tilesStorageProviders": {
-      "type": "array",
-      "items": {
-        "anyOf": [
-          {
-            "$ref": "#/definitions/s3TilesStorageProvider"
-          },
-          {
-            "$ref": "#/definitions/fsTilesStorageProvider"
-          }
-        ]
-      },
-      "x-env-value": "TILES_STORAGE_PROVIDERS",
-      "x-env-format": "json"
     },
     "tilesStorageLayout": {
       "type": "object",
       "required": ["format"],
-      "unevaluatedProperties": false,
       "properties": {
-        "format": {
-          "type": "string",
-          "description": "Tiles storage layout format",
-          "x-env-value": "TILES_STORAGE_LAYOUT_FORMAT"
-        },
         "shouldFlipY": {
           "type": "boolean",
           "description": "Should flip Y",
