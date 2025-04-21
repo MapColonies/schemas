@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/common/redis/partial/v1",
+  "$id": "https://mapcolonies.com/common/redis/v1",
   "description": "redis configuration",
   "type": "object",
   "required": ["host", "port", "username", "password", "ssl", "dbIndex"],
