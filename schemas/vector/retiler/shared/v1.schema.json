@@ -211,7 +211,7 @@
     "tilesStorageProviders": {
       "type": "array",
       "items": {
-        "anyOf": [
+        "oneOf": [
           {
             "$ref": "#/definitions/s3TilesStorageProvider"
           },
