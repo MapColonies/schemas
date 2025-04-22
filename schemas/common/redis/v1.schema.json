@@ -2,7 +2,7 @@
   "$id": "https://mapcolonies.com/common/redis/v1",
   "description": "redis configuration",
   "type": "object",
-  "required": ["host", "port", "username", "password", "ssl", "dbIndex"],
+  "required": ["host", "port", "username", "password", "ssl"],
   "unevaluatedProperties": true,
   "properties": {
     "host": {
@@ -35,7 +35,6 @@
     "dbIndex": {
       "type": "integer",
       "description": "the index of the database",
-      "default": 0,
       "x-env-value": "REDIS_DB_INDEX"
     }
   },
