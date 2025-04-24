@@ -8,7 +8,6 @@
     "host": {
       "type": "string",
       "description": "the host of the database",
-      "default": "localhost",
       "x-env-value": "REDIS_HOST"
     },
     "port": {
@@ -20,13 +19,11 @@
     "username": {
       "type": "string",
       "description": "the username of the database",
-      "default": "",
       "x-env-value": "REDIS_USERNAME"
     },
     "password": {
       "type": "string",
       "description": "the password of the database",
-      "default": "",
       "x-env-value": "REDIS_PASSWORD"
     },
     "tls": {
