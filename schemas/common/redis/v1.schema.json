@@ -2,7 +2,7 @@
   "$id": "https://mapcolonies.com/common/redis/v1",
   "description": "redis configuration",
   "type": "object",
-  "required": ["host", "port", "username", "password", "ssl"],
+  "required": ["host", "port", "username", "password", "tls"],
   "unevaluatedProperties": true,
   "properties": {
     "host": {
@@ -29,8 +29,8 @@
       "default": "",
       "x-env-value": "REDIS_PASSWORD"
     },
-    "ssl": {
-      "$ref": "#/definitions/ssl"
+    "tls": {
+      "$ref": "#/definitions/tls"
     },
     "dbIndex": {
       "type": "integer",
@@ -39,15 +39,15 @@
     }
   },
   "definitions": {
-    "ssl": {
+    "tls": {
       "type": "object",
-      "description": "ssl configuration",
+      "description": "TLS configuration",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "enable ssl",
+          "description": "enable tls",
           "default": false,
-          "x-env-value": "REDIS_ENABLE_SSL_AUTH"
+          "x-env-value": "REDIS_ENABLE_TLS_AUTH"
         },
         "ca": {
           "type": "string",
