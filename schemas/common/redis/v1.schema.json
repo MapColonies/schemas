@@ -33,6 +33,11 @@
       "type": "integer",
       "description": "the index of the database",
       "x-env-value": "REDIS_DB_INDEX"
+    },
+    "prefix": {
+      "type": "string",
+      "description": "prefix to be used in as part of the key",
+      "$comment": "completly optional. please validate that your used redis client supports prefix. if not, adress it manually"
     }
   },
   "definitions": {
