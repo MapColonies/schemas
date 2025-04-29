@@ -37,7 +37,7 @@
     "prefix": {
       "type": "string",
       "description": "prefix to be used in as part of the key",
-      "$comment": "completly optional. please validate that your used redis client supports prefix. if not, adress it manually"
+      "$comment": "this is optional. please make sure that your redis client supports using prefix. if not, adress it manually."
     }
   },
   "definitions": {
