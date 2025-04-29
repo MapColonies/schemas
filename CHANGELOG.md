@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/MapColonies/schemas/compare/v1.6.0...v1.7.0) (2025-04-29)
+
+
+### Features
+
+* created common redis schema ([#92](https://github.com/MapColonies/schemas/issues/92)) ([70a50d6](https://github.com/MapColonies/schemas/commit/70a50d6e85c797c8a1be46bba4e55e6d0176caf5))
+
 ## [1.6.0](https://github.com/MapColonies/schemas/compare/v1.5.0...v1.6.0) (2025-04-14)
 
 
