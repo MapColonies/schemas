@@ -84,7 +84,7 @@
     },
     "telemetry": {
       "type": "object",
-      "required": ["logger"],
+      "required": ["logger", "tracing", "shared"],
       "properties": {
         "logger": {
           "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
