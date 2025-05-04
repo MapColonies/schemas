@@ -6,6 +6,9 @@
         "logger": {
           "level": "info",
           "prettyPrint": false
+        },
+        "tracing": {
+          "$ref": { "configName": "common-tracing", "version": "latest" }
         }
       },
       "db": {
