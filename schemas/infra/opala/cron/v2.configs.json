@@ -9,7 +9,8 @@
         },
         "tracing": {
           "$ref": { "configName": "common-tracing", "version": "latest" }
-        }
+        },
+        "shared": {}
       },
       "db": {
         "$ref": { "configName": "infra-opala-db", "version": "latest" }
