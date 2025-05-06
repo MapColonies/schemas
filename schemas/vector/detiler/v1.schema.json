@@ -45,24 +45,6 @@
           "x-env-value": "TELEMETRY_METRICS_INTERVAL",
           "description": "The interval in seconds to send metrics"
         }
-      },
-      "unevaluatedProperties": false,
-      "if": {
-        "properties": {
-          "enabled": {
-            "const": true
-          }
-        }
-      },
-      "then": {
-        "required": ["url", "interval"]
-      },
-      "else": {
-        "properties": {
-          "enabled": {
-            "const": false
-          }
-        }
       }
     }
   }
