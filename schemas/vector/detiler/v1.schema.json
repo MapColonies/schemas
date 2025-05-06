@@ -1,0 +1,67 @@
+{
+  "$id": "https://mapcolonies.com/vector/detiler/v1",
+  "type": "object",
+  "title": "vectorDetilerSchemaV1",
+  "description": "Vector's detiler schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "properties": {
+        "telemetry": {
+          "$ref": "#/definitions/metrics"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["redis"],
+      "properties": {
+        "redis": {
+          "$ref": "https://mapcolonies.com/common/redis/v1"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-env-value": "TELEMETRY_METRICS_ENABLED",
+          "default": false
+        },
+        "url": {
+          "type": "string",
+          "x-env-value": "TELEMETRY_METRICS_URL",
+          "description": "The URL of the metrics server. could be http or https",
+          "pattern": "^https?:\/\/.*"
+        },
+        "interval": {
+          "type": "integer",
+          "x-env-value": "TELEMETRY_METRICS_INTERVAL",
+          "description": "The interval in seconds to send metrics"
+        }
+      },
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["url", "interval"]
+      },
+      "else": {
+        "properties": {
+          "enabled": {
+            "const": false
+          }
+        }
+      }
+    }
+  }
+}
