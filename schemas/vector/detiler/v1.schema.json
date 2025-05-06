@@ -27,6 +27,7 @@
   "definitions": {
     "metrics": {
       "type": "object",
+      "description": "metrics configuration",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -45,6 +46,7 @@
           "description": "The interval in seconds to send metrics"
         }
       },
+      "unevaluatedProperties": false,
       "if": {
         "properties": {
           "enabled": {
