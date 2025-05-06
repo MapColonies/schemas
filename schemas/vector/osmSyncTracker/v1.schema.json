@@ -19,7 +19,7 @@
       "required": ["db"],
       "properties": {
         "db": {
-          "$ref": "https://mapcolonies.com/common/db/full/v1"
+          "$ref": "https://mapcolonies.com/common/db/full/v2"
         }
       }
     },
