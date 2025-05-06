@@ -33,7 +33,13 @@
       }
     },
     {
-      "$ref": "#/definitions/closure"
+      "type": "object",
+      "required": ["closure"],
+      "properties": {
+        "closure": {
+          "$ref": "#/definitions/closure"
+        }
+      }
     }
   ],
   "definitions": {
@@ -77,17 +83,23 @@
     },
     "closure": {
       "type": "object",
+      "required": ["uiPath", "queues"],
       "properties": {
         "uiPath": {
           "type": "string",
-          "x-env-value": "CLOSURE_UI_PATH",
-          "description": "The path to the closure UI"
+          "description": "The path to the closure UI",
+          "default": "/closure",
+          "pattern": "^/.*",
+          "x-env-value": "CLOSURE_UI_PATH"
         },
         "queues": {
           "type": "object",
+          "required": ["changesets", "files", "syncs"],
+          "additionalProperties": false,
           "properties": {
             "changesets": {
               "type": "object",
+              "required": ["queueOptions", "jobOptions", "workerOptions"],
               "properties": {
                 "queueOptions": {
                   "$ref": "#/definitions/changesetsQueueOptions"
@@ -102,6 +114,7 @@
             },
             "files": {
               "type": "object",
+              "required": ["queueOptions", "jobOptions", "workerOptions"],
               "properties": {
                 "queueOptions": {
                   "$ref": "#/definitions/filesQueueOptions"
@@ -116,6 +129,7 @@
             },
             "syncs": {
               "type": "object",
+              "required": ["queueOptions", "jobOptions", "workerOptions"],
               "properties": {
                 "queueOptions": {
                   "$ref": "#/definitions/syncsQueueOptions"
@@ -133,78 +147,64 @@
       }
     },
     "changesetsQueueOptions": {
-      "type": "object",
-      "properties": {
-        "queueOptions": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/queueOptions"
+      "allOf": [
+        {
+          "$ref": "#/definitions/queueOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "enabledBatchJobs": {
+              "x-env-value": "CHANGESETS_QUEUE_ENABLED_BATCH_JOBS",
+              "default": true
             },
-            {
-              "type": "object",
-              "properties": {
-                "enabledBatchJobs": {
-                  "x-env-value": "CHANGESETS_QUEUE_ENABLED_BATCH_JOBS",
-                  "default": true
-                },
-                "maxBatchSize": {
-                  "x-env-value": "CHANGESETS_QUEUE_MAX_BATCH_SIZE",
-                  "default": 10
-                }
-              }
+            "maxBatchSize": {
+              "x-env-value": "CHANGESETS_QUEUE_MAX_BATCH_SIZE",
+              "default": 10
             }
-          ]
+          }
         }
-      }
+      ]
     },
     "filesQueueOptions": {
-      "type": "object",
-      "properties": {
-        "queueOptions": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/queueOptions"
+      "allOf": [
+        {
+          "$ref": "#/definitions/queueOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "enabledBatchJobs": {
+              "x-env-value": "FILES_QUEUE_ENABLED_BATCH_JOBS",
+              "default": false
             },
-            {
-              "type": "object",
-              "properties": {
-                "enabledBatchJobs": {
-                  "x-env-value": "FILES_QUEUE_ENABLED_BATCH_JOBS",
-                  "default": false
-                },
-                "maxBatchSize": {
-                  "x-env-value": "FILES_QUEUE_MAX_BATCH_SIZE",
-                  "default": 10
-                }
-              }
+            "maxBatchSize": {
+              "x-env-value": "FILES_QUEUE_MAX_BATCH_SIZE",
+              "default": 10
             }
-          ]
+          }
         }
-      }
+      ]
     },
     "syncsQueueOptions": {
-      "type": "object",
-      "properties": {
-        "queueOptions": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/queueOptions"
+      "allOf": [
+        {
+          "$ref": "#/definitions/queueOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "enabledBatchJobs": {
+              "x-env-value": "SYNCS_QUEUE_ENABLED_BATCH_JOBS",
+              "default": false
             },
-            {
-              "type": "object",
-              "properties": {
-                "enabledBatchJobs": {
-                  "x-env-value": "SYNCS_QUEUE_ENABLED_BATCH_JOBS",
-                  "default": false
-                },
-                "maxBatchSize": {
-                  "x-env-value": "SYNCS_QUEUE_MAX_BATCH_SIZE"
-                }
-              }
+            "maxBatchSize": {
+              "x-env-value": "SYNCS_QUEUE_MAX_BATCH_SIZE",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             }
-          ]
+          }
         }
-      }
+      ]
     },
     "changesetsJobOptions": {
       "allOf": [
@@ -338,33 +338,40 @@
           "type": "object",
           "properties": {
             "concurrency": {
-              "x-env-value": "CHANGESETS_QUEUE_WORKER_CONCURRENCY"
+              "x-env-value": "CHANGESETS_QUEUE_WORKER_CONCURRENCY",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "limiter": {
               "type": "object",
               "properties": {
                 "max": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_LIMITER_MAX"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_LIMITER_MAX",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "duration": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_LIMITER_DURATION"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_LIMITER_DURATION",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
             "maxStalledCount": {
-              "x-env-value": "CHANGESETS_QUEUE_WORKER_MAX_STALLED_COUNT"
+              "x-env-value": "CHANGESETS_QUEUE_WORKER_MAX_STALLED_COUNT",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "stalledInterval": {
-              "x-env-value": "CHANGESETS_QUEUE_WORKER_STALLED_INTERVAL"
+              "x-env-value": "CHANGESETS_QUEUE_WORKER_STALLED_INTERVAL",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "removeOnComplete": {
               "type": "object",
               "properties": {
                 "age": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_COMPLETE_AGE"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_COMPLETE_AGE",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "count": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_COMPLETE_COUNT"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_COMPLETE_COUNT",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
@@ -372,24 +379,29 @@
               "type": "object",
               "properties": {
                 "age": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_FAIL_AGE"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_FAIL_AGE",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "count": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_FAIL_COUNT"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_REMOVE_ON_FAIL_COUNT",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
             "transactionIsolationLevel": {
-              "x-env-value": "CHANGESETS_QUEUE_WORKER_TRANSACTION_ISOLATION_LEVEL"
+              "x-env-value": "CHANGESETS_QUEUE_WORKER_TRANSACTION_ISOLATION_LEVEL",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "transactionFailureDelay": {
               "type": "object",
               "properties": {
                 "minimum": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MIN"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MIN",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "maximum": {
-                  "x-env-value": "CHANGESETS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MAX"
+                  "x-env-value": "CHANGESETS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MAX",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             }
@@ -406,33 +418,40 @@
           "type": "object",
           "properties": {
             "concurrency": {
-              "x-env-value": "FILES_QUEUE_WORKER_CONCURRENCY"
+              "x-env-value": "FILES_QUEUE_WORKER_CONCURRENCY",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "limiter": {
               "type": "object",
               "properties": {
                 "max": {
-                  "x-env-value": "FILES_QUEUE_WORKER_LIMITER_MAX"
+                  "x-env-value": "FILES_QUEUE_WORKER_LIMITER_MAX",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "duration": {
-                  "x-env-value": "FILES_QUEUE_WORKER_LIMITER_DURATION"
+                  "x-env-value": "FILES_QUEUE_WORKER_LIMITER_DURATION",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
             "maxStalledCount": {
-              "x-env-value": "FILES_QUEUE_WORKER_MAX_STALLED_COUNT"
+              "x-env-value": "FILES_QUEUE_WORKER_MAX_STALLED_COUNT",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "stalledInterval": {
-              "x-env-value": "FILES_QUEUE_WORKER_STALLED_INTERVAL"
+              "x-env-value": "FILES_QUEUE_WORKER_STALLED_INTERVAL",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "removeOnComplete": {
               "type": "object",
               "properties": {
                 "age": {
-                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_COMPLETE_AGE"
+                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_COMPLETE_AGE",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "count": {
-                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_COMPLETE_COUNT"
+                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_COMPLETE_COUNT",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
@@ -440,24 +459,29 @@
               "type": "object",
               "properties": {
                 "age": {
-                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_FAIL_AGE"
+                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_FAIL_AGE",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "count": {
-                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_FAIL_COUNT"
+                  "x-env-value": "FILES_QUEUE_WORKER_REMOVE_ON_FAIL_COUNT",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
             "transactionIsolationLevel": {
-              "x-env-value": "FILES_QUEUE_WORKER_TRANSACTION_ISOLATION_LEVEL"
+              "x-env-value": "FILES_QUEUE_WORKER_TRANSACTION_ISOLATION_LEVEL",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "transactionFailureDelay": {
               "type": "object",
               "properties": {
                 "minimum": {
-                  "x-env-value": "FILES_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MIN"
+                  "x-env-value": "FILES_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MIN",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "maximum": {
-                  "x-env-value": "FILES_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MAX"
+                  "x-env-value": "FILES_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MAX",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             }
@@ -474,33 +498,40 @@
           "type": "object",
           "properties": {
             "concurrency": {
-              "x-env-value": "SYNCS_QUEUE_WORKER_CONCURRENCY"
+              "x-env-value": "SYNCS_QUEUE_WORKER_CONCURRENCY",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "limiter": {
               "type": "object",
               "properties": {
                 "max": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_LIMITER_MAX"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_LIMITER_MAX",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "duration": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_LIMITER_DURATION"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_LIMITER_DURATION",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
             "maxStalledCount": {
-              "x-env-value": "SYNCS_QUEUE_WORKER_MAX_STALLED_COUNT"
+              "x-env-value": "SYNCS_QUEUE_WORKER_MAX_STALLED_COUNT",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "stalledInterval": {
-              "x-env-value": "SYNCS_QUEUE_WORKER_STALLED_INTERVAL"
+              "x-env-value": "SYNCS_QUEUE_WORKER_STALLED_INTERVAL",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "removeOnComplete": {
               "type": "object",
               "properties": {
                 "age": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_COMPLETE_AGE"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_COMPLETE_AGE",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "count": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_COMPLETE_COUNT"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_COMPLETE_COUNT",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
@@ -508,24 +539,29 @@
               "type": "object",
               "properties": {
                 "age": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_FAIL_AGE"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_FAIL_AGE",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "count": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_FAIL_COUNT"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_REMOVE_ON_FAIL_COUNT",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             },
             "transactionIsolationLevel": {
-              "x-env-value": "SYNCS_QUEUE_WORKER_TRANSACTION_ISOLATION_LEVEL"
+              "x-env-value": "SYNCS_QUEUE_WORKER_TRANSACTION_ISOLATION_LEVEL",
+              "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
             },
             "transactionFailureDelay": {
               "type": "object",
               "properties": {
                 "minimum": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MIN"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MIN",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 },
                 "maximum": {
-                  "x-env-value": "SYNCS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MAX"
+                  "x-env-value": "SYNCS_QUEUE_WORKER_TRANSACTION_FAILURE_DELAY_MAX",
+                  "$comment": "Must add some comment. See this issue for more details: https://github.com/MapColonies/schemas/issues/96"
                 }
               }
             }
@@ -537,7 +573,8 @@
       "type": "object",
       "properties": {
         "enabledBatchJobs": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "maxBatchSize": {
           "type": "integer"
@@ -591,12 +628,14 @@
     },
     "workerOptions": {
       "type": "object",
+      "required": ["transactionFailureDelay"],
       "properties": {
         "concurrency": {
           "type": "integer"
         },
         "limiter": {
           "type": "object",
+          "required": ["max", "duration"],
           "properties": {
             "max": {
               "type": "integer"
@@ -636,16 +675,19 @@
         },
         "transactionIsolationLevel": {
           "type": "string",
-          "enum": ["READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE"]
+          "enum": ["READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE"],
+          "default": "SERIALIZABLE"
         },
         "transactionFailureDelay": {
           "type": "object",
           "properties": {
             "minimum": {
-              "type": "integer"
+              "type": "integer",
+              "default": "10000"
             },
             "maximum": {
-              "type": "integer"
+              "type": "integer",
+              "default": "10000"
             }
           }
         }
