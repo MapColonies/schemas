@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/MapColonies/schemas/compare/v1.7.0...v1.8.0) (2025-05-07)
+
+
+### Features
+
+* **opala:** added tracing config to opala cron ([#94](https://github.com/MapColonies/schemas/issues/94)) ([6d86a6c](https://github.com/MapColonies/schemas/commit/6d86a6cfca86c27a2f2dd44a1a94e149e3c362e7))
+
 ## [1.7.0](https://github.com/MapColonies/schemas/compare/v1.6.0...v1.7.0) (2025-04-29)
 
 
