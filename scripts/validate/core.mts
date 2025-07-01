@@ -39,6 +39,7 @@ const configAjv = addFormats(
     },
     keywords: ['x-env-value', 'x-populate-as-env', 'x-env-format'],
     useDefaults: true,
+    discriminator: true,
     addUsedSchema: false,
   })
 );
