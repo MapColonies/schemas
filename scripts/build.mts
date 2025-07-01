@@ -67,8 +67,9 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
   // write the ts file with the generated schema
   await fsPromise.writeFile(
     typescriptFileName,
-    `import { FromSchema } from 'json-schema-to-ts';
+    `import type { FromExtendedSchema } from "json-schema-to-ts";
 import { typeSymbol } from '${path.join(relativePath, 'symbol.js')}';
+type CustomProps = {"x-env-value": string ;};
 const exported = { 
   [typeSymbol]: '' as unknown as intermediateSchemaType,
 ${stringifiedSchema.trimEnd().substring(1)} as const;\n`,
@@ -112,7 +113,8 @@ for await (const file of filesTreeGenerator(schemasFolder)) {
 
   const schemaTs = 'const schema = ' + JSON.stringify(dereferencedSchema) + ' as const;';
 
-  const intermediateSchemaType = 'type intermediateSchemaType = FromSchema<typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;';
+  const intermediateSchemaType =
+    'type intermediateSchemaType = FromExtendedSchema<CustomProps ,typeof schema, {parseIfThenElseKeywords: true, parseNotKeyword: true}>;';
 
   const schemaType = 'export type schemaType = (typeof exported)[typeof typeSymbol];';
 
