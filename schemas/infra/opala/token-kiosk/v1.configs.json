@@ -1,0 +1,39 @@
+[
+  {
+    "name": "infra-token-kiosk",
+    "value": {
+      "telemetry": {
+        "logger": {
+          "level": "info",
+          "prettyPrint": false
+        },
+        "shared": {},
+        "tracing": { "$ref": { "configName": "common-tracing", "version": "latest" } }
+      },
+      "db": {
+        "$ref": { "configName": "infra-opala-db", "version": "latest" }
+      },
+      "auth": {
+        "openid": {
+          "clientId": "opala-token-kiosk",
+          "issuerBaseUrl": "https://auth.mapcolonies.com/realms/opala",
+          "baseUrl": "https://token-kiosk.mapcolonies.com",
+          "secret": "your-secret-key",
+          "clientSecret": "your-client-secret",
+          "scopes": "openid profile email"
+        }
+      },
+      "token": {
+        "expirationDuration": "1h",
+        "jwt": {
+          "subject": "c2b",
+          "issuer": "token-kiosk"
+        },
+        "authManager": {
+          "baseUrl": "https://auth.mapcolonies.com",
+          "cacheTtlHours": 1
+        }
+      }
+    }
+  }
+]
