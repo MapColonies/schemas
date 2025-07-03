@@ -20,7 +20,9 @@
           "baseUrl": "https://token-kiosk.mapcolonies.com",
           "secret": "your-secret-key",
           "clientSecret": "your-client-secret",
-          "scopes": "openid profile email"
+          "scopes": "openid profile email",
+          "idField": "email",
+          "metadataFields": ["email"]
         }
       },
       "token": {

@@ -30,7 +30,7 @@
       "properties": {
         "openid": {
           "type": "object",
-          "required": ["clientId", "issuerBaseUrl", "baseUrl", "secret", "clientSecret", "scopes"],
+          "required": ["clientId", "issuerBaseUrl", "baseUrl", "secret", "clientSecret", "scopes", "idField", "metadataFields"],
           "properties": {
             "clientId": {
               "type": "string",
@@ -65,6 +65,7 @@
             "metadataFields": {
               "type": "array",
               "uniqueItems": true,
+              "minItems": 1,
               "items": {
                 "type": "string"
               },
