@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.0](https://github.com/MapColonies/schemas/compare/v1.8.0...v1.9.0) (2025-07-07)
+
+
+### Features
+
+* add discriminator option to configAjv ([#99](https://github.com/MapColonies/schemas/issues/99)) ([d3c20ab](https://github.com/MapColonies/schemas/commit/d3c20abbba0526aef33a93f51a43238d3059de5f))
+* added support for schemaId in config ref ([#103](https://github.com/MapColonies/schemas/issues/103)) ([f6a6379](https://github.com/MapColonies/schemas/commit/f6a637989a9d1b2fbb65c0493155af29f6b240c9))
+
+
+### Bug Fixes
+
+* support single x-env-value providing ([#101](https://github.com/MapColonies/schemas/issues/101)) ([c9aff84](https://github.com/MapColonies/schemas/commit/c9aff84a391c3c59be1feb72af69ce2c7c05b25f))
+
 ## [1.8.0](https://github.com/MapColonies/schemas/compare/v1.7.0...v1.8.0) (2025-05-07)
 
 
