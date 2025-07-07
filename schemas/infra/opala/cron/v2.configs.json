@@ -8,18 +8,18 @@
           "prettyPrint": false
         },
         "tracing": {
-          "$ref": { "configName": "common-tracing", "version": "latest" }
+          "$ref": { "configName": "common-tracing", "version": "latest", "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1" }
         },
         "shared": {}
       },
       "db": {
-        "$ref": { "configName": "infra-opala-db", "version": "latest" }
+        "$ref": { "configName": "infra-opala-db", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/full/v1" }
       },
       "cron": {
         "prod": {
           "pattern": "*/5 * * * *",
           "s3": {
-            "$ref": { "configName": "infra-opala-s3", "version": "latest" },
+            "$ref": { "configName": "infra-opala-s3", "version": "latest", "schemaId": "https://mapcolonies.com/common/s3/full/v1" },
             "key": "prod-bundle"
           }
         }

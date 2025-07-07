@@ -2,7 +2,7 @@
   {
     "name": "infra-opala-s3",
     "value": {
-      "$ref": { "configName": "s3-connection", "version": "latest" },
+      "$ref": { "configName": "s3-connection", "version": "latest", "schemaId": "https://mapcolonies.com/common/s3/partial/v1" },
       "bucket": "infra-opala"
     }
   }
