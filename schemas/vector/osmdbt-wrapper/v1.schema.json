@@ -1,0 +1,265 @@
+{
+  "$id": "https://mapcolonies.com/vector/osmdbt-wrapper/v1",
+  "type": "object",
+  "title": "vectorOsmdbtWrapperSchemaV1",
+  "description": "Vector OSMDBT-wrapper's schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "type": "object",
+      "required": ["objectStorage"],
+      "properties": {
+        "objectStorage": {
+          "$ref": "#/definitions/objectStorage",
+          "description": "Configuration for the object storage used by the application"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["app"],
+      "properties": {
+        "app": {
+          "$ref": "#/definitions/app",
+          "description": "Application configuration including cron settings and info collection"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["osmdbt"],
+      "properties": {
+        "osmdbt": {
+          "$ref": "#/definitions/osmdbt",
+          "description": "Configuration for OSMDBT including directories and logging settings"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["osmium"],
+      "properties": {
+        "osmium": {
+          "$ref": "#/definitions/osmium",
+          "description": "Configuration for Osmium commands including verbosity and progress settings"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["arstotzka"],
+      "properties": {
+        "arstotzka": {
+          "$ref": "#/definitions/arstotzka",
+          "description": "Configuration for Arstotzka service including mediator settings and retry strategy"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "objectStorage": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/s3/full/v2"
+        }
+      ]
+    },
+    "app": {
+      "type": "object",
+      "required": ["cron"],
+      "properties": {
+        "shouldCollectInfo": {
+          "type": "boolean",
+          "description": "Indicates whether the application should collect information",
+          "default": false,
+          "x-env-value": "APP_SHOULD_COLLECT_INFO"
+        },
+        "cron": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "isEnabled": {
+              "type": "boolean",
+              "description": "Indicates whether the cron job is enabled",
+              "default": false,
+              "x-env-value": "APP_CRON_ENABLED"
+            },
+            "expression": {
+              "type": "string",
+              "description": "Cron expression for scheduling the job",
+              "x-env-value": "APP_CRON_EXPRESSION"
+            },
+            "failurePenaltySeconds": {
+              "type": "integer",
+              "description": "Time in seconds to wait before retrying a failed job",
+              "default": 60,
+              "minimum": 0,
+              "x-env-value": "APP_CRON_FAILURE_PENALTY_SECONDS"
+            }
+          },
+          "if": {
+            "properties": {
+              "isEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["expression", "failurePenaltySeconds"]
+          },
+          "else": {
+            "properties": {
+              "isEnabled": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "osmdbt": {
+      "type": "object",
+      "required": ["changesDir", "logDir", "getLogMaxChanges", "verbose"],
+      "additionalProperties": false,
+      "properties": {
+        "changesDir": {
+          "type": "string",
+          "x-env-value": "OSMDBT_CHANGES_DIR"
+        },
+        "logDir": {
+          "type": "string",
+          "x-env-value": "OSMDBT_LOG_DIR"
+        },
+        "getLogMaxChanges": {
+          "type": "integer",
+          "description": "Maximum number of changes to retrieve from the log",
+          "minimum": 1,
+          "x-env-value": "OSMDBT_GET_LOG_MAX_CHANGES"
+        },
+        "verbose": {
+          "type": "boolean",
+          "description": "Enable verbose logging",
+          "x-env-value": "OSMDBT_VERBOSE"
+        }
+      }
+    },
+    "osmium": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verbose", "progress"],
+      "properties": {
+        "verbose": {
+          "type": "boolean",
+          "description": "Enable verbose logging for osmium commands",
+          "x-env-value": "OSMIUM_VERBOSE"
+        },
+        "progress": {
+          "type": "boolean",
+          "description": "Enable progress output for osmium commands",
+          "x-env-value": "OSMIUM_PROGRESS"
+        }
+      }
+    },
+    "arstotzka": {
+      "type": "object",
+      "required": ["isEnabled"],
+      "additionalProperties": false,
+      "properties": {
+        "isEnabled": {
+          "const": true,
+          "description": "Indicates whether the Arstotzka is enabled"
+        },
+        "serviceId": {
+          "type": "string",
+          "description": "The service ID for Arstotzka",
+          "x-env-value": "ARSTOTZKA_SERVICE_ID"
+        },
+        "mediator": {
+          "type": "object",
+          "required": ["url", "timeout", "retryStrategy", "actiony", "locky"],
+          "properties": {
+            "timeout": {
+              "type": "integer",
+              "description": "Timeout for mediator operations",
+              "minimum": 1,
+              "x-env-value": "MEDIATOR_TIMEOUT"
+            },
+            "retryStrategy": {
+              "type": "object",
+              "required": ["isEnabled"],
+              "properties": {
+                "isEnabled": {
+                  "type": "boolean",
+                  "description": "Enable retry strategy for mediator operations",
+                  "x-env-value": "MEDIATOR_ENABLE_RETRY_STRATEGY"
+                },
+                "retries": {
+                  "type": "integer",
+                  "description": "Number of retries for mediator operations",
+                  "minimum": 0,
+                  "x-env-value": "MEDIATOR_RETRIES"
+                },
+                "shouldResetTimeout": {
+                  "type": "boolean",
+                  "description": "Indicates whether to reset the timeout after each retry",
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT"
+                },
+                "isExponential": {
+                  "type": "boolean",
+                  "description": "Indicates whether the retry strategy is exponential",
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_IS_EXPONENTIAL"
+                },
+                "delay": {
+                  "type": "integer",
+                  "description": "Delay in milliseconds between retries",
+                  "minimum": 0,
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_DELAY"
+                }
+              },
+              "if": {
+                "properties": {
+                  "isEnabled": {
+                    "const": true
+                  }
+                }
+              },
+              "then": {
+                "required": ["retries", "shouldResetTimeout", "isExponential", "delay"]
+              },
+              "else": {
+                "properties": {
+                  "isEnabled": {
+                    "const": false
+                  }
+                }
+              }
+            },
+            "actiony": {
+              "type": "object",
+              "required": ["url"],
+              "properties": {
+                "url": {
+                  "description": "The actiony service URL",
+                  "x-env-value": "MEDIATOR_ACTIONY_URL"
+                }
+              }
+            },
+            "locky": {
+              "type": "object",
+              "required": ["url"],
+              "properties": {
+                "url": {
+                  "description": "The locky service URL",
+                  "x-env-value": "MEDIATOR_LOCKY_URL"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
