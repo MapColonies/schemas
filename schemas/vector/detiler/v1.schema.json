@@ -32,6 +32,7 @@
         "enabled": {
           "type": "boolean",
           "x-env-value": "TELEMETRY_METRICS_ENABLED",
+          "description": "Indicate if Telemetry metrics should be sent",
           "default": false
         },
         "url": {
