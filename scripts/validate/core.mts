@@ -12,12 +12,14 @@ const addFormats = addFormatsImport.default;
 export type ConfigReference = {
   configName: string;
   version: 1 | 'latest';
+  schemaId: string;
 };
 
 const configRefSchema: JSONSchemaType<ConfigReference> = {
-  required: ['configName', 'version'],
+  required: ['configName', 'version', 'schemaId'],
   properties: {
     configName: { type: 'string' },
+    schemaId: { type: 'string' },
     version: {
       oneOf: [
         { type: 'number', minimum: 1, maximum: 1 },
