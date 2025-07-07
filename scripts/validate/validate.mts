@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import AjvModule from 'ajv/dist/2019.js';
-import * as draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' assert { type: 'json' };
+import * as draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json' with { type: 'json' };
 import addFormats from 'ajv-formats';
 import { $RefParser } from '@apidevtools/json-schema-ref-parser';
 import { presult, result } from '../util/index.mjs';
