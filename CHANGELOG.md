@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/MapColonies/schemas/compare/v1.9.0...v1.10.0) (2025-07-10)
+
+
+### Features
+
+* **token-kiosk:** created schema ([#102](https://github.com/MapColonies/schemas/issues/102)) ([257315b](https://github.com/MapColonies/schemas/commit/257315b677e268e64cbb002213b5fd9b96d53f7e))
+
 ## [1.9.0](https://github.com/MapColonies/schemas/compare/v1.8.0...v1.9.0) (2025-07-07)
 
 
