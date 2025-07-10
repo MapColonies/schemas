@@ -8,10 +8,12 @@
           "prettyPrint": false
         },
         "shared": {},
-        "tracing": { "$ref": { "configName": "common-tracing", "version": "latest" } }
+        "tracing": {
+          "$ref": { "configName": "common-tracing", "version": "latest", "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1" }
+        }
       },
       "db": {
-        "$ref": { "configName": "infra-opala-db", "version": "latest" }
+        "$ref": { "configName": "infra-opala-db", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/full/v1" }
       },
       "auth": {
         "openid": {

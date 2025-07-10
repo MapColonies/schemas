@@ -124,6 +124,22 @@
           }
         }
       }
+    },
+    "guides": {
+      "type": "object",
+      "properties": {
+        "qgis": {
+          "type": "string",
+          "format": "uri",
+          "description": "The guide URL for QGIS"
+        },
+        "arcgis": {
+          "type": "string",
+          "format": "uri",
+          "description": "The guide URL for ArcGIS",
+          "default": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }
+      }
     }
   }
 }
