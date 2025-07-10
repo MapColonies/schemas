@@ -127,11 +127,13 @@
     },
     "guides": {
       "type": "object",
+      "required": ["qgis", "arcgis"],
       "properties": {
         "qgis": {
           "type": "string",
           "format": "uri",
-          "description": "The guide URL for QGIS"
+          "description": "The guide URL for QGIS",
+          "default": "https://www.youtube.com/watch?v=X2WH8mHJnhM"
         },
         "arcgis": {
           "type": "string",
