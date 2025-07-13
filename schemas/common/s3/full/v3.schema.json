@@ -1,0 +1,42 @@
+{
+  "$id": "https://mapcolonies.com/common/s3/full/v3",
+  "description": "The full S3 schema including bucket",
+  "type": "object",
+  "unevaluatedProperties": true,
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/s3/partial/v1"
+    },
+    {
+      "$ref": "#/definitions/S3"
+    }
+  ],
+  "definitions": {
+    "S3": {
+      "type": "object",
+      "required": ["bucket"],
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "description": "The bucket name",
+          "x-env-value": "S3_BUCKET"
+        },
+        "acl": {
+          "type": "string",
+          "description": "The ACL for the bucket",
+          "default": "private",
+          "enum": [
+            "authenticated-read",
+            "aws-exec-read",
+            "bucket-owner-full-control",
+            "bucket-owner-read",
+            "private",
+            "public-read",
+            "public-read-write"
+          ],
+          "x-env-value": "S3_ACL"
+        }
+      }
+    }
+  }
+}
