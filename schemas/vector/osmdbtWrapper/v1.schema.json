@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/vector/osmdbt-wrapper/v1",
+  "$id": "https://mapcolonies.com/vector/osmdbtWrapper/v1",
   "type": "object",
   "title": "vectorOsmdbtWrapperSchemaV1",
   "description": "Vector OSMDBT-wrapper's schema",
@@ -63,7 +63,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "https://mapcolonies.com/common/s3/full/v2"
+          "$ref": "https://mapcolonies.com/common/s3/full/v3"
         }
       ]
     },
@@ -89,8 +89,9 @@
             },
             "expression": {
               "type": "string",
-              "description": "Cron expression for scheduling the job",
-              "x-env-value": "APP_CRON_EXPRESSION"
+              "description": "Cron expression for scheduling the job (including seconds). Example \"*/30 * * * * *\"",
+              "x-env-value": "APP_CRON_EXPRESSION",
+              "pattern": "^((\\*|\\d+|\\d+-\\d+|\\*/\\d+|\\d+/\\d+|\\d+(,\\d+)*))\\s((\\*|\\d+|\\d+-\\d+|\\*/\\d+|\\d+/\\d+|\\d+(,\\d+)*)){4}$"
             },
             "failurePenaltySeconds": {
               "type": "integer",
@@ -122,12 +123,16 @@
     },
     "osmdbt": {
       "type": "object",
-      "required": ["changesDir", "logDir", "getLogMaxChanges", "verbose"],
+      "required": ["changesDir", "logDir", "runDir", "getLogMaxChanges", "verbose"],
       "additionalProperties": false,
       "properties": {
         "changesDir": {
           "type": "string",
           "x-env-value": "OSMDBT_CHANGES_DIR"
+        },
+        "runDir": {
+          "type": "string",
+          "x-env-value": "OSMDBT_RUN_DIR"
         },
         "logDir": {
           "type": "string",
@@ -165,12 +170,8 @@
     },
     "arstotzka": {
       "type": "object",
-      "required": ["isEnabled", "retries", "shouldResetTimeout", "isExponential", "delay", "serviceId", "mediator"],
+      "required": ["retries", "shouldResetTimeout", "isExponential", "delay", "serviceId", "mediator"],
       "properties": {
-        "isEnabled": {
-          "const": true,
-          "description": "Indicates whether the Arstotzka is enabled"
-        },
         "serviceId": {
           "type": "string",
           "description": "The service ID for Arstotzka",
@@ -241,6 +242,7 @@
               "required": ["url"],
               "properties": {
                 "url": {
+                  "type": "string",
                   "description": "The actiony service URL",
                   "x-env-value": "MEDIATOR_ACTIONY_URL"
                 }
@@ -251,6 +253,7 @@
               "required": ["url"],
               "properties": {
                 "url": {
+                  "type": "string",
                   "description": "The locky service URL",
                   "x-env-value": "MEDIATOR_LOCKY_URL"
                 }
