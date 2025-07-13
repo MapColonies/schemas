@@ -1,0 +1,147 @@
+{
+  "$id": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
+  "description": "The opala token-kiosk service schema",
+  "title": "opalaTokenKioskSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
+    },
+    {
+      "type": "object",
+      "required": ["db", "auth", "token"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        },
+        "auth": {
+          "$ref": "#/definitions/auth"
+        },
+        "token": {
+          "$ref": "#/definitions/token"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "auth": {
+      "type": "object",
+      "required": ["openid"],
+      "properties": {
+        "openid": {
+          "type": "object",
+          "required": ["clientId", "issuerBaseUrl", "baseUrl", "secret", "clientSecret", "scopes", "idField", "metadataFields"],
+          "properties": {
+            "clientId": {
+              "type": "string",
+              "description": "The OpenID Connect client ID"
+            },
+            "issuerBaseUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "The base URL of the OpenID Connect issuer"
+            },
+            "baseUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "The base URL of the application"
+            },
+            "secret": {
+              "type": "string",
+              "description": "The secret used for session encryption"
+            },
+            "clientSecret": {
+              "type": "string",
+              "description": "The OpenID Connect client secret"
+            },
+            "scopes": {
+              "type": "string",
+              "description": "The OpenID Connect scopes to request"
+            },
+            "idField": {
+              "type": "string",
+              "description": "The field to use as the user identifier"
+            },
+            "metadataFields": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              },
+              "description": "The metadata fields to extract from the OpenID Connect token"
+            }
+          }
+        }
+      }
+    },
+    "token": {
+      "type": "object",
+      "required": ["environment", "expirationDuration", "jwt", "authManager"],
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": ["dev", "stage", "prod"],
+          "description": "The environment the token is issued for",
+          "default": "prod"
+        },
+        "expirationDuration": {
+          "type": "string",
+          "pattern": "^\\d+[shdw]$",
+          "description": "The token expiration duration (e.g., '1w', '30d', '24h')",
+          "default": "1w"
+        },
+        "jwt": {
+          "type": "object",
+          "required": ["subject", "issuer"],
+          "properties": {
+            "subject": {
+              "type": "string",
+              "description": "The JWT subject claim",
+              "default": "c2b"
+            },
+            "issuer": {
+              "type": "string",
+              "description": "The JWT issuer claim",
+              "default": "token-kiosk"
+            }
+          }
+        },
+        "authManager": {
+          "type": "object",
+          "required": ["baseUrl", "cacheTtlHours"],
+          "properties": {
+            "baseUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "The base URL of the auth manager service"
+            },
+            "cacheTtlHours": {
+              "type": "number",
+              "minimum": 0,
+              "description": "The cache TTL in hours"
+            }
+          }
+        }
+      }
+    },
+    "guides": {
+      "type": "object",
+      "required": ["qgis", "arcgis"],
+      "properties": {
+        "qgis": {
+          "type": "string",
+          "format": "uri",
+          "description": "The guide URL for QGIS",
+          "default": "https://www.youtube.com/watch?v=X2WH8mHJnhM"
+        },
+        "arcgis": {
+          "type": "string",
+          "format": "uri",
+          "description": "The guide URL for ArcGIS",
+          "default": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }
+      }
+    }
+  }
+}

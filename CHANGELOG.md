@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.11.0](https://github.com/MapColonies/schemas/compare/v1.10.0...v1.11.0) (2025-07-10)
+
+
+### Features
+
+* **token-kiosk:** add required fields and default values for guides ([#105](https://github.com/MapColonies/schemas/issues/105)) ([c057ae2](https://github.com/MapColonies/schemas/commit/c057ae266873ef4f3f3c3c82253f5a2287c9b228))
+
+## [1.10.0](https://github.com/MapColonies/schemas/compare/v1.9.0...v1.10.0) (2025-07-10)
+
+
+### Features
+
+* **token-kiosk:** created schema ([#102](https://github.com/MapColonies/schemas/issues/102)) ([257315b](https://github.com/MapColonies/schemas/commit/257315b677e268e64cbb002213b5fd9b96d53f7e))
+
 ## [1.9.0](https://github.com/MapColonies/schemas/compare/v1.8.0...v1.9.0) (2025-07-07)
 
 
