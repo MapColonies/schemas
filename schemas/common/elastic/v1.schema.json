@@ -1,0 +1,40 @@
+{
+  "$id": "https://mapcolonies.com/common/elastic/v1",
+  "description": "elastic configuration",
+  "type": "object",
+  "required": ["node", "auth", "properties"],
+  "properties": {
+    "node": {
+      "type": "string",
+      "description": "the url of elastic",
+      "x-env-value": "ELASTIC_URL"
+    },
+    "auth": {
+      "type": "object",
+      "description": "authentication for elastic",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "the username of elastic",
+          "x-env-value": "ELASTIC_USERNAME"
+        },
+        "password": {
+          "type": "string",
+          "description": "the password of elastic",
+          "x-env-value": "ELASTIC_PASSWORD"
+        }
+      }
+    },
+    "properties": {
+      "type": "object",
+      "description": "additional properties for elastic",
+      "properties": {
+        "index": {
+          "type": "string",
+          "description": "the index of elastic",
+          "x-env-value": "ELASTIC_INDEX"
+        }
+      }
+    }
+  }
+}
