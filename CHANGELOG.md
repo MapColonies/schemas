@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/MapColonies/schemas/compare/v1.11.0...v1.12.0) (2025-07-13)
+
+
+### Features
+
+* add acl to s3 schema ([#107](https://github.com/MapColonies/schemas/issues/107)) ([3b3318f](https://github.com/MapColonies/schemas/commit/3b3318fc64e34be6599c427defd691cd07b65070))
+
 ## [1.11.0](https://github.com/MapColonies/schemas/compare/v1.10.0...v1.11.0) (2025-07-10)
 
 
