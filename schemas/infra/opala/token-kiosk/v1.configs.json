@@ -37,7 +37,8 @@
           "baseUrl": "https://auth.mapcolonies.com",
           "cacheTtlHours": 1
         }
-      }
+      },
+      "guides": {}
     }
   }
 ]
