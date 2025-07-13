@@ -165,8 +165,7 @@
     },
     "arstotzka": {
       "type": "object",
-      "required": ["isEnabled"],
-      "additionalProperties": false,
+      "required": ["isEnabled", "retries", "shouldResetTimeout", "isExponential", "delay", "serviceId", "mediator"],
       "properties": {
         "isEnabled": {
           "const": true,
