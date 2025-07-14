@@ -162,6 +162,7 @@
         },
         "layers": {
           "type": "array",
+          "maxItems": 10,
           "items": {
             "type": "object",
             "unevaluatedProperties": false,
