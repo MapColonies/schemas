@@ -38,7 +38,11 @@
           "cacheTtlHours": 1
         }
       },
-      "guides": {}
+      "guides": {},
+      "qlr": {
+        "catalogUrl": "https://example.com/catalog",
+        "layers": []
+      }
     }
   }
 ]
