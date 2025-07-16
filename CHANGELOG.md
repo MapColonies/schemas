@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/MapColonies/schemas/compare/v1.12.0...v1.12.1) (2025-07-16)
+
+
+### Bug Fixes
+
+* token kiosk ([#110](https://github.com/MapColonies/schemas/issues/110)) ([f796f56](https://github.com/MapColonies/schemas/commit/f796f56868793fb2ccb28763fe14a565ee74858a))
+
 ## [1.12.0](https://github.com/MapColonies/schemas/compare/v1.11.0...v1.12.0) (2025-07-13)
 
 
