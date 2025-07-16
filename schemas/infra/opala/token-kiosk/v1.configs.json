@@ -37,6 +37,11 @@
           "baseUrl": "https://auth.mapcolonies.com",
           "cacheTtlHours": 1
         }
+      },
+      "guides": {},
+      "qlr": {
+        "catalogUrl": "https://example.com/catalog",
+        "layers": []
       }
     }
   }
