@@ -1,8 +1,8 @@
 {
-  "$id": "https://mapcolonies.com/common/elastic/v1",
-  "description": "elastic configuration",
+  "$id": "https://mapcolonies.com/common/elastic/partial/v1",
+  "description": "The patial elastic schema",
   "type": "object",
-  "required": ["node", "auth", "properties"],
+  "required": ["node", "auth"],
   "properties": {
     "node": {
       "type": "string",
@@ -22,17 +22,6 @@
           "type": "string",
           "description": "the password of elastic",
           "x-env-value": "ELASTIC_PASSWORD"
-        }
-      }
-    },
-    "properties": {
-      "type": "object",
-      "description": "additional properties for elastic",
-      "properties": {
-        "index": {
-          "type": "string",
-          "description": "the index of elastic",
-          "x-env-value": "ELASTIC_INDEX"
         }
       }
     }
