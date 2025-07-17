@@ -2,7 +2,6 @@
   "$id": "https://mapcolonies.com/common/elastic/full/v1",
   "description": "The full elastic schema including properties",
   "type": "object",
-  "unevaluatedProperties": true,
   "allOf": [
     {
       "$ref": "https://mapcolonies.com/common/elastic/partial/v1"
@@ -14,18 +13,23 @@
   "definitions": {
     "elastic": {
       "type": "object",
-      "required": ["properties"],
+      "required": ["index"],
       "properties": {
-        "properties": {
-          "type": "object",
-          "description": "additional properties for elastic",
-          "properties": {
-            "index": {
+        "index": {
+          "oneOf": [
+            {
               "type": "string",
-              "description": "the index of elastic",
+              "description": "The index of elastic",
               "x-env-value": "ELASTIC_INDEX"
+            },
+            {
+              "type": "object",
+              "description": "A mapping of indexes",
+              "additionalProperties": {
+                "type": "string"
+              }
             }
-          }
+          ]
         }
       }
     }

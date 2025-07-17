@@ -23,7 +23,8 @@
           "description": "the password of elastic",
           "x-env-value": "ELASTIC_PASSWORD"
         }
-      }
+      },
+      "required": ["username", "password"]
     }
   }
 }
