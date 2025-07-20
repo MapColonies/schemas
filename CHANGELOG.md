@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/MapColonies/schemas/compare/v1.12.1...v1.12.2) (2025-07-20)
+
+
+### Bug Fixes
+
+* add enable feature to guides MAPCO-8278 ([#112](https://github.com/MapColonies/schemas/issues/112)) ([8fff718](https://github.com/MapColonies/schemas/commit/8fff718479557283747759ec34c35e24ff68b0dc))
+
 ## [1.12.1](https://github.com/MapColonies/schemas/compare/v1.12.0...v1.12.1) (2025-07-16)
 
 
