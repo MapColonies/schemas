@@ -136,6 +136,11 @@
       "unevaluatedProperties": false,
       "required": ["qgis", "arcgis"],
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the guides feature is enabled",
+          "default": true
+        },
         "qgis": {
           "type": "string",
           "format": "uri",
