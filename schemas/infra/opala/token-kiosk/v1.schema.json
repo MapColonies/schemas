@@ -134,7 +134,7 @@
     "guides": {
       "type": "object",
       "unevaluatedProperties": false,
-      "required": ["qgis", "arcgis"],
+      "required": ["enabled", "qgis", "arcgis"],
       "properties": {
         "enabled": {
           "type": "boolean",
