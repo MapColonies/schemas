@@ -1,0 +1,192 @@
+{
+  "$id": "https://mapcolonies.com/vector/geocoding/v1",
+  "type": "object",
+  "title": "vectorGeocodingSchemaV1",
+  "description": "Vector's geocoding schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "$ref": "#/definitions/db"
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    }
+  ],
+  "definitions": {
+    "db": {
+      "allOf": [
+        {
+          "type": "object",
+          "required": ["redis"],
+          "properties": {
+            "redis": {
+              "$ref": "https://mapcolonies.com/common/redis/v1"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["s3"],
+          "properties": {
+            "s3": {
+              "$ref": "https://mapcolonies.com/common/s3/full/v2"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["elastic"],
+          "properties": {
+            "elastic": {
+              "allOf": [
+                {
+                  "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "textTermLanguage": {
+                      "type": "string",
+                      "description": "Elastic geotext text term language",
+                      "x-env-value": "ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "appSchema": {
+      "type": "object",
+      "required": ["application"],
+      "properties": {
+        "application": {
+          "description": "Application configuration",
+          "type": "object",
+          "required": [
+            "site",
+            "services",
+            "cronLoadTileLatLonDataPattern",
+            "elasticQueryBoosts",
+            "geotextCitiesLayer",
+            "roadPlaceTypes",
+            "sources",
+            "regions",
+            "controlObjectDisplayNamePrefixes",
+            "nameTranslationsKeys",
+            "mainLanguageRegex"
+          ],
+          "properties": {
+            "site": {
+              "type": "string",
+              "description": "The site we are currently on",
+              "x-env-value": "SITE"
+            },
+            "services": {
+              "type": "object",
+              "required": ["tokenTypesUrl"],
+              "properties": {
+                "tokenTypesUrl": {
+                  "type": "string",
+                  "description": "Service url that extracts token types",
+                  "x-env-value": "TOKEN_TYPE_URL"
+                }
+              }
+            },
+            "cronLoadTileLatLonDataPattern": {
+              "type": "string",
+              "description": "Cron for loading the tile lat lon pattern",
+              "default": "0 * * * *"
+            },
+            "elasticQueryBoosts": {
+              "$ref": "#/definitions/elasticQueryBoosts"
+            },
+            "geotextCitiesLayer": {
+              "type": "string",
+              "description": "Geotext city layer",
+              "x-env-value": "GEOTEXT_CITIES_LAYER"
+            },
+            "roadPlaceTypes": {
+              "type": "array",
+              "description": "Road place types",
+              "x-env-value": "GEOTEXT_ROAD_PLACETYPES"
+            },
+            "sources": {
+              "type": "object",
+              "description": "Source of the data",
+              "additionalProperties": true,
+              "x-env-value": "GEOTEXT_SOURCES"
+            },
+            "regions": {
+              "type": "object",
+              "description": "Data regions",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "x-env-value": "REGIONS"
+            },
+            "controlObjectDisplayNamePrefixes": {
+              "type": "object",
+              "description": "Control object display name",
+              "additionalProperties": true,
+              "x-env-value": "CONTROL_DISPLAY_KEY_TRANSLATIONS"
+            },
+            "nameTranslationsKeys": {
+              "type": "array",
+              "description": "Name translation keys",
+              "x-env-value": "NAME_TRANSLATION_KEYS"
+            },
+            "mainLanguageRegex": {
+              "type": "string",
+              "description": "Regex of the main language",
+              "x-env-value": "MAIN_LANGUAGE_REGEX"
+            }
+          }
+        }
+      }
+    },
+    "elasticQueryBoosts": {
+      "type": "object",
+      "description": "Boosts for elastic query",
+      "required": ["name", "placeType", "subPlaceType", "hierarchy", "viewbox", "geotextCitiesLayer"],
+      "properties": {
+        "name": {
+          "type": "number",
+          "description": "Elastic query name boost",
+          "default": 1.1
+        },
+        "placeType": {
+          "type": "number",
+          "description": "Elastic query placeType boost",
+          "default": 1.1
+        },
+        "subPlaceType": {
+          "type": "number",
+          "description": "Elastic query subPlaceType boost",
+          "default": 1.1
+        },
+        "hierarchy": {
+          "type": "number",
+          "description": "Elastic query hierarchy boost",
+          "default": 1.1
+        },
+        "viewbox": {
+          "type": "number",
+          "description": "Elastic query viewbox boost",
+          "default": 1.1
+        },
+        "geotextCitiesLayer": {
+          "type": "number",
+          "description": "Elastic query geotextCitiesLayer boost",
+          "default": 1.1
+        }
+      },
+      "x-env-value": "GEOTEXT_ELASTIC_QUERY_BOOSTS"
+    }
+  }
+}
