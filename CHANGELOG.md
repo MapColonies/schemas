@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/MapColonies/schemas/compare/v1.12.2...v1.13.0) (2025-07-29)
+
+
+### Features
+
+* added common elastic schema ([#109](https://github.com/MapColonies/schemas/issues/109)) ([938d814](https://github.com/MapColonies/schemas/commit/938d8146a8ccef7b5aad2fcb123949a116219ac7))
+
 ## [1.12.2](https://github.com/MapColonies/schemas/compare/v1.12.1...v1.12.2) (2025-07-20)
 
 
