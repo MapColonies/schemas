@@ -88,6 +88,7 @@
                         },
                         {
                           "type": "object",
+                          "required": ["textTermLanguage"],
                           "properties": {
                             "textTermLanguage": {
                               "type": "string",
