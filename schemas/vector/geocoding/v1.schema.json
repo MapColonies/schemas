@@ -41,6 +41,7 @@
                     },
                     {
                       "type": "object",
+                      "required": ["files"],
                       "properties": {
                         "files": {
                           "type": "object",
@@ -48,6 +49,7 @@
                           "properties": {
                             "latLonConvertionTable": {
                               "type": "object",
+                              "required": ["bucket", "fileName"],
                               "properties": {
                                 "bucket": {
                                   "type": "string",
