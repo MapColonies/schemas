@@ -75,21 +75,30 @@
               "required": ["elastic"],
               "properties": {
                 "elastic": {
-                  "allOf": [
-                    {
+                  "type": "object",
+                  "required": ["control", "geotext"],
+                  "properties": {
+                    "control": {
                       "$ref": "https://mapcolonies.com/common/elastic/full/v1"
                     },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "textTermLanguage": {
-                          "type": "string",
-                          "description": "Elastic geotext text term language",
-                          "x-env-value": "ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE"
+                    "geotext": {
+                      "allOf": [
+                        {
+                          "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "textTermLanguage": {
+                              "type": "string",
+                              "description": "Elastic geotext text term language",
+                              "x-env-value": "ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE"
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
-                  ]
+                  }
                 }
               }
             }
