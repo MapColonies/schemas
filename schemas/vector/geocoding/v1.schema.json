@@ -8,57 +8,63 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
-      "$ref": "#/definitions/db"
+      "$ref": "#/definitions/databases"
     },
     {
       "$ref": "#/definitions/appSchema"
     }
   ],
   "definitions": {
-    "db": {
-      "allOf": [
-        {
-          "type": "object",
-          "required": ["redis"],
-          "properties": {
-            "redis": {
-              "$ref": "https://mapcolonies.com/common/redis/v1"
-            }
-          }
-        },
-        {
-          "type": "object",
-          "required": ["s3"],
-          "properties": {
-            "s3": {
-              "$ref": "https://mapcolonies.com/common/s3/full/v2"
-            }
-          }
-        },
-        {
-          "type": "object",
-          "required": ["elastic"],
-          "properties": {
-            "elastic": {
-              "allOf": [
-                {
-                  "$ref": "https://mapcolonies.com/common/elastic/full/v1"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "textTermLanguage": {
-                      "type": "string",
-                      "description": "Elastic geotext text term language",
-                      "x-env-value": "ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE"
-                    }
-                  }
+    "databases": {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": ["redis"],
+              "properties": {
+                "redis": {
+                  "$ref": "https://mapcolonies.com/common/redis/v1"
                 }
-              ]
+              }
+            },
+            {
+              "type": "object",
+              "required": ["s3"],
+              "properties": {
+                "s3": {
+                  "$ref": "https://mapcolonies.com/common/s3/full/v2"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": ["elastic"],
+              "properties": {
+                "elastic": {
+                  "allOf": [
+                    {
+                      "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "textTermLanguage": {
+                          "type": "string",
+                          "description": "Elastic geotext text term language",
+                          "x-env-value": "ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
             }
-          }
+          ]
         }
-      ]
+      }
     },
     "appSchema": {
       "type": "object",
