@@ -35,7 +35,36 @@
               "required": ["s3"],
               "properties": {
                 "s3": {
-                  "$ref": "https://mapcolonies.com/common/s3/full/v2"
+                  "allOf": [
+                    {
+                      "$ref": "https://mapcolonies.com/common/s3/partial/v1"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "files": {
+                          "type": "object",
+                          "description": "S3 file data",
+                          "properties": {
+                            "latLonConvertionTable": {
+                              "type": "object",
+                              "properties": {
+                                "bucket": {
+                                  "type": "string",
+                                  "description": "Lat lon convertion table bucket"
+                                },
+                                "fileName": {
+                                  "type": "string",
+                                  "description": "Lat lon convertion table file name"
+                                }
+                              }
+                            }
+                          },
+                          "x-env-value": "S3_FILES_DATA"
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             },
