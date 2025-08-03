@@ -26,7 +26,21 @@
               "required": ["redis"],
               "properties": {
                 "redis": {
-                  "$ref": "https://mapcolonies.com/common/redis/v1"
+                  "allOf": [
+                    {
+                      "$ref": "https://mapcolonies.com/common/redis/v1"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ttl": {
+                          "type": "number",
+                          "description": "Redis ttl in seconds",
+                          "x-env-value": "REDIS_TTL"
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             },
