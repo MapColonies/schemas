@@ -76,6 +76,7 @@
                               }
                             }
                           },
+                          "x-env-format": "json",
                           "x-env-value": "S3_FILES_DATA"
                         }
                       }
@@ -174,12 +175,14 @@
             "roadPlaceTypes": {
               "type": "array",
               "description": "Road place types",
+              "x-env-format": "json",
               "x-env-value": "GEOTEXT_ROAD_PLACETYPES"
             },
             "sources": {
               "type": "object",
               "description": "Source of the data",
               "additionalProperties": true,
+              "x-env-format": "json",
               "x-env-value": "GEOTEXT_SOURCES"
             },
             "regions": {
@@ -189,17 +192,20 @@
                 "type": "array",
                 "items": { "type": "string" }
               },
+              "x-env-format": "json",
               "x-env-value": "REGIONS"
             },
             "controlObjectDisplayNamePrefixes": {
               "type": "object",
               "description": "Control object display name",
               "additionalProperties": true,
+              "x-env-format": "json",
               "x-env-value": "CONTROL_DISPLAY_KEY_TRANSLATIONS"
             },
             "nameTranslationsKeys": {
               "type": "array",
               "description": "Name translation keys",
+              "x-env-format": "json",
               "x-env-value": "NAME_TRANSLATION_KEYS"
             },
             "mainLanguageRegex": {
