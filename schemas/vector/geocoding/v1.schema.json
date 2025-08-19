@@ -253,6 +253,7 @@
           "default": 1.1
         }
       },
+      "x-env-format": "json",
       "x-env-value": "GEOTEXT_ELASTIC_QUERY_BOOSTS"
     }
   }
