@@ -94,7 +94,22 @@
                   "required": ["control", "geotext"],
                   "properties": {
                     "control": {
-                      "$ref": "https://mapcolonies.com/common/elastic/full/v2"
+                      "allOf": [
+                        { "$ref": "https://mapcolonies.com/common/elastic/full/v2" },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "node": { "type": "string", "x-env-value": "ELASTIC_CONTROL_URL" },
+                            "auth": {
+                              "type": "object",
+                              "properties": {
+                                "username": { "type": "string", "x-env-value": "ELASTIC_CONTROL_USERNAME" },
+                                "password": { "type": "string", "x-env-value": "ELASTIC_CONTROL_PASSWORD" }
+                              }
+                            }
+                          }
+                        }
+                      ]
                     },
                     "geotext": {
                       "allOf": [
@@ -105,6 +120,14 @@
                           "type": "object",
                           "required": ["textTermLanguage"],
                           "properties": {
+                            "node": { "type": "string", "x-env-value": "ELASTIC_GEOTEXT_URL" },
+                            "auth": {
+                              "type": "object",
+                              "properties": {
+                                "username": { "type": "string", "x-env-value": "ELASTIC_GEOTEXT_USERNAME" },
+                                "password": { "type": "string", "x-env-value": "ELASTIC_GEOTEXT_PASSWORD" }
+                              }
+                            },
                             "textTermLanguage": {
                               "type": "string",
                               "description": "Elastic geotext text term language",
