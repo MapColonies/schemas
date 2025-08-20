@@ -9,7 +9,7 @@
     },
     {
       "type": "object",
-      "required": ["db", "auth", "token"],
+      "required": ["db", "auth", "token", "guides", "qlr"],
       "properties": {
         "db": {
           "$ref": "https://mapcolonies.com/common/db/full/v1"
@@ -19,6 +19,12 @@
         },
         "token": {
           "$ref": "#/definitions/token"
+        },
+        "guides": {
+          "$ref": "#/definitions/guides"
+        },
+        "qlr": {
+          "$ref": "#/definitions/qlr"
         }
       }
     }
@@ -81,7 +87,7 @@
       "properties": {
         "environment": {
           "type": "string",
-          "enum": ["dev", "stage", "prod"],
+          "enum": ["np", "stage", "prod"],
           "description": "The environment the token is issued for",
           "default": "prod"
         },
@@ -127,8 +133,14 @@
     },
     "guides": {
       "type": "object",
-      "required": ["qgis", "arcgis"],
+      "unevaluatedProperties": false,
+      "required": ["enabled", "qgis", "arcgis"],
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the guides feature is enabled",
+          "default": true
+        },
         "qgis": {
           "type": "string",
           "format": "uri",
@@ -140,6 +152,42 @@
           "format": "uri",
           "description": "The guide URL for ArcGIS",
           "default": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }
+      }
+    },
+    "qlr": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["catalogUrl", "layers"],
+      "properties": {
+        "catalogUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the QLR catalog"
+        },
+        "layers": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "unevaluatedProperties": false,
+            "required": ["productId", "productType"],
+            "properties": {
+              "productId": {
+                "type": "string",
+                "description": "The product ID of the layer"
+              },
+              "productType": {
+                "type": "string",
+                "description": "The type of the product (e.g., 'ortho', 'dem')"
+              },
+              "displayName": {
+                "type": "string",
+                "description": "The display name of the layer"
+              }
+            }
+          },
+          "description": "List of layers available in the QLR catalog"
         }
       }
     }
