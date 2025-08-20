@@ -94,12 +94,12 @@
                   "required": ["control", "geotext"],
                   "properties": {
                     "control": {
-                      "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                      "$ref": "https://mapcolonies.com/common/elastic/full/v2"
                     },
                     "geotext": {
                       "allOf": [
                         {
-                          "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                          "$ref": "https://mapcolonies.com/common/elastic/full/v2"
                         },
                         {
                           "type": "object",
