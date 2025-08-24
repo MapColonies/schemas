@@ -51,33 +51,15 @@
                 "s3": {
                   "allOf": [
                     {
-                      "$ref": "https://mapcolonies.com/common/s3/partial/v1"
+                      "$ref": "https://mapcolonies.com/common/s3/full/v2"
                     },
                     {
                       "type": "object",
-                      "required": ["files"],
                       "properties": {
-                        "files": {
-                          "type": "object",
-                          "description": "S3 file data",
-                          "properties": {
-                            "latLonConvertionTable": {
-                              "type": "object",
-                              "required": ["bucket", "fileName"],
-                              "properties": {
-                                "bucket": {
-                                  "type": "string",
-                                  "description": "Lat lon convertion table bucket"
-                                },
-                                "fileName": {
-                                  "type": "string",
-                                  "description": "Lat lon convertion table file name"
-                                }
-                              }
-                            }
-                          },
-                          "x-env-format": "json",
-                          "x-env-value": "S3_FILES_DATA"
+                        "fileName": {
+                          "type": "string",
+                          "description": "Lat lon convertion table file name",
+                          "x-env-value": "S3_FILE_NAME"
                         }
                       }
                     }
@@ -247,33 +229,27 @@
       "properties": {
         "name": {
           "type": "number",
-          "description": "Elastic query name boost",
-          "default": 1.1
+          "description": "Elastic query name boost"
         },
         "placeType": {
           "type": "number",
-          "description": "Elastic query placeType boost",
-          "default": 1.1
+          "description": "Elastic query placeType boost"
         },
         "subPlaceType": {
           "type": "number",
-          "description": "Elastic query subPlaceType boost",
-          "default": 1.1
+          "description": "Elastic query subPlaceType boost"
         },
         "hierarchy": {
           "type": "number",
-          "description": "Elastic query hierarchy boost",
-          "default": 1.1
+          "description": "Elastic query hierarchy boost"
         },
         "viewbox": {
           "type": "number",
-          "description": "Elastic query viewbox boost",
-          "default": 1.1
+          "description": "Elastic query viewbox boost"
         },
         "geotextCitiesLayer": {
           "type": "number",
-          "description": "Elastic query geotextCitiesLayer boost",
-          "default": 1.1
+          "description": "Elastic query geotextCitiesLayer boost"
         }
       },
       "x-env-format": "json",
