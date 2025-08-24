@@ -55,6 +55,7 @@
                     },
                     {
                       "type": "object",
+                      "required": ["fileName"],
                       "properties": {
                         "fileName": {
                           "type": "string",
