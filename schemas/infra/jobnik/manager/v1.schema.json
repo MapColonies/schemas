@@ -9,7 +9,7 @@
     },
     {
       "type": "object",
-      "required": ["db", "cron"],
+      "required": ["db", "staleTasksSweeper", "task"],
       "properties": {
         "db": {
           "$ref": "https://mapcolonies.com/common/db/full/v2"
