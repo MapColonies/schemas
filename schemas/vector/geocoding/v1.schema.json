@@ -78,7 +78,7 @@
                   "properties": {
                     "control": {
                       "allOf": [
-                        { "$ref": "https://mapcolonies.com/common/elastic/full/v2" },
+                        { "$ref": "https://mapcolonies.com/common/elastic/full/v1" },
                         {
                           "type": "object",
                           "properties": {
@@ -97,7 +97,7 @@
                     "geotext": {
                       "allOf": [
                         {
-                          "$ref": "https://mapcolonies.com/common/elastic/full/v2"
+                          "$ref": "https://mapcolonies.com/common/elastic/full/v1"
                         },
                         {
                           "type": "object",
