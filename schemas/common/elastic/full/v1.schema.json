@@ -27,7 +27,9 @@
               "description": "A mapping of indexes",
               "additionalProperties": {
                 "type": "string"
-              }
+              },
+              "x-env-format": "json",
+              "x-env-value": "ELASTIC_INDEX_MAP"
             }
           ]
         }
