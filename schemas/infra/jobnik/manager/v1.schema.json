@@ -1,0 +1,60 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobnik/manager/v1",
+  "description": "The jobnik manager service schema",
+  "title": "jobnikManagerSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "type": "object",
+      "required": ["db", "staleTasksSweeper", "task"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v2"
+        },
+        "staleTasksSweeper": {
+          "$ref": "#/definitions/staleTasksSweeper"
+        },
+        "task": {
+          "$ref": "#/definitions/task"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "staleTasksSweeper": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Flag to enable/disable the cron job",
+          "x-env-value": "STALE_TASKS_SWEEPER_CRON_ENABLED"
+        },
+        "schedule": {
+          "type": "string",
+          "description": "The cron timing spec",
+          "default": "0 0 * * *",
+          "pattern": "^(\\*|[0-5]?\\d|\\*/[0-5]?\\d|[0-5]?\\d-[0-5]?\\d|[0-5]?\\d-[0-5]?\\d/[0-5]?\\d|[0-5]?\\d(,[0-5]?\\d)+)\\s+(\\*|[01]?\\d|2[0-3]|\\*/([01]?\\d|2[0-3])|([01]?\\d|2[0-3])-([01]?\\d|2[0-3])|([01]?\\d|2[0-3])-([01]?\\d|2[0-3])/([01]?\\d|2[0-3])|([01]?\\d|2[0-3])(,([01]?\\d|2[0-3]))+)\\s+(\\*|0?[1-9]|[12]\\d|3[01]|\\*/(0?[1-9]|[12]\\d|3[01])|(0?[1-9]|[12]\\d|3[01])-(0?[1-9]|[12]\\d|3[01])|(0?[1-9]|[12]\\d|3[01])-(0?[1-9]|[12]\\d|3[01])/(0?[1-9]|[12]\\d|3[01])|(0?[1-9]|[12]\\d|3[01])(,(0?[1-9]|[12]\\d|3[01]))+)\\s+(\\*|0?[1-9]|1[0-2]|\\*/(0?[1-9]|1[0-2])|(0?[1-9]|1[0-2])-(0?[1-9]|1[0-2])|(0?[1-9]|1[0-2])-(0?[1-9]|1[0-2])/(0?[1-9]|1[0-2])|(0?[1-9]|1[0-2])(,(0?[1-9]|1[0-2]))+)\\s+(\\*|[0-7]|\\*/[0-7]|[0-7]-[0-7]|[0-7](,[0-7])+)$",
+          "examples": ["*/1 * * * *"],
+          "x-env-value": "STALE_TASKS_SWEEPER_CRON_SCHEDULE"
+        }
+      },
+      "required": ["enabled", "schedule"]
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "staleTaskThresholdInMinutes": {
+          "type": "number",
+          "description": "The maximum in-progress period in minutes before a task is considered stale",
+          "default": 60,
+          "minimum": 1,
+          "x-env-value": "TASK_STALE_THRESHOLD_IN_MINUTES"
+        }
+      },
+      "required": ["staleTaskThresholdInMinutes"]
+    }
+  }
+}
