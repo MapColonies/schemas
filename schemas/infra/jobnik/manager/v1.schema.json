@@ -9,13 +9,13 @@
     },
     {
       "type": "object",
-      "required": ["db", "staleTasksSweeper", "task"],
+      "required": ["db", "staleTasksSweeperCron", "task"],
       "properties": {
         "db": {
           "$ref": "https://mapcolonies.com/common/db/full/v2"
         },
-        "staleTasksSweeper": {
-          "$ref": "#/definitions/staleTasksSweeper"
+        "staleTasksSweeperCron": {
+          "$ref": "#/definitions/staleTasksSweeperCron"
         },
         "task": {
           "$ref": "#/definitions/task"
@@ -24,7 +24,7 @@
     }
   ],
   "definitions": {
-    "staleTasksSweeper": {
+    "staleTasksSweeperCron": {
       "type": "object",
       "properties": {
         "enabled": {
