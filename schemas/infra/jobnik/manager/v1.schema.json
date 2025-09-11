@@ -1,0 +1,59 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobnik/manager/v1",
+  "description": "The jobnik manager service schema",
+  "title": "jobnikManagerSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "type": "object",
+      "required": ["db", "staleTasksSweeperCron", "task"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v2"
+        },
+        "staleTasksSweeperCron": {
+          "$ref": "#/definitions/staleTasksSweeperCron"
+        },
+        "task": {
+          "$ref": "#/definitions/task"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "staleTasksSweeperCron": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Flag to enable/disable the cron job",
+          "x-env-value": "STALE_TASKS_SWEEPER_CRON_ENABLED"
+        },
+        "schedule": {
+          "type": "string",
+          "description": "The cron timing spec",
+          "default": "0 0 * * *",
+          "examples": ["*/1 * * * *"],
+          "x-env-value": "STALE_TASKS_SWEEPER_CRON_SCHEDULE"
+        }
+      },
+      "required": ["enabled", "schedule"]
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "staleTaskThresholdInMinutes": {
+          "type": "number",
+          "description": "The maximum in-progress period in minutes before a task is considered stale",
+          "default": 60,
+          "minimum": 1,
+          "x-env-value": "TASK_STALE_THRESHOLD_IN_MINUTES"
+        }
+      },
+      "required": ["staleTaskThresholdInMinutes"]
+    }
+  }
+}

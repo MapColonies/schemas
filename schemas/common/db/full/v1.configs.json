@@ -5,5 +5,13 @@
       "$ref": { "configName": "db-connection", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/partial/v1" },
       "database": "infra-auth-manager"
     }
+  },
+  {
+    "name": "infra-jobnik-db",
+    "value": {
+      "$ref": { "configName": "db-connection", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/partial/v1" },
+      "database": "jobnik",
+      "schema": "job_manager"
+    }
   }
 ]

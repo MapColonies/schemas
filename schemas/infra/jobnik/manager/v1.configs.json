@@ -1,0 +1,27 @@
+[
+  {
+    "name": "infra-jobnik-manager",
+    "value": {
+      "telemetry": {
+        "logger": {
+          "level": "info",
+          "prettyPrint": false
+        },
+        "shared": {},
+        "tracing": {
+          "$ref": { "configName": "common-tracing", "version": "latest", "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1" }
+        }
+      },
+      "db": {
+        "$ref": { "configName": "infra-jobnik-db", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/full/v1" }
+      },
+      "staleTasksSweeperCron": {
+        "enabled": true,
+        "schedule": "*/1 * * * *"
+      },
+      "task": {
+        "staleTaskThresholdInMinutes": 1440
+      }
+    }
+  }
+]
