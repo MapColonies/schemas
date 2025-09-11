@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.13.0](https://github.com/MapColonies/schemas/compare/v1.12.2...v1.13.0) (2025-09-11)
+
+
+### Features
+
+* add jobnik manager service schema v1 (MAPCO-7924) ([#117](https://github.com/MapColonies/schemas/issues/117)) ([1c04c80](https://github.com/MapColonies/schemas/commit/1c04c800a5d3ea7c038fbe1657b57c3becdcaf9e))
+* added common elastic schema ([#109](https://github.com/MapColonies/schemas/issues/109)) ([938d814](https://github.com/MapColonies/schemas/commit/938d8146a8ccef7b5aad2fcb123949a116219ac7))
+* added geocoding schema ([#114](https://github.com/MapColonies/schemas/issues/114)) ([5456e98](https://github.com/MapColonies/schemas/commit/5456e98e68f1ab0f3c0cf8d4ad1b8f2775c1d6bb))
+* added json to elastic index ([#116](https://github.com/MapColonies/schemas/issues/116)) ([c949c0d](https://github.com/MapColonies/schemas/commit/c949c0ddb15e363829b35bb645533fbf8fc879b9))
+
+
+### Bug Fixes
+
+* update database name for infra-jobnik-db in v1.configs.json (MAPCO-7924) ([#118](https://github.com/MapColonies/schemas/issues/118)) ([a2799fa](https://github.com/MapColonies/schemas/commit/a2799fa655ed501caccb9b11d5b510d97dccd43f))
+
 ## [1.12.2](https://github.com/MapColonies/schemas/compare/v1.12.1...v1.12.2) (2025-07-20)
 
 
