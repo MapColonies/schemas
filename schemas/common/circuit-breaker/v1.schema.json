@@ -1,0 +1,33 @@
+{
+  "description": "Options to configure opossum based circuit breaker behavior ",
+  "$id": "https://mapcolonies.com/common/circuit-breaker/v1",
+  "type": "object",
+  "title": "Circuit breaker options v1",
+  "required": ["enabled", "errorThresholdPercentage", "resetTimeout", "rollingCountTimeout"],
+  "properties": {
+    "enabled": {
+      "description": "Enable or disable the circuit breaker",
+      "type": "boolean",
+      "default": true
+    },
+    "errorThresholdPercentage": {
+      "description": "The error percentage at which to open the circuit and start short-circuiting requests",
+      "type": "integer",
+      "default": 50,
+      "minimum": 1,
+      "maximum": 100
+    },
+    "resetTimeout": {
+      "description": "The time in milliseconds to wait before setting the breaker to half-open state, to allow for retries",
+      "type": "integer",
+      "default": 30000,
+      "minimum": 1000
+    },
+    "rollingCountTimeout": {
+      "description": "The duration of the statistical rolling window, in milliseconds. This is how long the metrics used to determine the health of the circuit breaker are kept.",
+      "type": "integer",
+      "default": 120000,
+      "minimum": 1000
+    }
+  }
+}
