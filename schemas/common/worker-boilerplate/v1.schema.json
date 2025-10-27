@@ -59,6 +59,7 @@
     "jobnik": {
       "type": "object",
       "required": ["sdk"],
+      "default": {},
       "properties": {
         "sdk": {
           "$ref": "https://mapcolonies.com/infra/jobnik/sdk/full/v1"

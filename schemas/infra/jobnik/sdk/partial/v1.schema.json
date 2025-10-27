@@ -8,7 +8,8 @@
     "baseUrl": {
       "description": "The base URL of the jobnik server",
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "x-env-value": "JOBNIK_SDK_BASE_URL"
     }
   }
 }
