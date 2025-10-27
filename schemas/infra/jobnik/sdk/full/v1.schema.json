@@ -2,7 +2,6 @@
   "description": "Worker options for creating a new worker using the jobnik sdk",
   "$id": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
   "type": "object",
-  "default": {},
   "title": "Jobnik worker options v1",
   "allOf": [
     {
