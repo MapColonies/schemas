@@ -2,7 +2,7 @@
   "description": "Boilerplate basic configuration",
   "$id": "https://mapcolonies.com/common/worker-boilerplate/v1",
   "type": "object",
-  "title": "commonBoilerplateV2",
+  "title": "jobnikBoilerplateV1",
   "required": ["jobnik", "telemetry", "server"],
   "properties": {
     "telemetry": {

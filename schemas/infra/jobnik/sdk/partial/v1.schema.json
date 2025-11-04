@@ -2,7 +2,7 @@
   "description": "Jobnik SDK configuration options that can be shared across different components",
   "$id": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
   "type": "object",
-  "title": "Jobnik worker options v1",
+  "title": "Jobnik sdk partial config v1",
   "required": ["baseUrl"],
   "properties": {
     "baseUrl": {
