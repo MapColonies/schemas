@@ -1,0 +1,278 @@
+{
+  "configs": [
+    {
+      "schemaId": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
+      "schemaPath": "infra/opala/token-kiosk",
+      "version": 1,
+      "instances": [
+        {
+          "name": "infra-token-kiosk",
+          "value": {
+            "telemetry": {
+              "logger": {
+                "level": "info",
+                "prettyPrint": false
+              },
+              "shared": {},
+              "tracing": {
+                "$ref": {
+                  "configName": "common-tracing",
+                  "version": "latest",
+                  "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1"
+                }
+              }
+            },
+            "db": {
+              "$ref": {
+                "configName": "infra-opala-db",
+                "version": "latest",
+                "schemaId": "https://mapcolonies.com/common/db/full/v1"
+              }
+            },
+            "auth": {
+              "openid": {
+                "clientId": "opala-token-kiosk",
+                "issuerBaseUrl": "https://auth.mapcolonies.com/realms/opala",
+                "baseUrl": "https://token-kiosk.mapcolonies.com",
+                "secret": "your-secret-key",
+                "clientSecret": "your-client-secret",
+                "scopes": "openid profile email",
+                "idField": "email",
+                "metadataFields": [
+                  "email"
+                ]
+              }
+            },
+            "token": {
+              "expirationDuration": "1h",
+              "jwt": {
+                "subject": "c2b",
+                "issuer": "token-kiosk"
+              },
+              "authManager": {
+                "baseUrl": "https://auth.mapcolonies.com",
+                "cacheTtlHours": 1
+              }
+            },
+            "guides": {},
+            "qlr": {
+              "catalogUrl": "https://example.com/catalog",
+              "layers": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/infra/opala/manager/v1",
+      "schemaPath": "infra/opala/manager",
+      "version": 1,
+      "instances": [
+        {
+          "name": "infra-auth-manager",
+          "value": {
+            "telemetry": {
+              "logger": {
+                "level": "info",
+                "prettyPrint": false
+              },
+              "shared": {},
+              "tracing": {
+                "$ref": {
+                  "configName": "common-tracing",
+                  "version": "latest",
+                  "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1"
+                }
+              }
+            },
+            "db": {
+              "$ref": {
+                "configName": "infra-opala-db",
+                "version": "latest",
+                "schemaId": "https://mapcolonies.com/common/db/full/v1"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/infra/opala/cron/v2",
+      "schemaPath": "infra/opala/cron",
+      "version": 2,
+      "instances": [
+        {
+          "name": "infra-auth-cron",
+          "value": {
+            "telemetry": {
+              "logger": {
+                "level": "info",
+                "prettyPrint": false
+              },
+              "tracing": {
+                "$ref": {
+                  "configName": "common-tracing",
+                  "version": "latest",
+                  "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1"
+                }
+              },
+              "shared": {}
+            },
+            "db": {
+              "$ref": {
+                "configName": "infra-opala-db",
+                "version": "latest",
+                "schemaId": "https://mapcolonies.com/common/db/full/v1"
+              }
+            },
+            "cron": {
+              "prod": {
+                "pattern": "*/5 * * * *",
+                "s3": {
+                  "$ref": {
+                    "configName": "infra-opala-s3",
+                    "version": "latest",
+                    "schemaId": "https://mapcolonies.com/common/s3/full/v1"
+                  },
+                  "key": "prod-bundle"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/infra/jobnik/manager/v1",
+      "schemaPath": "infra/jobnik/manager",
+      "version": 1,
+      "instances": [
+        {
+          "name": "infra-jobnik-manager",
+          "value": {
+            "telemetry": {
+              "logger": {
+                "level": "info",
+                "prettyPrint": false
+              },
+              "shared": {},
+              "tracing": {
+                "$ref": {
+                  "configName": "common-tracing",
+                  "version": "latest",
+                  "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1"
+                }
+              }
+            },
+            "db": {
+              "$ref": {
+                "configName": "infra-jobnik-db",
+                "version": "latest",
+                "schemaId": "https://mapcolonies.com/common/db/full/v1"
+              }
+            },
+            "staleTasksSweeperCron": {
+              "enabled": true,
+              "schedule": "*/1 * * * *"
+            },
+            "task": {
+              "staleTaskThresholdInMinutes": 1440
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "schemaPath": "common/telemetry/tracing",
+      "version": 1,
+      "instances": [
+        {
+          "name": "common-tracing",
+          "value": {
+            "url": "http://collector-address:4318/v1/traces",
+            "isEnabled": true
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/common/s3/partial/v1",
+      "schemaPath": "common/s3/partial",
+      "version": 1,
+      "instances": [
+        {
+          "name": "s3-connection",
+          "value": {
+            "accessKeyId": "access-key-id",
+            "secretAccessKey": "secret-access-key",
+            "endpoint": "https://localhost:9000"
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/common/s3/full/v1",
+      "schemaPath": "common/s3/full",
+      "version": 1,
+      "instances": [
+        {
+          "name": "infra-opala-s3",
+          "value": {
+            "$ref": {
+              "configName": "s3-connection",
+              "version": "latest",
+              "schemaId": "https://mapcolonies.com/common/s3/partial/v1"
+            },
+            "bucket": "infra-opala"
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/common/db/partial/v1",
+      "schemaPath": "common/db/partial",
+      "version": 1,
+      "instances": [
+        {
+          "name": "db-connection",
+          "value": {
+            "ssl": {
+              "enabled": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "schemaId": "https://mapcolonies.com/common/db/full/v1",
+      "schemaPath": "common/db/full",
+      "version": 1,
+      "instances": [
+        {
+          "name": "infra-opala-db",
+          "value": {
+            "$ref": {
+              "configName": "db-connection",
+              "version": "latest",
+              "schemaId": "https://mapcolonies.com/common/db/partial/v1"
+            },
+            "database": "infra-auth-manager"
+          }
+        },
+        {
+          "name": "infra-jobnik-db",
+          "value": {
+            "$ref": {
+              "configName": "db-connection",
+              "version": "latest",
+              "schemaId": "https://mapcolonies.com/common/db/partial/v1"
+            },
+            "database": "infra-jobnik",
+            "schema": "job_manager"
+          }
+        }
+      ]
+    }
+  ]
+}
