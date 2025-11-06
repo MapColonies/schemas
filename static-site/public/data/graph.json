@@ -1,0 +1,550 @@
+{
+  "nodes": [
+    {
+      "id": "https://mapcolonies.com/vector/retiler/v1",
+      "label": "vectorRetilerSchemaV1",
+      "path": "vector/retiler",
+      "category": "vector",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+      "label": "metatileQueuePopulatorV1",
+      "path": "vector/metatileQueuePopulator",
+      "category": "vector",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/vector/geocoding/v1",
+      "label": "vectorGeocodingSchemaV1",
+      "path": "vector/geocoding",
+      "category": "vector",
+      "version": 1,
+      "degree": 4
+    },
+    {
+      "id": "https://mapcolonies.com/vector/common/v1",
+      "label": "commonVectorSchemaV1",
+      "path": "vector/common",
+      "category": "vector",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
+      "label": "opalaTokenKioskSchemaV1",
+      "path": "infra/opala/token-kiosk",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/opala/manager/v1",
+      "label": "opalaManagerSchemaV1",
+      "path": "infra/opala/manager",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/opala/cron/v2",
+      "label": "opalaCronSchemaV2",
+      "path": "infra/opala/cron",
+      "category": "infra",
+      "version": 2,
+      "degree": 5
+    },
+    {
+      "id": "https://mapcolonies.com/infra/opala/cron/v1",
+      "label": "opalaCronSchemaV1",
+      "path": "infra/opala/cron",
+      "category": "infra",
+      "version": 1,
+      "degree": 3
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/worker/v1",
+      "label": "Jobnik worker options v1",
+      "path": "infra/jobnik/worker",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+      "label": "Jobnik sdk partial config v1",
+      "path": "infra/jobnik/sdk/partial",
+      "category": "infra",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "label": "Jobnik sdk full config v1",
+      "path": "infra/jobnik/sdk/full",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/manager/v1",
+      "label": "jobnikManagerSchemaV1",
+      "path": "infra/jobnik/manager",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobManager/worker/v1",
+      "label": "Schema v1",
+      "path": "infra/jobManager/worker",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobManager/task/v1",
+      "label": "Schema v1",
+      "path": "infra/jobManager/task",
+      "category": "infra",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobManager/sdk/v1",
+      "label": "Schema v1",
+      "path": "infra/jobManager/sdk",
+      "category": "infra",
+      "version": 1,
+      "degree": 4
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobManager/job/v1",
+      "label": "Schema v1",
+      "path": "infra/jobManager/job",
+      "category": "infra",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobManager/heartbeatManager/v1",
+      "label": "Schema v1",
+      "path": "infra/jobManager/heartbeatManager",
+      "category": "infra",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobManager/base/v1",
+      "label": "Schema v1",
+      "path": "infra/jobManager/base",
+      "category": "infra",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "label": "jobnikBoilerplateV1",
+      "path": "common/worker-boilerplate",
+      "category": "common",
+      "version": 1,
+      "degree": 5
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "label": "commonTelemetryTracingV1",
+      "path": "common/telemetry/tracing",
+      "category": "common",
+      "version": 1,
+      "degree": 4
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "label": "telemetryLoggerV1",
+      "path": "common/telemetry/logger",
+      "category": "common",
+      "version": 1,
+      "degree": 5
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/base/v1",
+      "label": "commonTelemetryBaseV1",
+      "path": "common/telemetry/base",
+      "category": "common",
+      "version": 1,
+      "degree": 4
+    },
+    {
+      "id": "https://mapcolonies.com/common/s3/partial/v1",
+      "label": "Schema v1",
+      "path": "common/s3/partial",
+      "category": "common",
+      "version": 1,
+      "degree": 5
+    },
+    {
+      "id": "https://mapcolonies.com/common/s3/full/v3",
+      "label": "Schema v3",
+      "path": "common/s3/full",
+      "category": "common",
+      "version": 3,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/s3/full/v2",
+      "label": "Schema v2",
+      "path": "common/s3/full",
+      "category": "common",
+      "version": 2,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/common/s3/full/v1",
+      "label": "Schema v1",
+      "path": "common/s3/full",
+      "category": "common",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/redis/v1",
+      "label": "Schema v1",
+      "path": "common/redis",
+      "category": "common",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/lookupTablesData/hotAreas/v1",
+      "label": "hotAreas",
+      "path": "common/lookupTablesData/hotAreas",
+      "category": "common",
+      "version": 1,
+      "degree": 0
+    },
+    {
+      "id": "https://mapcolonies.com/common/lookupTablesData/countries/v1",
+      "label": "countries",
+      "path": "common/lookupTablesData/countries",
+      "category": "common",
+      "version": 1,
+      "degree": 0
+    },
+    {
+      "id": "https://mapcolonies.com/common/lookupTablesData/classification/v1",
+      "label": "classification",
+      "path": "common/lookupTablesData/classification",
+      "category": "common",
+      "version": 1,
+      "degree": 0
+    },
+    {
+      "id": "https://mapcolonies.com/common/elastic/partial/v1",
+      "label": "Schema v1",
+      "path": "common/elastic/partial",
+      "category": "common",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/elastic/full/v1",
+      "label": "Schema v1",
+      "path": "common/elastic/full",
+      "category": "common",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/common/db/partial/v1",
+      "label": "Schema v1",
+      "path": "common/db/partial",
+      "category": "common",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/common/db/full/v2",
+      "label": "Schema v2",
+      "path": "common/db/full",
+      "category": "common",
+      "version": 2,
+      "degree": 3
+    },
+    {
+      "id": "https://mapcolonies.com/common/db/full/v1",
+      "label": "Schema v1",
+      "path": "common/db/full",
+      "category": "common",
+      "version": 1,
+      "degree": 7
+    },
+    {
+      "id": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "label": "Circuit breaker options v1",
+      "path": "common/circuit-breaker",
+      "category": "common",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/boilerplate/v2",
+      "label": "commonBoilerplateV2",
+      "path": "common/boilerplate",
+      "category": "common",
+      "version": 2,
+      "degree": 8
+    },
+    {
+      "id": "https://mapcolonies.com/common/boilerplate/v1",
+      "label": "commonBoilerplateV1",
+      "path": "common/boilerplate",
+      "category": "common",
+      "version": 1,
+      "degree": 5
+    }
+  ],
+  "edges": [
+    {
+      "source": "https://mapcolonies.com/vector/retiler/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/retiler/v1",
+      "target": "https://mapcolonies.com/common/db/full/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v1",
+      "target": "https://mapcolonies.com/common/redis/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v1",
+      "target": "https://mapcolonies.com/common/s3/full/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v1",
+      "target": "https://mapcolonies.com/common/elastic/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/common/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/common/v1",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/manager/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/manager/v1",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v2",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v2",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v2",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v2",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v2",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v1",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v1",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v1",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobnik/worker/v1",
+      "target": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "target": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobnik/manager/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobnik/manager/v1",
+      "target": "https://mapcolonies.com/common/db/full/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobManager/worker/v1",
+      "target": "https://mapcolonies.com/infra/jobManager/sdk/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobManager/worker/v1",
+      "target": "https://mapcolonies.com/infra/jobManager/heartbeatManager/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobManager/sdk/v1",
+      "target": "https://mapcolonies.com/infra/jobManager/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobManager/sdk/v1",
+      "target": "https://mapcolonies.com/infra/jobManager/job/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobManager/sdk/v1",
+      "target": "https://mapcolonies.com/infra/jobManager/task/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/infra/jobnik/worker/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/s3/full/v3",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/s3/full/v2",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/s3/full/v1",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/elastic/full/v1",
+      "target": "https://mapcolonies.com/common/elastic/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/db/full/v2",
+      "target": "https://mapcolonies.com/common/db/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/db/full/v1",
+      "target": "https://mapcolonies.com/common/db/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v2",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v2",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v2",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "type": "reference"
+    }
+  ]
+}
