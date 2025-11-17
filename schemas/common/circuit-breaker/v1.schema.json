@@ -3,7 +3,7 @@
   "$id": "https://mapcolonies.com/common/circuit-breaker/v1",
   "type": "object",
   "title": "Circuit breaker options v1",
-  "required": ["enabled", "errorThresholdPercentage", "resetTimeout", "rollingCountTimeout"],
+  "required": ["enabled", "errorThresholdPercentage", "resetTimeout", "rollingCountTimeout", "volumeThreshold"],
   "properties": {
     "enabled": {
       "description": "Enable or disable the circuit breaker",
@@ -28,6 +28,12 @@
       "type": "integer",
       "default": 120000,
       "minimum": 1000
+    },
+    "volumeThreshold": {
+      "description": "The minimum number of requests within the rolling statistical window that must exist before the circuit breaker can open.",
+      "type": "integer",
+      "default": 10,
+      "minimum": 0
     }
   }
 }
