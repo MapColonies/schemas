@@ -11,13 +11,6 @@
       "minimum": 1,
       "x-env-value": "JOBNIK_WORKER_CONCURRENCY"
     },
-    "pullingInterval": {
-      "description": "The interval in milliseconds at which the worker polls for new jobs",
-      "type": "integer",
-      "default": 1000,
-      "minimum": 100,
-      "x-env-value": "JOBNIK_WORKER_PULLING_INTERVAL"
-    },
     "taskHandlerCircuitBreaker": {
       "description": "Circuit breaker configuration for the task handler. e.g. to prevent running tasks when the handler fails repeatedly",
       "$ref": "https://mapcolonies.com/common/circuit-breaker/v1",
