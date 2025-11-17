@@ -58,7 +58,7 @@
     },
     "jobnik": {
       "type": "object",
-      "required": ["sdk"],
+      "required": ["sdk", "worker"],
       "default": {},
       "properties": {
         "sdk": {
