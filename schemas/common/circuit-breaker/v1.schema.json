@@ -33,7 +33,7 @@
       "description": "The minimum number of requests within the rolling statistical window that must exist before the circuit breaker can open.",
       "type": "integer",
       "default": 10,
-      "minimum": 0
+      "minimum": 1
     }
   }
 }
