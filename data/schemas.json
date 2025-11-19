@@ -1729,6 +1729,237 @@
       "referencedBy": []
     },
     {
+      "id": "https://mapcolonies.com/infra/jobnik/worker/v1",
+      "path": "infra/jobnik/worker",
+      "version": 1,
+      "title": "Jobnik worker options v1",
+      "description": "Worker options for creating a new worker using the jobnik sdk",
+      "category": "infra",
+      "rawContent": {
+        "description": "Worker options for creating a new worker using the jobnik sdk",
+        "$id": "https://mapcolonies.com/infra/jobnik/worker/v1",
+        "type": "object",
+        "title": "Jobnik worker options v1",
+        "properties": {
+          "concurrency": {
+            "description": "The number of concurrent jobs the worker can process",
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "x-env-value": "JOBNIK_WORKER_CONCURRENCY"
+          },
+          "taskHandlerCircuitBreaker": {
+            "description": "Circuit breaker configuration for the task handler. e.g. to prevent running tasks when the handler fails repeatedly",
+            "$ref": "https://mapcolonies.com/common/circuit-breaker/v1",
+            "default": {}
+          },
+          "dequeueTaskCircuitBreaker": {
+            "description": "Circuit breaker configuration for the dequeue task operation. e.g. to prevent dequeuing tasks when the jobnik server is unresponsive",
+            "$ref": "https://mapcolonies.com/common/circuit-breaker/v1",
+            "default": {}
+          },
+          "backoffOptions": {
+            "description": "Backoff options for retrying failed operations",
+            "$ref": "#/definitions/backoffOptions",
+            "default": {}
+          }
+        },
+        "definitions": {
+          "backoffOptions": {
+            "description": "Configuration options for the exponential backoff strategy",
+            "type": "object",
+            "required": [
+              "initialBaseRetryDelayMs",
+              "backoffFactor",
+              "maxDelayMs"
+            ],
+            "properties": {
+              "initialBaseRetryDelayMs": {
+                "description": "The initial delay (in milliseconds) for the first retry",
+                "type": "integer",
+                "minimum": 100,
+                "default": 1000,
+                "x-env-value": "JOBNIK_WORKER_BACKOFF_INITIAL_DELAY_MS"
+              },
+              "backoffFactor": {
+                "description": "The multiplier for each subsequent retry. (e.g., 2 for 1s, 2s, 4s, 8s...)",
+                "type": "number",
+                "minimum": 1,
+                "default": 2,
+                "x-env-value": "JOBNIK_WORKER_BACKOFF_FACTOR"
+              },
+              "maxDelayMs": {
+                "description": "The maximum delay (in milliseconds) to cap the backoff at",
+                "type": "integer",
+                "minimum": 0,
+                "default": 60000,
+                "x-env-value": "JOBNIK_WORKER_BACKOFF_MAX_DELAY_MS"
+              },
+              "disableJitter": {
+                "description": "If true, disables jitter, making delays exact (not recommended in production)",
+                "type": "boolean",
+                "default": false,
+                "x-env-value": "JOBNIK_WORKER_BACKOFF_DISABLE_JITTER"
+              },
+              "maxJitterFactor": {
+                "description": "The percentage (as a decimal) to randomize the delay. e.g., 0.25 means the delay will be randomized to +/- 25% of its calculated value",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "default": 0.25,
+                "x-env-value": "JOBNIK_WORKER_BACKOFF_MAX_JITTER_FACTOR"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        concurrency: number;\n        taskHandlerCircuitBreaker: {\n            [x: string]: unknown;\n            enabled: boolean;\n            errorThresholdPercentage: number;\n            resetTimeout: number;\n            rollingCountTimeout: number;\n            volumeThreshold: number;\n        };\n        dequeueTaskCircuitBreaker: {\n            [x: string]: unknown;\n            enabled: boolean;\n            errorThresholdPercentage: number;\n            resetTimeout: number;\n            rollingCountTimeout: number;\n            volumeThreshold: number;\n        };\n        backoffOptions: {\n            [x: string]: unknown;\n            initialBaseRetryDelayMs: number;\n            backoffFactor: number;\n            maxDelayMs: number;\n            disableJitter: boolean;\n            maxJitterFactor: number;\n        };\n    };\n    readonly description: \"Worker options for creating a new worker using the jobnik sdk\";\n    readonly $id: \"https://mapcolonies.com/infra/jobnik/worker/v1\";\n    readonly type: \"object\";\n    readonly title: \"Jobnik worker options v1\";\n    readonly properties: {\n        readonly concurrency: {\n            readonly description: \"The number of concurrent jobs the worker can process\";\n            readonly type: \"integer\";\n            readonly default: 1;\n            readonly minimum: 1;\n            readonly \"x-env-value\": \"JOBNIK_WORKER_CONCURRENCY\";\n        };\n        readonly taskHandlerCircuitBreaker: {\n            readonly description: \"Circuit breaker configuration for the task handler. e.g. to prevent running tasks when the handler fails repeatedly\";\n            readonly $ref: \"https://mapcolonies.com/common/circuit-breaker/v1\";\n            readonly default: {};\n        };\n        readonly dequeueTaskCircuitBreaker: {\n            readonly description: \"Circuit breaker configuration for the dequeue task operation. e.g. to prevent dequeuing tasks when the jobnik server is unresponsive\";\n            readonly $ref: \"https://mapcolonies.com/common/circuit-breaker/v1\";\n            readonly default: {};\n        };\n        readonly backoffOptions: {\n            readonly description: \"Backoff options for retrying failed operations\";\n            readonly $ref: \"#/definitions/backoffOptions\";\n            readonly default: {};\n        };\n    };\n    readonly definitions: {\n        readonly backoffOptions: {\n            readonly description: \"Configuration options for the exponential backoff strategy\";\n            readonly type: \"object\";\n            readonly required: readonly [\"initialBaseRetryDelayMs\", \"backoffFactor\", \"maxDelayMs\"];\n            readonly properties: {\n                readonly initialBaseRetryDelayMs: {\n                    readonly description: \"The initial delay (in milliseconds) for the first retry\";\n                    readonly type: \"integer\";\n                    readonly minimum: 100;\n                    readonly default: 1000;\n                    readonly \"x-env-value\": \"JOBNIK_WORKER_BACKOFF_INITIAL_DELAY_MS\";\n                };\n                readonly backoffFactor: {\n                    readonly description: \"The multiplier for each subsequent retry. (e.g., 2 for 1s, 2s, 4s, 8s...)\";\n                    readonly type: \"number\";\n                    readonly minimum: 1;\n                    readonly default: 2;\n                    readonly \"x-env-value\": \"JOBNIK_WORKER_BACKOFF_FACTOR\";\n                };\n                readonly maxDelayMs: {\n                    readonly description: \"The maximum delay (in milliseconds) to cap the backoff at\";\n                    readonly type: \"integer\";\n                    readonly minimum: 0;\n                    readonly default: 60000;\n                    readonly \"x-env-value\": \"JOBNIK_WORKER_BACKOFF_MAX_DELAY_MS\";\n                };\n                readonly disableJitter: {\n                    readonly description: \"If true, disables jitter, making delays exact (not recommended in production)\";\n                    readonly type: \"boolean\";\n                    readonly default: false;\n                    readonly \"x-env-value\": \"JOBNIK_WORKER_BACKOFF_DISABLE_JITTER\";\n                };\n                readonly maxJitterFactor: {\n                    readonly description: \"The percentage (as a decimal) to randomize the delay. e.g., 0.25 means the delay will be randomized to +/- 25% of its calculated value\";\n                    readonly type: \"number\";\n                    readonly minimum: 0;\n                    readonly maximum: 1;\n                    readonly default: 0.25;\n                    readonly \"x-env-value\": \"JOBNIK_WORKER_BACKOFF_MAX_JITTER_FACTOR\";\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/circuit-breaker/v1"
+      ],
+      "internalRefs": [
+        "#/definitions/backoffOptions"
+      ],
+      "hasConfig": false,
+      "referencedBy": [
+        "https://mapcolonies.com/common/worker-boilerplate/v1"
+      ]
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+      "path": "infra/jobnik/sdk/partial",
+      "version": 1,
+      "title": "Jobnik sdk partial config v1",
+      "description": "Jobnik SDK configuration options that can be shared across different components",
+      "category": "infra",
+      "rawContent": {
+        "description": "Jobnik SDK configuration options that can be shared across different components",
+        "$id": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+        "type": "object",
+        "title": "Jobnik sdk partial config v1",
+        "required": [
+          "baseUrl"
+        ],
+        "properties": {
+          "baseUrl": {
+            "description": "The base URL of the jobnik server",
+            "type": "string",
+            "format": "uri",
+            "x-env-value": "JOBNIK_SDK_BASE_URL"
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        baseUrl: string;\n    };\n    readonly description: \"Jobnik SDK configuration options that can be shared across different components\";\n    readonly $id: \"https://mapcolonies.com/infra/jobnik/sdk/partial/v1\";\n    readonly type: \"object\";\n    readonly title: \"Jobnik sdk partial config v1\";\n    readonly required: readonly [\"baseUrl\"];\n    readonly properties: {\n        readonly baseUrl: {\n            readonly description: \"The base URL of the jobnik server\";\n            readonly type: \"string\";\n            readonly format: \"uri\";\n            readonly \"x-env-value\": \"JOBNIK_SDK_BASE_URL\";\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [],
+      "internalRefs": [],
+      "hasConfig": true,
+      "referencedBy": [
+        "https://mapcolonies.com/infra/jobnik/sdk/full/v1"
+      ]
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "path": "infra/jobnik/sdk/full",
+      "version": 1,
+      "title": "Jobnik sdk full config v1",
+      "description": "Worker options for creating a new worker using the jobnik sdk",
+      "category": "infra",
+      "rawContent": {
+        "description": "Worker options for creating a new worker using the jobnik sdk",
+        "$id": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+        "type": "object",
+        "title": "Jobnik sdk full config v1",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "httpClientOptions": {
+                "type": "object",
+                "properties": {
+                  "agentOptions": {
+                    "$ref": "#/definitions/agentOptions"
+                  },
+                  "retry": {
+                    "$ref": "#/definitions/retry"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "definitions": {
+          "agentOptions": {
+            "type": "object",
+            "properties": {
+              "connectTimeout": {
+                "type": "integer",
+                "description": "The number of milliseconds to wait before a connection attempt times out",
+                "default": 1000,
+                "minimum": 0
+              },
+              "headersTimeout": {
+                "type": "integer",
+                "description": "The number of milliseconds to wait for the headers to be received",
+                "default": 2000,
+                "minimum": 0
+              },
+              "bodyTimeout": {
+                "type": "integer",
+                "description": "The number of milliseconds to wait for the body to be received",
+                "default": 5000,
+                "minimum": 0
+              }
+            }
+          },
+          "retry": {
+            "type": "object",
+            "properties": {
+              "disableJitter": {
+                "type": "boolean",
+                "description": "Disable jitter for retry attempts",
+                "default": false
+              },
+              "initialBaseRetryDelayMs": {
+                "type": "integer",
+                "description": "The initial delay in milliseconds before the first retry attempt",
+                "default": 1000,
+                "minimum": 0
+              },
+              "maxRetries": {
+                "type": "integer",
+                "description": "The maximum number of retry attempts",
+                "default": 3,
+                "minimum": 0,
+                "x-env-value": "JOBNIK_SDK_MAX_RETRIES"
+              },
+              "maxJitterFactor": {
+                "type": "number",
+                "description": "The maximum jitter factor to apply to retry delays",
+                "default": 0.5,
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        httpClientOptions?: {\n            [x: string]: unknown;\n            agentOptions?: {\n                [x: string]: unknown;\n                connectTimeout: number;\n                headersTimeout: number;\n                bodyTimeout: number;\n            } | undefined;\n            retry?: {\n                [x: string]: unknown;\n                initialBaseRetryDelayMs: number;\n                disableJitter: boolean;\n                maxJitterFactor: number;\n                maxRetries: number;\n            } | undefined;\n        } | undefined;\n        baseUrl: string;\n    };\n    readonly description: \"Worker options for creating a new worker using the jobnik sdk\";\n    readonly $id: \"https://mapcolonies.com/infra/jobnik/sdk/full/v1\";\n    readonly type: \"object\";\n    readonly title: \"Jobnik sdk full config v1\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/infra/jobnik/sdk/partial/v1\";\n    }, {\n        readonly type: \"object\";\n        readonly properties: {\n            readonly httpClientOptions: {\n                readonly type: \"object\";\n                readonly properties: {\n                    readonly agentOptions: {\n                        readonly $ref: \"#/definitions/agentOptions\";\n                    };\n                    readonly retry: {\n                        readonly $ref: \"#/definitions/retry\";\n                    };\n                };\n            };\n        };\n    }];\n    readonly definitions: {\n        readonly agentOptions: {\n            readonly type: \"object\";\n            readonly properties: {\n                readonly connectTimeout: {\n                    readonly type: \"integer\";\n                    readonly description: \"The number of milliseconds to wait before a connection attempt times out\";\n                    readonly default: 1000;\n                    readonly minimum: 0;\n                };\n                readonly headersTimeout: {\n                    readonly type: \"integer\";\n                    readonly description: \"The number of milliseconds to wait for the headers to be received\";\n                    readonly default: 2000;\n                    readonly minimum: 0;\n                };\n                readonly bodyTimeout: {\n                    readonly type: \"integer\";\n                    readonly description: \"The number of milliseconds to wait for the body to be received\";\n                    readonly default: 5000;\n                    readonly minimum: 0;\n                };\n            };\n        };\n        readonly retry: {\n            readonly type: \"object\";\n            readonly properties: {\n                readonly disableJitter: {\n                    readonly type: \"boolean\";\n                    readonly description: \"Disable jitter for retry attempts\";\n                    readonly default: false;\n                };\n                readonly initialBaseRetryDelayMs: {\n                    readonly type: \"integer\";\n                    readonly description: \"The initial delay in milliseconds before the first retry attempt\";\n                    readonly default: 1000;\n                    readonly minimum: 0;\n                };\n                readonly maxRetries: {\n                    readonly type: \"integer\";\n                    readonly description: \"The maximum number of retry attempts\";\n                    readonly default: 3;\n                    readonly minimum: 0;\n                    readonly \"x-env-value\": \"JOBNIK_SDK_MAX_RETRIES\";\n                };\n                readonly maxJitterFactor: {\n                    readonly type: \"number\";\n                    readonly description: \"The maximum jitter factor to apply to retry delays\";\n                    readonly default: 0.5;\n                    readonly minimum: 0;\n                    readonly maximum: 1;\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+      ],
+      "internalRefs": [
+        "#/definitions/agentOptions",
+        "#/definitions/retry"
+      ],
+      "hasConfig": false,
+      "referencedBy": [
+        "https://mapcolonies.com/common/worker-boilerplate/v1"
+      ]
+    },
+    {
       "id": "https://mapcolonies.com/infra/jobnik/manager/v1",
       "path": "infra/jobnik/manager",
       "version": 1,
@@ -2079,6 +2310,122 @@
       ]
     },
     {
+      "id": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "path": "common/worker-boilerplate",
+      "version": 1,
+      "title": "jobnikBoilerplateV1",
+      "description": "Boilerplate basic configuration",
+      "category": "common",
+      "rawContent": {
+        "description": "Boilerplate basic configuration",
+        "$id": "https://mapcolonies.com/common/worker-boilerplate/v1",
+        "type": "object",
+        "title": "jobnikBoilerplateV1",
+        "required": [
+          "jobnik",
+          "telemetry",
+          "server"
+        ],
+        "properties": {
+          "telemetry": {
+            "description": "Telemetry configuration",
+            "type": "object",
+            "default": {},
+            "unevaluatedProperties": false,
+            "examples": [
+              {
+                "shared": {
+                  "serviceName": "boilerplate"
+                },
+                "tracing": {
+                  "isEnabled": false
+                },
+                "logger": {
+                  "level": "info",
+                  "prettyPrint": false
+                }
+              }
+            ],
+            "properties": {
+              "shared": {
+                "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+              },
+              "tracing": {
+                "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+              },
+              "logger": {
+                "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
+              },
+              "metrics": {
+                "description": "Metrics configuration"
+              }
+            },
+            "required": [
+              "logger",
+              "shared",
+              "tracing"
+            ]
+          },
+          "server": {
+            "description": "Server configuration",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "default": {},
+            "examples": [
+              {
+                "port": 8080,
+                "request": {
+                  "payload": {
+                    "limit": "1mb"
+                  }
+                }
+              }
+            ],
+            "properties": {
+              "port": {
+                "minimum": 1,
+                "maximum": 65535,
+                "default": 8080,
+                "description": "The port the server will listen on",
+                "type": "integer",
+                "x-env-value": "SERVER_PORT"
+              }
+            },
+            "required": [
+              "port"
+            ]
+          },
+          "jobnik": {
+            "type": "object",
+            "required": [
+              "sdk",
+              "worker"
+            ],
+            "default": {},
+            "properties": {
+              "sdk": {
+                "$ref": "https://mapcolonies.com/infra/jobnik/sdk/full/v1"
+              },
+              "worker": {
+                "$ref": "https://mapcolonies.com/infra/jobnik/worker/v1"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n        };\n        jobnik: {\n            [x: string]: unknown;\n            sdk: {\n                [x: string]: unknown;\n                httpClientOptions?: {\n                    [x: string]: unknown;\n                    agentOptions?: {\n                        [x: string]: unknown;\n                        connectTimeout: number;\n                        headersTimeout: number;\n                        bodyTimeout: number;\n                    } | undefined;\n                    retry?: {\n                        [x: string]: unknown;\n                        initialBaseRetryDelayMs: number;\n                        disableJitter: boolean;\n                        maxJitterFactor: number;\n                        maxRetries: number;\n                    } | undefined;\n                } | undefined;\n                baseUrl: string;\n            };\n            worker: {\n                [x: string]: unknown;\n                concurrency: number;\n                taskHandlerCircuitBreaker: {\n                    [x: string]: unknown;\n                    enabled: boolean;\n                    errorThresholdPercentage: number;\n                    resetTimeout: number;\n                    rollingCountTimeout: number;\n                    volumeThreshold: number;\n                };\n                dequeueTaskCircuitBreaker: {\n                    [x: string]: unknown;\n                    enabled: boolean;\n                    errorThresholdPercentage: number;\n                    resetTimeout: number;\n                    rollingCountTimeout: number;\n                    volumeThreshold: number;\n                };\n                backoffOptions: {\n                    [x: string]: unknown;\n                    initialBaseRetryDelayMs: number;\n                    backoffFactor: number;\n                    maxDelayMs: number;\n                    disableJitter: boolean;\n                    maxJitterFactor: number;\n                };\n            };\n        };\n    };\n    readonly description: \"Boilerplate basic configuration\";\n    readonly $id: \"https://mapcolonies.com/common/worker-boilerplate/v1\";\n    readonly type: \"object\";\n    readonly title: \"jobnikBoilerplateV1\";\n    readonly required: readonly [\"jobnik\", \"telemetry\", \"server\"];\n    readonly properties: {\n        readonly telemetry: {\n            readonly description: \"Telemetry configuration\";\n            readonly type: \"object\";\n            readonly default: {};\n            readonly unevaluatedProperties: false;\n            readonly examples: readonly [{\n                readonly shared: {\n                    readonly serviceName: \"boilerplate\";\n                };\n                readonly tracing: {\n                    readonly isEnabled: false;\n                };\n                readonly logger: {\n                    readonly level: \"info\";\n                    readonly prettyPrint: false;\n                };\n            }];\n            readonly properties: {\n                readonly shared: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/base/v1\";\n                };\n                readonly tracing: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/tracing/v1\";\n                };\n                readonly logger: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/logger/v1\";\n                };\n                readonly metrics: {\n                    readonly description: \"Metrics configuration\";\n                };\n            };\n            readonly required: readonly [\"logger\", \"shared\", \"tracing\"];\n        };\n        readonly server: {\n            readonly description: \"Server configuration\";\n            readonly type: \"object\";\n            readonly unevaluatedProperties: false;\n            readonly default: {};\n            readonly examples: readonly [{\n                readonly port: 8080;\n                readonly request: {\n                    readonly payload: {\n                        readonly limit: \"1mb\";\n                    };\n                };\n            }];\n            readonly properties: {\n                readonly port: {\n                    readonly minimum: 1;\n                    readonly maximum: 65535;\n                    readonly default: 8080;\n                    readonly description: \"The port the server will listen on\";\n                    readonly type: \"integer\";\n                    readonly \"x-env-value\": \"SERVER_PORT\";\n                };\n            };\n            readonly required: readonly [\"port\"];\n        };\n        readonly jobnik: {\n            readonly type: \"object\";\n            readonly required: readonly [\"sdk\", \"worker\"];\n            readonly default: {};\n            readonly properties: {\n                readonly sdk: {\n                    readonly $ref: \"https://mapcolonies.com/infra/jobnik/sdk/full/v1\";\n                };\n                readonly worker: {\n                    readonly $ref: \"https://mapcolonies.com/infra/jobnik/worker/v1\";\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/telemetry/base/v1",
+        "https://mapcolonies.com/common/telemetry/tracing/v1",
+        "https://mapcolonies.com/common/telemetry/logger/v1",
+        "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+        "https://mapcolonies.com/infra/jobnik/worker/v1"
+      ],
+      "internalRefs": [],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/common/telemetry/tracing/v1",
       "path": "common/telemetry/tracing",
       "version": 1,
@@ -2133,6 +2480,7 @@
       "hasConfig": true,
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
+        "https://mapcolonies.com/common/worker-boilerplate/v1",
         "https://mapcolonies.com/common/boilerplate/v2",
         "https://mapcolonies.com/common/boilerplate/v1"
       ]
@@ -2200,6 +2548,7 @@
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
         "https://mapcolonies.com/infra/opala/cron/v1",
+        "https://mapcolonies.com/common/worker-boilerplate/v1",
         "https://mapcolonies.com/common/boilerplate/v2",
         "https://mapcolonies.com/common/boilerplate/v1"
       ]
@@ -2248,6 +2597,7 @@
       "hasConfig": false,
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
+        "https://mapcolonies.com/common/worker-boilerplate/v1",
         "https://mapcolonies.com/common/boilerplate/v2",
         "https://mapcolonies.com/common/boilerplate/v1"
       ]
@@ -3089,6 +3439,66 @@
       ]
     },
     {
+      "id": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "path": "common/circuit-breaker",
+      "version": 1,
+      "title": "Circuit breaker options v1",
+      "description": "Options to configure opossum based circuit breaker behavior ",
+      "category": "common",
+      "rawContent": {
+        "description": "Options to configure opossum based circuit breaker behavior ",
+        "$id": "https://mapcolonies.com/common/circuit-breaker/v1",
+        "type": "object",
+        "title": "Circuit breaker options v1",
+        "required": [
+          "enabled",
+          "errorThresholdPercentage",
+          "resetTimeout",
+          "rollingCountTimeout",
+          "volumeThreshold"
+        ],
+        "properties": {
+          "enabled": {
+            "description": "Enable or disable the circuit breaker",
+            "type": "boolean",
+            "default": true
+          },
+          "errorThresholdPercentage": {
+            "description": "The error percentage at which to open the circuit and start short-circuiting requests",
+            "type": "integer",
+            "default": 50,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "resetTimeout": {
+            "description": "The time in milliseconds to wait before setting the breaker to half-open state, to allow for retries",
+            "type": "integer",
+            "default": 30000,
+            "minimum": 1000
+          },
+          "rollingCountTimeout": {
+            "description": "The duration of the statistical rolling window, in milliseconds. This is how long the metrics used to determine the health of the circuit breaker are kept.",
+            "type": "integer",
+            "default": 120000,
+            "minimum": 1000
+          },
+          "volumeThreshold": {
+            "description": "The minimum number of requests within the rolling statistical window that must exist before the circuit breaker can open.",
+            "type": "integer",
+            "default": 10,
+            "minimum": 1
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        enabled: boolean;\n        errorThresholdPercentage: number;\n        resetTimeout: number;\n        rollingCountTimeout: number;\n        volumeThreshold: number;\n    };\n    readonly description: \"Options to configure opossum based circuit breaker behavior \";\n    readonly $id: \"https://mapcolonies.com/common/circuit-breaker/v1\";\n    readonly type: \"object\";\n    readonly title: \"Circuit breaker options v1\";\n    readonly required: readonly [\"enabled\", \"errorThresholdPercentage\", \"resetTimeout\", \"rollingCountTimeout\", \"volumeThreshold\"];\n    readonly properties: {\n        readonly enabled: {\n            readonly description: \"Enable or disable the circuit breaker\";\n            readonly type: \"boolean\";\n            readonly default: true;\n        };\n        readonly errorThresholdPercentage: {\n            readonly description: \"The error percentage at which to open the circuit and start short-circuiting requests\";\n            readonly type: \"integer\";\n            readonly default: 50;\n            readonly minimum: 1;\n            readonly maximum: 100;\n        };\n        readonly resetTimeout: {\n            readonly description: \"The time in milliseconds to wait before setting the breaker to half-open state, to allow for retries\";\n            readonly type: \"integer\";\n            readonly default: 30000;\n            readonly minimum: 1000;\n        };\n        readonly rollingCountTimeout: {\n            readonly description: \"The duration of the statistical rolling window, in milliseconds. This is how long the metrics used to determine the health of the circuit breaker are kept.\";\n            readonly type: \"integer\";\n            readonly default: 120000;\n            readonly minimum: 1000;\n        };\n        readonly volumeThreshold: {\n            readonly description: \"The minimum number of requests within the rolling statistical window that must exist before the circuit breaker can open.\";\n            readonly type: \"integer\";\n            readonly default: 10;\n            readonly minimum: 1;\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [],
+      "internalRefs": [],
+      "hasConfig": false,
+      "referencedBy": [
+        "https://mapcolonies.com/infra/jobnik/worker/v1"
+      ]
+    },
+    {
       "id": "https://mapcolonies.com/common/boilerplate/v2",
       "path": "common/boilerplate",
       "version": 2,
@@ -3486,11 +3896,11 @@
   "categories": [
     {
       "name": "common",
-      "count": 18
+      "count": 20
     },
     {
       "name": "infra",
-      "count": 11
+      "count": 14
     },
     {
       "name": "vector",

@@ -143,6 +143,19 @@
       ]
     },
     {
+      "schemaId": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+      "schemaPath": "infra/jobnik/sdk/partial",
+      "version": 1,
+      "instances": [
+        {
+          "name": "shared-jobnik-config",
+          "value": {
+            "baseUrl": "http://localhost:3000"
+          }
+        }
+      ]
+    },
+    {
       "schemaId": "https://mapcolonies.com/infra/jobnik/manager/v1",
       "schemaPath": "infra/jobnik/manager",
       "version": 1,

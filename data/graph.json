@@ -65,6 +65,30 @@
       "degree": 3
     },
     {
+      "id": "https://mapcolonies.com/infra/jobnik/worker/v1",
+      "label": "Jobnik worker options v1",
+      "path": "infra/jobnik/worker",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+      "label": "Jobnik sdk partial config v1",
+      "path": "infra/jobnik/sdk/partial",
+      "category": "infra",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "label": "Jobnik sdk full config v1",
+      "path": "infra/jobnik/sdk/full",
+      "category": "infra",
+      "version": 1,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/infra/jobnik/manager/v1",
       "label": "jobnikManagerSchemaV1",
       "path": "infra/jobnik/manager",
@@ -121,12 +145,20 @@
       "degree": 1
     },
     {
+      "id": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "label": "jobnikBoilerplateV1",
+      "path": "common/worker-boilerplate",
+      "category": "common",
+      "version": 1,
+      "degree": 5
+    },
+    {
       "id": "https://mapcolonies.com/common/telemetry/tracing/v1",
       "label": "commonTelemetryTracingV1",
       "path": "common/telemetry/tracing",
       "category": "common",
       "version": 1,
-      "degree": 3
+      "degree": 4
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/logger/v1",
@@ -134,7 +166,7 @@
       "path": "common/telemetry/logger",
       "category": "common",
       "version": 1,
-      "degree": 4
+      "degree": 5
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/base/v1",
@@ -142,7 +174,7 @@
       "path": "common/telemetry/base",
       "category": "common",
       "version": 1,
-      "degree": 3
+      "degree": 4
     },
     {
       "id": "https://mapcolonies.com/common/s3/partial/v1",
@@ -247,6 +279,14 @@
       "category": "common",
       "version": 1,
       "degree": 7
+    },
+    {
+      "id": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "label": "Circuit breaker options v1",
+      "path": "common/circuit-breaker",
+      "category": "common",
+      "version": 1,
+      "degree": 1
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v2",
@@ -377,6 +417,16 @@
       "type": "reference"
     },
     {
+      "source": "https://mapcolonies.com/infra/jobnik/worker/v1",
+      "target": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "target": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+      "type": "reference"
+    },
+    {
       "source": "https://mapcolonies.com/infra/jobnik/manager/v1",
       "target": "https://mapcolonies.com/common/boilerplate/v2",
       "type": "reference"
@@ -409,6 +459,31 @@
     {
       "source": "https://mapcolonies.com/infra/jobManager/sdk/v1",
       "target": "https://mapcolonies.com/infra/jobManager/task/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v1",
+      "target": "https://mapcolonies.com/infra/jobnik/worker/v1",
       "type": "reference"
     },
     {
