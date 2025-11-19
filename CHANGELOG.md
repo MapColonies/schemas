@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/MapColonies/schemas/compare/v1.13.0...v1.14.0) (2025-11-19)
+
+
+### Features
+
+* jobnik boilerplate ([#119](https://github.com/MapColonies/schemas/issues/119)) ([7a52f5a](https://github.com/MapColonies/schemas/commit/7a52f5a0504101f7c1750a23562b5905892143a1))
+
 ## [1.13.0](https://github.com/MapColonies/schemas/compare/v1.12.2...v1.13.0) (2025-09-11)
 
 
