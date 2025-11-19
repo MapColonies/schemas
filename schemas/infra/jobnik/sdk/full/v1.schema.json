@@ -1,0 +1,83 @@
+{
+  "description": "Worker options for creating a new worker using the jobnik sdk",
+  "$id": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+  "type": "object",
+  "title": "Jobnik sdk full config v1",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "httpClientOptions": {
+          "type": "object",
+          "properties": {
+            "agentOptions": {
+              "$ref": "#/definitions/agentOptions"
+            },
+            "retry": {
+              "$ref": "#/definitions/retry"
+            }
+          }
+        }
+      }
+    }
+  ],
+
+  "definitions": {
+    "agentOptions": {
+      "type": "object",
+      "properties": {
+        "connectTimeout": {
+          "type": "integer",
+          "description": "The number of milliseconds to wait before a connection attempt times out",
+          "default": 1000,
+          "minimum": 0
+        },
+        "headersTimeout": {
+          "type": "integer",
+          "description": "The number of milliseconds to wait for the headers to be received",
+          "default": 2000,
+          "minimum": 0
+        },
+        "bodyTimeout": {
+          "type": "integer",
+          "description": "The number of milliseconds to wait for the body to be received",
+          "default": 5000,
+          "minimum": 0
+        }
+      }
+    },
+    "retry": {
+      "type": "object",
+      "properties": {
+        "disableJitter": {
+          "type": "boolean",
+          "description": "Disable jitter for retry attempts",
+          "default": false
+        },
+        "initialBaseRetryDelayMs": {
+          "type": "integer",
+          "description": "The initial delay in milliseconds before the first retry attempt",
+          "default": 1000,
+          "minimum": 0
+        },
+        "maxRetries": {
+          "type": "integer",
+          "description": "The maximum number of retry attempts",
+          "default": 3,
+          "minimum": 0,
+          "x-env-value": "JOBNIK_SDK_MAX_RETRIES"
+        },
+        "maxJitterFactor": {
+          "type": "number",
+          "description": "The maximum jitter factor to apply to retry delays",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}

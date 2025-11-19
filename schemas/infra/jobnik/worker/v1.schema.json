@@ -1,0 +1,74 @@
+{
+  "description": "Worker options for creating a new worker using the jobnik sdk",
+  "$id": "https://mapcolonies.com/infra/jobnik/worker/v1",
+  "type": "object",
+  "title": "Jobnik worker options v1",
+  "properties": {
+    "concurrency": {
+      "description": "The number of concurrent jobs the worker can process",
+      "type": "integer",
+      "default": 1,
+      "minimum": 1,
+      "x-env-value": "JOBNIK_WORKER_CONCURRENCY"
+    },
+    "taskHandlerCircuitBreaker": {
+      "description": "Circuit breaker configuration for the task handler. e.g. to prevent running tasks when the handler fails repeatedly",
+      "$ref": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "default": {}
+    },
+    "dequeueTaskCircuitBreaker": {
+      "description": "Circuit breaker configuration for the dequeue task operation. e.g. to prevent dequeuing tasks when the jobnik server is unresponsive",
+      "$ref": "https://mapcolonies.com/common/circuit-breaker/v1",
+      "default": {}
+    },
+    "backoffOptions": {
+      "description": "Backoff options for retrying failed operations",
+      "$ref": "#/definitions/backoffOptions",
+      "default": {}
+    }
+  },
+  "definitions": {
+    "backoffOptions": {
+      "description": "Configuration options for the exponential backoff strategy",
+      "type": "object",
+      "required": ["initialBaseRetryDelayMs", "backoffFactor", "maxDelayMs"],
+      "properties": {
+        "initialBaseRetryDelayMs": {
+          "description": "The initial delay (in milliseconds) for the first retry",
+          "type": "integer",
+          "minimum": 100,
+          "default": 1000,
+          "x-env-value": "JOBNIK_WORKER_BACKOFF_INITIAL_DELAY_MS"
+        },
+        "backoffFactor": {
+          "description": "The multiplier for each subsequent retry. (e.g., 2 for 1s, 2s, 4s, 8s...)",
+          "type": "number",
+          "minimum": 1,
+          "default": 2,
+          "x-env-value": "JOBNIK_WORKER_BACKOFF_FACTOR"
+        },
+        "maxDelayMs": {
+          "description": "The maximum delay (in milliseconds) to cap the backoff at",
+          "type": "integer",
+          "minimum": 0,
+          "default": 60000,
+          "x-env-value": "JOBNIK_WORKER_BACKOFF_MAX_DELAY_MS"
+        },
+        "disableJitter": {
+          "description": "If true, disables jitter, making delays exact (not recommended in production)",
+          "type": "boolean",
+          "default": false,
+          "x-env-value": "JOBNIK_WORKER_BACKOFF_DISABLE_JITTER"
+        },
+        "maxJitterFactor": {
+          "description": "The percentage (as a decimal) to randomize the delay. e.g., 0.25 means the delay will be randomized to +/- 25% of its calculated value",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.25,
+          "x-env-value": "JOBNIK_WORKER_BACKOFF_MAX_JITTER_FACTOR"
+        }
+      }
+    }
+  }
+}
