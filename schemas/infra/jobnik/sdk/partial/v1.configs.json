@@ -1,0 +1,8 @@
+[
+  {
+    "name": "shared-jobnik-config",
+    "value": {
+      "baseUrl": "http://localhost:3000"
+    }
+  }
+]
