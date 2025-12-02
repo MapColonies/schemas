@@ -1,0 +1,39 @@
+{
+  "$id": "https://mapcolonies.com/yahalom-gateway/common/v1",
+  "type": "object",
+  "title": "commonYahalomGatewaySchemaV1",
+  "required": [],
+  "properties": {
+    "host": {
+      "type": "string",
+      "description": "the host of the database",
+      "default": "localhost",
+      "x-env-value": "DB_HOST"
+    },
+    "port": {
+      "type": "integer",
+      "description": "the port of the database",
+      "default": 5432,
+      "x-env-value": "DB_PORT"
+    },
+    "username": {
+      "type": "string",
+      "description": "the username of the database",
+      "default": "postgres",
+      "maxLength": 63,
+      "x-env-value": "DB_USERNAME"
+    },
+    "password": {
+      "type": "string",
+      "description": "the password of the database",
+      "default": "postgres",
+      "x-env-value": "DB_PASSWORD"
+    },
+    "database": {
+      "type": "string",
+      "description": "the database name",
+      "default": "default_db_mame",
+      "x-env-value": "DB_DATABASE"
+    }
+  }
+}
