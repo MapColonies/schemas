@@ -1,0 +1,15 @@
+{
+  "$id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
+  "title": "otlpLoggerV1",
+  "description": "Telemetry logger configuration",
+  "type": "object",
+  "properties": {
+    "url": {
+      "description": "The OTLP grpc endpoint URL",
+      "type": "string",
+      "format": "uri",
+      "default": "http://localhost:4317",
+      "x-env-value": "OTLP_LOGGER_ENDPOINT_URL"
+    }
+  }
+}
