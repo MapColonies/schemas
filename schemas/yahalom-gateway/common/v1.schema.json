@@ -53,7 +53,8 @@
         {
           "shared": { "serviceName": "yahalom-gateway" },
           "tracing": { "isEnabled": false },
-          "logger": { "level": "info", "prettyPrint": false }
+          "logger": { "level": "info", "prettyPrint": false },
+          "metrics": { "isEnabled": true }
         }
       ],
       "properties": {
@@ -65,6 +66,9 @@
         },
         "logger": {
           "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
+        },
+        "metrics": {
+          "description": "Metrics configuration"
         }
       },
       "required": ["logger", "shared", "tracing"]
