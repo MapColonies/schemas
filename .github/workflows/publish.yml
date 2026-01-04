@@ -6,7 +6,7 @@ on:
     types: [published]
 
 permissions:
-  id-token: write  # Required for OIDC
+  id-token: write # Required for OIDC
   contents: read
 
 jobs:
@@ -16,4 +16,5 @@ jobs:
       - uses: actions/checkout@v6
       - name: Init nodejs
         uses: ./.github/actions/init-npm
+      - run: npm i -g npm@latest
       - run: npm publish --access public
