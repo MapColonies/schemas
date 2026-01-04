@@ -123,7 +123,7 @@
                                 "type": "string"
                               },
                               "x-env-format": "json",
-                              "x-env-value": "ELASTIC_GEOTEXT_INDEXS"
+                              "x-env-value": "ELASTIC_GEOTEXT_INDEXES"
                             },
                             "textTermLanguage": {
                               "type": "string",
