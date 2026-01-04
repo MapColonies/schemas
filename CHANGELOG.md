@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/MapColonies/schemas/compare/v1.15.0...v1.15.1) (2026-01-04)
+
+
+### Bug Fixes
+
+* added elastic indexes and updated redis schema version ([#129](https://github.com/MapColonies/schemas/issues/129)) ([ac14de4](https://github.com/MapColonies/schemas/commit/ac14de476f4dfdb6236e8c54e417deffeb39f124))
+
 ## [1.15.0](https://github.com/MapColonies/schemas/compare/v1.14.0...v1.15.0) (2026-01-04)
 
 
