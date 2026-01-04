@@ -17,6 +17,14 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/vector/geocoding/v2",
+      "label": "vectorGeocodingSchemaV2",
+      "path": "vector/geocoding",
+      "category": "vector",
+      "version": 2,
+      "degree": 4
+    },
+    {
       "id": "https://mapcolonies.com/vector/geocoding/v1",
       "label": "vectorGeocodingSchemaV1",
       "path": "vector/geocoding",
@@ -198,7 +206,7 @@
       "path": "common/s3/full",
       "category": "common",
       "version": 2,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/common/s3/full/v1",
@@ -214,7 +222,7 @@
       "path": "common/redis",
       "category": "common",
       "version": 2,
-      "degree": 0
+      "degree": 1
     },
     {
       "id": "https://mapcolonies.com/common/redis/v1",
@@ -262,7 +270,7 @@
       "path": "common/elastic/full",
       "category": "common",
       "version": 1,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/common/db/partial/v1",
@@ -302,7 +310,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 2,
-      "degree": 8
+      "degree": 9
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v1",
@@ -332,6 +340,26 @@
     {
       "source": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
       "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v2",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v2",
+      "target": "https://mapcolonies.com/common/redis/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v2",
+      "target": "https://mapcolonies.com/common/s3/full/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/geocoding/v2",
+      "target": "https://mapcolonies.com/common/elastic/full/v1",
       "type": "reference"
     },
     {

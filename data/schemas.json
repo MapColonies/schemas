@@ -725,6 +725,350 @@
       "referencedBy": []
     },
     {
+      "id": "https://mapcolonies.com/vector/geocoding/v2",
+      "path": "vector/geocoding",
+      "version": 2,
+      "title": "vectorGeocodingSchemaV2",
+      "description": "Vector's geocoding schema",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/geocoding/v2",
+        "type": "object",
+        "title": "vectorGeocodingSchemaV2",
+        "description": "Vector's geocoding schema",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+          },
+          {
+            "$ref": "#/definitions/databases"
+          },
+          {
+            "$ref": "#/definitions/appSchema"
+          }
+        ],
+        "definitions": {
+          "databases": {
+            "type": "object",
+            "required": [
+              "db"
+            ],
+            "properties": {
+              "db": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "redis"
+                    ],
+                    "properties": {
+                      "redis": {
+                        "allOf": [
+                          {
+                            "$ref": "https://mapcolonies.com/common/redis/v2"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ttl": {
+                                "type": "number",
+                                "description": "Redis ttl in seconds",
+                                "x-env-value": "REDIS_TTL"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "s3"
+                    ],
+                    "properties": {
+                      "s3": {
+                        "allOf": [
+                          {
+                            "$ref": "https://mapcolonies.com/common/s3/full/v2"
+                          },
+                          {
+                            "type": "object",
+                            "required": [
+                              "fileName"
+                            ],
+                            "properties": {
+                              "fileName": {
+                                "type": "string",
+                                "description": "Lat lon convertion table file name",
+                                "x-env-value": "S3_FILE_NAME"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "elastic"
+                    ],
+                    "properties": {
+                      "elastic": {
+                        "type": "object",
+                        "required": [
+                          "control",
+                          "geotext"
+                        ],
+                        "properties": {
+                          "control": {
+                            "allOf": [
+                              {
+                                "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "node": {
+                                    "type": "string",
+                                    "x-env-value": "ELASTIC_CONTROL_URL"
+                                  },
+                                  "auth": {
+                                    "type": "object",
+                                    "properties": {
+                                      "username": {
+                                        "type": "string",
+                                        "x-env-value": "ELASTIC_CONTROL_USERNAME"
+                                      },
+                                      "password": {
+                                        "type": "string",
+                                        "x-env-value": "ELASTIC_CONTROL_PASSWORD"
+                                      }
+                                    }
+                                  },
+                                  "index": {
+                                    "type": "string",
+                                    "description": "Elastic control index",
+                                    "x-env-value": "ELASTIC_CONTROL_INDEX"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "geotext": {
+                            "allOf": [
+                              {
+                                "$ref": "https://mapcolonies.com/common/elastic/full/v1"
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "textTermLanguage"
+                                ],
+                                "properties": {
+                                  "node": {
+                                    "type": "string",
+                                    "x-env-value": "ELASTIC_GEOTEXT_URL"
+                                  },
+                                  "auth": {
+                                    "type": "object",
+                                    "properties": {
+                                      "username": {
+                                        "type": "string",
+                                        "x-env-value": "ELASTIC_GEOTEXT_USERNAME"
+                                      },
+                                      "password": {
+                                        "type": "string",
+                                        "x-env-value": "ELASTIC_GEOTEXT_PASSWORD"
+                                      }
+                                    }
+                                  },
+                                  "index": {
+                                    "type": "object",
+                                    "description": "A mapping of elstic geotext indexes",
+                                    "additionalProperties": {
+                                      "type": "string"
+                                    },
+                                    "x-env-format": "json",
+                                    "x-env-value": "ELASTIC_GEOTEXT_INDEXES"
+                                  },
+                                  "textTermLanguage": {
+                                    "type": "string",
+                                    "description": "Elastic geotext text term language",
+                                    "x-env-value": "ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "appSchema": {
+            "type": "object",
+            "required": [
+              "application"
+            ],
+            "properties": {
+              "application": {
+                "description": "Application configuration",
+                "type": "object",
+                "required": [
+                  "site",
+                  "services",
+                  "cronLoadTileLatLonDataPattern",
+                  "elasticQueryBoosts",
+                  "geotextCitiesLayer",
+                  "roadPlaceTypes",
+                  "sources",
+                  "regions",
+                  "controlObjectDisplayNamePrefixes",
+                  "nameTranslationsKeys",
+                  "mainLanguageRegex"
+                ],
+                "properties": {
+                  "site": {
+                    "type": "string",
+                    "description": "The site we are currently on",
+                    "x-env-value": "SITE"
+                  },
+                  "services": {
+                    "type": "object",
+                    "required": [
+                      "tokenTypesUrl"
+                    ],
+                    "properties": {
+                      "tokenTypesUrl": {
+                        "type": "string",
+                        "description": "Service url that extracts token types",
+                        "x-env-value": "TOKEN_TYPE_URL"
+                      }
+                    }
+                  },
+                  "cronLoadTileLatLonDataPattern": {
+                    "type": "string",
+                    "description": "Cron for loading the tile lat lon pattern",
+                    "default": "0 * * * *"
+                  },
+                  "elasticQueryBoosts": {
+                    "$ref": "#/definitions/elasticQueryBoosts"
+                  },
+                  "geotextCitiesLayer": {
+                    "type": "string",
+                    "description": "Geotext city layer",
+                    "x-env-value": "GEOTEXT_CITIES_LAYER"
+                  },
+                  "roadPlaceTypes": {
+                    "type": "array",
+                    "description": "Road place types",
+                    "x-env-format": "json",
+                    "x-env-value": "GEOTEXT_ROAD_PLACETYPES"
+                  },
+                  "sources": {
+                    "type": "object",
+                    "description": "Source of the data",
+                    "additionalProperties": true,
+                    "x-env-format": "json",
+                    "x-env-value": "GEOTEXT_SOURCES"
+                  },
+                  "regions": {
+                    "type": "object",
+                    "description": "Data regions",
+                    "additionalProperties": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "x-env-format": "json",
+                    "x-env-value": "REGIONS"
+                  },
+                  "controlObjectDisplayNamePrefixes": {
+                    "type": "object",
+                    "description": "Control object display name",
+                    "additionalProperties": true,
+                    "x-env-format": "json",
+                    "x-env-value": "CONTROL_DISPLAY_KEY_TRANSLATIONS"
+                  },
+                  "nameTranslationsKeys": {
+                    "type": "array",
+                    "description": "Name translation keys",
+                    "x-env-format": "json",
+                    "x-env-value": "NAME_TRANSLATION_KEYS"
+                  },
+                  "mainLanguageRegex": {
+                    "type": "string",
+                    "description": "Regex of the main language",
+                    "x-env-value": "MAIN_LANGUAGE_REGEX"
+                  }
+                }
+              }
+            }
+          },
+          "elasticQueryBoosts": {
+            "type": "object",
+            "description": "Boosts for elastic query",
+            "required": [
+              "name",
+              "placeType",
+              "subPlaceType",
+              "hierarchy",
+              "viewbox",
+              "geotextCitiesLayer"
+            ],
+            "properties": {
+              "name": {
+                "type": "number",
+                "description": "Elastic query name boost"
+              },
+              "placeType": {
+                "type": "number",
+                "description": "Elastic query placeType boost"
+              },
+              "subPlaceType": {
+                "type": "number",
+                "description": "Elastic query subPlaceType boost"
+              },
+              "hierarchy": {
+                "type": "number",
+                "description": "Elastic query hierarchy boost"
+              },
+              "viewbox": {
+                "type": "number",
+                "description": "Elastic query viewbox boost"
+              },
+              "geotextCitiesLayer": {
+                "type": "number",
+                "description": "Elastic query geotextCitiesLayer boost"
+              }
+            },
+            "x-env-format": "json",
+            "x-env-value": "GEOTEXT_ELASTIC_QUERY_BOOSTS"
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        db: {\n            [x: string]: unknown;\n            s3: {\n                [x: string]: unknown;\n                endpoint: string;\n                region: string;\n                accessKeyId: string;\n                secretAccessKey: string;\n                forcePathStyle: boolean;\n                bucket: string;\n                fileName: string;\n                sslEnabled: boolean;\n                sigVersion: string;\n                storageClass: string;\n            };\n            redis: {\n                [x: string]: unknown;\n                dbIndex?: number | undefined;\n                prefix?: string | undefined;\n                ttl?: number | undefined;\n                port: number;\n                host: string;\n                username: string;\n                password: string;\n                tls: {\n                    ca: string;\n                    cert: string;\n                    key: string;\n                    enabled: true;\n                } | {\n                    ca?: string | undefined;\n                    cert?: string | undefined;\n                    key?: string | undefined;\n                    enabled: false;\n                };\n            };\n            elastic: {\n                [x: string]: unknown;\n                control: {\n                    [x: string]: unknown;\n                    node: string;\n                    auth: {\n                        [x: string]: unknown;\n                        username: string;\n                        password: string;\n                    };\n                    index: string;\n                };\n                geotext: {\n                    [x: string]: unknown;\n                    node: string;\n                    auth: {\n                        [x: string]: unknown;\n                        username: string;\n                        password: string;\n                    };\n                    index: {\n                        [x: string]: string;\n                    };\n                    textTermLanguage: string;\n                };\n            };\n        };\n        application: {\n            [x: string]: unknown;\n            site: string;\n            services: {\n                [x: string]: unknown;\n                tokenTypesUrl: string;\n            };\n            cronLoadTileLatLonDataPattern: string;\n            elasticQueryBoosts: {\n                [x: string]: unknown;\n                name: number;\n                geotextCitiesLayer: number;\n                placeType: number;\n                subPlaceType: number;\n                hierarchy: number;\n                viewbox: number;\n            };\n            geotextCitiesLayer: string;\n            roadPlaceTypes: unknown[];\n            sources: {\n                [x: string]: unknown;\n            };\n            regions: {\n                [x: string]: string[];\n            };\n            controlObjectDisplayNamePrefixes: {\n                [x: string]: unknown;\n            };\n            nameTranslationsKeys: unknown[];\n            mainLanguageRegex: string;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/geocoding/v2\";\n    readonly type: \"object\";\n    readonly title: \"vectorGeocodingSchemaV2\";\n    readonly description: \"Vector's geocoding schema\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly $ref: \"#/definitions/databases\";\n    }, {\n        readonly $ref: \"#/definitions/appSchema\";\n    }];\n    readonly definitions: {\n        readonly databases: {\n            readonly type: \"object\";\n            readonly required: readonly [\"db\"];\n            readonly properties: {\n                readonly db: {\n                    readonly allOf: readonly [{\n                        readonly type: \"object\";\n                        readonly required: readonly [\"redis\"];\n                        readonly properties: {\n                            readonly redis: {\n                                readonly allOf: readonly [{\n                                    readonly $ref: \"https://mapcolonies.com/common/redis/v2\";\n                                }, {\n                                    readonly type: \"object\";\n                                    readonly properties: {\n                                        readonly ttl: {\n                                            readonly type: \"number\";\n                                            readonly description: \"Redis ttl in seconds\";\n                                            readonly \"x-env-value\": \"REDIS_TTL\";\n                                        };\n                                    };\n                                }];\n                            };\n                        };\n                    }, {\n                        readonly type: \"object\";\n                        readonly required: readonly [\"s3\"];\n                        readonly properties: {\n                            readonly s3: {\n                                readonly allOf: readonly [{\n                                    readonly $ref: \"https://mapcolonies.com/common/s3/full/v2\";\n                                }, {\n                                    readonly type: \"object\";\n                                    readonly required: readonly [\"fileName\"];\n                                    readonly properties: {\n                                        readonly fileName: {\n                                            readonly type: \"string\";\n                                            readonly description: \"Lat lon convertion table file name\";\n                                            readonly \"x-env-value\": \"S3_FILE_NAME\";\n                                        };\n                                    };\n                                }];\n                            };\n                        };\n                    }, {\n                        readonly type: \"object\";\n                        readonly required: readonly [\"elastic\"];\n                        readonly properties: {\n                            readonly elastic: {\n                                readonly type: \"object\";\n                                readonly required: readonly [\"control\", \"geotext\"];\n                                readonly properties: {\n                                    readonly control: {\n                                        readonly allOf: readonly [{\n                                            readonly $ref: \"https://mapcolonies.com/common/elastic/full/v1\";\n                                        }, {\n                                            readonly type: \"object\";\n                                            readonly properties: {\n                                                readonly node: {\n                                                    readonly type: \"string\";\n                                                    readonly \"x-env-value\": \"ELASTIC_CONTROL_URL\";\n                                                };\n                                                readonly auth: {\n                                                    readonly type: \"object\";\n                                                    readonly properties: {\n                                                        readonly username: {\n                                                            readonly type: \"string\";\n                                                            readonly \"x-env-value\": \"ELASTIC_CONTROL_USERNAME\";\n                                                        };\n                                                        readonly password: {\n                                                            readonly type: \"string\";\n                                                            readonly \"x-env-value\": \"ELASTIC_CONTROL_PASSWORD\";\n                                                        };\n                                                    };\n                                                };\n                                                readonly index: {\n                                                    readonly type: \"string\";\n                                                    readonly description: \"Elastic control index\";\n                                                    readonly \"x-env-value\": \"ELASTIC_CONTROL_INDEX\";\n                                                };\n                                            };\n                                        }];\n                                    };\n                                    readonly geotext: {\n                                        readonly allOf: readonly [{\n                                            readonly $ref: \"https://mapcolonies.com/common/elastic/full/v1\";\n                                        }, {\n                                            readonly type: \"object\";\n                                            readonly required: readonly [\"textTermLanguage\"];\n                                            readonly properties: {\n                                                readonly node: {\n                                                    readonly type: \"string\";\n                                                    readonly \"x-env-value\": \"ELASTIC_GEOTEXT_URL\";\n                                                };\n                                                readonly auth: {\n                                                    readonly type: \"object\";\n                                                    readonly properties: {\n                                                        readonly username: {\n                                                            readonly type: \"string\";\n                                                            readonly \"x-env-value\": \"ELASTIC_GEOTEXT_USERNAME\";\n                                                        };\n                                                        readonly password: {\n                                                            readonly type: \"string\";\n                                                            readonly \"x-env-value\": \"ELASTIC_GEOTEXT_PASSWORD\";\n                                                        };\n                                                    };\n                                                };\n                                                readonly index: {\n                                                    readonly type: \"object\";\n                                                    readonly description: \"A mapping of elstic geotext indexes\";\n                                                    readonly additionalProperties: {\n                                                        readonly type: \"string\";\n                                                    };\n                                                    readonly \"x-env-format\": \"json\";\n                                                    readonly \"x-env-value\": \"ELASTIC_GEOTEXT_INDEXES\";\n                                                };\n                                                readonly textTermLanguage: {\n                                                    readonly type: \"string\";\n                                                    readonly description: \"Elastic geotext text term language\";\n                                                    readonly \"x-env-value\": \"ELASTIC_GEOTEXT_TEXT_TERM_LANGUAGE\";\n                                                };\n                                            };\n                                        }];\n                                    };\n                                };\n                            };\n                        };\n                    }];\n                };\n            };\n        };\n        readonly appSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"application\"];\n            readonly properties: {\n                readonly application: {\n                    readonly description: \"Application configuration\";\n                    readonly type: \"object\";\n                    readonly required: readonly [\"site\", \"services\", \"cronLoadTileLatLonDataPattern\", \"elasticQueryBoosts\", \"geotextCitiesLayer\", \"roadPlaceTypes\", \"sources\", \"regions\", \"controlObjectDisplayNamePrefixes\", \"nameTranslationsKeys\", \"mainLanguageRegex\"];\n                    readonly properties: {\n                        readonly site: {\n                            readonly type: \"string\";\n                            readonly description: \"The site we are currently on\";\n                            readonly \"x-env-value\": \"SITE\";\n                        };\n                        readonly services: {\n                            readonly type: \"object\";\n                            readonly required: readonly [\"tokenTypesUrl\"];\n                            readonly properties: {\n                                readonly tokenTypesUrl: {\n                                    readonly type: \"string\";\n                                    readonly description: \"Service url that extracts token types\";\n                                    readonly \"x-env-value\": \"TOKEN_TYPE_URL\";\n                                };\n                            };\n                        };\n                        readonly cronLoadTileLatLonDataPattern: {\n                            readonly type: \"string\";\n                            readonly description: \"Cron for loading the tile lat lon pattern\";\n                            readonly default: \"0 * * * *\";\n                        };\n                        readonly elasticQueryBoosts: {\n                            readonly $ref: \"#/definitions/elasticQueryBoosts\";\n                        };\n                        readonly geotextCitiesLayer: {\n                            readonly type: \"string\";\n                            readonly description: \"Geotext city layer\";\n                            readonly \"x-env-value\": \"GEOTEXT_CITIES_LAYER\";\n                        };\n                        readonly roadPlaceTypes: {\n                            readonly type: \"array\";\n                            readonly description: \"Road place types\";\n                            readonly \"x-env-format\": \"json\";\n                            readonly \"x-env-value\": \"GEOTEXT_ROAD_PLACETYPES\";\n                        };\n                        readonly sources: {\n                            readonly type: \"object\";\n                            readonly description: \"Source of the data\";\n                            readonly additionalProperties: true;\n                            readonly \"x-env-format\": \"json\";\n                            readonly \"x-env-value\": \"GEOTEXT_SOURCES\";\n                        };\n                        readonly regions: {\n                            readonly type: \"object\";\n                            readonly description: \"Data regions\";\n                            readonly additionalProperties: {\n                                readonly type: \"array\";\n                                readonly items: {\n                                    readonly type: \"string\";\n                                };\n                            };\n                            readonly \"x-env-format\": \"json\";\n                            readonly \"x-env-value\": \"REGIONS\";\n                        };\n                        readonly controlObjectDisplayNamePrefixes: {\n                            readonly type: \"object\";\n                            readonly description: \"Control object display name\";\n                            readonly additionalProperties: true;\n                            readonly \"x-env-format\": \"json\";\n                            readonly \"x-env-value\": \"CONTROL_DISPLAY_KEY_TRANSLATIONS\";\n                        };\n                        readonly nameTranslationsKeys: {\n                            readonly type: \"array\";\n                            readonly description: \"Name translation keys\";\n                            readonly \"x-env-format\": \"json\";\n                            readonly \"x-env-value\": \"NAME_TRANSLATION_KEYS\";\n                        };\n                        readonly mainLanguageRegex: {\n                            readonly type: \"string\";\n                            readonly description: \"Regex of the main language\";\n                            readonly \"x-env-value\": \"MAIN_LANGUAGE_REGEX\";\n                        };\n                    };\n                };\n            };\n        };\n        readonly elasticQueryBoosts: {\n            readonly type: \"object\";\n            readonly description: \"Boosts for elastic query\";\n            readonly required: readonly [\"name\", \"placeType\", \"subPlaceType\", \"hierarchy\", \"viewbox\", \"geotextCitiesLayer\"];\n            readonly properties: {\n                readonly name: {\n                    readonly type: \"number\";\n                    readonly description: \"Elastic query name boost\";\n                };\n                readonly placeType: {\n                    readonly type: \"number\";\n                    readonly description: \"Elastic query placeType boost\";\n                };\n                readonly subPlaceType: {\n                    readonly type: \"number\";\n                    readonly description: \"Elastic query subPlaceType boost\";\n                };\n                readonly hierarchy: {\n                    readonly type: \"number\";\n                    readonly description: \"Elastic query hierarchy boost\";\n                };\n                readonly viewbox: {\n                    readonly type: \"number\";\n                    readonly description: \"Elastic query viewbox boost\";\n                };\n                readonly geotextCitiesLayer: {\n                    readonly type: \"number\";\n                    readonly description: \"Elastic query geotextCitiesLayer boost\";\n                };\n            };\n            readonly \"x-env-format\": \"json\";\n            readonly \"x-env-value\": \"GEOTEXT_ELASTIC_QUERY_BOOSTS\";\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/boilerplate/v2",
+        "https://mapcolonies.com/common/redis/v2",
+        "https://mapcolonies.com/common/s3/full/v2",
+        "https://mapcolonies.com/common/elastic/full/v1"
+      ],
+      "internalRefs": [
+        "#/definitions/databases",
+        "#/definitions/appSchema",
+        "#/definitions/elasticQueryBoosts"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/vector/geocoding/v1",
       "path": "vector/geocoding",
       "version": 1,
@@ -2784,6 +3128,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1"
       ]
     },
@@ -2947,7 +3292,9 @@
         "#/definitions/tls"
       ],
       "hasConfig": false,
-      "referencedBy": []
+      "referencedBy": [
+        "https://mapcolonies.com/vector/geocoding/v2"
+      ]
     },
     {
       "id": "https://mapcolonies.com/common/redis/v1",
@@ -3328,6 +3675,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1"
       ]
     },
@@ -3809,6 +4157,7 @@
       "referencedBy": [
         "https://mapcolonies.com/vector/retiler/v1",
         "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+        "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1",
         "https://mapcolonies.com/vector/common/v1",
         "https://mapcolonies.com/infra/jobnik/manager/v1"
@@ -4020,7 +4369,7 @@
     },
     {
       "name": "vector",
-      "count": 4
+      "count": 5
     }
   ]
 }
