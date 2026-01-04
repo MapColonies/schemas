@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/MapColonies/schemas/compare/v1.14.0...v1.15.0) (2026-01-04)
+
+
+### Features
+
+* add v2 schema for Redis configuration ([#126](https://github.com/MapColonies/schemas/issues/126)) ([e42b0f0](https://github.com/MapColonies/schemas/commit/e42b0f004daf4b253bec8461be5a519bb34e7358))
+
 ## [1.14.0](https://github.com/MapColonies/schemas/compare/v1.13.0...v1.14.0) (2025-11-19)
 
 
