@@ -1,0 +1,91 @@
+{
+  "$id": "https://mapcolonies.com/common/redis/v2",
+  "description": "redis configuration",
+  "type": "object",
+  "required": ["host", "port", "username", "password", "tls"],
+  "unevaluatedProperties": true,
+  "properties": {
+    "host": {
+      "type": "string",
+      "description": "the host of the database",
+      "x-env-value": "REDIS_HOST"
+    },
+    "port": {
+      "type": "integer",
+      "description": "the port of the database",
+      "default": 6379,
+      "x-env-value": "REDIS_PORT"
+    },
+    "username": {
+      "type": "string",
+      "description": "the username of the database",
+      "x-env-value": "REDIS_USERNAME"
+    },
+    "password": {
+      "type": "string",
+      "description": "the password of the database",
+      "x-env-value": "REDIS_PASSWORD"
+    },
+    "tls": {
+      "$ref": "#/definitions/tls"
+    },
+    "dbIndex": {
+      "type": "integer",
+      "description": "the index of the database",
+      "x-env-value": "REDIS_DB_INDEX"
+    },
+    "prefix": {
+      "type": "string",
+      "description": "prefix to be used in as part of the key",
+      "$comment": "this is optional. please make sure that your redis client supports using prefix. if not, address it manually.",
+      "x-env-value": "REDIS_KEY_PREFIX"
+    }
+  },
+  "definitions": {
+    "tls": {
+      "type": "object",
+      "description": "TLS configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "enable tls",
+          "default": false,
+          "x-env-value": "REDIS_ENABLE_TLS_AUTH"
+        },
+        "ca": {
+          "type": "string",
+          "description": "the path to the ca file",
+          "x-env-value": "REDIS_CA_PATH"
+        },
+        "cert": {
+          "type": "string",
+          "description": "the path to the cert file",
+          "x-env-value": "REDIS_CERT_PATH"
+        },
+        "key": {
+          "type": "string",
+          "description": "the path to the key file",
+          "x-env-value": "REDIS_KEY_PATH"
+        }
+      },
+      "unevaluatedProperties": false,
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["ca", "cert", "key"]
+      },
+      "else": {
+        "properties": {
+          "enabled": {
+            "const": false
+          }
+        }
+      }
+    }
+  }
+}
