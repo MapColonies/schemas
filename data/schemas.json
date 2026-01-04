@@ -2834,6 +2834,122 @@
       "referencedBy": []
     },
     {
+      "id": "https://mapcolonies.com/common/redis/v2",
+      "path": "common/redis",
+      "version": 2,
+      "title": "Schema v2",
+      "description": "redis configuration",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/redis/v2",
+        "description": "redis configuration",
+        "type": "object",
+        "required": [
+          "host",
+          "port",
+          "username",
+          "password",
+          "tls"
+        ],
+        "unevaluatedProperties": true,
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "the host of the database",
+            "x-env-value": "REDIS_HOST"
+          },
+          "port": {
+            "type": "integer",
+            "description": "the port of the database",
+            "default": 6379,
+            "x-env-value": "REDIS_PORT"
+          },
+          "username": {
+            "type": "string",
+            "description": "the username of the database",
+            "x-env-value": "REDIS_USERNAME"
+          },
+          "password": {
+            "type": "string",
+            "description": "the password of the database",
+            "x-env-value": "REDIS_PASSWORD"
+          },
+          "tls": {
+            "$ref": "#/definitions/tls"
+          },
+          "dbIndex": {
+            "type": "integer",
+            "description": "the index of the database",
+            "x-env-value": "REDIS_DB_INDEX"
+          },
+          "prefix": {
+            "type": "string",
+            "description": "prefix to be used in as part of the key",
+            "$comment": "this is optional. please make sure that your redis client supports using prefix. if not, address it manually.",
+            "x-env-value": "REDIS_KEY_PREFIX"
+          }
+        },
+        "definitions": {
+          "tls": {
+            "type": "object",
+            "description": "TLS configuration",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "enable tls",
+                "default": false,
+                "x-env-value": "REDIS_ENABLE_TLS_AUTH"
+              },
+              "ca": {
+                "type": "string",
+                "description": "the path to the ca file",
+                "x-env-value": "REDIS_CA_PATH"
+              },
+              "cert": {
+                "type": "string",
+                "description": "the path to the cert file",
+                "x-env-value": "REDIS_CERT_PATH"
+              },
+              "key": {
+                "type": "string",
+                "description": "the path to the key file",
+                "x-env-value": "REDIS_KEY_PATH"
+              }
+            },
+            "unevaluatedProperties": false,
+            "if": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "ca",
+                "cert",
+                "key"
+              ]
+            },
+            "else": {
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        dbIndex?: number | undefined;\n        prefix?: string | undefined;\n        port: number;\n        host: string;\n        username: string;\n        password: string;\n        tls: {\n            ca: string;\n            cert: string;\n            key: string;\n            enabled: true;\n        } | {\n            ca?: string | undefined;\n            cert?: string | undefined;\n            key?: string | undefined;\n            enabled: false;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/common/redis/v2\";\n    readonly description: \"redis configuration\";\n    readonly type: \"object\";\n    readonly required: readonly [\"host\", \"port\", \"username\", \"password\", \"tls\"];\n    readonly unevaluatedProperties: true;\n    readonly properties: {\n        readonly host: {\n            readonly type: \"string\";\n            readonly description: \"the host of the database\";\n            readonly \"x-env-value\": \"REDIS_HOST\";\n        };\n        readonly port: {\n            readonly type: \"integer\";\n            readonly description: \"the port of the database\";\n            readonly default: 6379;\n            readonly \"x-env-value\": \"REDIS_PORT\";\n        };\n        readonly username: {\n            readonly type: \"string\";\n            readonly description: \"the username of the database\";\n            readonly \"x-env-value\": \"REDIS_USERNAME\";\n        };\n        readonly password: {\n            readonly type: \"string\";\n            readonly description: \"the password of the database\";\n            readonly \"x-env-value\": \"REDIS_PASSWORD\";\n        };\n        readonly tls: {\n            readonly $ref: \"#/definitions/tls\";\n        };\n        readonly dbIndex: {\n            readonly type: \"integer\";\n            readonly description: \"the index of the database\";\n            readonly \"x-env-value\": \"REDIS_DB_INDEX\";\n        };\n        readonly prefix: {\n            readonly type: \"string\";\n            readonly description: \"prefix to be used in as part of the key\";\n            readonly $comment: \"this is optional. please make sure that your redis client supports using prefix. if not, address it manually.\";\n            readonly \"x-env-value\": \"REDIS_KEY_PREFIX\";\n        };\n    };\n    readonly definitions: {\n        readonly tls: {\n            readonly type: \"object\";\n            readonly description: \"TLS configuration\";\n            readonly properties: {\n                readonly enabled: {\n                    readonly type: \"boolean\";\n                    readonly description: \"enable tls\";\n                    readonly default: false;\n                    readonly \"x-env-value\": \"REDIS_ENABLE_TLS_AUTH\";\n                };\n                readonly ca: {\n                    readonly type: \"string\";\n                    readonly description: \"the path to the ca file\";\n                    readonly \"x-env-value\": \"REDIS_CA_PATH\";\n                };\n                readonly cert: {\n                    readonly type: \"string\";\n                    readonly description: \"the path to the cert file\";\n                    readonly \"x-env-value\": \"REDIS_CERT_PATH\";\n                };\n                readonly key: {\n                    readonly type: \"string\";\n                    readonly description: \"the path to the key file\";\n                    readonly \"x-env-value\": \"REDIS_KEY_PATH\";\n                };\n            };\n            readonly unevaluatedProperties: false;\n            readonly if: {\n                readonly properties: {\n                    readonly enabled: {\n                        readonly const: true;\n                    };\n                };\n            };\n            readonly then: {\n                readonly required: readonly [\"ca\", \"cert\", \"key\"];\n            };\n            readonly else: {\n                readonly properties: {\n                    readonly enabled: {\n                        readonly const: false;\n                    };\n                };\n            };\n        };\n    };\n    readonly title: \"commonRedisV2\";\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [],
+      "internalRefs": [
+        "#/definitions/tls"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/common/redis/v1",
       "path": "common/redis",
       "version": 1,
@@ -3896,7 +4012,7 @@
   "categories": [
     {
       "name": "common",
-      "count": 20
+      "count": 21
     },
     {
       "name": "infra",

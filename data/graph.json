@@ -209,6 +209,14 @@
       "degree": 1
     },
     {
+      "id": "https://mapcolonies.com/common/redis/v2",
+      "label": "Schema v2",
+      "path": "common/redis",
+      "category": "common",
+      "version": 2,
+      "degree": 0
+    },
+    {
       "id": "https://mapcolonies.com/common/redis/v1",
       "label": "Schema v1",
       "path": "common/redis",
