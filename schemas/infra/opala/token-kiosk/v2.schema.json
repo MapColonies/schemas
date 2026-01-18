@@ -1,0 +1,211 @@
+{
+  "$id": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
+  "description": "The opala token-kiosk service schema",
+  "title": "opalaTokenKioskSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v1"
+    },
+    {
+      "type": "object",
+      "required": ["db", "auth", "token", "guides", "qlr"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v1"
+        },
+        "auth": {
+          "$ref": "#/definitions/auth"
+        },
+        "token": {
+          "$ref": "#/definitions/token"
+        },
+        "guides": {
+          "$ref": "#/definitions/guides"
+        },
+        "qlr": {
+          "$ref": "#/definitions/qlr"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "auth": {
+      "type": "object",
+      "required": ["openid"],
+      "properties": {
+        "openid": {
+          "type": "object",
+          "required": ["clientId", "issuerBaseUrl", "baseUrl", "secret", "clientSecret", "scopes", "idField", "metadataFields"],
+          "properties": {
+            "clientId": {
+              "type": "string",
+              "description": "The OpenID Connect client ID"
+            },
+            "issuerBaseUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "The base URL of the OpenID Connect issuer"
+            },
+            "baseUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "The base URL of the application"
+            },
+            "secret": {
+              "type": "string",
+              "description": "The secret used for session encryption"
+            },
+            "clientSecret": {
+              "type": "string",
+              "description": "The OpenID Connect client secret"
+            },
+            "scopes": {
+              "type": "string",
+              "description": "The OpenID Connect scopes to request"
+            },
+            "idField": {
+              "type": "string",
+              "description": "The field to use as the user identifier"
+            },
+            "resource": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "The resource or resources to request access for (string or array of strings)"
+            },
+            "metadataFields": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              },
+              "description": "The metadata fields to extract from the OpenID Connect token"
+            }
+          }
+        }
+      }
+    },
+    "token": {
+      "type": "object",
+      "required": ["environment", "expirationDuration", "jwt", "authManager"],
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": ["np", "stage", "prod"],
+          "description": "The environment the token is issued for",
+          "default": "prod"
+        },
+        "expirationDuration": {
+          "type": "string",
+          "pattern": "^\\d+[shdw]$",
+          "description": "The token expiration duration (e.g., '1w', '30d', '24h')",
+          "default": "1w"
+        },
+        "jwt": {
+          "type": "object",
+          "required": ["subject", "issuer"],
+          "properties": {
+            "subject": {
+              "type": "string",
+              "description": "The JWT subject claim",
+              "default": "c2b"
+            },
+            "issuer": {
+              "type": "string",
+              "description": "The JWT issuer claim",
+              "default": "token-kiosk"
+            }
+          }
+        },
+        "authManager": {
+          "type": "object",
+          "required": ["baseUrl", "cacheTtlHours"],
+          "properties": {
+            "baseUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "The base URL of the auth manager service"
+            },
+            "cacheTtlHours": {
+              "type": "number",
+              "minimum": 0,
+              "description": "The cache TTL in hours"
+            }
+          }
+        }
+      }
+    },
+    "guides": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["enabled", "qgis", "arcgis"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the guides feature is enabled",
+          "default": true
+        },
+        "qgis": {
+          "type": "string",
+          "format": "uri",
+          "description": "The guide URL for QGIS",
+          "default": "https://www.youtube.com/watch?v=X2WH8mHJnhM"
+        },
+        "arcgis": {
+          "type": "string",
+          "format": "uri",
+          "description": "The guide URL for ArcGIS",
+          "default": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }
+      }
+    },
+    "qlr": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["catalogUrl", "layers"],
+      "properties": {
+        "catalogUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the QLR catalog"
+        },
+        "layers": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "unevaluatedProperties": false,
+            "required": ["productId", "productType"],
+            "properties": {
+              "productId": {
+                "type": "string",
+                "description": "The product ID of the layer"
+              },
+              "productType": {
+                "type": "string",
+                "description": "The type of the product (e.g., 'ortho', 'dem')"
+              },
+              "displayName": {
+                "type": "string",
+                "description": "The display name of the layer"
+              }
+            }
+          },
+          "description": "List of layers available in the QLR catalog"
+        }
+      }
+    }
+  }
+}
