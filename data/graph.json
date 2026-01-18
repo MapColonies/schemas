@@ -41,6 +41,14 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
+      "label": "opalaTokenKioskSchemaV1",
+      "path": "infra/opala/token-kiosk",
+      "category": "infra",
+      "version": 2,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
       "label": "opalaTokenKioskSchemaV1",
       "path": "infra/opala/token-kiosk",
@@ -294,7 +302,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 1,
-      "degree": 7
+      "degree": 8
     },
     {
       "id": "https://mapcolonies.com/common/circuit-breaker/v1",
@@ -318,7 +326,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 1,
-      "degree": 5
+      "degree": 6
     }
   ],
   "edges": [
@@ -389,6 +397,16 @@
     },
     {
       "source": "https://mapcolonies.com/vector/common/v1",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
+      "target": "https://mapcolonies.com/common/boilerplate/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
       "target": "https://mapcolonies.com/common/db/full/v1",
       "type": "reference"
     },
