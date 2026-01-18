@@ -1,0 +1,48 @@
+[
+  {
+    "name": "infra-token-kiosk",
+    "value": {
+      "telemetry": {
+        "logger": {
+          "level": "info",
+          "prettyPrint": false
+        },
+        "shared": {},
+        "tracing": {
+          "$ref": { "configName": "common-tracing", "version": "latest", "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1" }
+        }
+      },
+      "db": {
+        "$ref": { "configName": "infra-opala-db", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/full/v1" }
+      },
+      "auth": {
+        "openid": {
+          "clientId": "opala-token-kiosk",
+          "issuerBaseUrl": "https://auth.mapcolonies.com/realms/opala",
+          "baseUrl": "https://token-kiosk.mapcolonies.com",
+          "secret": "your-secret-key",
+          "clientSecret": "your-client-secret",
+          "scopes": "openid profile email",
+          "idField": "email",
+          "metadataFields": ["email"]
+        }
+      },
+      "token": {
+        "expirationDuration": "1h",
+        "jwt": {
+          "subject": "c2b",
+          "issuer": "token-kiosk"
+        },
+        "authManager": {
+          "baseUrl": "https://auth.mapcolonies.com",
+          "cacheTtlHours": 1
+        }
+      },
+      "guides": {},
+      "qlr": {
+        "catalogUrl": "https://example.com/catalog",
+        "layers": []
+      }
+    }
+  }
+]
