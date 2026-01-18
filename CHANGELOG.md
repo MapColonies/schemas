@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/MapColonies/schemas/compare/v1.15.1...v1.16.0) (2026-01-18)
+
+
+### Features
+
+* **schema:** add optional auth.openid.resource field ([#133](https://github.com/MapColonies/schemas/issues/133)) ([ebce640](https://github.com/MapColonies/schemas/commit/ebce640d5776beb5ed36cc3cdfd13bf55eac7087))
+
 ## [1.15.1](https://github.com/MapColonies/schemas/compare/v1.15.0...v1.15.1) (2026-01-04)
 
 
