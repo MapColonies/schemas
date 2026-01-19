@@ -42,7 +42,7 @@
     },
     {
       "id": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
-      "label": "opalaTokenKioskSchemaV1",
+      "label": "opalaTokenKioskSchemaV2",
       "path": "infra/opala/token-kiosk",
       "category": "infra",
       "version": 2,
