@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/MapColonies/schemas/compare/v1.16.0...v1.16.1) (2026-01-19)
+
+
+### Bug Fixes
+
+* **opala/token-kiosk:** rename schema title to opalaTokenKioskSchemaV2 ([#135](https://github.com/MapColonies/schemas/issues/135)) ([1af4e0e](https://github.com/MapColonies/schemas/commit/1af4e0ea0ff432c342e3ae86f0136b5a0f76e522))
+
 ## [1.16.0](https://github.com/MapColonies/schemas/compare/v1.15.1...v1.16.0) (2026-01-18)
 
 
