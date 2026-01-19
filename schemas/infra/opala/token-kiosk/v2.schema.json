@@ -1,7 +1,7 @@
 {
   "$id": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
   "description": "The opala token-kiosk service schema",
-  "title": "opalaTokenKioskSchemaV1",
+  "title": "opalaTokenKioskSchemaV2",
   "type": "object",
   "allOf": [
     {
