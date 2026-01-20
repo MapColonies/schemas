@@ -1,0 +1,198 @@
+{
+  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+  "type": "object",
+  "title": "metatileQueuePopulatorSharedV1",
+  "description": "Metatile Queue Populator's shared schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "properties": {
+        "telemetry": {
+          "$ref": "#/definitions/metricsSchema"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/partial/v1"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    },
+    {
+      "$ref": "#/definitions/queueSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "required": ["app"],
+      "properties": {
+        "app": {
+          "description": "app configuration",
+          "type": "object",
+          "properties": {
+            "enableRequestQueueHandling": {
+              "type": "boolean",
+              "description": "Flag to enable request queue handling",
+              "x-env-value": "APP_ENABLE_REQUEST_QUEUE_HANDLING",
+              "default": true
+            },
+            "requestQueueCheckIntervalSec": {
+              "type": "integer",
+              "description": "Interval in seconds to check the request queue",
+              "x-env-value": "APP_REQUEST_QUEUE_CHECK_INTERVAL_SEC",
+              "default": 30
+            },
+            "tilesBatchSize": {
+              "type": "integer",
+              "description": "Size of the tiles batch",
+              "x-env-value": "APP_TILES_BATCH_SIZE",
+              "default": 10000
+            },
+            "metatileSize": {
+              "type": "integer",
+              "description": "Size of the metatile",
+              "x-env-value": "APP_METATILE_SIZE",
+              "default": 8
+            },
+            "consumeDelay": {
+              "type": "object",
+              "description": "Configuration for consume delay",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Flag to enable consume delay",
+                  "x-env-value": "APP_CONSUME_DELAY_ENABLED",
+                  "default": false
+                },
+                "delaySec": {
+                  "type": "integer",
+                  "description": "number of seconds for consume delay",
+                  "x-env-value": "APP_CONSUME_DELAY_SEC"
+                },
+                "tilesQueueSizeLimit": {
+                  "type": "number",
+                  "description": "Limit of tiles queue size",
+                  "x-env-value": "APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT"
+                }
+              },
+              "if": {
+                "properties": {
+                  "enabled": {
+                    "const": true
+                  }
+                }
+              },
+              "then": {
+                "required": ["delaySec", "tilesQueueSizeLimit"]
+              },
+              "else": {
+                "properties": {
+                  "enabled": {
+                    "const": false
+                  }
+                }
+              }
+            },
+            "force": {
+              "type": "object",
+              "description": "Force configuration",
+              "properties": {
+                "api": {
+                  "type": "boolean",
+                  "description": "Flag to force API",
+                  "x-env-value": "FORCE_API",
+                  "default": false
+                },
+                "expiredTiles": {
+                  "type": "boolean",
+                  "description": "Flag to force expired tiles",
+                  "x-env-value": "FORCE_EXPIRED_TILES",
+                  "default": false
+                }
+              }
+            }
+          },
+          "required": ["enableRequestQueueHandling", "requestQueueCheckIntervalSec", "tilesBatchSize", "metatileSize", "consumeDelay", "force"]
+        }
+      }
+    },
+    "queueSchema": {
+      "type": "object",
+      "required": ["queue"],
+      "properties": {
+        "queue": {
+          "description": "queue configuration",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "expireInSeconds": {
+              "type": "integer",
+              "description": "Time in seconds before the queue expires",
+              "x-env-value": "QUEUE_JOBS_EXPIRE_IN_SECONDS",
+              "default": 600
+            },
+            "retryBackoff": {
+              "type": "boolean",
+              "description": "Flag to enable retry backoff",
+              "x-env-value": "QUEUE_JOBS_RETRY_BACKOFF",
+              "default": true
+            },
+            "retryLimit": {
+              "type": "integer",
+              "description": "Maximum number of retry attempts",
+              "x-env-value": "QUEUE_JOBS_RETRY_LIMIT",
+              "default": 3
+            },
+            "retryDelaySeconds": {
+              "type": "integer",
+              "description": "Delay in seconds between retry attempts",
+              "x-env-value": "QUEUE_JOBS_RETRY_DELAY_SECONDS",
+              "default": 60
+            },
+            "retentionHours": {
+              "type": "integer",
+              "description": "Time in hours to retain the queue",
+              "x-env-value": "QUEUE_JOBS_RETENTION_HOURS",
+              "default": 87660
+            }
+          },
+          "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionHours"]
+        }
+      }
+    },
+    "metricsSchema": {
+      "type": "object",
+      "required": ["metrics"],
+      "properties": {
+        "metrics": {
+          "description": "metrics configuration",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "buckets": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "default": [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 15, 50, 250, 500]
+            }
+          },
+          "required": ["enabled", "buckets"]
+        }
+      }
+    }
+  }
+}
