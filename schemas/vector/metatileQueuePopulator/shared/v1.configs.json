@@ -41,7 +41,7 @@
       "app": {
         "consumeCondition": {
           "enabled": true,
-          "delaySec": 60,
+          "conditionCheckIntervalSec": 60,
           "tilesQueueSizeLimit": 400000
         },
         "enableRequestQueueHandling": true,

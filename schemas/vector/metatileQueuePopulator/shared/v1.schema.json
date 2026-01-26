@@ -73,10 +73,10 @@
                   "x-env-value": "APP_CONSUME_CONDITION_ENABLED",
                   "default": false
                 },
-                "delaySec": {
+                "conditionCheckIntervalSec": {
                   "type": "integer",
                   "description": "number of seconds for consume delay",
-                  "x-env-value": "APP_CONSUME_CONDITION_SEC"
+                  "x-env-value": "APP_CONSUME_CONDITION_CHECK_INTERVAL_SEC"
                 },
                 "tilesQueueSizeLimit": {
                   "type": "number",
@@ -92,10 +92,10 @@
                 }
               },
               "then": {
-                "required": ["delaySec", "tilesQueueSizeLimit"]
+                "required": ["conditionCheckIntervalSec", "tilesQueueSizeLimit"]
               },
               "else": {
-                "allOf": [{ "not": { "required": ["delaySec"] } }, { "not": { "required": ["tilesQueueSizeLimit"] } }],
+                "allOf": [{ "not": { "required": ["conditionCheckIntervalSec"] } }, { "not": { "required": ["tilesQueueSizeLimit"] } }],
                 "properties": {
                   "enabled": {
                     "const": false
