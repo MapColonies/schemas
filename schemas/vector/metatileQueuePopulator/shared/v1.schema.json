@@ -122,7 +122,7 @@
               }
             }
           },
-          "required": ["enableRequestQueueHandling", "requestQueueCheckIntervalSec", "tilesBatchSize", "metatileSize", "consumeDelay", "force"]
+          "required": ["enableRequestQueueHandling", "requestQueueCheckIntervalSec", "tilesBatchSize", "metatileSize", "consumeCondition", "force"]
         }
       }
     },

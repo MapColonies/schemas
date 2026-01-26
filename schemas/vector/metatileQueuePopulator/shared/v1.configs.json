@@ -39,7 +39,7 @@
         }
       },
       "app": {
-        "consumeDelay": {
+        "consumeCondition": {
           "enabled": true,
           "delaySec": 60,
           "tilesQueueSizeLimit": 400000
