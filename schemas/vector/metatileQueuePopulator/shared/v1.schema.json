@@ -63,25 +63,25 @@
               "x-env-value": "APP_METATILE_SIZE",
               "default": 8
             },
-            "consumeDelay": {
+            "consumeCondition": {
               "type": "object",
               "description": "Configuration for consume delay",
               "properties": {
                 "enabled": {
                   "type": "boolean",
                   "description": "Flag to enable consume delay",
-                  "x-env-value": "APP_CONSUME_DELAY_ENABLED",
+                  "x-env-value": "APP_CONSUME_CONDITION_ENABLED",
                   "default": false
                 },
                 "delaySec": {
                   "type": "integer",
                   "description": "number of seconds for consume delay",
-                  "x-env-value": "APP_CONSUME_DELAY_SEC"
+                  "x-env-value": "APP_CONSUME_CONDITION_SEC"
                 },
                 "tilesQueueSizeLimit": {
                   "type": "number",
                   "description": "Limit of tiles queue size",
-                  "x-env-value": "APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT"
+                  "x-env-value": "APP_CONSUME_CONDITION_TILES_QUEUE_SIZE_LIMIT"
                 }
               },
               "if": {
@@ -95,6 +95,7 @@
                 "required": ["delaySec", "tilesQueueSizeLimit"]
               },
               "else": {
+                "allOf": [{ "not": { "required": ["delaySec"] } }, { "not": { "required": ["tilesQueueSizeLimit"] } }],
                 "properties": {
                   "enabled": {
                     "const": false
