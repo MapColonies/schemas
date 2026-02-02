@@ -151,8 +151,7 @@
               "type": "boolean",
               "description": "Flag to enable retry backoff",
               "x-env-value": "QUEUE_JOBS_RETRY_BACKOFF",
-              "default": true,
-              "exclusiveMinimum": 0
+              "default": true
             },
             "retryLimit": {
               "type": "number",
