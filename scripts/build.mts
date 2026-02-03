@@ -27,7 +27,7 @@ filesToDelete.push(symbolFilePath);
 
 // loop over all the files in the schemas directory and create the build files
 for await (const file of filesTreeGenerator(schemasFolder)) {
-  const directory = file.path;
+  const directory = file.parentPath;
   const fullPath = path.join(directory, file.name);
   const fileVersion = file.name.split('.')[0];
   const schemaName = camelCase(directory.substring(schemasFolder.length).replaceAll(path.sep, '_') + '_' + fileVersion);
@@ -87,10 +87,10 @@ ${stringifiedSchema.trimEnd().substring(1)} as const;\n`,
 // go over all the files in the schemas directory and create a dereferenced schema for json-schema-to-ts usage
 const parser = new $RefParser();
 for await (const file of filesTreeGenerator(schemasFolder)) {
-  const fileDestPath = path.join(buildDir, file.path, path.basename(file.name, path.extname(file.name)));
+  const fileDestPath = path.join(buildDir, file.parentPath, path.basename(file.name, path.extname(file.name)));
 
   if (file.name.endsWith('.configs.json')) {
-    fs.cpSync(path.join(file.path, file.name), fileDestPath + '.json');
+    fs.cpSync(path.join(file.parentPath, file.name), fileDestPath + '.json');
     continue;
   }
 
