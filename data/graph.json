@@ -9,9 +9,17 @@
       "degree": 2
     },
     {
-      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
-      "label": "metatileQueuePopulatorV1",
-      "path": "vector/metatileQueuePopulator",
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+      "label": "metatileQueuePopulatorSharedV1",
+      "path": "vector/metatileQueuePopulator/shared",
+      "category": "vector",
+      "version": 1,
+      "degree": 3
+    },
+    {
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
+      "label": "metatileQueuePopulatorFullV1",
+      "path": "vector/metatileQueuePopulator/full",
       "category": "vector",
       "version": 1,
       "degree": 2
@@ -286,7 +294,7 @@
       "path": "common/db/partial",
       "category": "common",
       "version": 1,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v2",
@@ -294,7 +302,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 2,
-      "degree": 3
+      "degree": 4
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v1",
@@ -302,7 +310,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 1,
-      "degree": 8
+      "degree": 7
     },
     {
       "id": "https://mapcolonies.com/common/circuit-breaker/v1",
@@ -341,13 +349,23 @@
       "type": "reference"
     },
     {
-      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
       "target": "https://mapcolonies.com/common/boilerplate/v2",
       "type": "reference"
     },
     {
-      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
-      "target": "https://mapcolonies.com/common/db/full/v1",
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+      "target": "https://mapcolonies.com/common/db/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
+      "target": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
+      "target": "https://mapcolonies.com/common/db/full/v2",
       "type": "reference"
     },
     {

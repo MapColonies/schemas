@@ -1,6 +1,102 @@
 {
   "configs": [
     {
+      "schemaId": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+      "schemaPath": "vector/metatileQueuePopulator/shared",
+      "version": 1,
+      "instances": [
+        {
+          "name": "vector-metatilequeuepopulator-shared",
+          "value": {
+            "telemetry": {
+              "shared": {
+                "serviceName": "metatileQueuePopulator"
+              },
+              "tracing": {
+                "isEnabled": false
+              },
+              "logger": {
+                "level": "info",
+                "prettyPrint": false
+              },
+              "metrics": {
+                "enabled": true,
+                "buckets": [
+                  0.005,
+                  0.01,
+                  0.025,
+                  0.05,
+                  0.1,
+                  0.25,
+                  0.5,
+                  1,
+                  2.5,
+                  5,
+                  10,
+                  15,
+                  50,
+                  250,
+                  500
+                ]
+              }
+            },
+            "openapiConfig": {
+              "filePath": "./openapi3.yaml",
+              "basePath": "/docs",
+              "rawPath": "/api",
+              "uiPath": "/api"
+            },
+            "server": {
+              "port": 8080,
+              "request": {
+                "payload": {
+                  "limit": "1mb"
+                }
+              },
+              "response": {
+                "compression": {
+                  "enabled": true,
+                  "options": null
+                }
+              }
+            },
+            "app": {
+              "consumeCondition": {
+                "enabled": true,
+                "conditionCheckIntervalSec": 60,
+                "tilesQueueSizeLimit": 400000
+              },
+              "enableRequestQueueHandling": true,
+              "force": {
+                "api": false,
+                "expiredTiles": false
+              },
+              "metatileSize": 8,
+              "requestQueueCheckIntervalSec": 30,
+              "tilesBatchSize": 10000
+            },
+            "db": {
+              "$ref": {
+                "configName": "db-connection",
+                "version": "latest",
+                "schemaId": "https://mapcolonies.com/common/db/partial/v1"
+              },
+              "ssl": {
+                "enabled": false
+              }
+            },
+            "queue": {
+              "expireInSeconds": 600,
+              "retryBackoff": true,
+              "retryLimit": 3,
+              "retryDelaySeconds": 60,
+              "retentionHours": 87660
+            }
+          }
+        }
+      ]
+    },
+    {
       "schemaId": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
       "schemaPath": "infra/opala/token-kiosk",
       "version": 2,

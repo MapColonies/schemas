@@ -461,17 +461,17 @@
       "referencedBy": []
     },
     {
-      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
-      "path": "vector/metatileQueuePopulator",
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+      "path": "vector/metatileQueuePopulator/shared",
       "version": 1,
-      "title": "metatileQueuePopulatorV1",
-      "description": "Metatile Queue Populator's schema",
+      "title": "metatileQueuePopulatorSharedV1",
+      "description": "Metatile Queue Populator's shared schema",
       "category": "vector",
       "rawContent": {
-        "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+        "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
         "type": "object",
-        "title": "metatileQueuePopulatorV1",
-        "description": "Metatile Queue Populator's schema",
+        "title": "metatileQueuePopulatorSharedV1",
+        "description": "Metatile Queue Populator's shared schema",
         "allOf": [
           {
             "$ref": "https://mapcolonies.com/common/boilerplate/v2"
@@ -490,7 +490,7 @@
             ],
             "properties": {
               "db": {
-                "$ref": "https://mapcolonies.com/common/db/full/v1"
+                "$ref": "https://mapcolonies.com/common/db/partial/v1"
               }
             }
           },
@@ -511,14 +511,7 @@
               "app": {
                 "description": "app configuration",
                 "type": "object",
-                "default": {},
-                "unevaluatedProperties": false,
                 "properties": {
-                  "projectName": {
-                    "type": "string",
-                    "description": "The name of the project",
-                    "x-env-value": "APP_PROJECT_NAME"
-                  },
                   "enableRequestQueueHandling": {
                     "type": "boolean",
                     "description": "Flag to enable request queue handling",
@@ -526,42 +519,47 @@
                     "default": true
                   },
                   "requestQueueCheckIntervalSec": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Interval in seconds to check the request queue",
                     "x-env-value": "APP_REQUEST_QUEUE_CHECK_INTERVAL_SEC",
-                    "default": 30
+                    "default": 30,
+                    "exclusiveMinimum": 0
                   },
                   "tilesBatchSize": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Size of the tiles batch",
                     "x-env-value": "APP_TILES_BATCH_SIZE",
-                    "default": 10000
+                    "default": 10000,
+                    "exclusiveMinimum": 0
                   },
                   "metatileSize": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Size of the metatile",
                     "x-env-value": "APP_METATILE_SIZE",
-                    "default": 8
+                    "default": 8,
+                    "exclusiveMinimum": 0
                   },
-                  "consumeDelay": {
+                  "consumeCondition": {
                     "type": "object",
                     "description": "Configuration for consume delay",
                     "properties": {
                       "enabled": {
                         "type": "boolean",
                         "description": "Flag to enable consume delay",
-                        "x-env-value": "APP_CONSUME_DELAY_ENABLED",
+                        "x-env-value": "APP_CONSUME_CONDITION_ENABLED",
                         "default": false
                       },
-                      "delaySec": {
-                        "type": "integer",
+                      "conditionCheckIntervalSec": {
+                        "type": "number",
                         "description": "number of seconds for consume delay",
-                        "x-env-value": "APP_CONSUME_DELAY_SEC"
+                        "x-env-value": "APP_CONSUME_CONDITION_CHECK_INTERVAL_SEC",
+                        "exclusiveMinimum": 0
                       },
                       "tilesQueueSizeLimit": {
                         "type": "number",
                         "description": "Limit of tiles queue size",
-                        "x-env-value": "APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT"
+                        "x-env-value": "APP_CONSUME_CONDITION_TILES_QUEUE_SIZE_LIMIT",
+                        "exclusiveMinimum": 0
                       }
                     },
                     "if": {
@@ -573,9 +571,32 @@
                     },
                     "then": {
                       "required": [
-                        "delaySec",
+                        "conditionCheckIntervalSec",
                         "tilesQueueSizeLimit"
                       ]
+                    },
+                    "else": {
+                      "allOf": [
+                        {
+                          "not": {
+                            "required": [
+                              "conditionCheckIntervalSec"
+                            ]
+                          }
+                        },
+                        {
+                          "not": {
+                            "required": [
+                              "tilesQueueSizeLimit"
+                            ]
+                          }
+                        }
+                      ],
+                      "properties": {
+                        "enabled": {
+                          "const": false
+                        }
+                      }
                     }
                   },
                   "force": {
@@ -598,12 +619,11 @@
                   }
                 },
                 "required": [
-                  "projectName",
                   "enableRequestQueueHandling",
                   "requestQueueCheckIntervalSec",
                   "tilesBatchSize",
                   "metatileSize",
-                  "consumeDelay",
+                  "consumeCondition",
                   "force"
                 ]
               }
@@ -619,13 +639,13 @@
                 "description": "queue configuration",
                 "type": "object",
                 "default": {},
-                "unevaluatedProperties": false,
                 "properties": {
                   "expireInSeconds": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Time in seconds before the queue expires",
                     "x-env-value": "QUEUE_JOBS_EXPIRE_IN_SECONDS",
-                    "default": 600
+                    "default": 600,
+                    "exclusiveMinimum": 0
                   },
                   "retryBackoff": {
                     "type": "boolean",
@@ -634,22 +654,25 @@
                     "default": true
                   },
                   "retryLimit": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Maximum number of retry attempts",
                     "x-env-value": "QUEUE_JOBS_RETRY_LIMIT",
-                    "default": 3
+                    "default": 3,
+                    "exclusiveMinimum": 0
                   },
                   "retryDelaySeconds": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Delay in seconds between retry attempts",
                     "x-env-value": "QUEUE_JOBS_RETRY_DELAY_SECONDS",
-                    "default": 60
+                    "default": 60,
+                    "exclusiveMinimum": 0
                   },
                   "retentionHours": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Time in hours to retain the queue",
                     "x-env-value": "QUEUE_JOBS_RETENTION_HOURS",
-                    "default": 87660
+                    "default": 87660,
+                    "exclusiveMinimum": 0
                   }
                 },
                 "required": [
@@ -672,7 +695,6 @@
                 "description": "metrics configuration",
                 "type": "object",
                 "default": {},
-                "unevaluatedProperties": false,
                 "properties": {
                   "enabled": {
                     "type": "boolean",
@@ -711,15 +733,86 @@
           }
         }
       },
-      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n            metrics: {\n                enabled: boolean;\n                buckets: number[];\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        app: {\n            projectName: string;\n            enableRequestQueueHandling: boolean;\n            requestQueueCheckIntervalSec: number;\n            tilesBatchSize: number;\n            metatileSize: number;\n            consumeDelay: {\n                [x: string]: unknown;\n                enabled: true;\n                delaySec: number;\n                tilesQueueSizeLimit: number;\n            } | {\n                [x: string]: unknown;\n                delaySec?: number | undefined;\n                tilesQueueSizeLimit?: number | undefined;\n                enabled: boolean;\n            };\n            force: {\n                [x: string]: unknown;\n                api: boolean;\n                expiredTiles: boolean;\n            };\n        };\n        db: {\n            port: number;\n            ssl: {\n                ca: string;\n                cert: string;\n                key: string;\n                enabled: true;\n            } | {\n                ca?: string | undefined;\n                cert?: string | undefined;\n                key?: string | undefined;\n                enabled: false;\n            };\n            database: string;\n            host: string;\n            username: string;\n            password: string;\n            schema: string;\n        };\n        queue: {\n            expireInSeconds: number;\n            retryBackoff: boolean;\n            retryLimit: number;\n            retryDelaySeconds: number;\n            retentionHours: number;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/metatileQueuePopulator/v1\";\n    readonly type: \"object\";\n    readonly title: \"metatileQueuePopulatorV1\";\n    readonly description: \"Metatile Queue Populator's schema\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly properties: {\n            readonly telemetry: {\n                readonly $ref: \"#/definitions/metricsSchema\";\n            };\n        };\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"db\"];\n        readonly properties: {\n            readonly db: {\n                readonly $ref: \"https://mapcolonies.com/common/db/full/v1\";\n            };\n        };\n    }, {\n        readonly $ref: \"#/definitions/appSchema\";\n    }, {\n        readonly $ref: \"#/definitions/queueSchema\";\n    }];\n    readonly definitions: {\n        readonly appSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"app\"];\n            readonly properties: {\n                readonly app: {\n                    readonly description: \"app configuration\";\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly unevaluatedProperties: false;\n                    readonly properties: {\n                        readonly projectName: {\n                            readonly type: \"string\";\n                            readonly description: \"The name of the project\";\n                            readonly \"x-env-value\": \"APP_PROJECT_NAME\";\n                        };\n                        readonly enableRequestQueueHandling: {\n                            readonly type: \"boolean\";\n                            readonly description: \"Flag to enable request queue handling\";\n                            readonly \"x-env-value\": \"APP_ENABLE_REQUEST_QUEUE_HANDLING\";\n                            readonly default: true;\n                        };\n                        readonly requestQueueCheckIntervalSec: {\n                            readonly type: \"integer\";\n                            readonly description: \"Interval in seconds to check the request queue\";\n                            readonly \"x-env-value\": \"APP_REQUEST_QUEUE_CHECK_INTERVAL_SEC\";\n                            readonly default: 30;\n                        };\n                        readonly tilesBatchSize: {\n                            readonly type: \"integer\";\n                            readonly description: \"Size of the tiles batch\";\n                            readonly \"x-env-value\": \"APP_TILES_BATCH_SIZE\";\n                            readonly default: 10000;\n                        };\n                        readonly metatileSize: {\n                            readonly type: \"integer\";\n                            readonly description: \"Size of the metatile\";\n                            readonly \"x-env-value\": \"APP_METATILE_SIZE\";\n                            readonly default: 8;\n                        };\n                        readonly consumeDelay: {\n                            readonly type: \"object\";\n                            readonly description: \"Configuration for consume delay\";\n                            readonly properties: {\n                                readonly enabled: {\n                                    readonly type: \"boolean\";\n                                    readonly description: \"Flag to enable consume delay\";\n                                    readonly \"x-env-value\": \"APP_CONSUME_DELAY_ENABLED\";\n                                    readonly default: false;\n                                };\n                                readonly delaySec: {\n                                    readonly type: \"integer\";\n                                    readonly description: \"number of seconds for consume delay\";\n                                    readonly \"x-env-value\": \"APP_CONSUME_DELAY_SEC\";\n                                };\n                                readonly tilesQueueSizeLimit: {\n                                    readonly type: \"number\";\n                                    readonly description: \"Limit of tiles queue size\";\n                                    readonly \"x-env-value\": \"APP_CONSUME_DELAY_TILES_QUEUE_SIZE_LIMIT\";\n                                };\n                            };\n                            readonly if: {\n                                readonly properties: {\n                                    readonly enabled: {\n                                        readonly const: true;\n                                    };\n                                };\n                            };\n                            readonly then: {\n                                readonly required: readonly [\"delaySec\", \"tilesQueueSizeLimit\"];\n                            };\n                        };\n                        readonly force: {\n                            readonly type: \"object\";\n                            readonly description: \"Force configuration\";\n                            readonly properties: {\n                                readonly api: {\n                                    readonly type: \"boolean\";\n                                    readonly description: \"Flag to force API\";\n                                    readonly \"x-env-value\": \"FORCE_API\";\n                                    readonly default: false;\n                                };\n                                readonly expiredTiles: {\n                                    readonly type: \"boolean\";\n                                    readonly description: \"Flag to force expired tiles\";\n                                    readonly \"x-env-value\": \"FORCE_EXPIRED_TILES\";\n                                    readonly default: false;\n                                };\n                            };\n                        };\n                    };\n                    readonly required: readonly [\"projectName\", \"enableRequestQueueHandling\", \"requestQueueCheckIntervalSec\", \"tilesBatchSize\", \"metatileSize\", \"consumeDelay\", \"force\"];\n                };\n            };\n        };\n        readonly queueSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"queue\"];\n            readonly properties: {\n                readonly queue: {\n                    readonly description: \"queue configuration\";\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly unevaluatedProperties: false;\n                    readonly properties: {\n                        readonly expireInSeconds: {\n                            readonly type: \"integer\";\n                            readonly description: \"Time in seconds before the queue expires\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_EXPIRE_IN_SECONDS\";\n                            readonly default: 600;\n                        };\n                        readonly retryBackoff: {\n                            readonly type: \"boolean\";\n                            readonly description: \"Flag to enable retry backoff\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETRY_BACKOFF\";\n                            readonly default: true;\n                        };\n                        readonly retryLimit: {\n                            readonly type: \"integer\";\n                            readonly description: \"Maximum number of retry attempts\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETRY_LIMIT\";\n                            readonly default: 3;\n                        };\n                        readonly retryDelaySeconds: {\n                            readonly type: \"integer\";\n                            readonly description: \"Delay in seconds between retry attempts\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETRY_DELAY_SECONDS\";\n                            readonly default: 60;\n                        };\n                        readonly retentionHours: {\n                            readonly type: \"integer\";\n                            readonly description: \"Time in hours to retain the queue\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETENTION_HOURS\";\n                            readonly default: 87660;\n                        };\n                    };\n                    readonly required: readonly [\"expireInSeconds\", \"retryBackoff\", \"retryLimit\", \"retryDelaySeconds\", \"retentionHours\"];\n                };\n            };\n        };\n        readonly metricsSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"metrics\"];\n            readonly properties: {\n                readonly metrics: {\n                    readonly description: \"metrics configuration\";\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly unevaluatedProperties: false;\n                    readonly properties: {\n                        readonly enabled: {\n                            readonly type: \"boolean\";\n                            readonly default: true;\n                        };\n                        readonly buckets: {\n                            readonly type: \"array\";\n                            readonly items: {\n                                readonly type: \"number\";\n                            };\n                            readonly default: readonly [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 15, 50, 250, 500];\n                        };\n                    };\n                    readonly required: readonly [\"enabled\", \"buckets\"];\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n            metrics: {\n                [x: string]: unknown;\n                enabled: boolean;\n                buckets: number[];\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        app: {\n            [x: string]: unknown;\n            enableRequestQueueHandling: boolean;\n            requestQueueCheckIntervalSec: number;\n            tilesBatchSize: number;\n            metatileSize: number;\n            consumeCondition: {\n                [x: string]: unknown;\n                enabled: true;\n                conditionCheckIntervalSec: number;\n                tilesQueueSizeLimit: number;\n            } | {\n                [x: string]: unknown;\n                conditionCheckIntervalSec?: undefined;\n                tilesQueueSizeLimit?: undefined;\n                enabled: false;\n            };\n            force: {\n                [x: string]: unknown;\n                api: boolean;\n                expiredTiles: boolean;\n            };\n        };\n        db: {\n            [x: string]: unknown;\n            port: number;\n            ssl: {\n                ca: string;\n                cert: string;\n                key: string;\n                enabled: true;\n            } | {\n                ca?: string | undefined;\n                cert?: string | undefined;\n                key?: string | undefined;\n                enabled: false;\n            };\n            host: string;\n            username: string;\n            password: string;\n        };\n        queue: {\n            [x: string]: unknown;\n            expireInSeconds: number;\n            retryBackoff: boolean;\n            retryLimit: number;\n            retryDelaySeconds: number;\n            retentionHours: number;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1\";\n    readonly type: \"object\";\n    readonly title: \"metatileQueuePopulatorSharedV1\";\n    readonly description: \"Metatile Queue Populator's shared schema\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly properties: {\n            readonly telemetry: {\n                readonly $ref: \"#/definitions/metricsSchema\";\n            };\n        };\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"db\"];\n        readonly properties: {\n            readonly db: {\n                readonly $ref: \"https://mapcolonies.com/common/db/partial/v1\";\n            };\n        };\n    }, {\n        readonly $ref: \"#/definitions/appSchema\";\n    }, {\n        readonly $ref: \"#/definitions/queueSchema\";\n    }];\n    readonly definitions: {\n        readonly appSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"app\"];\n            readonly properties: {\n                readonly app: {\n                    readonly description: \"app configuration\";\n                    readonly type: \"object\";\n                    readonly properties: {\n                        readonly enableRequestQueueHandling: {\n                            readonly type: \"boolean\";\n                            readonly description: \"Flag to enable request queue handling\";\n                            readonly \"x-env-value\": \"APP_ENABLE_REQUEST_QUEUE_HANDLING\";\n                            readonly default: true;\n                        };\n                        readonly requestQueueCheckIntervalSec: {\n                            readonly type: \"number\";\n                            readonly description: \"Interval in seconds to check the request queue\";\n                            readonly \"x-env-value\": \"APP_REQUEST_QUEUE_CHECK_INTERVAL_SEC\";\n                            readonly default: 30;\n                            readonly exclusiveMinimum: 0;\n                        };\n                        readonly tilesBatchSize: {\n                            readonly type: \"number\";\n                            readonly description: \"Size of the tiles batch\";\n                            readonly \"x-env-value\": \"APP_TILES_BATCH_SIZE\";\n                            readonly default: 10000;\n                            readonly exclusiveMinimum: 0;\n                        };\n                        readonly metatileSize: {\n                            readonly type: \"number\";\n                            readonly description: \"Size of the metatile\";\n                            readonly \"x-env-value\": \"APP_METATILE_SIZE\";\n                            readonly default: 8;\n                            readonly exclusiveMinimum: 0;\n                        };\n                        readonly consumeCondition: {\n                            readonly type: \"object\";\n                            readonly description: \"Configuration for consume delay\";\n                            readonly properties: {\n                                readonly enabled: {\n                                    readonly type: \"boolean\";\n                                    readonly description: \"Flag to enable consume delay\";\n                                    readonly \"x-env-value\": \"APP_CONSUME_CONDITION_ENABLED\";\n                                    readonly default: false;\n                                };\n                                readonly conditionCheckIntervalSec: {\n                                    readonly type: \"number\";\n                                    readonly description: \"number of seconds for consume delay\";\n                                    readonly \"x-env-value\": \"APP_CONSUME_CONDITION_CHECK_INTERVAL_SEC\";\n                                    readonly exclusiveMinimum: 0;\n                                };\n                                readonly tilesQueueSizeLimit: {\n                                    readonly type: \"number\";\n                                    readonly description: \"Limit of tiles queue size\";\n                                    readonly \"x-env-value\": \"APP_CONSUME_CONDITION_TILES_QUEUE_SIZE_LIMIT\";\n                                    readonly exclusiveMinimum: 0;\n                                };\n                            };\n                            readonly if: {\n                                readonly properties: {\n                                    readonly enabled: {\n                                        readonly const: true;\n                                    };\n                                };\n                            };\n                            readonly then: {\n                                readonly required: readonly [\"conditionCheckIntervalSec\", \"tilesQueueSizeLimit\"];\n                            };\n                            readonly else: {\n                                readonly allOf: readonly [{\n                                    readonly not: {\n                                        readonly required: readonly [\"conditionCheckIntervalSec\"];\n                                    };\n                                }, {\n                                    readonly not: {\n                                        readonly required: readonly [\"tilesQueueSizeLimit\"];\n                                    };\n                                }];\n                                readonly properties: {\n                                    readonly enabled: {\n                                        readonly const: false;\n                                    };\n                                };\n                            };\n                        };\n                        readonly force: {\n                            readonly type: \"object\";\n                            readonly description: \"Force configuration\";\n                            readonly properties: {\n                                readonly api: {\n                                    readonly type: \"boolean\";\n                                    readonly description: \"Flag to force API\";\n                                    readonly \"x-env-value\": \"FORCE_API\";\n                                    readonly default: false;\n                                };\n                                readonly expiredTiles: {\n                                    readonly type: \"boolean\";\n                                    readonly description: \"Flag to force expired tiles\";\n                                    readonly \"x-env-value\": \"FORCE_EXPIRED_TILES\";\n                                    readonly default: false;\n                                };\n                            };\n                        };\n                    };\n                    readonly required: readonly [\"enableRequestQueueHandling\", \"requestQueueCheckIntervalSec\", \"tilesBatchSize\", \"metatileSize\", \"consumeCondition\", \"force\"];\n                };\n            };\n        };\n        readonly queueSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"queue\"];\n            readonly properties: {\n                readonly queue: {\n                    readonly description: \"queue configuration\";\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly properties: {\n                        readonly expireInSeconds: {\n                            readonly type: \"number\";\n                            readonly description: \"Time in seconds before the queue expires\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_EXPIRE_IN_SECONDS\";\n                            readonly default: 600;\n                            readonly exclusiveMinimum: 0;\n                        };\n                        readonly retryBackoff: {\n                            readonly type: \"boolean\";\n                            readonly description: \"Flag to enable retry backoff\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETRY_BACKOFF\";\n                            readonly default: true;\n                        };\n                        readonly retryLimit: {\n                            readonly type: \"number\";\n                            readonly description: \"Maximum number of retry attempts\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETRY_LIMIT\";\n                            readonly default: 3;\n                            readonly exclusiveMinimum: 0;\n                        };\n                        readonly retryDelaySeconds: {\n                            readonly type: \"number\";\n                            readonly description: \"Delay in seconds between retry attempts\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETRY_DELAY_SECONDS\";\n                            readonly default: 60;\n                            readonly exclusiveMinimum: 0;\n                        };\n                        readonly retentionHours: {\n                            readonly type: \"number\";\n                            readonly description: \"Time in hours to retain the queue\";\n                            readonly \"x-env-value\": \"QUEUE_JOBS_RETENTION_HOURS\";\n                            readonly default: 87660;\n                            readonly exclusiveMinimum: 0;\n                        };\n                    };\n                    readonly required: readonly [\"expireInSeconds\", \"retryBackoff\", \"retryLimit\", \"retryDelaySeconds\", \"retentionHours\"];\n                };\n            };\n        };\n        readonly metricsSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"metrics\"];\n            readonly properties: {\n                readonly metrics: {\n                    readonly description: \"metrics configuration\";\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly properties: {\n                        readonly enabled: {\n                            readonly type: \"boolean\";\n                            readonly default: true;\n                        };\n                        readonly buckets: {\n                            readonly type: \"array\";\n                            readonly items: {\n                                readonly type: \"number\";\n                            };\n                            readonly default: readonly [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 15, 50, 250, 500];\n                        };\n                    };\n                    readonly required: readonly [\"enabled\", \"buckets\"];\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
       "references": [
         "https://mapcolonies.com/common/boilerplate/v2",
-        "https://mapcolonies.com/common/db/full/v1"
+        "https://mapcolonies.com/common/db/partial/v1"
       ],
       "internalRefs": [
         "#/definitions/metricsSchema",
         "#/definitions/appSchema",
         "#/definitions/queueSchema"
+      ],
+      "hasConfig": true,
+      "referencedBy": [
+        "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1"
+      ]
+    },
+    {
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
+      "path": "vector/metatileQueuePopulator/full",
+      "version": 1,
+      "title": "metatileQueuePopulatorFullV1",
+      "description": "Metatile Queue Populator's full schema",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
+        "type": "object",
+        "title": "metatileQueuePopulatorFullV1",
+        "description": "Metatile Queue Populator's full schema",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1"
+          },
+          {
+            "type": "object",
+            "required": [
+              "db"
+            ],
+            "properties": {
+              "db": {
+                "$ref": "https://mapcolonies.com/common/db/full/v2"
+              }
+            }
+          },
+          {
+            "$ref": "#/definitions/appSchema"
+          }
+        ],
+        "definitions": {
+          "appSchema": {
+            "type": "object",
+            "required": [
+              "app"
+            ],
+            "properties": {
+              "app": {
+                "description": "app configuration",
+                "type": "object",
+                "default": {},
+                "properties": {
+                  "projectName": {
+                    "type": "string",
+                    "description": "The name of the project",
+                    "x-env-value": "APP_PROJECT_NAME"
+                  }
+                },
+                "required": [
+                  "projectName"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n            metrics: {\n                [x: string]: unknown;\n                enabled: boolean;\n                buckets: number[];\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        app: {\n            [x: string]: unknown;\n            enableRequestQueueHandling: boolean;\n            requestQueueCheckIntervalSec: number;\n            tilesBatchSize: number;\n            metatileSize: number;\n            consumeCondition: {\n                [x: string]: unknown;\n                enabled: true;\n                conditionCheckIntervalSec: number;\n                tilesQueueSizeLimit: number;\n            } | {\n                [x: string]: unknown;\n                conditionCheckIntervalSec?: undefined;\n                tilesQueueSizeLimit?: undefined;\n                enabled: false;\n            };\n            force: {\n                [x: string]: unknown;\n                api: boolean;\n                expiredTiles: boolean;\n            };\n            projectName: string;\n        };\n        db: {\n            [x: string]: unknown;\n            port: number;\n            ssl: {\n                ca: string;\n                cert: string;\n                key: string;\n                enabled: true;\n            } | {\n                ca?: string | undefined;\n                cert?: string | undefined;\n                key?: string | undefined;\n                enabled: false;\n            };\n            database: string;\n            host: string;\n            username: string;\n            password: string;\n            schema: string;\n        };\n        queue: {\n            [x: string]: unknown;\n            expireInSeconds: number;\n            retryBackoff: boolean;\n            retryLimit: number;\n            retryDelaySeconds: number;\n            retentionHours: number;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/metatileQueuePopulator/full/v1\";\n    readonly type: \"object\";\n    readonly title: \"metatileQueuePopulatorFullV1\";\n    readonly description: \"Metatile Queue Populator's full schema\";\n    readonly unevaluatedProperties: false;\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1\";\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"db\"];\n        readonly properties: {\n            readonly db: {\n                readonly $ref: \"https://mapcolonies.com/common/db/full/v2\";\n            };\n        };\n    }, {\n        readonly $ref: \"#/definitions/appSchema\";\n    }];\n    readonly definitions: {\n        readonly appSchema: {\n            readonly type: \"object\";\n            readonly required: readonly [\"app\"];\n            readonly properties: {\n                readonly app: {\n                    readonly description: \"app configuration\";\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly properties: {\n                        readonly projectName: {\n                            readonly type: \"string\";\n                            readonly description: \"The name of the project\";\n                            readonly \"x-env-value\": \"APP_PROJECT_NAME\";\n                        };\n                    };\n                    readonly required: readonly [\"projectName\"];\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
+        "https://mapcolonies.com/common/db/full/v2"
+      ],
+      "internalRefs": [
+        "#/definitions/appSchema"
       ],
       "hasConfig": false,
       "referencedBy": []
@@ -4056,6 +4149,7 @@
       ],
       "hasConfig": true,
       "referencedBy": [
+        "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
         "https://mapcolonies.com/common/db/full/v2",
         "https://mapcolonies.com/common/db/full/v1"
       ]
@@ -4113,6 +4207,7 @@
       "hasConfig": false,
       "referencedBy": [
         "https://mapcolonies.com/vector/retiler/v1",
+        "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
         "https://mapcolonies.com/infra/jobnik/manager/v1"
       ]
     },
@@ -4168,7 +4263,6 @@
       ],
       "hasConfig": true,
       "referencedBy": [
-        "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
         "https://mapcolonies.com/vector/common/v1",
         "https://mapcolonies.com/infra/opala/token-kiosk/v2",
         "https://mapcolonies.com/infra/opala/token-kiosk/v1",
@@ -4431,7 +4525,7 @@
       "hasConfig": false,
       "referencedBy": [
         "https://mapcolonies.com/vector/retiler/v1",
-        "https://mapcolonies.com/vector/metatileQueuePopulator/v1",
+        "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
         "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1",
         "https://mapcolonies.com/vector/common/v1",
@@ -4645,7 +4739,7 @@
     },
     {
       "name": "vector",
-      "count": 5
+      "count": 6
     }
   ]
 }
