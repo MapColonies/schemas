@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/MapColonies/schemas/compare/v1.16.1...v1.16.2) (2026-02-03)
+
+
+### Bug Fixes
+
+* use parentPath instead of deprecated path property for Node.js 24 compatibility ([#138](https://github.com/MapColonies/schemas/issues/138)) ([6890600](https://github.com/MapColonies/schemas/commit/6890600476c7734f6a41f48e49c56d4fa9e97a2b))
+
 ## [1.16.1](https://github.com/MapColonies/schemas/compare/v1.16.0...v1.16.1) (2026-01-19)
 
 
