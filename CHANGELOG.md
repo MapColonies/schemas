@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/MapColonies/schemas/compare/v1.16.2...v1.17.0) (2026-02-03)
+
+
+### Features
+
+* created partial-full schema for metatile-queue-populator ([#137](https://github.com/MapColonies/schemas/issues/137)) ([bc617c7](https://github.com/MapColonies/schemas/commit/bc617c7e55442c52bbf3f0e07965dd119c752d46))
+
 ## [1.16.2](https://github.com/MapColonies/schemas/compare/v1.16.1...v1.16.2) (2026-02-03)
 
 
