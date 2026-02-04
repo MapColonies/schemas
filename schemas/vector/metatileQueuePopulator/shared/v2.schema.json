@@ -17,11 +17,7 @@
     {
       "type": "object",
       "required": ["db"],
-      "properties": {
-        "db": {
-          "$ref": "#/definitions/dbSchema"
-        }
-      }
+      "$ref": "#/definitions/dbSchema"
     },
     {
       "$ref": "#/definitions/appSchema"
@@ -100,7 +96,18 @@
                 "required": ["conditionCheckIntervalSec", "tilesQueueSizeLimit"]
               },
               "else": {
-                "allOf": [{ "not": { "required": ["conditionCheckIntervalSec"] } }, { "not": { "required": ["tilesQueueSizeLimit"] } }],
+                "allOf": [
+                  {
+                    "not": {
+                      "required": ["conditionCheckIntervalSec"]
+                    }
+                  },
+                  {
+                    "not": {
+                      "required": ["tilesQueueSizeLimit"]
+                    }
+                  }
+                ],
                 "properties": {
                   "enabled": {
                     "const": false
@@ -214,17 +221,20 @@
               "$ref": "https://mapcolonies.com/common/db/partial/v1"
             },
             {
-              "createSchema": {
-                "type": "boolean",
-                "description": "Flag to enable schema creation if not exists",
-                "x-env-value": "DB_CREATE_SCHEMA",
-                "default": false
-              },
-              "migrate": {
-                "type": "boolean",
-                "description": "Flag to enable migrations on startup",
-                "x-env-value": "DB_RUN_MIGRATE",
-                "default": false
+              "type": "object",
+              "properties": {
+                "createSchema": {
+                  "type": "boolean",
+                  "description": "Flag to enable schema creation if not exists",
+                  "x-env-value": "DB_CREATE_SCHEMA",
+                  "default": false
+                },
+                "migrate": {
+                  "type": "boolean",
+                  "description": "Flag to enable migrations on startup",
+                  "x-env-value": "DB_RUN_MIGRATE",
+                  "default": false
+                }
               }
             }
           ]
