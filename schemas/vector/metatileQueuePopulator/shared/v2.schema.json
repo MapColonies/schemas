@@ -1,0 +1,208 @@
+{
+  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2",
+  "type": "object",
+  "title": "metatileQueuePopulatorSharedV2",
+  "description": "Metatile Queue Populator's shared schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "properties": {
+        "telemetry": {
+          "$ref": "#/definitions/metricsSchema"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/partial/v2"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    },
+    {
+      "$ref": "#/definitions/queueSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "required": ["app"],
+      "properties": {
+        "app": {
+          "description": "app configuration",
+          "type": "object",
+          "properties": {
+            "enableRequestQueueHandling": {
+              "type": "boolean",
+              "description": "Flag to enable request queue handling",
+              "x-env-value": "APP_ENABLE_REQUEST_QUEUE_HANDLING",
+              "default": true
+            },
+            "requestQueueCheckIntervalSec": {
+              "type": "number",
+              "description": "Interval in seconds to check the request queue",
+              "x-env-value": "APP_REQUEST_QUEUE_CHECK_INTERVAL_SEC",
+              "default": 30,
+              "exclusiveMinimum": 0
+            },
+            "tilesBatchSize": {
+              "type": "number",
+              "description": "Size of the tiles batch",
+              "x-env-value": "APP_TILES_BATCH_SIZE",
+              "default": 10000,
+              "exclusiveMinimum": 0
+            },
+            "metatileSize": {
+              "type": "number",
+              "description": "Size of the metatile",
+              "x-env-value": "APP_METATILE_SIZE",
+              "default": 8,
+              "exclusiveMinimum": 0
+            },
+            "consumeCondition": {
+              "type": "object",
+              "description": "Configuration for consume delay",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Flag to enable consume delay",
+                  "x-env-value": "APP_CONSUME_CONDITION_ENABLED",
+                  "default": false
+                },
+                "conditionCheckIntervalSec": {
+                  "type": "number",
+                  "description": "number of seconds for consume delay",
+                  "x-env-value": "APP_CONSUME_CONDITION_CHECK_INTERVAL_SEC",
+                  "exclusiveMinimum": 0
+                },
+                "tilesQueueSizeLimit": {
+                  "type": "number",
+                  "description": "Limit of tiles queue size",
+                  "x-env-value": "APP_CONSUME_CONDITION_TILES_QUEUE_SIZE_LIMIT",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "if": {
+                "properties": {
+                  "enabled": {
+                    "const": true
+                  }
+                }
+              },
+              "then": {
+                "required": ["conditionCheckIntervalSec", "tilesQueueSizeLimit"]
+              },
+              "else": {
+                "allOf": [{ "not": { "required": ["conditionCheckIntervalSec"] } }, { "not": { "required": ["tilesQueueSizeLimit"] } }],
+                "properties": {
+                  "enabled": {
+                    "const": false
+                  }
+                }
+              }
+            },
+            "force": {
+              "type": "object",
+              "description": "Force configuration",
+              "properties": {
+                "api": {
+                  "type": "boolean",
+                  "description": "Flag to force API",
+                  "x-env-value": "FORCE_API",
+                  "default": false
+                },
+                "expiredTiles": {
+                  "type": "boolean",
+                  "description": "Flag to force expired tiles",
+                  "x-env-value": "FORCE_EXPIRED_TILES",
+                  "default": false
+                }
+              }
+            }
+          },
+          "required": ["enableRequestQueueHandling", "requestQueueCheckIntervalSec", "tilesBatchSize", "metatileSize", "consumeCondition", "force"]
+        }
+      }
+    },
+    "queueSchema": {
+      "type": "object",
+      "required": ["queue"],
+      "properties": {
+        "queue": {
+          "description": "queue configuration",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "expireInSeconds": {
+              "type": "number",
+              "description": "Time in seconds before the queue expires",
+              "x-env-value": "QUEUE_JOBS_EXPIRE_IN_SECONDS",
+              "default": 600,
+              "exclusiveMinimum": 0
+            },
+            "retryBackoff": {
+              "type": "boolean",
+              "description": "Flag to enable retry backoff",
+              "x-env-value": "QUEUE_JOBS_RETRY_BACKOFF",
+              "default": true
+            },
+            "retryLimit": {
+              "type": "number",
+              "description": "Maximum number of retry attempts",
+              "x-env-value": "QUEUE_JOBS_RETRY_LIMIT",
+              "default": 3,
+              "exclusiveMinimum": 0
+            },
+            "retryDelaySeconds": {
+              "type": "number",
+              "description": "Delay in seconds between retry attempts",
+              "x-env-value": "QUEUE_JOBS_RETRY_DELAY_SECONDS",
+              "default": 60,
+              "exclusiveMinimum": 0
+            },
+            "retentionHours": {
+              "type": "number",
+              "description": "Time in hours to retain the queue",
+              "x-env-value": "QUEUE_JOBS_RETENTION_HOURS",
+              "default": 87660,
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionHours"]
+        }
+      }
+    },
+    "metricsSchema": {
+      "type": "object",
+      "required": ["metrics"],
+      "properties": {
+        "metrics": {
+          "description": "metrics configuration",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "buckets": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "default": [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 15, 50, 250, 500]
+            }
+          },
+          "required": ["enabled", "buckets"]
+        }
+      }
+    }
+  }
+}
