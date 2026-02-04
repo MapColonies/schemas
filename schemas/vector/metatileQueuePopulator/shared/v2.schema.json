@@ -19,7 +19,7 @@
       "required": ["db"],
       "properties": {
         "db": {
-          "$ref": "https://mapcolonies.com/common/db/partial/v2"
+          "$ref": "#/definitions/dbSchema"
         }
       }
     },
@@ -201,6 +201,33 @@
             }
           },
           "required": ["enabled", "buckets"]
+        }
+      }
+    },
+    "dbSchema": {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/db/partial/v1"
+            },
+            {
+              "createSchema": {
+                "type": "boolean",
+                "description": "Flag to enable schema creation if not exists",
+                "x-env-value": "DB_CREATE_SCHEMA",
+                "default": false
+              },
+              "migrate": {
+                "type": "boolean",
+                "description": "Flag to enable migrations on startup",
+                "x-env-value": "DB_RUN_MIGRATE",
+                "default": false
+              }
+            }
+          ]
         }
       }
     }
