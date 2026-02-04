@@ -174,10 +174,10 @@
               "default": 60,
               "exclusiveMinimum": 0
             },
-            "retentionHours": {
+            "retentionSeconds": {
               "type": "number",
-              "description": "Time in hours to retain the queue",
-              "x-env-value": "QUEUE_JOBS_RETENTION_HOURS",
+              "description": "Time in seconds to retain the queue",
+              "x-env-value": "QUEUE_JOBS_RETENTION_SECONDS",
               "default": 87660,
               "exclusiveMinimum": 0
             }
