@@ -1,0 +1,45 @@
+{
+  "$id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v2",
+  "type": "object",
+  "title": "metatileQueuePopulatorFullV2",
+  "description": "Metatile Queue Populator's full schema",
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2"
+    },
+    {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v2"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "required": ["app"],
+      "properties": {
+        "app": {
+          "description": "app configuration",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "projectName": {
+              "type": "string",
+              "description": "The name of the project",
+              "x-env-value": "APP_PROJECT_NAME"
+            }
+          },
+          "required": ["projectName"]
+        }
+      }
+    }
+  }
+}
