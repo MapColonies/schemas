@@ -34,8 +34,19 @@
                       "type": "number",
                       "x-env-value": "REDIS_CONNECT_TIMEOUT",
                       "default": 5000
+                    },
+                    "tls": {
+                      "type": "object",
+                      "description": "TLS configuration (omit to disable)",
+                      "required": ["ca", "cert", "key"],
+                      "properties": {
+                        "ca": { "type": "string", "x-env-value": "REDIS_CA_PATH" },
+                        "cert": { "type": "string", "x-env-value": "REDIS_CERT_PATH" },
+                        "key": { "type": "string", "x-env-value": "REDIS_KEY_PATH" }
+                      }
                     }
-                  }
+                  },
+                  "required": []
                 }
               ]
             }
