@@ -19,36 +19,33 @@
             "redis": {
               "title": "RedisConfig",
               "type": "object",
-              "required": ["keyPrefix", "connectTimeout"],
-              "allOf": [
-                { "$ref": "https://mapcolonies.com/common/redis/v2" },
-                {
+              "required": ["host", "port", "username", "password", "keyPrefix", "connectTimeout"],
+              "properties": {
+                "host": { "type": "string", "x-env-value": "REDIS_HOST" },
+                "port": { "type": "integer", "default": 6379, "x-env-value": "REDIS_PORT" },
+                "username": { "type": "string", "x-env-value": "REDIS_USERNAME" },
+                "password": { "type": "string", "x-env-value": "REDIS_PASSWORD" },
+                "keyPrefix": {
+                  "type": "string",
+                  "x-env-value": "REDIS_KEY_PREFIX",
+                  "default": ""
+                },
+                "connectTimeout": {
+                  "type": "number",
+                  "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                  "default": 5000
+                },
+                "tls": {
                   "type": "object",
+                  "description": "TLS configuration (omit to disable)",
+                  "required": ["ca", "cert", "key"],
                   "properties": {
-                    "keyPrefix": {
-                      "type": "string",
-                      "x-env-value": "REDIS_KEY_PREFIX",
-                      "default": ""
-                    },
-                    "connectTimeout": {
-                      "type": "number",
-                      "x-env-value": "REDIS_CONNECT_TIMEOUT",
-                      "default": 5000
-                    },
-                    "tls": {
-                      "type": "object",
-                      "description": "TLS configuration (omit to disable)",
-                      "required": ["ca", "cert", "key"],
-                      "properties": {
-                        "ca": { "type": "string", "x-env-value": "REDIS_CA_PATH" },
-                        "cert": { "type": "string", "x-env-value": "REDIS_CERT_PATH" },
-                        "key": { "type": "string", "x-env-value": "REDIS_KEY_PATH" }
-                      }
-                    }
-                  },
-                  "required": []
+                    "ca": { "type": "string", "x-env-value": "REDIS_CA_PATH" },
+                    "cert": { "type": "string", "x-env-value": "REDIS_CERT_PATH" },
+                    "key": { "type": "string", "x-env-value": "REDIS_KEY_PATH" }
+                  }
                 }
-              ]
+              }
             }
           }
         }
