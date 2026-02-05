@@ -1,6 +1,8 @@
 {
   "$id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
   "type": "object",
+  "title": "vectorExternalToOsmTagMappingV1",
+  "description": "Mapping configuration for external vector data to OSM tags",
   "allOf": [
     { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
     { "$ref": "#/definitions/databases" },
@@ -20,6 +22,7 @@
               "default": 5000
             },
             "redis": {
+              "title": "RedisConfig",
               "allOf": [
                 { "$ref": "https://mapcolonies.com/common/redis/v2" },
                 {
