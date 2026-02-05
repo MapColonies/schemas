@@ -182,7 +182,7 @@
               "exclusiveMinimum": 0
             }
           },
-          "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionHours"]
+          "required": ["expireInSeconds", "retryBackoff", "retryLimit", "retryDelaySeconds", "retentionSeconds"]
         }
       }
     },

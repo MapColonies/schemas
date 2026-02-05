@@ -66,7 +66,7 @@
         "retryBackoff": true,
         "retryLimit": 3,
         "retryDelaySeconds": 60,
-        "retentionHours": 87660
+        "retentionSeconds": 87660
       }
     }
   }
