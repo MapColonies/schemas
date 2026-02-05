@@ -1,37 +1,48 @@
 {
   "$id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
   "type": "object",
-  "title": "vectorexternalToOsmTagMappingSchemaV1",
-  "description": "Vector's external To OSM Tag Mapping schema",
   "allOf": [
-    {
-      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
-    },
-    {
-      "$ref": "#/definitions/databases"
-    },
-    {
-      "$ref": "#/definitions/appSchema"
-    }
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
+    { "$ref": "#/definitions/databases" },
+    { "$ref": "#/definitions/appSchema" }
   ],
   "definitions": {
     "databases": {
       "type": "object",
-      "required": ["redis", "timeout"],
       "properties": {
-        "redis": {
-          "$ref": "https://mapcolonies.com/common/redis/v2"
-        },
-        "timeout": {
-          "type": "number",
-          "description": "Database timeout",
-          "x-env-value": "DB_TIMEOUT"
+        "db": {
+          "type": "object",
+          "required": ["redis", "timeout"],
+          "properties": {
+            "timeout": {
+              "type": "number",
+              "x-env-value": "DB_TIMEOUT",
+              "default": 5000
+            },
+            "redis": {
+              "allOf": [
+                { "$ref": "https://mapcolonies.com/common/redis/v2" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "keyPrefix": {
+                      "type": "string",
+                      "x-env-value": "REDIS_KEY_PREFIX"
+                    },
+                    "connectTimeout": {
+                      "type": "number",
+                      "x-env-value": "REDIS_CONNECT_TIMEOUT"
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       }
     },
     "appSchema": {
       "type": "object",
-      "required": ["application"],
       "properties": {
         "application": {
           "type": "object",
@@ -41,14 +52,8 @@
               "type": "object",
               "required": ["enabled"],
               "properties": {
-                "value": {
-                  "type": "string",
-                  "x-env-value": "APP_HASHKEY_VALUE"
-                },
-                "enabled": {
-                  "type": "boolean",
-                  "x-env-value": "APP_HASHKEY_ENABLED"
-                }
+                "enabled": { "type": "boolean", "x-env-value": "APP_HASHKEY_ENABLED" },
+                "value": { "type": "string", "x-env-value": "APP_HASHKEY_VALUE" }
               }
             }
           }
