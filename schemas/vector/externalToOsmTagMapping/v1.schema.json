@@ -14,15 +14,12 @@
       "properties": {
         "db": {
           "type": "object",
-          "required": ["redis", "timeout"],
+          "required": ["redis"],
           "properties": {
-            "timeout": {
-              "type": "number",
-              "x-env-value": "DB_TIMEOUT",
-              "default": 5000
-            },
             "redis": {
               "title": "RedisConfig",
+              "type": "object",
+              "required": ["keyPrefix", "connectTimeout"],
               "allOf": [
                 { "$ref": "https://mapcolonies.com/common/redis/v2" },
                 {
@@ -30,11 +27,13 @@
                   "properties": {
                     "keyPrefix": {
                       "type": "string",
-                      "x-env-value": "REDIS_KEY_PREFIX"
+                      "x-env-value": "REDIS_KEY_PREFIX",
+                      "default": ""
                     },
                     "connectTimeout": {
                       "type": "number",
-                      "x-env-value": "REDIS_CONNECT_TIMEOUT"
+                      "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                      "default": 5000
                     }
                   }
                 }
