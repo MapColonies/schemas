@@ -48,9 +48,9 @@
       "properties": {
         "application": {
           "type": "object",
-          "required": ["services"],
+          "required": ["hashKey"],
           "properties": {
-            "services": {
+            "hashKey": {
               "type": "object",
               "required": ["enabled"],
               "properties": {
