@@ -19,7 +19,7 @@
             "redis": {
               "title": "RedisConfig",
               "type": "object",
-              "required": ["host", "port", "username", "password", "keyPrefix", "connectTimeout"],
+              "required": ["host", "port", "username", "password", "keyPrefix", "connectTimeoutMs"],
               "properties": {
                 "host": { "type": "string", "x-env-value": "REDIS_HOST" },
                 "port": { "type": "integer", "default": 6379, "x-env-value": "REDIS_PORT" },
@@ -30,10 +30,11 @@
                   "x-env-value": "REDIS_KEY_PREFIX",
                   "default": ""
                 },
-                "connectTimeout": {
+                "connectTimeoutMs": {
                   "type": "number",
                   "x-env-value": "REDIS_CONNECT_TIMEOUT",
-                  "default": 5000
+                  "default": 5000,
+                  "minimum": 500
                 },
                 "tls": {
                   "type": "object",
