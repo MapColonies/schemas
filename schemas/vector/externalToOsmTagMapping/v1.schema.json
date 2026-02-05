@@ -1,0 +1,59 @@
+{
+  "$id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+  "type": "object",
+  "title": "vectorexternalToOsmTagMappingSchemaV1",
+  "description": "Vector's external To OSM Tag Mapping schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "$ref": "#/definitions/databases"
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    }
+  ],
+  "definitions": {
+    "databases": {
+      "type": "object",
+      "required": ["redis", "timeout"],
+      "properties": {
+        "redis": {
+          "$ref": "https://mapcolonies.com/common/redis/v2"
+        },
+        "timeout": {
+          "type": "number",
+          "description": "Database timeout",
+          "x-env-value": "DB_TIMEOUT"
+        }
+      }
+    },
+    "appSchema": {
+      "type": "object",
+      "required": ["application"],
+      "properties": {
+        "application": {
+          "type": "object",
+          "required": ["services"],
+          "properties": {
+            "services": {
+              "type": "object",
+              "required": ["enabled"],
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "x-env-value": "APP_HASHKEY_VALUE"
+                },
+                "enabled": {
+                  "type": "boolean",
+                  "x-env-value": "APP_HASHKEY_ENABLED"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
