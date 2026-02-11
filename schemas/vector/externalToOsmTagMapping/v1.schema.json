@@ -53,6 +53,13 @@
               }
             }
           }
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "provider": { "type": "string", "x-env-value": "SCHEMA_PROVIDER" },
+            "filePath": { "type": "string", "x-env-value": "SCHEMA_FILE_PATH" }
+          }
         }
       }
     }
