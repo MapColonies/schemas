@@ -38,6 +38,7 @@
       }
     },
     "appSchema": {
+       "required":["application","schema"],
       "type": "object",
       "properties": {
         "application": {
