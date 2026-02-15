@@ -43,8 +43,20 @@
               "type": "object",
               "required": ["enabled"],
               "properties": {
-                "enabled": { "type": "boolean", "x-env-value": "APP_HASHKEY_ENABLED" },
-                "value": { "type": "string", "x-env-value": "APP_HASHKEY_VALUE" }
+                "enabled": { 
+                  "type": "boolean", 
+                  "x-env-value": "APP_HASHKEY_ENABLED" 
+                },
+                "value": { 
+                  "type": "string", 
+                  "x-env-value": "APP_HASHKEY_VALUE" 
+                }
+              },
+              "if": {
+                "properties": { "enabled": { "const": true } }
+              },
+              "then": {
+                "required": ["value"]
               }
             }
           }
