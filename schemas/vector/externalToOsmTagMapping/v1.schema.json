@@ -11,6 +11,7 @@
   "definitions": {
   "databases": {
     "type": "object",
+    "required": ["redis"],
     "properties": { 
       "redis": {
         "allOf": [
