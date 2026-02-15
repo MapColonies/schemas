@@ -1,0 +1,75 @@
+{
+  "$id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+  "type": "object",
+  "title": "vectorExternalToOsmTagMappingV1",
+  "description": "Mapping configuration for external vector data to OSM tags",
+  "allOf": [
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
+    { "$ref": "#/definitions/databases" },
+    { "$ref": "#/definitions/appSchema" }
+  ],
+  "definitions": {
+  "databases": {
+    "type": "object",
+    "required": ["redis"],
+    "properties": { 
+      "redis": {
+        "allOf": [
+          { "$ref": "https://mapcolonies.com/common/redis/v2" },
+          {
+            "type": "object",
+            "properties": {
+              "connectTimeoutMs": {
+                "type": "number",
+                "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                "default": 5000,
+                "minimum": 500
+              }
+            },
+            "required": ["connectTimeoutMs"]
+          }
+        ]
+      }
+    }
+  },
+    "appSchema": {
+       "required":["application","schema"],
+      "type": "object",
+      "properties": {
+        "application": {
+          "type": "object",
+          "required": ["hashKey"],
+          "properties": {
+            "hashKey": {
+              "type": "object",
+              "required": ["enabled"],
+              "properties": {
+                "enabled": { 
+                  "type": "boolean", 
+                  "x-env-value": "APP_HASHKEY_ENABLED" 
+                },
+                "value": { 
+                  "type": "string", 
+                  "x-env-value": "APP_HASHKEY_VALUE" 
+                }
+              },
+              "if": {
+                "properties": { "enabled": { "const": true } }
+              },
+              "then": {
+                "required": ["value"]
+              }
+            }
+          }
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "provider": { "type": "string", "x-env-value": "SCHEMA_PROVIDER" },
+            "filePath": { "type": "string", "x-env-value": "SCHEMA_FILE_PATH" }
+          }
+        }
+      }
+    }
+  }
+}
