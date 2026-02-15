@@ -9,31 +9,28 @@
     { "$ref": "#/definitions/appSchema" }
   ],
   "definitions": {
-    "databases": {
-      "type": "object",
-      "properties": {
-          "properties": {
-            "redis": {
-              "allOf": [
-                { "$ref": "https://mapcolonies.com/common/redis/v2" },
-                {
-                  "type": "object",
-                  "properties": {
-                    "connectTimeoutMs": {
-                      "type": "number",
-                      "x-env-value": "REDIS_CONNECT_TIMEOUT",
-                      "default": 5000,
-                      "minimum": 500
-                    }
-                  },
-                  "required": ["connectTimeoutMs"]
-                }
-              ]
-            }
-          
-        }
+  "databases": {
+    "type": "object",
+    "properties": { 
+      "redis": {
+        "allOf": [
+          { "$ref": "https://mapcolonies.com/common/redis/v2" },
+          {
+            "type": "object",
+            "properties": {
+              "connectTimeoutMs": {
+                "type": "number",
+                "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                "default": 5000,
+                "minimum": 500
+              }
+            },
+            "required": ["connectTimeoutMs"]
+          }
+        ]
       }
-    },
+    }
+  },
     "appSchema": {
        "required":["application","schema"],
       "type": "object",
