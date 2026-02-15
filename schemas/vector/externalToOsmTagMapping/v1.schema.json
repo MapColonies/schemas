@@ -12,9 +12,6 @@
     "databases": {
       "type": "object",
       "properties": {
-        "db": {
-          "type": "object",
-          "required": ["redis"],
           "properties": {
             "redis": {
               "allOf": [
@@ -33,7 +30,7 @@
                 }
               ]
             }
-          }
+          
         }
       }
     },
