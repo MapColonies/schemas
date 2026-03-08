@@ -1,0 +1,58 @@
+{
+  "$id": "https://mapcolonies.com/common/telemetry/logger/v2",
+  "title": "telemetryLoggerV2",
+  "description": "Telemetry logger configuration",
+  "type": "object",
+  "required": ["level", "prettyPrint"],
+  "unevaluatedProperties": false,
+  "properties": {
+    "level": {
+      "$ref": "#/definitions/level"
+    },
+    "prettyPrint": {
+      "$ref": "#/definitions/prettyPrint"
+    },
+    "opentelemetryOptions": {
+      "$ref": "#/definitions/opentelemetryOptions"
+    }
+  },
+  "examples": [
+    {
+      "level": "info",
+      "prettyPrint": false
+    }
+  ],
+  "definitions": {
+    "level": {
+      "default": "info",
+      "description": "The log level",
+      "x-env-value": "LOG_LEVEL",
+      "enum": ["trace", "debug", "info", "warn", "error", "fatal"]
+    },
+    "prettyPrint": {
+      "default": false,
+      "description": "Whether to pretty print logs",
+      "type": "boolean",
+      "x-env-value": "LOG_PRETTY_PRINT_ENABLED"
+    },
+    "opentelemetryOptions": {
+      "description": "Configuration options for OpenTelemetry logging",
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "description": "Flag to enable or disable OpenTelemetry logging",
+              "type": "boolean",
+              "default": false,
+              "x-env-value": "OPENTELEMETRY_LOGGING_ENABLED"
+            }
+          }
+        },
+        {
+          "$ref": "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+        }
+      ]
+    }
+  }
+}
