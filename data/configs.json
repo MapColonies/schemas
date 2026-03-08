@@ -369,6 +369,19 @@
       ]
     },
     {
+      "schemaId": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
+      "schemaPath": "common/telemetry/otlp-logger",
+      "version": 1,
+      "instances": [
+        {
+          "name": "collector-logger-connection",
+          "value": {
+            "url": "http://localhost:4317"
+          }
+        }
+      ]
+    },
+    {
       "schemaId": "https://mapcolonies.com/common/s3/partial/v1",
       "schemaPath": "common/s3/partial",
       "version": 1,

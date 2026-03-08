@@ -3192,8 +3192,128 @@
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
         "https://mapcolonies.com/common/worker-boilerplate/v1",
+        "https://mapcolonies.com/common/boilerplate/v3",
         "https://mapcolonies.com/common/boilerplate/v2",
         "https://mapcolonies.com/common/boilerplate/v1"
+      ]
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
+      "path": "common/telemetry/otlp-logger",
+      "version": 1,
+      "title": "otlpLoggerV1",
+      "description": "Telemetry logger configuration",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
+        "title": "otlpLoggerV1",
+        "description": "Telemetry logger configuration",
+        "type": "object",
+        "properties": {
+          "url": {
+            "description": "The OTLP grpc endpoint URL",
+            "type": "string",
+            "format": "uri",
+            "default": "http://localhost:4317",
+            "x-env-value": "OTLP_LOGGER_ENDPOINT_URL"
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        url: string;\n    };\n    readonly $id: \"https://mapcolonies.com/common/telemetry/otlp-logger/v1\";\n    readonly title: \"otlpLoggerV1\";\n    readonly description: \"Telemetry logger configuration\";\n    readonly type: \"object\";\n    readonly properties: {\n        readonly url: {\n            readonly description: \"The OTLP grpc endpoint URL\";\n            readonly type: \"string\";\n            readonly format: \"uri\";\n            readonly default: \"http://localhost:4317\";\n            readonly \"x-env-value\": \"OTLP_LOGGER_ENDPOINT_URL\";\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [],
+      "internalRefs": [],
+      "hasConfig": true,
+      "referencedBy": [
+        "https://mapcolonies.com/common/telemetry/logger/v2"
+      ]
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/logger/v2",
+      "path": "common/telemetry/logger",
+      "version": 2,
+      "title": "telemetryLoggerV2",
+      "description": "Telemetry logger configuration",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/telemetry/logger/v2",
+        "title": "telemetryLoggerV2",
+        "description": "Telemetry logger configuration",
+        "type": "object",
+        "required": [
+          "level",
+          "prettyPrint"
+        ],
+        "unevaluatedProperties": false,
+        "properties": {
+          "level": {
+            "$ref": "#/definitions/level"
+          },
+          "prettyPrint": {
+            "$ref": "#/definitions/prettyPrint"
+          },
+          "opentelemetryOptions": {
+            "$ref": "#/definitions/opentelemetryOptions"
+          }
+        },
+        "examples": [
+          {
+            "level": "info",
+            "prettyPrint": false
+          }
+        ],
+        "definitions": {
+          "level": {
+            "default": "info",
+            "description": "The log level",
+            "x-env-value": "LOG_LEVEL",
+            "enum": [
+              "trace",
+              "debug",
+              "info",
+              "warn",
+              "error",
+              "fatal"
+            ]
+          },
+          "prettyPrint": {
+            "default": false,
+            "description": "Whether to pretty print logs",
+            "type": "boolean",
+            "x-env-value": "LOG_PRETTY_PRINT_ENABLED"
+          },
+          "opentelemetryOptions": {
+            "description": "Configuration options for OpenTelemetry logging",
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Flag to enable or disable OpenTelemetry logging",
+                    "type": "boolean",
+                    "default": false,
+                    "x-env-value": "OPENTELEMETRY_LOGGING_ENABLED"
+                  }
+                }
+              },
+              {
+                "$ref": "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+              }
+            ]
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        opentelemetryOptions?: {\n            [x: string]: unknown;\n            url: string;\n            enabled: boolean;\n        } | undefined;\n        level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n        prettyPrint: boolean;\n    };\n    readonly $id: \"https://mapcolonies.com/common/telemetry/logger/v2\";\n    readonly title: \"telemetryLoggerV2\";\n    readonly description: \"Telemetry logger configuration\";\n    readonly type: \"object\";\n    readonly required: readonly [\"level\", \"prettyPrint\"];\n    readonly unevaluatedProperties: false;\n    readonly properties: {\n        readonly level: {\n            readonly $ref: \"#/definitions/level\";\n        };\n        readonly prettyPrint: {\n            readonly $ref: \"#/definitions/prettyPrint\";\n        };\n        readonly opentelemetryOptions: {\n            readonly $ref: \"#/definitions/opentelemetryOptions\";\n        };\n    };\n    readonly examples: readonly [{\n        readonly level: \"info\";\n        readonly prettyPrint: false;\n    }];\n    readonly definitions: {\n        readonly level: {\n            readonly default: \"info\";\n            readonly description: \"The log level\";\n            readonly \"x-env-value\": \"LOG_LEVEL\";\n            readonly enum: readonly [\"trace\", \"debug\", \"info\", \"warn\", \"error\", \"fatal\"];\n        };\n        readonly prettyPrint: {\n            readonly default: false;\n            readonly description: \"Whether to pretty print logs\";\n            readonly type: \"boolean\";\n            readonly \"x-env-value\": \"LOG_PRETTY_PRINT_ENABLED\";\n        };\n        readonly opentelemetryOptions: {\n            readonly description: \"Configuration options for OpenTelemetry logging\";\n            readonly allOf: readonly [{\n                readonly type: \"object\";\n                readonly properties: {\n                    readonly enabled: {\n                        readonly description: \"Flag to enable or disable OpenTelemetry logging\";\n                        readonly type: \"boolean\";\n                        readonly default: false;\n                        readonly \"x-env-value\": \"OPENTELEMETRY_LOGGING_ENABLED\";\n                    };\n                };\n            }, {\n                readonly $ref: \"https://mapcolonies.com/common/telemetry/otlp-logger/v1\";\n            }];\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+      ],
+      "internalRefs": [
+        "#/definitions/level",
+        "#/definitions/prettyPrint",
+        "#/definitions/opentelemetryOptions"
+      ],
+      "hasConfig": false,
+      "referencedBy": [
+        "https://mapcolonies.com/common/boilerplate/v3"
       ]
     },
     {
@@ -3309,6 +3429,7 @@
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
         "https://mapcolonies.com/common/worker-boilerplate/v1",
+        "https://mapcolonies.com/common/boilerplate/v3",
         "https://mapcolonies.com/common/boilerplate/v2",
         "https://mapcolonies.com/common/boilerplate/v1"
       ]
@@ -4332,6 +4453,200 @@
       ]
     },
     {
+      "id": "https://mapcolonies.com/common/boilerplate/v3",
+      "path": "common/boilerplate",
+      "version": 3,
+      "title": "commonBoilerplateV3",
+      "description": "Boilerplate basic configuration",
+      "category": "common",
+      "rawContent": {
+        "description": "Boilerplate basic configuration",
+        "$id": "https://mapcolonies.com/common/boilerplate/v3",
+        "type": "object",
+        "title": "commonBoilerplateV3",
+        "required": [
+          "openapiConfig",
+          "telemetry",
+          "server"
+        ],
+        "properties": {
+          "openapiConfig": {
+            "description": "OpenAPI configuration",
+            "type": "object",
+            "default": {},
+            "examples": [
+              {
+                "filePath": "./openapi3.yaml",
+                "basePath": "/docs",
+                "rawPath": "/api",
+                "uiPath": "/api"
+              }
+            ],
+            "properties": {
+              "filePath": {
+                "default": "./openapi3.yaml",
+                "description": "Path to the OpenAPI 3.0 spec file",
+                "type": "string"
+              },
+              "basePath": {
+                "default": "/docs",
+                "description": "The base path for the OpenAPI UI and raw OpenAPI spec",
+                "type": "string"
+              },
+              "rawPath": {
+                "default": "/api",
+                "description": "The path to the raw OpenAPI spec",
+                "type": "string"
+              },
+              "uiPath": {
+                "default": "/api",
+                "description": "The path to the OpenAPI UI",
+                "type": "string"
+              }
+            },
+            "unevaluatedProperties": false,
+            "required": [
+              "filePath",
+              "basePath",
+              "rawPath",
+              "uiPath"
+            ]
+          },
+          "telemetry": {
+            "description": "Telemetry configuration",
+            "type": "object",
+            "default": {},
+            "unevaluatedProperties": false,
+            "examples": [
+              {
+                "shared": {
+                  "serviceName": "boilerplate"
+                },
+                "tracing": {
+                  "isEnabled": false
+                },
+                "logger": {
+                  "level": "info",
+                  "prettyPrint": false
+                }
+              }
+            ],
+            "properties": {
+              "shared": {
+                "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+              },
+              "tracing": {
+                "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+              },
+              "logger": {
+                "$ref": "https://mapcolonies.com/common/telemetry/logger/v2"
+              },
+              "metrics": {
+                "description": "Metrics configuration"
+              }
+            },
+            "required": [
+              "logger",
+              "shared",
+              "tracing"
+            ]
+          },
+          "server": {
+            "description": "Server configuration",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "default": {},
+            "examples": [
+              {
+                "port": 8080,
+                "request": {
+                  "payload": {
+                    "limit": "1mb"
+                  }
+                }
+              }
+            ],
+            "properties": {
+              "port": {
+                "minimum": 1,
+                "maximum": 65535,
+                "default": 8080,
+                "description": "The port the server will listen on",
+                "type": "integer",
+                "x-env-value": "SERVER_PORT"
+              },
+              "request": {
+                "type": "object",
+                "default": {},
+                "properties": {
+                  "payload": {
+                    "type": "object",
+                    "default": {},
+                    "properties": {
+                      "limit": {
+                        "default": "1mb",
+                        "description": "The maximum payload size of an incoming request",
+                        "type": "string"
+                      }
+                    },
+                    "unevaluatedProperties": false,
+                    "required": [
+                      "limit"
+                    ]
+                  }
+                },
+                "unevaluatedProperties": false,
+                "required": [
+                  "payload"
+                ]
+              },
+              "response": {
+                "type": "object",
+                "default": {},
+                "properties": {
+                  "compression": {
+                    "type": "object",
+                    "default": {},
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Whether to compress response bodies for all request that traverse through the middleware"
+                      },
+                      "options": {
+                        "type": [
+                          "null",
+                          "object"
+                        ],
+                        "default": null,
+                        "description": "Options properties of compression"
+                      }
+                    },
+                    "unevaluatedProperties": false
+                  }
+                },
+                "unevaluatedProperties": false
+              }
+            },
+            "required": [
+              "port",
+              "request",
+              "response"
+            ]
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                opentelemetryOptions?: {\n                    [x: string]: unknown;\n                    url: string;\n                    enabled: boolean;\n                } | undefined;\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n    };\n    readonly description: \"Boilerplate basic configuration\";\n    readonly $id: \"https://mapcolonies.com/common/boilerplate/v3\";\n    readonly type: \"object\";\n    readonly title: \"commonBoilerplateV3\";\n    readonly required: readonly [\"openapiConfig\", \"telemetry\", \"server\"];\n    readonly properties: {\n        readonly openapiConfig: {\n            readonly description: \"OpenAPI configuration\";\n            readonly type: \"object\";\n            readonly default: {};\n            readonly examples: readonly [{\n                readonly filePath: \"./openapi3.yaml\";\n                readonly basePath: \"/docs\";\n                readonly rawPath: \"/api\";\n                readonly uiPath: \"/api\";\n            }];\n            readonly properties: {\n                readonly filePath: {\n                    readonly default: \"./openapi3.yaml\";\n                    readonly description: \"Path to the OpenAPI 3.0 spec file\";\n                    readonly type: \"string\";\n                };\n                readonly basePath: {\n                    readonly default: \"/docs\";\n                    readonly description: \"The base path for the OpenAPI UI and raw OpenAPI spec\";\n                    readonly type: \"string\";\n                };\n                readonly rawPath: {\n                    readonly default: \"/api\";\n                    readonly description: \"The path to the raw OpenAPI spec\";\n                    readonly type: \"string\";\n                };\n                readonly uiPath: {\n                    readonly default: \"/api\";\n                    readonly description: \"The path to the OpenAPI UI\";\n                    readonly type: \"string\";\n                };\n            };\n            readonly unevaluatedProperties: false;\n            readonly required: readonly [\"filePath\", \"basePath\", \"rawPath\", \"uiPath\"];\n        };\n        readonly telemetry: {\n            readonly description: \"Telemetry configuration\";\n            readonly type: \"object\";\n            readonly default: {};\n            readonly unevaluatedProperties: false;\n            readonly examples: readonly [{\n                readonly shared: {\n                    readonly serviceName: \"boilerplate\";\n                };\n                readonly tracing: {\n                    readonly isEnabled: false;\n                };\n                readonly logger: {\n                    readonly level: \"info\";\n                    readonly prettyPrint: false;\n                };\n            }];\n            readonly properties: {\n                readonly shared: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/base/v1\";\n                };\n                readonly tracing: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/tracing/v1\";\n                };\n                readonly logger: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/logger/v2\";\n                };\n                readonly metrics: {\n                    readonly description: \"Metrics configuration\";\n                };\n            };\n            readonly required: readonly [\"logger\", \"shared\", \"tracing\"];\n        };\n        readonly server: {\n            readonly description: \"Server configuration\";\n            readonly type: \"object\";\n            readonly unevaluatedProperties: false;\n            readonly default: {};\n            readonly examples: readonly [{\n                readonly port: 8080;\n                readonly request: {\n                    readonly payload: {\n                        readonly limit: \"1mb\";\n                    };\n                };\n            }];\n            readonly properties: {\n                readonly port: {\n                    readonly minimum: 1;\n                    readonly maximum: 65535;\n                    readonly default: 8080;\n                    readonly description: \"The port the server will listen on\";\n                    readonly type: \"integer\";\n                    readonly \"x-env-value\": \"SERVER_PORT\";\n                };\n                readonly request: {\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly properties: {\n                        readonly payload: {\n                            readonly type: \"object\";\n                            readonly default: {};\n                            readonly properties: {\n                                readonly limit: {\n                                    readonly default: \"1mb\";\n                                    readonly description: \"The maximum payload size of an incoming request\";\n                                    readonly type: \"string\";\n                                };\n                            };\n                            readonly unevaluatedProperties: false;\n                            readonly required: readonly [\"limit\"];\n                        };\n                    };\n                    readonly unevaluatedProperties: false;\n                    readonly required: readonly [\"payload\"];\n                };\n                readonly response: {\n                    readonly type: \"object\";\n                    readonly default: {};\n                    readonly properties: {\n                        readonly compression: {\n                            readonly type: \"object\";\n                            readonly default: {};\n                            readonly properties: {\n                                readonly enabled: {\n                                    readonly type: \"boolean\";\n                                    readonly default: true;\n                                    readonly description: \"Whether to compress response bodies for all request that traverse through the middleware\";\n                                };\n                                readonly options: {\n                                    readonly type: readonly [\"null\", \"object\"];\n                                    readonly default: null;\n                                    readonly description: \"Options properties of compression\";\n                                };\n                            };\n                            readonly unevaluatedProperties: false;\n                        };\n                    };\n                    readonly unevaluatedProperties: false;\n                };\n            };\n            readonly required: readonly [\"port\", \"request\", \"response\"];\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/telemetry/base/v1",
+        "https://mapcolonies.com/common/telemetry/tracing/v1",
+        "https://mapcolonies.com/common/telemetry/logger/v2"
+      ],
+      "internalRefs": [],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/common/boilerplate/v2",
       "path": "common/boilerplate",
       "version": 2,
@@ -4731,7 +5046,7 @@
   "categories": [
     {
       "name": "common",
-      "count": 21
+      "count": 24
     },
     {
       "name": "infra",

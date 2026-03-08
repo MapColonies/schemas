@@ -182,7 +182,23 @@
       "path": "common/telemetry/tracing",
       "category": "common",
       "version": 1,
-      "degree": 4
+      "degree": 5
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
+      "label": "otlpLoggerV1",
+      "path": "common/telemetry/otlp-logger",
+      "category": "common",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/telemetry/logger/v2",
+      "label": "telemetryLoggerV2",
+      "path": "common/telemetry/logger",
+      "category": "common",
+      "version": 2,
+      "degree": 2
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/logger/v1",
@@ -198,7 +214,7 @@
       "path": "common/telemetry/base",
       "category": "common",
       "version": 1,
-      "degree": 4
+      "degree": 5
     },
     {
       "id": "https://mapcolonies.com/common/s3/partial/v1",
@@ -319,6 +335,14 @@
       "category": "common",
       "version": 1,
       "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/boilerplate/v3",
+      "label": "commonBoilerplateV3",
+      "path": "common/boilerplate",
+      "category": "common",
+      "version": 3,
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v2",
@@ -559,6 +583,11 @@
       "type": "reference"
     },
     {
+      "source": "https://mapcolonies.com/common/telemetry/logger/v2",
+      "target": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
+      "type": "reference"
+    },
+    {
       "source": "https://mapcolonies.com/common/s3/full/v3",
       "target": "https://mapcolonies.com/common/s3/partial/v1",
       "type": "reference"
@@ -586,6 +615,21 @@
     {
       "source": "https://mapcolonies.com/common/db/full/v1",
       "target": "https://mapcolonies.com/common/db/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v3",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v3",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/boilerplate/v3",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v2",
       "type": "reference"
     },
     {
