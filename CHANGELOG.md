@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.18.0](https://github.com/MapColonies/schemas/compare/v1.17.0...v1.18.0) (2026-03-08)
-
-
-### Features
-
-* added schemas to support logger otlp options ([#124](https://github.com/MapColonies/schemas/issues/124)) ([38751f0](https://github.com/MapColonies/schemas/commit/38751f0d6cad02bc88ae03273f3fca73117d76ea))
-
 ## [1.17.0](https://github.com/MapColonies/schemas/compare/v1.16.2...v1.17.0) (2026-02-03)
 
 
