@@ -8,16 +8,38 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v3"
     },
     {
-      "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+      "type": "object",
+      "required": ["jobnik"],
+      "properties": {
+        "jobnik": {
+          "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+        }
+      }
     },
     {
-      "$ref": "https://mapcolonies.com/dem/common/v1"
+      "type": "object",
+      "required": ["storage"],
+      "properties": {
+        "storage": {
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/dem/common/v1"
+            },
+            {
+              "$ref": "#/definitions/storage"
+            }
+          ]
+        }
+      }
     },
     {
-      "$ref": "#/definitions/storage"
-    },
-    {
-      "$ref": "#/definitions/application"
+      "type": "object",
+      "required": ["application"],
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/application"
+        }
+      }
     }
   ],
   "definitions": {
