@@ -1,0 +1,31 @@
+{
+  "$id": "https://mapcolonies.com/dem/common/v1",
+  "type": "object",
+  "title": "commonDEMSchemaV1",
+  "description": "Common DEM schema",
+  "allOf": [
+    {
+      "$ref": "#/definitions/storage"
+    }
+  ],
+  "definitions": {
+    "storage": {
+      "type": "object",
+      "description": "DEM storage",
+      "unevaluatedProperties": false,
+      "required": ["sourceDir"],
+      "properties": {
+        "sourceDir": {
+          "$ref": "#/definitions/sourceDir"
+        }
+      },
+      "x-env-value": "STORAGE"
+    },
+    "sourceDir": {
+      "type": "string",
+      "description": "DEM data source directory",
+      "minLength": 1,
+      "x-env-value": "STORAGE_SOURCE_DIR"
+    }
+  }
+}
