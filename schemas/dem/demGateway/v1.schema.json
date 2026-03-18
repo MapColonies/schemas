@@ -12,7 +12,9 @@
       "required": ["jobnik"],
       "properties": {
         "jobnik": {
-          "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+          "type": "object",
+          "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+          "unevaluatedProperties": false
         }
       }
     },
@@ -21,14 +23,7 @@
       "required": ["storage"],
       "properties": {
         "storage": {
-          "allOf": [
-            {
-              "$ref": "https://mapcolonies.com/dem/common/v1"
-            },
-            {
-              "$ref": "#/definitions/storage"
-            }
-          ]
+          "$ref": "#/definitions/storage"
         }
       }
     },
@@ -160,9 +155,14 @@
     },
     "storage": {
       "type": "object",
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/dem/common/storage/v1"
+        }
+      ],
       "description": "DEM storage configuration for serving storage",
-      "unevaluatedProperties": false,
       "required": ["displayNameDir", "validFileExtensions"],
+      "unevaluatedProperties": false,
       "properties": {
         "displayNameDir": {
           "type": "string",
