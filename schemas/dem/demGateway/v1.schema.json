@@ -1,0 +1,164 @@
+{
+  "$id": "https://mapcolonies.com/dem/demGateway/v1",
+  "type": "object",
+  "title": "demGatewaySchemaV1",
+  "description": "DEM gateway schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v3"
+    },
+    {
+      "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1"
+    },
+    {
+      "$ref": "https://mapcolonies.com/dem/common/v1"
+    },
+    {
+      "$ref": "#/definitions/storage"
+    },
+    {
+      "$ref": "#/definitions/application"
+    }
+  ],
+  "definitions": {
+    "application": {
+      "type": "object",
+      "description": "Application configuration",
+      "unevaluatedProperties": false,
+      "required": [
+        "blockSize",
+        "compression",
+        "defaultGeographicSrsId",
+        "defaultProjectedSrsId",
+        "resolutionDegree",
+        "resolutionMeter",
+        "supportedFormatsMap",
+        "supportedSrsIds"
+      ],
+      "properties": {
+        "blockSize": {
+          "type": "integer",
+          "description": "DEM internal block size",
+          "default": 256,
+          "minimum": 16,
+          "multipleOf": 16,
+          "x-env-value": "BLOCK_SIZE"
+        },
+        "compression": {
+          "type": "string",
+          "description": "DEM compression",
+          "default": "LZW",
+          "minLength": 1,
+          "x-env-value": "COMPRESSION"
+        },
+        "defaultGeographicSrsId": {
+          "type": "integer",
+          "description": "Default geographic SRS id used for internal projections",
+          "default": 4326,
+          "minimum": 0,
+          "x-env-value": "DEFAULT_GEOGRAPHIC_SRS_ID"
+        },
+        "defaultProjectedSrsId": {
+          "type": "integer",
+          "description": "Default projected SRS id used for internal projections",
+          "default": 3395,
+          "minimum": 0,
+          "x-env-value": "DEFAULT_PROJECTED_SRS_ID"
+        },
+        "resolutionDegree": {
+          "type": "object",
+          "description": "DEM resolution in degrees",
+          "required": ["min", "max"],
+          "unevaluatedProperties": false,
+          "properties": {
+            "min": {
+              "type": "number",
+              "default": 0.00000009060870470168063430786,
+              "exclusiveMinimum": 0,
+              "x-env-value": "RESOLUTION_DEGREE_MIN"
+            },
+            "max": {
+              "type": "number",
+              "default": 0.08982,
+              "exclusiveMinimum": 0,
+              "x-env-value": "RESOLUTION_DEGREE_MAX"
+            }
+          }
+        },
+        "resolutionMeter": {
+          "type": "object",
+          "description": "DEM resolution in meters",
+          "required": ["min", "max"],
+          "unevaluatedProperties": false,
+          "properties": {
+            "min": {
+              "type": "number",
+              "default": 0.01,
+              "exclusiveMinimum": 0,
+              "x-env-value": "RESOLUTION_METER_MIN"
+            },
+            "max": {
+              "type": "number",
+              "default": 10000,
+              "exclusiveMinimum": 0,
+              "x-env-value": "RESOLUTION_METER_MAX"
+            }
+          }
+        },
+        "supportedFormatsMap": {
+          "type": "object",
+          "description": "Supported formats map. Maps common format identifier to internal identifier supported for usage",
+          "examples": [
+            {
+              "geotiff": "gtiff"
+            }
+          ],
+          "unevaluatedProperties": false,
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*$": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "minProperties": 1,
+          "x-env-value": "SUPPORTED_FORMATS_MAP"
+        },
+        "supportedSrsIds": {
+          "type": "array",
+          "description": "Supported projection codes as registered by EPSG",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 1,
+          "x-env-value": "SUPPORTED_SRS_IDS"
+        }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "description": "DEM storage configuration for serving storage",
+      "unevaluatedProperties": false,
+      "required": ["displayNameDir", "validFileExtensions"],
+      "properties": {
+        "displayNameDir": {
+          "type": "string",
+          "minLength": 1,
+          "default": "\\layerSources",
+          "x-env-value": "STORAGE_DISPLAY_NAME_DIR"
+        },
+        "validFileExtensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "default": ["tif"],
+          "x-env-value": "STORAGE_VALID_FILE_EXTENSIONS"
+        }
+      }
+    }
+  }
+}
