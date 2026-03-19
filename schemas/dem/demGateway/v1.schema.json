@@ -13,7 +13,7 @@
       "properties": {
         "jobnik": {
           "type": "object",
-          "$ref": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
+          "$ref": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
           "unevaluatedProperties": false
         }
       }
