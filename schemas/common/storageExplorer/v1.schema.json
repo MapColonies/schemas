@@ -1,0 +1,30 @@
+{
+  "$id": "https://mapcolonies.com/common/storageExplorer/v1",
+  "type": "object",
+  "title": "commonStorageExplorerSchemaV1",
+  "description": "Storage explorer middleware configuration schema",
+  "unevaluatedProperties": false,
+  "required": ["displayNameDir", "validFileExtensions"],
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/storage/v1"
+    }
+  ],
+  "properties": {
+    "displayNameDir": {
+      "type": "string",
+      "minLength": 1,
+      "default": "\\layerSources",
+      "x-env-value": "STORAGE_DISPLAY_NAME_DIR"
+    },
+    "validFileExtensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "x-env-value": "STORAGE_VALID_FILE_EXTENSIONS"
+    }
+  }
+}
