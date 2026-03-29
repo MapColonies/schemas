@@ -8,7 +8,13 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
-      "$ref": "https://mapcolonies.com/common/db/full/v2"
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v2"
+        }
+      }
     }
   ]
 }
