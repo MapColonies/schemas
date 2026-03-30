@@ -8,13 +8,33 @@
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
+      "$ref": "#/definitions/databases"
+    }
+  ],
+  "definitions": {
+    "databases": {
       "type": "object",
       "required": ["db"],
       "properties": {
         "db": {
-          "$ref": "https://mapcolonies.com/common/db/full/v2"
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/db/full/v2"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "x-env-value": "DB_TYPE",
+                  "default": "postgres"
+                }
+              },
+              "required": ["type"]
+            }
+          ]
         }
       }
     }
-  ]
+  }
 }
