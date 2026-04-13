@@ -42,22 +42,8 @@
       "type": "object",
       "description": "Application configuration",
       "unevaluatedProperties": false,
-      "required": ["defaultGeographicSrsId", "defaultProjectedSrsId", "supportedFormatsMap", "validation"],
+      "required": ["supportedFormatsMap", "validation"],
       "properties": {
-        "defaultGeographicSrsId": {
-          "type": "integer",
-          "description": "Default geographic SRS id used for internal projections",
-          "default": 4326,
-          "minimum": 0,
-          "x-env-value": "DEFAULT_GEOGRAPHIC_SRS_ID"
-        },
-        "defaultProjectedSrsId": {
-          "type": "integer",
-          "description": "Default projected SRS id used for internal projections",
-          "default": 3395,
-          "minimum": 0,
-          "x-env-value": "DEFAULT_PROJECTED_SRS_ID"
-        },
         "supportedFormatsMap": {
           "type": "object",
           "description": "Supported formats map. Maps common format identifier to internal identifier supported for usage",
