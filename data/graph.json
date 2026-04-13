@@ -41,6 +41,14 @@
       "degree": 4
     },
     {
+      "id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+      "label": "vectorExternalToOsmTagMappingV1",
+      "path": "vector/externalToOsmTagMapping",
+      "category": "vector",
+      "version": 1,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/vector/common/v1",
       "label": "commonVectorSchemaV1",
       "path": "vector/common",
@@ -254,7 +262,7 @@
       "path": "common/redis",
       "category": "common",
       "version": 2,
-      "degree": 1
+      "degree": 2
     },
     {
       "id": "https://mapcolonies.com/common/redis/v1",
@@ -350,7 +358,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 2,
-      "degree": 9
+      "degree": 10
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v1",
@@ -430,6 +438,16 @@
     {
       "source": "https://mapcolonies.com/vector/geocoding/v1",
       "target": "https://mapcolonies.com/common/elastic/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+      "target": "https://mapcolonies.com/common/redis/v2",
       "type": "reference"
     },
     {

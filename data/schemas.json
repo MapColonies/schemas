@@ -1492,6 +1492,131 @@
       "referencedBy": []
     },
     {
+      "id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+      "path": "vector/externalToOsmTagMapping",
+      "version": 1,
+      "title": "vectorExternalToOsmTagMappingV1",
+      "description": "Mapping configuration for external vector data to OSM tags",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
+        "type": "object",
+        "title": "vectorExternalToOsmTagMappingV1",
+        "description": "Mapping configuration for external vector data to OSM tags",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+          },
+          {
+            "$ref": "#/definitions/databases"
+          },
+          {
+            "$ref": "#/definitions/appSchema"
+          }
+        ],
+        "definitions": {
+          "databases": {
+            "type": "object",
+            "required": [
+              "redis"
+            ],
+            "properties": {
+              "redis": {
+                "allOf": [
+                  {
+                    "$ref": "https://mapcolonies.com/common/redis/v2"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "connectTimeoutMs": {
+                        "type": "number",
+                        "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                        "default": 5000,
+                        "minimum": 500
+                      }
+                    },
+                    "required": [
+                      "connectTimeoutMs"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "appSchema": {
+            "required": [
+              "application",
+              "schema"
+            ],
+            "type": "object",
+            "properties": {
+              "application": {
+                "type": "object",
+                "required": [
+                  "hashKey"
+                ],
+                "properties": {
+                  "hashKey": {
+                    "type": "object",
+                    "required": [
+                      "enabled"
+                    ],
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "x-env-value": "APP_HASHKEY_ENABLED"
+                      },
+                      "value": {
+                        "type": "string",
+                        "x-env-value": "APP_HASHKEY_VALUE"
+                      }
+                    },
+                    "if": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  }
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "x-env-value": "SCHEMA_PROVIDER"
+                  },
+                  "filePath": {
+                    "type": "string",
+                    "x-env-value": "SCHEMA_FILE_PATH"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        schema: {\n            [x: string]: unknown;\n            filePath?: string | undefined;\n            provider?: string | undefined;\n        };\n        redis: {\n            [x: string]: unknown;\n            dbIndex?: number | undefined;\n            prefix?: string | undefined;\n            port: number;\n            host: string;\n            username: string;\n            password: string;\n            tls: {\n                ca: string;\n                cert: string;\n                key: string;\n                enabled: true;\n            } | {\n                ca?: string | undefined;\n                cert?: string | undefined;\n                key?: string | undefined;\n                enabled: false;\n            };\n            connectTimeoutMs: number;\n        };\n        application: {\n            [x: string]: unknown;\n            hashKey: {\n                [x: string]: unknown;\n                enabled: true;\n                value: string;\n            } | {\n                [x: string]: unknown;\n                value?: string | undefined;\n                enabled: boolean;\n            };\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/externalToOsmTagMapping/v1\";\n    readonly type: \"object\";\n    readonly title: \"vectorExternalToOsmTagMappingV1\";\n    readonly description: \"Mapping configuration for external vector data to OSM tags\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly $ref: \"#/definitions/databases\";\n    }, {\n        readonly $ref: \"#/definitions/appSchema\";\n    }];\n    readonly definitions: {\n        readonly databases: {\n            readonly type: \"object\";\n            readonly required: readonly [\"redis\"];\n            readonly properties: {\n                readonly redis: {\n                    readonly allOf: readonly [{\n                        readonly $ref: \"https://mapcolonies.com/common/redis/v2\";\n                    }, {\n                        readonly type: \"object\";\n                        readonly properties: {\n                            readonly connectTimeoutMs: {\n                                readonly type: \"number\";\n                                readonly \"x-env-value\": \"REDIS_CONNECT_TIMEOUT\";\n                                readonly default: 5000;\n                                readonly minimum: 500;\n                            };\n                        };\n                        readonly required: readonly [\"connectTimeoutMs\"];\n                    }];\n                };\n            };\n        };\n        readonly appSchema: {\n            readonly required: readonly [\"application\", \"schema\"];\n            readonly type: \"object\";\n            readonly properties: {\n                readonly application: {\n                    readonly type: \"object\";\n                    readonly required: readonly [\"hashKey\"];\n                    readonly properties: {\n                        readonly hashKey: {\n                            readonly type: \"object\";\n                            readonly required: readonly [\"enabled\"];\n                            readonly properties: {\n                                readonly enabled: {\n                                    readonly type: \"boolean\";\n                                    readonly \"x-env-value\": \"APP_HASHKEY_ENABLED\";\n                                };\n                                readonly value: {\n                                    readonly type: \"string\";\n                                    readonly \"x-env-value\": \"APP_HASHKEY_VALUE\";\n                                };\n                            };\n                            readonly if: {\n                                readonly properties: {\n                                    readonly enabled: {\n                                        readonly const: true;\n                                    };\n                                };\n                            };\n                            readonly then: {\n                                readonly required: readonly [\"value\"];\n                            };\n                        };\n                    };\n                };\n                readonly schema: {\n                    readonly type: \"object\";\n                    readonly properties: {\n                        readonly provider: {\n                            readonly type: \"string\";\n                            readonly \"x-env-value\": \"SCHEMA_PROVIDER\";\n                        };\n                        readonly filePath: {\n                            readonly type: \"string\";\n                            readonly \"x-env-value\": \"SCHEMA_FILE_PATH\";\n                        };\n                    };\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/boilerplate/v2",
+        "https://mapcolonies.com/common/redis/v2"
+      ],
+      "internalRefs": [
+        "#/definitions/databases",
+        "#/definitions/appSchema"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/vector/common/v1",
       "path": "vector/common",
       "version": 1,
@@ -3781,7 +3906,8 @@
       ],
       "hasConfig": false,
       "referencedBy": [
-        "https://mapcolonies.com/vector/geocoding/v2"
+        "https://mapcolonies.com/vector/geocoding/v2",
+        "https://mapcolonies.com/vector/externalToOsmTagMapping/v1"
       ]
     },
     {
@@ -4843,6 +4969,7 @@
         "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
         "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1",
+        "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
         "https://mapcolonies.com/vector/common/v1",
         "https://mapcolonies.com/infra/jobnik/manager/v1"
       ]
@@ -5054,7 +5181,7 @@
     },
     {
       "name": "vector",
-      "count": 6
+      "count": 7
     }
   ]
 }
