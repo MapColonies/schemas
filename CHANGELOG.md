@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/MapColonies/schemas/compare/v1.18.0...v1.19.0) (2026-04-13)
+
+
+### Features
+
+* add external to osm tag mapping v1 schema ([#145](https://github.com/MapColonies/schemas/issues/145)) ([c0650cc](https://github.com/MapColonies/schemas/commit/c0650cc41e05c04ef302a85b66e56d106b38eba4))
+
 ## [1.18.0](https://github.com/MapColonies/schemas/compare/v1.17.0...v1.18.0) (2026-03-08)
 
 
