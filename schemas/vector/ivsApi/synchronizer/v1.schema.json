@@ -1,0 +1,35 @@
+{
+  "$id": "https://mapcolonies.com/vector/ivsApi/v1",
+  "type": "object",
+  "title": "vectorStandardSynchronizerSchemaV1",
+  "description": "Vector's IVS API schema",
+  "allOf": [
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
+    {
+      "type": "object",
+      "required": ["sourceDb", "destinationDb"],
+      "properties": {
+        "sourceDb": { "$ref": "#/definitions/database" },
+        "destinationDb": { "$ref": "#/definitions/database" }
+      }
+    }
+  ],
+  "definitions": {
+    "database": {
+      "allOf": [
+        { "$ref": "https://mapcolonies.com/common/db/full/v2" },
+        {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "x-env-value": "DB_TYPE",
+              "default": "postgres"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
