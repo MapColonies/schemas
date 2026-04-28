@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/vector/ivsApi/v1",
+  "$id": "https://mapcolonies.com/vector/ivsApi/synchronizer/v1",
   "type": "object",
   "title": "vectorStandardSynchronizerSchemaV1",
   "description": "Vector's IVS API schema",
