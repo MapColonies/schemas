@@ -12,7 +12,8 @@
         "sourceDb": { "$ref": "#/definitions/database" },
         "destinationDb": { "$ref": "#/definitions/database" }
       }
-    }
+    },
+    { "$ref": "#/definitions/schedule" }
   ],
   "definitions": {
     "database": {
@@ -30,6 +31,13 @@
           }
         }
       ]
+    },
+    "schedule": {
+      "type": "string",
+      "description": "The cron timing spec",
+      "default": "0 0 * * *",
+      "examples": ["*/1 * * * *"],
+      "x-env-value": "SYNC_FIELDS_CRON"
     }
   }
 }
