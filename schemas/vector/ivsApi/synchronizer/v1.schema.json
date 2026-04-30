@@ -7,7 +7,7 @@
     { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
     {
       "type": "object",
-      "required": ["sourceDb", "destinationDb"],
+      "required": ["sourceDb", "destinationDb", "schedule"],
       "properties": {
         "sourceDb": { "$ref": "#/definitions/database" },
         "destinationDb": { "$ref": "#/definitions/database" },
