@@ -10,10 +10,10 @@
       "required": ["sourceDb", "destinationDb"],
       "properties": {
         "sourceDb": { "$ref": "#/definitions/database" },
-        "destinationDb": { "$ref": "#/definitions/database" }
+        "destinationDb": { "$ref": "#/definitions/database" },
+        "schedule": { "$ref": "#/definitions/schedule" }
       }
-    },
-    { "$ref": "#/definitions/schedule" }
+    }
   ],
   "definitions": {
     "database": {
