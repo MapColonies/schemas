@@ -146,11 +146,17 @@
             },
             {
               "type": "object",
+              "required": ["healthCheckTimeoutMs"],
               "properties": {
                 "noSupervisor": {
                   "type": "boolean",
                   "default": true,
                   "description": "Disable pgBoss supervisor"
+                },
+                "healthCheckTimeoutMs": {
+                  "type": "integer",
+                  "description": "PgBoss health check timeout in milliseconds",
+                  "x-env-value": "PGBOSS_HEALTH_CHECK_TIMEOUT_MS"
                 }
               }
             }
