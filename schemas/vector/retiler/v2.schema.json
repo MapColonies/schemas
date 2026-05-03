@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/vector/retiler/v1",
+  "$id": "https://mapcolonies.com/vector/retiler/v2",
   "type": "object",
   "title": "vectorRetilerSchemaV1",
   "description": "Vector's Retiler schema",
