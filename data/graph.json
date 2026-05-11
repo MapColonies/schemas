@@ -102,7 +102,7 @@
       "path": "infra/jobnik/worker",
       "category": "infra",
       "version": 1,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/infra/jobnik/sdk/partial/v1",
@@ -118,7 +118,7 @@
       "path": "infra/jobnik/sdk/full",
       "category": "infra",
       "version": 1,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/infra/jobnik/manager/v1",
@@ -177,6 +177,14 @@
       "degree": 1
     },
     {
+      "id": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "label": "jobnikBoilerplateV1",
+      "path": "common/worker-boilerplate",
+      "category": "common",
+      "version": 2,
+      "degree": 5
+    },
+    {
       "id": "https://mapcolonies.com/common/worker-boilerplate/v1",
       "label": "jobnikBoilerplateV1",
       "path": "common/worker-boilerplate",
@@ -190,7 +198,7 @@
       "path": "common/telemetry/tracing",
       "category": "common",
       "version": 1,
-      "degree": 5
+      "degree": 6
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
@@ -206,7 +214,7 @@
       "path": "common/telemetry/logger",
       "category": "common",
       "version": 2,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/logger/v1",
@@ -222,7 +230,7 @@
       "path": "common/telemetry/base",
       "category": "common",
       "version": 1,
-      "degree": 5
+      "degree": 6
     },
     {
       "id": "https://mapcolonies.com/common/s3/partial/v1",
@@ -573,6 +581,31 @@
     {
       "source": "https://mapcolonies.com/infra/jobManager/sdk/v1",
       "target": "https://mapcolonies.com/infra/jobManager/task/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "target": "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "target": "https://mapcolonies.com/infra/jobnik/worker/v1",
       "type": "reference"
     },
     {

@@ -2658,6 +2658,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/common/worker-boilerplate/v2",
         "https://mapcolonies.com/common/worker-boilerplate/v1"
       ]
     },
@@ -2792,6 +2793,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/common/worker-boilerplate/v2",
         "https://mapcolonies.com/common/worker-boilerplate/v1"
       ]
     },
@@ -3146,6 +3148,122 @@
       ]
     },
     {
+      "id": "https://mapcolonies.com/common/worker-boilerplate/v2",
+      "path": "common/worker-boilerplate",
+      "version": 2,
+      "title": "jobnikBoilerplateV1",
+      "description": "Boilerplate basic configuration",
+      "category": "common",
+      "rawContent": {
+        "description": "Boilerplate basic configuration",
+        "$id": "https://mapcolonies.com/common/worker-boilerplate/v2",
+        "type": "object",
+        "title": "jobnikBoilerplateV1",
+        "required": [
+          "jobnik",
+          "telemetry",
+          "server"
+        ],
+        "properties": {
+          "telemetry": {
+            "description": "Telemetry configuration",
+            "type": "object",
+            "default": {},
+            "unevaluatedProperties": false,
+            "examples": [
+              {
+                "shared": {
+                  "serviceName": "boilerplate"
+                },
+                "tracing": {
+                  "isEnabled": false
+                },
+                "logger": {
+                  "level": "info",
+                  "prettyPrint": false
+                }
+              }
+            ],
+            "properties": {
+              "shared": {
+                "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+              },
+              "tracing": {
+                "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+              },
+              "logger": {
+                "$ref": "https://mapcolonies.com/common/telemetry/logger/v2"
+              },
+              "metrics": {
+                "description": "Metrics configuration"
+              }
+            },
+            "required": [
+              "logger",
+              "shared",
+              "tracing"
+            ]
+          },
+          "server": {
+            "description": "Server configuration",
+            "type": "object",
+            "unevaluatedProperties": false,
+            "default": {},
+            "examples": [
+              {
+                "port": 8080,
+                "request": {
+                  "payload": {
+                    "limit": "1mb"
+                  }
+                }
+              }
+            ],
+            "properties": {
+              "port": {
+                "minimum": 1,
+                "maximum": 65535,
+                "default": 8080,
+                "description": "The port the server will listen on",
+                "type": "integer",
+                "x-env-value": "SERVER_PORT"
+              }
+            },
+            "required": [
+              "port"
+            ]
+          },
+          "jobnik": {
+            "type": "object",
+            "required": [
+              "sdk",
+              "worker"
+            ],
+            "default": {},
+            "properties": {
+              "sdk": {
+                "$ref": "https://mapcolonies.com/infra/jobnik/sdk/full/v1"
+              },
+              "worker": {
+                "$ref": "https://mapcolonies.com/infra/jobnik/worker/v1"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                opentelemetryOptions?: {\n                    [x: string]: unknown;\n                    url: string;\n                    enabled: boolean;\n                } | undefined;\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n        };\n        jobnik: {\n            [x: string]: unknown;\n            sdk: {\n                [x: string]: unknown;\n                httpClientOptions?: {\n                    [x: string]: unknown;\n                    agentOptions?: {\n                        [x: string]: unknown;\n                        connectTimeout: number;\n                        headersTimeout: number;\n                        bodyTimeout: number;\n                    } | undefined;\n                    retry?: {\n                        [x: string]: unknown;\n                        initialBaseRetryDelayMs: number;\n                        disableJitter: boolean;\n                        maxJitterFactor: number;\n                        maxRetries: number;\n                    } | undefined;\n                } | undefined;\n                baseUrl: string;\n            };\n            worker: {\n                [x: string]: unknown;\n                concurrency: number;\n                taskHandlerCircuitBreaker: {\n                    [x: string]: unknown;\n                    enabled: boolean;\n                    errorThresholdPercentage: number;\n                    resetTimeout: number;\n                    rollingCountTimeout: number;\n                    volumeThreshold: number;\n                };\n                dequeueTaskCircuitBreaker: {\n                    [x: string]: unknown;\n                    enabled: boolean;\n                    errorThresholdPercentage: number;\n                    resetTimeout: number;\n                    rollingCountTimeout: number;\n                    volumeThreshold: number;\n                };\n                backoffOptions: {\n                    [x: string]: unknown;\n                    initialBaseRetryDelayMs: number;\n                    backoffFactor: number;\n                    maxDelayMs: number;\n                    disableJitter: boolean;\n                    maxJitterFactor: number;\n                };\n            };\n        };\n    };\n    readonly description: \"Boilerplate basic configuration\";\n    readonly $id: \"https://mapcolonies.com/common/worker-boilerplate/v2\";\n    readonly type: \"object\";\n    readonly title: \"jobnikBoilerplateV1\";\n    readonly required: readonly [\"jobnik\", \"telemetry\", \"server\"];\n    readonly properties: {\n        readonly telemetry: {\n            readonly description: \"Telemetry configuration\";\n            readonly type: \"object\";\n            readonly default: {};\n            readonly unevaluatedProperties: false;\n            readonly examples: readonly [{\n                readonly shared: {\n                    readonly serviceName: \"boilerplate\";\n                };\n                readonly tracing: {\n                    readonly isEnabled: false;\n                };\n                readonly logger: {\n                    readonly level: \"info\";\n                    readonly prettyPrint: false;\n                };\n            }];\n            readonly properties: {\n                readonly shared: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/base/v1\";\n                };\n                readonly tracing: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/tracing/v1\";\n                };\n                readonly logger: {\n                    readonly $ref: \"https://mapcolonies.com/common/telemetry/logger/v2\";\n                };\n                readonly metrics: {\n                    readonly description: \"Metrics configuration\";\n                };\n            };\n            readonly required: readonly [\"logger\", \"shared\", \"tracing\"];\n        };\n        readonly server: {\n            readonly description: \"Server configuration\";\n            readonly type: \"object\";\n            readonly unevaluatedProperties: false;\n            readonly default: {};\n            readonly examples: readonly [{\n                readonly port: 8080;\n                readonly request: {\n                    readonly payload: {\n                        readonly limit: \"1mb\";\n                    };\n                };\n            }];\n            readonly properties: {\n                readonly port: {\n                    readonly minimum: 1;\n                    readonly maximum: 65535;\n                    readonly default: 8080;\n                    readonly description: \"The port the server will listen on\";\n                    readonly type: \"integer\";\n                    readonly \"x-env-value\": \"SERVER_PORT\";\n                };\n            };\n            readonly required: readonly [\"port\"];\n        };\n        readonly jobnik: {\n            readonly type: \"object\";\n            readonly required: readonly [\"sdk\", \"worker\"];\n            readonly default: {};\n            readonly properties: {\n                readonly sdk: {\n                    readonly $ref: \"https://mapcolonies.com/infra/jobnik/sdk/full/v1\";\n                };\n                readonly worker: {\n                    readonly $ref: \"https://mapcolonies.com/infra/jobnik/worker/v1\";\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/telemetry/base/v1",
+        "https://mapcolonies.com/common/telemetry/tracing/v1",
+        "https://mapcolonies.com/common/telemetry/logger/v2",
+        "https://mapcolonies.com/infra/jobnik/sdk/full/v1",
+        "https://mapcolonies.com/infra/jobnik/worker/v1"
+      ],
+      "internalRefs": [],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/common/worker-boilerplate/v1",
       "path": "common/worker-boilerplate",
       "version": 1,
@@ -3316,6 +3434,7 @@
       "hasConfig": true,
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
+        "https://mapcolonies.com/common/worker-boilerplate/v2",
         "https://mapcolonies.com/common/worker-boilerplate/v1",
         "https://mapcolonies.com/common/boilerplate/v3",
         "https://mapcolonies.com/common/boilerplate/v2",
@@ -3438,6 +3557,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/common/worker-boilerplate/v2",
         "https://mapcolonies.com/common/boilerplate/v3"
       ]
     },
@@ -3553,6 +3673,7 @@
       "hasConfig": false,
       "referencedBy": [
         "https://mapcolonies.com/infra/opala/cron/v2",
+        "https://mapcolonies.com/common/worker-boilerplate/v2",
         "https://mapcolonies.com/common/worker-boilerplate/v1",
         "https://mapcolonies.com/common/boilerplate/v3",
         "https://mapcolonies.com/common/boilerplate/v2",
@@ -5173,7 +5294,7 @@
   "categories": [
     {
       "name": "common",
-      "count": 24
+      "count": 25
     },
     {
       "name": "infra",
