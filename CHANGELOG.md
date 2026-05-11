@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://github.com/MapColonies/schemas/compare/v1.19.0...v1.20.0) (2026-05-11)
+
+
+### Features
+
+* add jobnik boilerplate v2 schema(logger v5 support) ([#157](https://github.com/MapColonies/schemas/issues/157)) ([c0f9982](https://github.com/MapColonies/schemas/commit/c0f998212186c6b4b2ac3696a3c5bab9e16eeec6))
+
 ## [1.19.0](https://github.com/MapColonies/schemas/compare/v1.18.0...v1.19.0) (2026-04-13)
 
 
