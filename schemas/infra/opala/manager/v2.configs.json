@@ -5,7 +5,15 @@
       "telemetry": {
         "logger": {
           "level": "info",
-          "prettyPrint": false
+          "prettyPrint": false,
+          "opentelemetryOptions": {
+            "enabled": true,
+            "$ref": {
+              "configName": "collector-logger-connection",
+              "version": "latest",
+              "schemaId": "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+            }
+          }
         },
         "shared": {},
         "tracing": {
