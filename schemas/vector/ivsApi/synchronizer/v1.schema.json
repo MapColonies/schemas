@@ -11,7 +11,8 @@
       "properties": {
         "sourceDb": { "$ref": "#/definitions/database" },
         "destinationDb": { "$ref": "#/definitions/database" },
-        "schedule": { "$ref": "#/definitions/schedule" }
+        "schedule": { "$ref": "#/definitions/schedule" },
+        "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" }
       }
     }
   ],
@@ -37,6 +38,13 @@
       "description": "The cron timing spec",
       "default": "0 0 * * *",
       "examples": ["*/1 * * * *"],
+      "x-env-value": "SYNC_FIELDS_CRON"
+    },
+    "indexNameFormat": {
+      "type": "string",
+      "description": "The indexes' names in the source DB",
+      "default": "{layerName}_{column}_idx",
+      "examples": ["{layerName}_{column}_idx"],
       "x-env-value": "SYNC_FIELDS_CRON"
     }
   }
