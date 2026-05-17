@@ -57,6 +57,14 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/infra/opala/token-kiosk/v3",
+      "label": "opalaTokenKioskSchemaV3",
+      "path": "infra/opala/token-kiosk",
+      "category": "infra",
+      "version": 3,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
       "label": "opalaTokenKioskSchemaV2",
       "path": "infra/opala/token-kiosk",
@@ -73,12 +81,28 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/infra/opala/manager/v2",
+      "label": "opalaManagerSchemaV2",
+      "path": "infra/opala/manager",
+      "category": "infra",
+      "version": 2,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/infra/opala/manager/v1",
       "label": "opalaManagerSchemaV1",
       "path": "infra/opala/manager",
       "category": "infra",
       "version": 1,
       "degree": 2
+    },
+    {
+      "id": "https://mapcolonies.com/infra/opala/cron/v3",
+      "label": "opalaCronSchemaV3",
+      "path": "infra/opala/cron",
+      "category": "infra",
+      "version": 3,
+      "degree": 5
     },
     {
       "id": "https://mapcolonies.com/infra/opala/cron/v2",
@@ -198,7 +222,7 @@
       "path": "common/telemetry/tracing",
       "category": "common",
       "version": 1,
-      "degree": 6
+      "degree": 7
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
@@ -214,7 +238,7 @@
       "path": "common/telemetry/logger",
       "category": "common",
       "version": 2,
-      "degree": 3
+      "degree": 4
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/logger/v1",
@@ -230,7 +254,7 @@
       "path": "common/telemetry/base",
       "category": "common",
       "version": 1,
-      "degree": 6
+      "degree": 7
     },
     {
       "id": "https://mapcolonies.com/common/s3/partial/v1",
@@ -238,7 +262,7 @@
       "path": "common/s3/partial",
       "category": "common",
       "version": 1,
-      "degree": 5
+      "degree": 6
     },
     {
       "id": "https://mapcolonies.com/common/s3/full/v3",
@@ -342,7 +366,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 1,
-      "degree": 7
+      "degree": 10
     },
     {
       "id": "https://mapcolonies.com/common/circuit-breaker/v1",
@@ -358,7 +382,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 3,
-      "degree": 3
+      "degree": 5
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v2",
@@ -469,6 +493,16 @@
       "type": "reference"
     },
     {
+      "source": "https://mapcolonies.com/infra/opala/token-kiosk/v3",
+      "target": "https://mapcolonies.com/common/boilerplate/v3",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/token-kiosk/v3",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
       "source": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
       "target": "https://mapcolonies.com/common/boilerplate/v1",
       "type": "reference"
@@ -489,6 +523,16 @@
       "type": "reference"
     },
     {
+      "source": "https://mapcolonies.com/infra/opala/manager/v2",
+      "target": "https://mapcolonies.com/common/boilerplate/v3",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/manager/v2",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
       "source": "https://mapcolonies.com/infra/opala/manager/v1",
       "target": "https://mapcolonies.com/common/boilerplate/v1",
       "type": "reference"
@@ -496,6 +540,31 @@
     {
       "source": "https://mapcolonies.com/infra/opala/manager/v1",
       "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v3",
+      "target": "https://mapcolonies.com/common/db/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v3",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v3",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v3",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/infra/opala/cron/v3",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
       "type": "reference"
     },
     {

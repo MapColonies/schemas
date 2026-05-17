@@ -97,9 +97,9 @@
       ]
     },
     {
-      "schemaId": "https://mapcolonies.com/infra/opala/token-kiosk/v2",
+      "schemaId": "https://mapcolonies.com/infra/opala/token-kiosk/v3",
       "schemaPath": "infra/opala/token-kiosk",
-      "version": 2,
+      "version": 3,
       "instances": [
         {
           "name": "infra-token-kiosk",
@@ -107,7 +107,15 @@
             "telemetry": {
               "logger": {
                 "level": "info",
-                "prettyPrint": false
+                "prettyPrint": false,
+                "opentelemetryOptions": {
+                  "enabled": true,
+                  "$ref": {
+                    "configName": "collector-logger-connection",
+                    "version": "latest",
+                    "schemaId": "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+                  }
+                }
               },
               "shared": {},
               "tracing": {
@@ -160,72 +168,9 @@
       ]
     },
     {
-      "schemaId": "https://mapcolonies.com/infra/opala/token-kiosk/v1",
-      "schemaPath": "infra/opala/token-kiosk",
-      "version": 1,
-      "instances": [
-        {
-          "name": "infra-token-kiosk",
-          "value": {
-            "telemetry": {
-              "logger": {
-                "level": "info",
-                "prettyPrint": false
-              },
-              "shared": {},
-              "tracing": {
-                "$ref": {
-                  "configName": "common-tracing",
-                  "version": "latest",
-                  "schemaId": "https://mapcolonies.com/common/telemetry/tracing/v1"
-                }
-              }
-            },
-            "db": {
-              "$ref": {
-                "configName": "infra-opala-db",
-                "version": "latest",
-                "schemaId": "https://mapcolonies.com/common/db/full/v1"
-              }
-            },
-            "auth": {
-              "openid": {
-                "clientId": "opala-token-kiosk",
-                "issuerBaseUrl": "https://auth.mapcolonies.com/realms/opala",
-                "baseUrl": "https://token-kiosk.mapcolonies.com",
-                "secret": "your-secret-key",
-                "clientSecret": "your-client-secret",
-                "scopes": "openid profile email",
-                "idField": "email",
-                "metadataFields": [
-                  "email"
-                ]
-              }
-            },
-            "token": {
-              "expirationDuration": "1h",
-              "jwt": {
-                "subject": "c2b",
-                "issuer": "token-kiosk"
-              },
-              "authManager": {
-                "baseUrl": "https://auth.mapcolonies.com",
-                "cacheTtlHours": 1
-              }
-            },
-            "guides": {},
-            "qlr": {
-              "catalogUrl": "https://example.com/catalog",
-              "layers": []
-            }
-          }
-        }
-      ]
-    },
-    {
-      "schemaId": "https://mapcolonies.com/infra/opala/manager/v1",
+      "schemaId": "https://mapcolonies.com/infra/opala/manager/v2",
       "schemaPath": "infra/opala/manager",
-      "version": 1,
+      "version": 2,
       "instances": [
         {
           "name": "infra-auth-manager",
@@ -233,7 +178,15 @@
             "telemetry": {
               "logger": {
                 "level": "info",
-                "prettyPrint": false
+                "prettyPrint": false,
+                "opentelemetryOptions": {
+                  "enabled": true,
+                  "$ref": {
+                    "configName": "collector-logger-connection",
+                    "version": "latest",
+                    "schemaId": "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+                  }
+                }
               },
               "shared": {},
               "tracing": {
@@ -256,9 +209,9 @@
       ]
     },
     {
-      "schemaId": "https://mapcolonies.com/infra/opala/cron/v2",
+      "schemaId": "https://mapcolonies.com/infra/opala/cron/v3",
       "schemaPath": "infra/opala/cron",
-      "version": 2,
+      "version": 3,
       "instances": [
         {
           "name": "infra-auth-cron",
@@ -266,7 +219,15 @@
             "telemetry": {
               "logger": {
                 "level": "info",
-                "prettyPrint": false
+                "prettyPrint": false,
+                "opentelemetryOptions": {
+                  "enabled": true,
+                  "$ref": {
+                    "configName": "collector-logger-connection",
+                    "version": "latest",
+                    "schemaId": "https://mapcolonies.com/common/telemetry/otlp-logger/v1"
+                  }
+                }
               },
               "tracing": {
                 "$ref": {
