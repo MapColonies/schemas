@@ -1,8 +1,8 @@
 {
-  "$id": "https://mapcolonies.com/vector/ivsApi/synchronizer/v1",
+  "$id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
   "type": "object",
   "title": "vectorStandardSynchronizerSchemaV1",
-  "description": "Vector's IVS API schema",
+  "description": "Vector's standard synchronizer schema",
   "allOf": [
     { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
     {

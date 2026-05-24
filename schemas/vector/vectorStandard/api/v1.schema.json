@@ -1,9 +1,12 @@
 {
-  "$id": "https://mapcolonies.com/vector/ivsApi/common/v1",
+  "$id": "https://mapcolonies.com/vector/vectorStandard/api/v1",
   "type": "object",
-  "title": "vectorStandardCommonSchemaV1",
-  "description": "Vector's IVS API schema",
+  "title": "vectorStandardApiSchemaV1",
+  "description": "Vector's standard API schema",
   "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
     {
       "$ref": "#/definitions/databases"
     }
