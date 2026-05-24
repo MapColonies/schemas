@@ -9,29 +9,77 @@
       "type": "object",
       "required": ["sourceDb", "destinationDb", "schedule"],
       "properties": {
-        "sourceDb": { "$ref": "#/definitions/database" },
-        "destinationDb": { "$ref": "#/definitions/database" },
+        "sourceDb": { "$ref": "#/definitions/sourceDatabase" },
+        "destinationDb": { "$ref": "#/definitions/destinationDatabase" },
         "schedule": { "$ref": "#/definitions/schedule" },
         "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" }
       }
     }
   ],
   "definitions": {
-    "database": {
-      "allOf": [
-        { "$ref": "https://mapcolonies.com/common/db/full/v2" },
-        {
-          "type": "object",
-          "required": ["type"],
+    "ssl": {
+      "type": "object",
+      "description": "ssl configuration",
+      "unevaluatedProperties": false,
+      "if": { "properties": { "enabled": { "const": true } } },
+      "then": { "required": ["ca", "cert", "key"] },
+      "else": { "properties": { "enabled": { "const": false } } }
+    },
+    "sourceDatabase": {
+      "type": "object",
+      "required": ["database", "ssl", "type"],
+      "properties": {
+        "host": { "type": "string", "description": "the host of the database", "default": "localhost", "x-env-value": "SOURCE_DB_HOST" },
+        "port": { "type": "integer", "description": "the port of the database", "default": 5432, "x-env-value": "SOURCE_DB_PORT" },
+        "username": {
+          "type": "string",
+          "description": "the username of the database",
+          "default": "postgres",
+          "maxLength": 63,
+          "x-env-value": "SOURCE_DB_USERNAME"
+        },
+        "password": { "type": "string", "description": "the password of the database", "default": "postgres", "x-env-value": "SOURCE_DB_PASSWORD" },
+        "schema": { "type": "string", "description": "the schema name of the database", "default": "public", "x-env-value": "SOURCE_DB_SCHEMA" },
+        "database": { "type": "string", "description": "the database name", "maxLength": 63, "x-env-value": "SOURCE_DB_NAME" },
+        "type": { "type": "string", "description": "the type of the database", "default": "postgres", "x-env-value": "SOURCE_DB_TYPE" },
+        "ssl": {
+          "allOf": [{ "$ref": "#/definitions/ssl" }],
           "properties": {
-            "type": {
-              "type": "string",
-              "x-env-value": "DB_TYPE",
-              "default": "postgres"
-            }
+            "enabled": { "type": "boolean", "description": "enable ssl", "default": false, "x-env-value": "SOURCE_DB_ENABLE_SSL_AUTH" },
+            "ca": { "type": "string", "description": "the path to the ca file", "x-env-value": "SOURCE_DB_CA_PATH" },
+            "cert": { "type": "string", "description": "the path to the cert file", "x-env-value": "SOURCE_DB_CERT_PATH" },
+            "key": { "type": "string", "description": "the path to the key file", "x-env-value": "SOURCE_DB_KEY_PATH" }
           }
         }
-      ]
+      }
+    },
+    "destinationDatabase": {
+      "type": "object",
+      "required": ["database", "ssl", "type"],
+      "properties": {
+        "host": { "type": "string", "description": "the host of the database", "default": "localhost", "x-env-value": "DEST_DB_HOST" },
+        "port": { "type": "integer", "description": "the port of the database", "default": 5432, "x-env-value": "DEST_DB_PORT" },
+        "username": {
+          "type": "string",
+          "description": "the username of the database",
+          "default": "postgres",
+          "maxLength": 63,
+          "x-env-value": "DEST_DB_USERNAME"
+        },
+        "password": { "type": "string", "description": "the password of the database", "default": "postgres", "x-env-value": "DEST_DB_PASSWORD" },
+        "schema": { "type": "string", "description": "the schema name of the database", "default": "public", "x-env-value": "DEST_DB_SCHEMA" },
+        "database": { "type": "string", "description": "the database name", "maxLength": 63, "x-env-value": "DEST_DB_NAME" },
+        "type": { "type": "string", "description": "the type of the database", "default": "postgres", "x-env-value": "DEST_DB_TYPE" },
+        "ssl": {
+          "allOf": [{ "$ref": "#/definitions/ssl" }],
+          "properties": {
+            "enabled": { "type": "boolean", "description": "enable ssl", "default": false, "x-env-value": "DEST_DB_ENABLE_SSL_AUTH" },
+            "ca": { "type": "string", "description": "the path to the ca file", "x-env-value": "DEST_DB_CA_PATH" },
+            "cert": { "type": "string", "description": "the path to the cert file", "x-env-value": "DEST_DB_CERT_PATH" },
+            "key": { "type": "string", "description": "the path to the key file", "x-env-value": "DEST_DB_KEY_PATH" }
+          }
+        }
+      }
     },
     "schedule": {
       "type": "string",
