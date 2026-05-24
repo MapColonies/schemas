@@ -1,7 +1,7 @@
 {
   "$id": "https://mapcolonies.com/vector/retiler/v2",
   "type": "object",
-  "title": "vectorRetilerSchemaV1",
+  "title": "vectorRetilerSchemaV2",
   "description": "Vector's Retiler schema",
   "allOf": [
     {
