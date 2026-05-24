@@ -63,7 +63,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
-            Hi it is me, your friendly bot helper! :wave:
+            Hi 2it is me, your friendly bot helper! :wave:
             I've packed this commit for you :blush:
             You can install it like this:
             ```json
