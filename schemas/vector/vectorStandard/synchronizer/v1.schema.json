@@ -9,8 +9,8 @@
       "type": "object",
       "required": ["sourceDb", "destinationDb", "schedule"],
       "properties": {
-        "sourceDb": { "$ref": "#/definitions/sourceDatabase" },
-        "destinationDb": { "$ref": "#/definitions/destinationDatabase" },
+        "sourceDb": { "$ref": "#/definitions/sourceDb" },
+        "destinationDb": { "$ref": "#/definitions/destinationDb" },
         "schedule": { "$ref": "#/definitions/schedule" },
         "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" }
       }
@@ -25,7 +25,7 @@
       "then": { "required": ["ca", "cert", "key"] },
       "else": { "properties": { "enabled": { "const": false } } }
     },
-    "sourceDatabase": {
+    "sourceDb": {
       "type": "object",
       "required": ["database", "ssl", "type"],
       "properties": {
@@ -53,7 +53,7 @@
         }
       }
     },
-    "destinationDatabase": {
+    "destinationDb": {
       "type": "object",
       "required": ["database", "ssl", "type"],
       "properties": {
