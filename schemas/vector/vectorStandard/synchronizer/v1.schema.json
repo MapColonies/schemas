@@ -43,12 +43,48 @@
         "database": { "type": "string", "description": "the database name", "maxLength": 63, "x-env-value": "SOURCE_DB_NAME" },
         "type": { "type": "string", "description": "the type of the database", "default": "postgres", "x-env-value": "SOURCE_DB_TYPE" },
         "ssl": {
-          "allOf": [{ "$ref": "#/definitions/ssl" }],
+          "type": "object",
+          "description": "ssl configuration",
           "properties": {
-            "enabled": { "type": "boolean", "description": "enable ssl", "default": false, "x-env-value": "SOURCE_DB_ENABLE_SSL_AUTH" },
-            "ca": { "type": "string", "description": "the path to the ca file", "x-env-value": "SOURCE_DB_CA_PATH" },
-            "cert": { "type": "string", "description": "the path to the cert file", "x-env-value": "SOURCE_DB_CERT_PATH" },
-            "key": { "type": "string", "description": "the path to the key file", "x-env-value": "SOURCE_DB_KEY_PATH" }
+            "enabled": {
+              "type": "boolean",
+              "description": "enable ssl",
+              "default": false,
+              "x-env-value": "SOURCE_DB_ENABLE_SSL_AUTH"
+            },
+            "ca": {
+              "type": "string",
+              "description": "the path to the ca file",
+              "x-env-value": "SOURCE_DB_CA_PATH"
+            },
+            "cert": {
+              "type": "string",
+              "description": "the path to the cert file",
+              "x-env-value": "SOURCE_DB_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "the path to the key file",
+              "x-env-value": "SOURCE_DB_KEY_PATH"
+            }
+          },
+          "unevaluatedProperties": false,
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["ca", "cert", "key"]
+          },
+          "else": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            }
           }
         }
       }
@@ -71,12 +107,48 @@
         "database": { "type": "string", "description": "the database name", "maxLength": 63, "x-env-value": "DEST_DB_NAME" },
         "type": { "type": "string", "description": "the type of the database", "default": "postgres", "x-env-value": "DEST_DB_TYPE" },
         "ssl": {
-          "allOf": [{ "$ref": "#/definitions/ssl" }],
+          "type": "object",
+          "description": "ssl configuration",
           "properties": {
-            "enabled": { "type": "boolean", "description": "enable ssl", "default": false, "x-env-value": "DEST_DB_ENABLE_SSL_AUTH" },
-            "ca": { "type": "string", "description": "the path to the ca file", "x-env-value": "DEST_DB_CA_PATH" },
-            "cert": { "type": "string", "description": "the path to the cert file", "x-env-value": "DEST_DB_CERT_PATH" },
-            "key": { "type": "string", "description": "the path to the key file", "x-env-value": "DEST_DB_KEY_PATH" }
+            "enabled": {
+              "type": "boolean",
+              "description": "enable ssl",
+              "default": false,
+              "x-env-value": "DEST_DB_ENABLE_SSL_AUTH"
+            },
+            "ca": {
+              "type": "string",
+              "description": "the path to the ca file",
+              "x-env-value": "DEST_DB_CA_PATH"
+            },
+            "cert": {
+              "type": "string",
+              "description": "the path to the cert file",
+              "x-env-value": "DEST_DB_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "the path to the key file",
+              "x-env-value": "DEST_DB_KEY_PATH"
+            }
+          },
+          "unevaluatedProperties": false,
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["ca", "cert", "key"]
+          },
+          "else": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            }
           }
         }
       }
