@@ -165,7 +165,7 @@
       "description": "The indexes' names in the source DB",
       "default": "{layerName}_{column}_idx",
       "examples": ["{layerName}_{column}_idx"],
-      "x-env-value": "SYNC_FIELDS_CRON"
+      "x-env-value": "INDEX_NAME_FORMAT"
     }
   }
 }
