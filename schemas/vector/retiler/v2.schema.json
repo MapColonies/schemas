@@ -148,10 +148,11 @@
               "type": "object",
               "required": ["healthCheckTimeoutMs"],
               "properties": {
-                "noSupervisor": {
+                "supervisor": {
                   "type": "boolean",
                   "default": true,
-                  "description": "Disable pgBoss supervisor"
+                  "description": "Enable pgBoss supervisor",
+                  "x-env-value": "PGBOSS_ENABLE_SUPERVISOR"
                 },
                 "healthCheckTimeoutMs": {
                   "type": "integer",
