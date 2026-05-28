@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/MapColonies/schemas/compare/v1.20.0...v1.21.0) (2026-05-24)
+
+
+### Features
+
+* add new logger to infra-auth-cron, infra-auth-manager, and infra-token-kiosk ([#156](https://github.com/MapColonies/schemas/issues/156)) ([2e24545](https://github.com/MapColonies/schemas/commit/2e24545d8c8a8c2c367efca914fe082d8edc9999))
+
 ## [1.20.0](https://github.com/MapColonies/schemas/compare/v1.19.0...v1.20.0) (2026-05-11)
 
 
