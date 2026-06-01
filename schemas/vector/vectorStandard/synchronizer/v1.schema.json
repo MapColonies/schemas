@@ -12,7 +12,8 @@
         "sourceDb": { "$ref": "#/definitions/sourceDb" },
         "destinationDb": { "$ref": "#/definitions/destinationDb" },
         "schedule": { "$ref": "#/definitions/schedule" },
-        "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" }
+        "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" },
+        "enrichment": { "$ref": "#/definitions/enrichment" }
       }
     }
   ],
@@ -166,6 +167,45 @@
       "default": "{layerName}_{column}_idx",
       "examples": ["{layerName}_{column}_idx"],
       "x-env-value": "INDEX_NAME_FORMAT"
+    },
+    "enrichment": {
+      "type": "object",
+      "description": "Enrichment configuration",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "enable enrichment",
+          "default": false,
+          "x-env-value": "ENRICHMENT_ENABLED"
+        },
+        "api": {
+          "type": "string",
+          "description": "Property alias name API",
+          "x-env-value": "ENRICHMENT_API_URL",
+          "default": "https://example.com/layers/{layerName}"
+        },
+        "propertiesPath": {
+          "type": "string",
+          "default": "{layerName}.properties",
+          "x-env-value": "ENRICHMENT_PROPERTIES_PATH"
+        },
+        "aliasField": {
+          "type": "string",
+          "default": "alias",
+          "x-env-value": "ENRICHMENT_ALIAS_FIELD"
+        }
+      },
+      "unevaluatedProperties": false,
+      "if": {
+        "properties": { "enabled": { "const": true } }
+      },
+      "then": {
+        "required": ["api", "propertiesPath", "aliasField"]
+      },
+      "else": {
+        "properties": { "enabled": { "const": false } }
+      }
     }
   }
 }
