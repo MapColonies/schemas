@@ -198,6 +198,12 @@
       "examples": ["{layerName}_{column}_idx"],
       "x-env-value": "INDEX_NAME_FORMAT"
     },
+    "layersFile": {
+      "type": "string",
+      "description": "The path to the layers file",
+      "default": "./config/layers.json",
+      "x-env-value": "LAYERS_FILE_PATH"
+    },
     "enrichment": {
       "type": "object",
       "description": "Enrichment configuration",
