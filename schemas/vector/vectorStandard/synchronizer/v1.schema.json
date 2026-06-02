@@ -7,10 +7,17 @@
     { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
     {
       "type": "object",
-      "required": ["sourceDb", "destinationDb", "schedule"],
+      "required": ["dbs", "schedule"],
       "properties": {
-        "sourceDb": { "$ref": "#/definitions/sourceDb" },
-        "destinationDb": { "$ref": "#/definitions/destinationDb" },
+        "dbs": {
+          "type": "object",
+          "required": ["source", "destination"],
+          "properties": {
+            "source": { "$ref": "#/definitions/sourceDb" },
+            "destination": { "$ref": "#/definitions/destinationDb" },
+            "s3": { "$ref": "#/definitions/s3" }
+          }
+        },
         "schedule": { "$ref": "#/definitions/schedule" },
         "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" },
         "enrichment": { "$ref": "#/definitions/enrichment" }
@@ -153,6 +160,24 @@
           }
         }
       }
+    },
+    "s3": {
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/s3/full/v2"
+        },
+        {
+          "type": "object",
+          "required": ["fileName"],
+          "properties": {
+            "fileName": {
+              "type": "string",
+              "description": "Lat lon conversion table file name",
+              "x-env-value": "S3_FILE_NAME"
+            }
+          }
+        }
+      ]
     },
     "schedule": {
       "type": "string",
