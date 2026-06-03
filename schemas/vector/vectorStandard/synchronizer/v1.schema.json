@@ -20,6 +20,8 @@
         },
         "schedule": { "$ref": "#/definitions/schedule" },
         "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" },
+        "layersFile": { "$ref": "#/definitions/layersFile" },
+        "aliasesFile": { "$ref": "#/definitions/aliasesFile" },
         "enrichment": { "$ref": "#/definitions/enrichment" }
       }
     }
