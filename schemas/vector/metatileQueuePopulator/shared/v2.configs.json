@@ -51,7 +51,8 @@
         },
         "metatileSize": 8,
         "requestQueueCheckIntervalSec": 30,
-        "tilesBatchSize": 10000
+        "tilesBatchSize": 10000,
+        "completedJobsCleanupThreshold": 50000
       },
       "db": {
         "$ref": { "configName": "db-connection", "version": "latest", "schemaId": "https://mapcolonies.com/common/db/partial/v1" },
