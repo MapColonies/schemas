@@ -4,7 +4,7 @@
   "title": "vectorRetilerSchemaV2",
   "description": "Vector's Retiler schema",
   "allOf": [
-    {
+    { 
       "$ref": "https://mapcolonies.com/common/boilerplate/v2"
     },
     {
