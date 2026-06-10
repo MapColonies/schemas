@@ -7,6 +7,17 @@
   "definitions": {
     "appSchema": {
       "type": "object",
+      "required": ["configurations"],
+      "properties": {
+        "configurations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/yahalomConfiguration" }
+        }
+      }
+    },
+    "yahalomConfiguration": {
+      "type": "object",
       "required": [
         "TerrainsFolderPath",
         "MapsColoniesURL",
@@ -253,7 +264,8 @@
           },
           "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     },
     "extraMap": {
       "type": "object",
