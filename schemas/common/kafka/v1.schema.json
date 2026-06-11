@@ -2,7 +2,7 @@
   "$id": "https://mapcolonies.com/common/kafka/v1",
   "description": "Kafka configuration",
   "type": "object",
-  "required": ["brokers", "enableSslAuth", "sslPaths", "kafkaConsumer", "kafkaProducer"],
+  "required": ["brokers", "enableSslAuth", "sslPaths"],
   "unevaluatedProperties": true,
   "properties": {
     "brokers": {
