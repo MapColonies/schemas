@@ -1,0 +1,90 @@
+{
+  "$id": "https://mapcolonies.com/vector/feedbackApi/v1",
+  "type": "object",
+  "title": "vectorFeedbackApiV1",
+  "description": "Mapping configuration for external vector data to OSM tags",
+  "allOf": [
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
+    { "$ref": "#/definitions/databases" },
+    { "$ref": "#/definitions/appSchema" }
+  ],
+  "definitions": {
+    "databases": {
+      "type": "object",
+      "required": ["redis", "kafka"],
+      "properties": {
+        "redis": {
+          "allOf": [
+            { "$ref": "https://mapcolonies.com/common/redis/v2" },
+            {
+              "type": "object",
+              "properties": {
+                "connectTimeoutMs": {
+                  "type": "number",
+                  "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                  "default": 5000,
+                  "minimum": 500
+                }
+              },
+              "required": ["connectTimeoutMs"]
+            }
+          ]
+        },
+        "kafka": {
+          "allOf": [
+            { "$ref": "https://mapcolonies.com/common/kafka/v1" },
+            {
+              "type": "object",
+              "required": ["outputTopic"]
+            }
+          ]
+        }
+      }
+    },
+    "appSchema": {
+      "required": ["application", "schema"],
+      "type": "object",
+      "properties": {
+        "application": {
+          "type": "object",
+          "required": ["hashKey", "userValidation"],
+          "properties": {
+            "hashKey": {
+              "type": "object",
+              "required": ["enabled"],
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "x-env-value": "APP_HASHKEY_ENABLED"
+                },
+                "value": {
+                  "type": "string",
+                  "x-env-value": "APP_HASHKEY_VALUE"
+                }
+              },
+              "if": {
+                "properties": { "enabled": { "const": true } }
+              },
+              "then": {
+                "required": ["value"]
+              }
+            },
+            "userValidation": {
+              "type": "array",
+              "items": { "type": "string" },
+              "x-env-value": "USER_ID_DOMAIN",
+              "x-env-format": "json"
+            }
+          }
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "provider": { "type": "string", "x-env-value": "SCHEMA_PROVIDER" },
+            "filePath": { "type": "string", "x-env-value": "SCHEMA_FILE_PATH" }
+          }
+        }
+      }
+    }
+  }
+}
