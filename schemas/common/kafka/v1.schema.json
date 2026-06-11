@@ -1,0 +1,108 @@
+{
+  "$id": "https://mapcolonies.com/common/kafka/v1",
+  "description": "Kafka configuration",
+  "type": "object",
+  "required": ["brokers", "enableSslAuth", "sslPaths", "kafkaConsumer", "kafkaProducer"],
+  "unevaluatedProperties": true,
+  "properties": {
+    "brokers": {
+      "type": "string",
+      "description": "Comma-separated list of broker addresses",
+      "x-env-value": "KAFKA_BROKERS"
+    },
+    "clientId": {
+      "type": "string",
+      "description": "Client identifier",
+      "x-env-value": "KAFKA_CLIENT_ID"
+    },
+    "enableSslAuth": {
+      "type": "boolean",
+      "description": "Enable SSL/TLS authentication",
+      "default": false,
+      "x-env-value": "KAFKA_ENABLE_SSL_AUTH"
+    },
+    "sslPaths": {
+      "$ref": "#/definitions/sslPaths"
+    },
+    "sasl": {
+      "$ref": "#/definitions/sasl"
+    },
+    "kafkaConsumer": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "Consumer group identifier",
+          "x-env-value": "KAFKA_GROUP_ID"
+        }
+      }
+    },
+    "kafkaProducer": {
+      "type": "object"
+    },
+    "outputTopic": {
+      "type": "string",
+      "description": "Kafka topic to produce messages to",
+      "x-env-value": "KAFKA_OUTPUT_TOPIC"
+    }
+  },
+  "if": {
+    "properties": {
+      "enableSslAuth": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "sslPaths": {
+        "required": ["ca", "key", "cert"]
+      }
+    }
+  },
+  "definitions": {
+    "sslPaths": {
+      "type": "object",
+      "description": "SSL certificate paths",
+      "unevaluatedProperties": false,
+      "properties": {
+        "ca": {
+          "type": "string",
+          "description": "Path to the CA certificate file",
+          "x-env-value": "KAFKA_CA_PATH"
+        },
+        "key": {
+          "type": "string",
+          "description": "Path to the client key file",
+          "x-env-value": "KAFKA_KEY_PATH"
+        },
+        "cert": {
+          "type": "string",
+          "description": "Path to the client certificate file",
+          "x-env-value": "KAFKA_CERT_PATH"
+        }
+      }
+    },
+    "sasl": {
+      "type": "object",
+      "description": "SASL authentication configuration",
+      "properties": {
+        "mechanism": {
+          "type": "string",
+          "description": "SASL mechanism",
+          "x-env-value": "KAFKA_SASL_MECHANISM"
+        },
+        "username": {
+          "type": "string",
+          "description": "SASL username",
+          "x-env-value": "KAFKA_SASL_USERNAME"
+        },
+        "password": {
+          "type": "string",
+          "description": "SASL password",
+          "x-env-value": "KAFKA_SASL_PASSWORD"
+        }
+      }
+    }
+  }
+}
