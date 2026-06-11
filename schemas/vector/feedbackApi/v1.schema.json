@@ -35,7 +35,7 @@
             { "$ref": "https://mapcolonies.com/common/kafka/v1" },
             {
               "type": "object",
-              "required": ["kafkaConsumer", "kafkaProducer", "outputTopic"]
+              "required": ["consumer", "producer", "outputTopic"]
             }
           ]
         }

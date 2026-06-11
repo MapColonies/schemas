@@ -27,7 +27,7 @@
     "sasl": {
       "$ref": "#/definitions/sasl"
     },
-    "kafkaConsumer": {
+    "consumer": {
       "type": "object",
       "properties": {
         "groupId": {
@@ -37,7 +37,7 @@
         }
       }
     },
-    "kafkaProducer": {
+    "producer": {
       "type": "object"
     },
     "outputTopic": {
