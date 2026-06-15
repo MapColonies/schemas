@@ -6,8 +6,18 @@
   "unevaluatedProperties": true,
   "properties": {
     "brokers": {
-      "type": "string",
-      "description": "Comma-separated list of broker addresses",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Comma-separated list of broker addresses"
+        },
+        {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "List of broker addresses"
+        }
+      ],
       "x-env-value": "KAFKA_BROKERS"
     },
     "clientId": {
