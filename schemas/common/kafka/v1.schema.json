@@ -88,25 +88,35 @@
     "sasl": {
       "type": "object",
       "description": "SASL authentication configuration",
-      "required": ["mechanism", "username", "password"],
-      "properties": {
-        "mechanism": {
-          "type": "string",
-          "enum": ["plain", "scram-sha-256", "scram-sha-512"],
-          "description": "SASL mechanism",
-          "x-env-value": "KAFKA_SASL_MECHANISM"
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["mechanism", "username", "password"],
+          "properties": {
+            "mechanism": { "const": "plain", "x-env-value": "KAFKA_SASL_MECHANISM" },
+            "username": { "type": "string", "x-env-value": "KAFKA_SASL_USERNAME" },
+            "password": { "type": "string", "x-env-value": "KAFKA_SASL_PASSWORD" }
+          }
         },
-        "username": {
-          "type": "string",
-          "description": "SASL username",
-          "x-env-value": "KAFKA_SASL_USERNAME"
+        {
+          "type": "object",
+          "required": ["mechanism", "username", "password"],
+          "properties": {
+            "mechanism": { "const": "scram-sha-256", "x-env-value": "KAFKA_SASL_MECHANISM" },
+            "username": { "type": "string", "x-env-value": "KAFKA_SASL_USERNAME" },
+            "password": { "type": "string", "x-env-value": "KAFKA_SASL_PASSWORD" }
+          }
         },
-        "password": {
-          "type": "string",
-          "description": "SASL password",
-          "x-env-value": "KAFKA_SASL_PASSWORD"
+        {
+          "type": "object",
+          "required": ["mechanism", "username", "password"],
+          "properties": {
+            "mechanism": { "const": "scram-sha-512", "x-env-value": "KAFKA_SASL_MECHANISM" },
+            "username": { "type": "string", "x-env-value": "KAFKA_SASL_USERNAME" },
+            "password": { "type": "string", "x-env-value": "KAFKA_SASL_PASSWORD" }
+          }
         }
-      }
+      ]
     }
   }
 }
