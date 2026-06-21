@@ -24,9 +24,14 @@
                   "x-env-value": "REDIS_CONNECT_TIMEOUT",
                   "default": 5000,
                   "minimum": 500
+                },
+                "ttl": {
+                  "type": "number",
+                  "description": "Redis ttl in seconds",
+                  "x-env-value": "REDIS_TTL"
                 }
               },
-              "required": ["connectTimeoutMs"]
+              "required": ["connectTimeoutMs", "ttl"]
             }
           ]
         },
