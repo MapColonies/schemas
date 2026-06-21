@@ -1,6 +1,14 @@
 {
   "nodes": [
     {
+      "id": "https://mapcolonies.com/vector/retiler/v2",
+      "label": "vectorRetilerSchemaV2",
+      "path": "vector/retiler",
+      "category": "vector",
+      "version": 2,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/vector/retiler/v1",
       "label": "vectorRetilerSchemaV1",
       "path": "vector/retiler",
@@ -358,7 +366,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 2,
-      "degree": 4
+      "degree": 5
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v1",
@@ -390,7 +398,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 2,
-      "degree": 10
+      "degree": 11
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v1",
@@ -402,6 +410,16 @@
     }
   ],
   "edges": [
+    {
+      "source": "https://mapcolonies.com/vector/retiler/v2",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/retiler/v2",
+      "target": "https://mapcolonies.com/common/db/full/v2",
+      "type": "reference"
+    },
     {
       "source": "https://mapcolonies.com/vector/retiler/v1",
       "target": "https://mapcolonies.com/common/boilerplate/v2",

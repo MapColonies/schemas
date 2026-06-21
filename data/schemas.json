@@ -1,6 +1,475 @@
 {
   "schemas": [
     {
+      "id": "https://mapcolonies.com/vector/retiler/v2",
+      "path": "vector/retiler",
+      "version": 2,
+      "title": "vectorRetilerSchemaV2",
+      "description": "Vector's Retiler schema",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/retiler/v2",
+        "type": "object",
+        "title": "vectorRetilerSchemaV2",
+        "description": "Vector's Retiler schema",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+          },
+          {
+            "type": "object",
+            "required": [
+              "app"
+            ],
+            "properties": {
+              "app": {
+                "type": "object",
+                "description": "Application configuration",
+                "required": [
+                  "queueName",
+                  "map",
+                  "project",
+                  "tilesStorage",
+                  "jobQueue",
+                  "parallelism"
+                ],
+                "properties": {
+                  "project": {
+                    "$ref": "#/definitions/project"
+                  },
+                  "forceProcess": {
+                    "type": "boolean",
+                    "description": "Force process all tiles",
+                    "default": false,
+                    "x-env-value": "APP_FORCE_PROCESS"
+                  },
+                  "queueName": {
+                    "type": "string",
+                    "description": "Job queue name",
+                    "default": "retiler-queue",
+                    "x-env-value": "QUEUE_NAME"
+                  },
+                  "parallelism": {
+                    "type": "integer",
+                    "description": "Number of parallel jobs",
+                    "default": 1,
+                    "x-env-value": "APP_PARALLELISM"
+                  },
+                  "jobQueue": {
+                    "$ref": "#/definitions/jobQueue"
+                  },
+                  "map": {
+                    "$ref": "#/definitions/map"
+                  },
+                  "tilesStorage": {
+                    "type": "object",
+                    "description": "Tiles storage configuration",
+                    "required": [
+                      "providers",
+                      "layout"
+                    ],
+                    "unevaluatedProperties": false,
+                    "properties": {
+                      "providers": {
+                        "$ref": "#/definitions/tilesStorageProviders"
+                      },
+                      "layout": {
+                        "$ref": "#/definitions/tilesStorageLayout"
+                      },
+                      "shouldFilterBlankTiles": {
+                        "type": "boolean",
+                        "description": "Should filter blank tiles",
+                        "default": false,
+                        "x-env-value": "TILES_STORAGE_SHOULD_FILTER_BLANK_TILES"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "detiler"
+            ],
+            "properties": {
+              "detiler": {
+                "type": "object",
+                "description": "Detiler configuration",
+                "required": [
+                  "enabled"
+                ],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "Enable Detiler",
+                    "default": false,
+                    "x-env-value": "DETILER_ENABLED"
+                  },
+                  "proceedOnFailure": {
+                    "type": "boolean",
+                    "default": false,
+                    "x-env-value": "DETILER_PROCEED_ON_FAILURE"
+                  },
+                  "client": {
+                    "$ref": "#/definitions/detilerClient"
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "client"
+                  ]
+                },
+                "else": {
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "definitions": {
+          "project": {
+            "type": "object",
+            "description": "Project configuration",
+            "required": [
+              "name",
+              "stateUrl"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Project name",
+                "x-env-value": "APP_PROJECT_NAME"
+              },
+              "stateUrl": {
+                "type": "string",
+                "description": "Project rendered state URL",
+                "x-env-value": "APP_PROJECT_STATE_URL"
+              }
+            }
+          },
+          "jobQueue": {
+            "type": "object",
+            "required": [
+              "waitTimeout",
+              "pgBoss"
+            ],
+            "properties": {
+              "waitTimeout": {
+                "type": "integer",
+                "description": "Job queue wait timeout in milliseconds",
+                "x-env-value": "QUEUE_WAIT_TIMEOUT"
+              },
+              "pgBoss": {
+                "allOf": [
+                  {
+                    "$ref": "https://mapcolonies.com/common/db/full/v2"
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "healthCheckTimeoutMs"
+                    ],
+                    "properties": {
+                      "supervisor": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Enable pgBoss supervisor",
+                        "x-env-value": "PGBOSS_ENABLE_SUPERVISOR"
+                      },
+                      "healthCheckTimeoutMs": {
+                        "type": "integer",
+                        "description": "PgBoss health check timeout in milliseconds",
+                        "x-env-value": "PGBOSS_HEALTH_CHECK_TIMEOUT_MS"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "map": {
+            "type": "object",
+            "description": "DigitalMap provider configuration",
+            "required": [
+              "provider",
+              "url",
+              "format",
+              "wms",
+              "client"
+            ],
+            "properties": {
+              "provider": {
+                "enum": [
+                  "wms",
+                  "arcgis"
+                ],
+                "description": "DigitalMap provider kind",
+                "x-env-value": "MAP_PROVIDER"
+              },
+              "url": {
+                "type": "string",
+                "description": "DigitalMap provider URL",
+                "x-env-value": "MAP_URL"
+              },
+              "format": {
+                "enum": [
+                  "jpg",
+                  "jpeg",
+                  "image/jpeg",
+                  "image/png",
+                  "image/webp"
+                ],
+                "description": "DigitalMap provider output format",
+                "default": "image/png",
+                "x-env-value": "MAP_FORMAT"
+              },
+              "client": {
+                "type": "object",
+                "required": [
+                  "timeoutMs"
+                ],
+                "properties": {
+                  "timeoutMs": {
+                    "type": "integer",
+                    "description": "DigitalMap provider client timeout in milliseconds",
+                    "x-env-value": "MAP_CLIENT_TIMEOUT_MS"
+                  }
+                }
+              },
+              "wms": {
+                "type": "object",
+                "required": [
+                  "version",
+                  "layers",
+                  "styles"
+                ],
+                "properties": {
+                  "version": {
+                    "$comment": "Should I use enum instead of string?",
+                    "type": "string",
+                    "description": "WMS version",
+                    "default": "1.3.0",
+                    "x-env-value": "MAP_WMS_VERSION"
+                  },
+                  "layers": {
+                    "type": "string",
+                    "description": "WMS layers",
+                    "x-env-value": "MAP_WMS_LAYERS"
+                  },
+                  "styles": {
+                    "type": "string",
+                    "description": "WMS styles",
+                    "x-env-value": "MAP_WMS_STYLES"
+                  },
+                  "isZoomLayers": {
+                    "type": "boolean",
+                    "description": "Is zoom layers project",
+                    "default": false,
+                    "x-env-value": "MAP_WMS_ZOOM_LAYERS",
+                    "$comment": "This will be deleted in the future with new QGIS versions"
+                  }
+                }
+              }
+            }
+          },
+          "s3TilesStorageProvider": {
+            "type": "object",
+            "required": [
+              "kind",
+              "endpoint",
+              "bucketName",
+              "region",
+              "credentials"
+            ],
+            "unevaluatedProperties": false,
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "s3"
+              },
+              "endpoint": {
+                "type": "string",
+                "description": "S3 endpoint"
+              },
+              "bucketName": {
+                "type": "string",
+                "description": "S3 bucket name"
+              },
+              "region": {
+                "type": "string",
+                "description": "S3 region"
+              },
+              "forcePathStyle": {
+                "type": "boolean",
+                "description": "Force path style"
+              },
+              "credentials": {
+                "type": "object",
+                "required": [
+                  "accessKeyId",
+                  "secretAccessKey"
+                ],
+                "unevaluatedProperties": false,
+                "properties": {
+                  "accessKeyId": {
+                    "type": "string"
+                  },
+                  "secretAccessKey": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "fsTilesStorageProvider": {
+            "type": "object",
+            "required": [
+              "kind",
+              "basePath"
+            ],
+            "unevaluatedProperties": false,
+            "description": "File system tiles storage provider",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "fs"
+              },
+              "basePath": {
+                "type": "string",
+                "description": "File system path"
+              }
+            }
+          },
+          "tilesStorageProviders": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/s3TilesStorageProvider"
+                },
+                {
+                  "$ref": "#/definitions/fsTilesStorageProvider"
+                }
+              ]
+            },
+            "x-env-value": "TILES_STORAGE_PROVIDERS",
+            "x-env-format": "json"
+          },
+          "tilesStorageLayout": {
+            "type": "object",
+            "required": [
+              "format"
+            ],
+            "unevaluatedProperties": false,
+            "properties": {
+              "format": {
+                "type": "string",
+                "description": "Tiles storage layout format",
+                "x-env-value": "TILES_STORAGE_LAYOUT_FORMAT"
+              },
+              "shouldFlipY": {
+                "type": "boolean",
+                "description": "Should flip Y",
+                "default": true,
+                "x-env-value": "TILES_STORAGE_LAYOUT_SHOULD_FLIP_Y"
+              }
+            }
+          },
+          "detilerClientRetryStrategy": {
+            "type": "object",
+            "required": [
+              "retries",
+              "shouldResetTimeout",
+              "isExponential",
+              "delay"
+            ],
+            "properties": {
+              "retries": {
+                "type": "integer",
+                "description": "Number of retries",
+                "default": 3,
+                "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_RETRIES"
+              },
+              "shouldResetTimeout": {
+                "type": "boolean",
+                "description": "Should reset timeout",
+                "default": true,
+                "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT"
+              },
+              "isExponential": {
+                "type": "boolean",
+                "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_IS_EXPONENTIAL"
+              },
+              "delay": {
+                "type": "integer",
+                "description": "Delay in milliseconds",
+                "x-env-value": "DETILER_CLIENT_RETRY_STRATEGY_DELAY"
+              }
+            }
+          },
+          "detilerClient": {
+            "type": "object",
+            "required": [
+              "url"
+            ],
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Detiler client URL",
+                "x-env-value": "DETILER_CLIENT_URL"
+              },
+              "timeout": {
+                "type": "integer",
+                "description": "Detiler client timeout in milliseconds",
+                "default": 60000,
+                "x-env-value": "DETILER_CLIENT_TIMEOUT"
+              },
+              "enableRetryStrategy": {
+                "type": "boolean",
+                "default": false,
+                "description": "Enable retry strategy",
+                "x-env-value": "DETILER_CLIENT_ENABLE_RETRY_STRATEGY"
+              },
+              "retryStrategy": {
+                "$ref": "#/definitions/detilerClientRetryStrategy"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        app: {\n            [x: string]: unknown;\n            queueName: string;\n            map: {\n                [x: string]: unknown;\n                provider: \"wms\" | \"arcgis\";\n                url: string;\n                format: \"jpg\" | \"jpeg\" | \"image/jpeg\" | \"image/png\" | \"image/webp\";\n                wms: {\n                    [x: string]: unknown;\n                    version: string;\n                    layers: string;\n                    styles: string;\n                    isZoomLayers: boolean;\n                };\n                client: {\n                    [x: string]: unknown;\n                    timeoutMs: number;\n                };\n            };\n            project: {\n                [x: string]: unknown;\n                name: string;\n                stateUrl: string;\n            };\n            tilesStorage: {\n                providers: ({\n                    forcePathStyle?: boolean | undefined;\n                    kind: \"s3\";\n                    endpoint: string;\n                    bucketName: string;\n                    region: string;\n                    credentials: {\n                        accessKeyId: string;\n                        secretAccessKey: string;\n                    };\n                } | {\n                    basePath: string;\n                    kind: \"fs\";\n                })[];\n                layout: {\n                    format: string;\n                    shouldFlipY: boolean;\n                };\n                shouldFilterBlankTiles: boolean;\n            };\n            jobQueue: {\n                [x: string]: unknown;\n                waitTimeout: number;\n                pgBoss: {\n                    [x: string]: unknown;\n                    port: number;\n                    ssl: {\n                        ca: string;\n                        cert: string;\n                        key: string;\n                        enabled: true;\n                    } | {\n                        ca?: string | undefined;\n                        cert?: string | undefined;\n                        key?: string | undefined;\n                        enabled: false;\n                    };\n                    database: string;\n                    host: string;\n                    username: string;\n                    password: string;\n                    schema: string;\n                    healthCheckTimeoutMs: number;\n                    supervisor: boolean;\n                };\n            };\n            parallelism: number;\n            forceProcess: boolean;\n        };\n        detiler: {\n            [x: string]: unknown;\n            client: {\n                [x: string]: unknown;\n                retryStrategy?: {\n                    [x: string]: unknown;\n                    retries: number;\n                    shouldResetTimeout: boolean;\n                    isExponential: boolean;\n                    delay: number;\n                } | undefined;\n                url: string;\n                timeout: number;\n                enableRetryStrategy: boolean;\n            };\n            enabled: true;\n            proceedOnFailure: boolean;\n        } | {\n            [x: string]: unknown;\n            client?: {\n                [x: string]: unknown;\n                retryStrategy?: {\n                    [x: string]: unknown;\n                    retries: number;\n                    shouldResetTimeout: boolean;\n                    isExponential: boolean;\n                    delay: number;\n                } | undefined;\n                url: string;\n                timeout: number;\n                enableRetryStrategy: boolean;\n            } | undefined;\n            enabled: false;\n            proceedOnFailure: boolean;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/retiler/v2\";\n    readonly type: \"object\";\n    readonly title: \"vectorRetilerSchemaV2\";\n    readonly description: \"Vector's Retiler schema\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"app\"];\n        readonly properties: {\n            readonly app: {\n                readonly type: \"object\";\n                readonly description: \"Application configuration\";\n                readonly required: readonly [\"queueName\", \"map\", \"project\", \"tilesStorage\", \"jobQueue\", \"parallelism\"];\n                readonly properties: {\n                    readonly project: {\n                        readonly $ref: \"#/definitions/project\";\n                    };\n                    readonly forceProcess: {\n                        readonly type: \"boolean\";\n                        readonly description: \"Force process all tiles\";\n                        readonly default: false;\n                        readonly \"x-env-value\": \"APP_FORCE_PROCESS\";\n                    };\n                    readonly queueName: {\n                        readonly type: \"string\";\n                        readonly description: \"Job queue name\";\n                        readonly default: \"retiler-queue\";\n                        readonly \"x-env-value\": \"QUEUE_NAME\";\n                    };\n                    readonly parallelism: {\n                        readonly type: \"integer\";\n                        readonly description: \"Number of parallel jobs\";\n                        readonly default: 1;\n                        readonly \"x-env-value\": \"APP_PARALLELISM\";\n                    };\n                    readonly jobQueue: {\n                        readonly $ref: \"#/definitions/jobQueue\";\n                    };\n                    readonly map: {\n                        readonly $ref: \"#/definitions/map\";\n                    };\n                    readonly tilesStorage: {\n                        readonly type: \"object\";\n                        readonly description: \"Tiles storage configuration\";\n                        readonly required: readonly [\"providers\", \"layout\"];\n                        readonly unevaluatedProperties: false;\n                        readonly properties: {\n                            readonly providers: {\n                                readonly $ref: \"#/definitions/tilesStorageProviders\";\n                            };\n                            readonly layout: {\n                                readonly $ref: \"#/definitions/tilesStorageLayout\";\n                            };\n                            readonly shouldFilterBlankTiles: {\n                                readonly type: \"boolean\";\n                                readonly description: \"Should filter blank tiles\";\n                                readonly default: false;\n                                readonly \"x-env-value\": \"TILES_STORAGE_SHOULD_FILTER_BLANK_TILES\";\n                            };\n                        };\n                    };\n                };\n            };\n        };\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"detiler\"];\n        readonly properties: {\n            readonly detiler: {\n                readonly type: \"object\";\n                readonly description: \"Detiler configuration\";\n                readonly required: readonly [\"enabled\"];\n                readonly properties: {\n                    readonly enabled: {\n                        readonly type: \"boolean\";\n                        readonly description: \"Enable Detiler\";\n                        readonly default: false;\n                        readonly \"x-env-value\": \"DETILER_ENABLED\";\n                    };\n                    readonly proceedOnFailure: {\n                        readonly type: \"boolean\";\n                        readonly default: false;\n                        readonly \"x-env-value\": \"DETILER_PROCEED_ON_FAILURE\";\n                    };\n                    readonly client: {\n                        readonly $ref: \"#/definitions/detilerClient\";\n                    };\n                };\n                readonly if: {\n                    readonly properties: {\n                        readonly enabled: {\n                            readonly const: true;\n                        };\n                    };\n                };\n                readonly then: {\n                    readonly required: readonly [\"client\"];\n                };\n                readonly else: {\n                    readonly properties: {\n                        readonly enabled: {\n                            readonly const: false;\n                        };\n                    };\n                };\n            };\n        };\n    }];\n    readonly definitions: {\n        readonly project: {\n            readonly type: \"object\";\n            readonly description: \"Project configuration\";\n            readonly required: readonly [\"name\", \"stateUrl\"];\n            readonly properties: {\n                readonly name: {\n                    readonly type: \"string\";\n                    readonly description: \"Project name\";\n                    readonly \"x-env-value\": \"APP_PROJECT_NAME\";\n                };\n                readonly stateUrl: {\n                    readonly type: \"string\";\n                    readonly description: \"Project rendered state URL\";\n                    readonly \"x-env-value\": \"APP_PROJECT_STATE_URL\";\n                };\n            };\n        };\n        readonly jobQueue: {\n            readonly type: \"object\";\n            readonly required: readonly [\"waitTimeout\", \"pgBoss\"];\n            readonly properties: {\n                readonly waitTimeout: {\n                    readonly type: \"integer\";\n                    readonly description: \"Job queue wait timeout in milliseconds\";\n                    readonly \"x-env-value\": \"QUEUE_WAIT_TIMEOUT\";\n                };\n                readonly pgBoss: {\n                    readonly allOf: readonly [{\n                        readonly $ref: \"https://mapcolonies.com/common/db/full/v2\";\n                    }, {\n                        readonly type: \"object\";\n                        readonly required: readonly [\"healthCheckTimeoutMs\"];\n                        readonly properties: {\n                            readonly supervisor: {\n                                readonly type: \"boolean\";\n                                readonly default: true;\n                                readonly description: \"Enable pgBoss supervisor\";\n                                readonly \"x-env-value\": \"PGBOSS_ENABLE_SUPERVISOR\";\n                            };\n                            readonly healthCheckTimeoutMs: {\n                                readonly type: \"integer\";\n                                readonly description: \"PgBoss health check timeout in milliseconds\";\n                                readonly \"x-env-value\": \"PGBOSS_HEALTH_CHECK_TIMEOUT_MS\";\n                            };\n                        };\n                    }];\n                };\n            };\n        };\n        readonly map: {\n            readonly type: \"object\";\n            readonly description: \"DigitalMap provider configuration\";\n            readonly required: readonly [\"provider\", \"url\", \"format\", \"wms\", \"client\"];\n            readonly properties: {\n                readonly provider: {\n                    readonly enum: readonly [\"wms\", \"arcgis\"];\n                    readonly description: \"DigitalMap provider kind\";\n                    readonly \"x-env-value\": \"MAP_PROVIDER\";\n                };\n                readonly url: {\n                    readonly type: \"string\";\n                    readonly description: \"DigitalMap provider URL\";\n                    readonly \"x-env-value\": \"MAP_URL\";\n                };\n                readonly format: {\n                    readonly enum: readonly [\"jpg\", \"jpeg\", \"image/jpeg\", \"image/png\", \"image/webp\"];\n                    readonly description: \"DigitalMap provider output format\";\n                    readonly default: \"image/png\";\n                    readonly \"x-env-value\": \"MAP_FORMAT\";\n                };\n                readonly client: {\n                    readonly type: \"object\";\n                    readonly required: readonly [\"timeoutMs\"];\n                    readonly properties: {\n                        readonly timeoutMs: {\n                            readonly type: \"integer\";\n                            readonly description: \"DigitalMap provider client timeout in milliseconds\";\n                            readonly \"x-env-value\": \"MAP_CLIENT_TIMEOUT_MS\";\n                        };\n                    };\n                };\n                readonly wms: {\n                    readonly type: \"object\";\n                    readonly required: readonly [\"version\", \"layers\", \"styles\"];\n                    readonly properties: {\n                        readonly version: {\n                            readonly $comment: \"Should I use enum instead of string?\";\n                            readonly type: \"string\";\n                            readonly description: \"WMS version\";\n                            readonly default: \"1.3.0\";\n                            readonly \"x-env-value\": \"MAP_WMS_VERSION\";\n                        };\n                        readonly layers: {\n                            readonly type: \"string\";\n                            readonly description: \"WMS layers\";\n                            readonly \"x-env-value\": \"MAP_WMS_LAYERS\";\n                        };\n                        readonly styles: {\n                            readonly type: \"string\";\n                            readonly description: \"WMS styles\";\n                            readonly \"x-env-value\": \"MAP_WMS_STYLES\";\n                        };\n                        readonly isZoomLayers: {\n                            readonly type: \"boolean\";\n                            readonly description: \"Is zoom layers project\";\n                            readonly default: false;\n                            readonly \"x-env-value\": \"MAP_WMS_ZOOM_LAYERS\";\n                            readonly $comment: \"This will be deleted in the future with new QGIS versions\";\n                        };\n                    };\n                };\n            };\n        };\n        readonly s3TilesStorageProvider: {\n            readonly type: \"object\";\n            readonly required: readonly [\"kind\", \"endpoint\", \"bucketName\", \"region\", \"credentials\"];\n            readonly unevaluatedProperties: false;\n            readonly properties: {\n                readonly kind: {\n                    readonly type: \"string\";\n                    readonly const: \"s3\";\n                };\n                readonly endpoint: {\n                    readonly type: \"string\";\n                    readonly description: \"S3 endpoint\";\n                };\n                readonly bucketName: {\n                    readonly type: \"string\";\n                    readonly description: \"S3 bucket name\";\n                };\n                readonly region: {\n                    readonly type: \"string\";\n                    readonly description: \"S3 region\";\n                };\n                readonly forcePathStyle: {\n                    readonly type: \"boolean\";\n                    readonly description: \"Force path style\";\n                };\n                readonly credentials: {\n                    readonly type: \"object\";\n                    readonly required: readonly [\"accessKeyId\", \"secretAccessKey\"];\n                    readonly unevaluatedProperties: false;\n                    readonly properties: {\n                        readonly accessKeyId: {\n                            readonly type: \"string\";\n                        };\n                        readonly secretAccessKey: {\n                            readonly type: \"string\";\n                        };\n                    };\n                };\n            };\n        };\n        readonly fsTilesStorageProvider: {\n            readonly type: \"object\";\n            readonly required: readonly [\"kind\", \"basePath\"];\n            readonly unevaluatedProperties: false;\n            readonly description: \"File system tiles storage provider\";\n            readonly properties: {\n                readonly kind: {\n                    readonly type: \"string\";\n                    readonly const: \"fs\";\n                };\n                readonly basePath: {\n                    readonly type: \"string\";\n                    readonly description: \"File system path\";\n                };\n            };\n        };\n        readonly tilesStorageProviders: {\n            readonly type: \"array\";\n            readonly items: {\n                readonly anyOf: readonly [{\n                    readonly $ref: \"#/definitions/s3TilesStorageProvider\";\n                }, {\n                    readonly $ref: \"#/definitions/fsTilesStorageProvider\";\n                }];\n            };\n            readonly \"x-env-value\": \"TILES_STORAGE_PROVIDERS\";\n            readonly \"x-env-format\": \"json\";\n        };\n        readonly tilesStorageLayout: {\n            readonly type: \"object\";\n            readonly required: readonly [\"format\"];\n            readonly unevaluatedProperties: false;\n            readonly properties: {\n                readonly format: {\n                    readonly type: \"string\";\n                    readonly description: \"Tiles storage layout format\";\n                    readonly \"x-env-value\": \"TILES_STORAGE_LAYOUT_FORMAT\";\n                };\n                readonly shouldFlipY: {\n                    readonly type: \"boolean\";\n                    readonly description: \"Should flip Y\";\n                    readonly default: true;\n                    readonly \"x-env-value\": \"TILES_STORAGE_LAYOUT_SHOULD_FLIP_Y\";\n                };\n            };\n        };\n        readonly detilerClientRetryStrategy: {\n            readonly type: \"object\";\n            readonly required: readonly [\"retries\", \"shouldResetTimeout\", \"isExponential\", \"delay\"];\n            readonly properties: {\n                readonly retries: {\n                    readonly type: \"integer\";\n                    readonly description: \"Number of retries\";\n                    readonly default: 3;\n                    readonly \"x-env-value\": \"DETILER_CLIENT_RETRY_STRATEGY_RETRIES\";\n                };\n                readonly shouldResetTimeout: {\n                    readonly type: \"boolean\";\n                    readonly description: \"Should reset timeout\";\n                    readonly default: true;\n                    readonly \"x-env-value\": \"DETILER_CLIENT_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT\";\n                };\n                readonly isExponential: {\n                    readonly type: \"boolean\";\n                    readonly \"x-env-value\": \"DETILER_CLIENT_RETRY_STRATEGY_IS_EXPONENTIAL\";\n                };\n                readonly delay: {\n                    readonly type: \"integer\";\n                    readonly description: \"Delay in milliseconds\";\n                    readonly \"x-env-value\": \"DETILER_CLIENT_RETRY_STRATEGY_DELAY\";\n                };\n            };\n        };\n        readonly detilerClient: {\n            readonly type: \"object\";\n            readonly required: readonly [\"url\"];\n            readonly properties: {\n                readonly url: {\n                    readonly type: \"string\";\n                    readonly description: \"Detiler client URL\";\n                    readonly \"x-env-value\": \"DETILER_CLIENT_URL\";\n                };\n                readonly timeout: {\n                    readonly type: \"integer\";\n                    readonly description: \"Detiler client timeout in milliseconds\";\n                    readonly default: 60000;\n                    readonly \"x-env-value\": \"DETILER_CLIENT_TIMEOUT\";\n                };\n                readonly enableRetryStrategy: {\n                    readonly type: \"boolean\";\n                    readonly default: false;\n                    readonly description: \"Enable retry strategy\";\n                    readonly \"x-env-value\": \"DETILER_CLIENT_ENABLE_RETRY_STRATEGY\";\n                };\n                readonly retryStrategy: {\n                    readonly $ref: \"#/definitions/detilerClientRetryStrategy\";\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/boilerplate/v2",
+        "https://mapcolonies.com/common/db/full/v2"
+      ],
+      "internalRefs": [
+        "#/definitions/project",
+        "#/definitions/jobQueue",
+        "#/definitions/map",
+        "#/definitions/tilesStorageProviders",
+        "#/definitions/tilesStorageLayout",
+        "#/definitions/detilerClient",
+        "#/definitions/s3TilesStorageProvider",
+        "#/definitions/fsTilesStorageProvider",
+        "#/definitions/detilerClientRetryStrategy"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/vector/retiler/v1",
       "path": "vector/retiler",
       "version": 1,
@@ -5036,6 +5505,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/retiler/v2",
         "https://mapcolonies.com/vector/retiler/v1",
         "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
         "https://mapcolonies.com/infra/jobnik/manager/v1"
@@ -5554,6 +6024,7 @@
       "internalRefs": [],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/retiler/v2",
         "https://mapcolonies.com/vector/retiler/v1",
         "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
         "https://mapcolonies.com/vector/geocoding/v2",
@@ -5770,7 +6241,7 @@
     },
     {
       "name": "vector",
-      "count": 7
+      "count": 8
     }
   ]
 }
