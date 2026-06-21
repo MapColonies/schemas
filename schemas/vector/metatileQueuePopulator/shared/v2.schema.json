@@ -58,7 +58,7 @@
             "completedJobsCleanupThreshold": {
               "type": "number",
               "description": "Number of completed tile jobs that triggers a cleanup delete",
-              "x-env-value": "APP_COMPLETED_JOBS_CLEANUP_THRESHOLD",
+              "x-env-value": "APP_COMPLETED_JOBS_CLEANUP_THRESHOLD_SIZE_OF_JOBS",
               "default": 50000,
               "exclusiveMinimum": 0
             },
