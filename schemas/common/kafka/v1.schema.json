@@ -89,6 +89,12 @@
       "type": "object",
       "description": "SASL authentication configuration",
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable SASL authentication",
+          "default": false,
+          "x-env-value": "KAFKA_SASL_ENABLED"
+        },
         "mechanism": {
           "type": "string",
           "description": "SASL mechanism",
