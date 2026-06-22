@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.22.0](https://github.com/MapColonies/schemas/compare/v1.21.0...v1.22.0) (2026-06-21)
+
+
+### Features
+
+* add pgboss timeout config ([#155](https://github.com/MapColonies/schemas/issues/155)) ([fcbe402](https://github.com/MapColonies/schemas/commit/fcbe402885104837250ac59e15cbd420fc2880fc))
+
+## [1.21.0](https://github.com/MapColonies/schemas/compare/v1.20.0...v1.21.0) (2026-05-24)
+
+
+### Features
+
+* add new logger to infra-auth-cron, infra-auth-manager, and infra-token-kiosk ([#156](https://github.com/MapColonies/schemas/issues/156)) ([2e24545](https://github.com/MapColonies/schemas/commit/2e24545d8c8a8c2c367efca914fe082d8edc9999))
+
+## [1.20.0](https://github.com/MapColonies/schemas/compare/v1.19.0...v1.20.0) (2026-05-11)
+
+
+### Features
+
+* add jobnik boilerplate v2 schema(logger v5 support) ([#157](https://github.com/MapColonies/schemas/issues/157)) ([c0f9982](https://github.com/MapColonies/schemas/commit/c0f998212186c6b4b2ac3696a3c5bab9e16eeec6))
+
+## [1.19.0](https://github.com/MapColonies/schemas/compare/v1.18.0...v1.19.0) (2026-04-13)
+
+
+### Features
+
+* add external to osm tag mapping v1 schema ([#145](https://github.com/MapColonies/schemas/issues/145)) ([c0650cc](https://github.com/MapColonies/schemas/commit/c0650cc41e05c04ef302a85b66e56d106b38eba4))
+
 ## [1.18.0](https://github.com/MapColonies/schemas/compare/v1.17.0...v1.18.0) (2026-03-08)
 
 
