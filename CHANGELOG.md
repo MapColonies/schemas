@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.0](https://github.com/MapColonies/schemas/compare/v1.21.0...v1.22.0) (2026-06-21)
+
+
+### Features
+
+* add pgboss timeout config ([#155](https://github.com/MapColonies/schemas/issues/155)) ([fcbe402](https://github.com/MapColonies/schemas/commit/fcbe402885104837250ac59e15cbd420fc2880fc))
+
 ## [1.21.0](https://github.com/MapColonies/schemas/compare/v1.20.0...v1.21.0) (2026-05-24)
 
 
