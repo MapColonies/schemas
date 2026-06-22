@@ -17,12 +17,28 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2",
+      "label": "metatileQueuePopulatorSharedV2",
+      "path": "vector/metatileQueuePopulator/shared",
+      "category": "vector",
+      "version": 2,
+      "degree": 3
+    },
+    {
       "id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
       "label": "metatileQueuePopulatorSharedV1",
       "path": "vector/metatileQueuePopulator/shared",
       "category": "vector",
       "version": 1,
       "degree": 3
+    },
+    {
+      "id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v2",
+      "label": "metatileQueuePopulatorFullV2",
+      "path": "vector/metatileQueuePopulator/full",
+      "category": "vector",
+      "version": 2,
+      "degree": 2
     },
     {
       "id": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v1",
@@ -358,7 +374,7 @@
       "path": "common/db/partial",
       "category": "common",
       "version": 1,
-      "degree": 3
+      "degree": 4
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v2",
@@ -366,7 +382,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 2,
-      "degree": 5
+      "degree": 6
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v1",
@@ -398,7 +414,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 2,
-      "degree": 11
+      "degree": 12
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v1",
@@ -431,6 +447,16 @@
       "type": "reference"
     },
     {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2",
+      "target": "https://mapcolonies.com/common/db/partial/v1",
+      "type": "reference"
+    },
+    {
       "source": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
       "target": "https://mapcolonies.com/common/boilerplate/v2",
       "type": "reference"
@@ -438,6 +464,16 @@
     {
       "source": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
       "target": "https://mapcolonies.com/common/db/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v2",
+      "target": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/metatileQueuePopulator/full/v2",
+      "target": "https://mapcolonies.com/common/db/full/v2",
       "type": "reference"
     },
     {
