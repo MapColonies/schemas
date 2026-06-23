@@ -11,7 +11,7 @@
       "properties": {
         "dbs": {
           "type": "object",
-          "required": ["source", "destination"],
+          "required": ["source", "destination", "s3"],
           "properties": {
             "source": { "$ref": "#/definitions/sourceDb" },
             "destination": { "$ref": "#/definitions/destinationDb" },
@@ -32,7 +32,7 @@
       "description": "ssl configuration",
       "unevaluatedProperties": false,
       "if": { "properties": { "enabled": { "const": true } } },
-      "then": { "required": ["ca", "cert", "key"] },
+      "then": { "required": ["cert", "key"] },
       "else": { "properties": { "enabled": { "const": false } } }
     },
     "sourceDb": {
@@ -87,7 +87,7 @@
             }
           },
           "then": {
-            "required": ["ca", "cert", "key"]
+            "required": ["cert", "key"]
           },
           "else": {
             "properties": {
@@ -151,7 +151,7 @@
             }
           },
           "then": {
-            "required": ["ca", "cert", "key"]
+            "required": ["cert", "key"]
           },
           "else": {
             "properties": {

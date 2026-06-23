@@ -1,0 +1,10 @@
+[
+  {
+    "name": "db-connection",
+    "value": {
+      "ssl": {
+        "enabled": false
+      }
+    }
+  }
+]

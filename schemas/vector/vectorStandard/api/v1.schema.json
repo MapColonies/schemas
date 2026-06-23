@@ -19,7 +19,7 @@
         "db": {
           "allOf": [
             {
-              "$ref": "https://mapcolonies.com/common/db/full/v2"
+              "$ref": "https://mapcolonies.com/common/db/full/v3"
             },
             {
               "type": "object",
