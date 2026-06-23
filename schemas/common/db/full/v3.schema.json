@@ -1,5 +1,5 @@
 {
-  "$id": "https://mapcolonies.com/common/db/full/v2",
+  "$id": "https://mapcolonies.com/common/db/full/v3",
   "description": "The full database schema including schema and database name",
   "type": "object",
   "allOf": [
