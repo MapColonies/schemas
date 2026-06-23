@@ -1,0 +1,83 @@
+{
+  "$id": "https://mapcolonies.com/common/db/partial/v1",
+  "description": "database configuration for postgres",
+  "type": "object",
+  "required": ["ssl"],
+  "properties": {
+    "host": {
+      "type": "string",
+      "description": "the host of the database",
+      "default": "localhost",
+      "x-env-value": "DB_HOST"
+    },
+    "port": {
+      "type": "integer",
+      "description": "the port of the database",
+      "default": 5432,
+      "x-env-value": "DB_PORT"
+    },
+    "username": {
+      "type": "string",
+      "description": "the username of the database",
+      "default": "postgres",
+      "maxLength": 63,
+      "x-env-value": "DB_USERNAME"
+    },
+    "password": {
+      "type": "string",
+      "description": "the password of the database",
+      "default": "postgres",
+      "x-env-value": "DB_PASSWORD"
+    },
+    "ssl": {
+      "$ref": "#/definitions/ssl"
+    }
+  },
+  "definitions": {
+    "ssl": {
+      "type": "object",
+      "description": "ssl configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "enable ssl",
+          "default": false,
+          "x-env-value": "DB_ENABLE_SSL_AUTH"
+        },
+        "ca": {
+          "type": "string",
+          "description": "the path to the ca file",
+          "x-env-value": "DB_CA_PATH"
+        },
+        "cert": {
+          "type": "string",
+          "description": "the path to the cert file",
+          "x-env-value": "DB_CERT_PATH"
+        },
+        "key": {
+          "type": "string",
+          "description": "the path to the key file",
+          "x-env-value": "DB_KEY_PATH"
+        }
+      },
+      "unevaluatedProperties": false,
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["cert", "key"]
+      },
+      "else": {
+        "properties": {
+          "enabled": {
+            "const": false
+          }
+        }
+      }
+    }
+  }
+}
