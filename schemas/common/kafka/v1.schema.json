@@ -58,6 +58,7 @@
   "then": {
     "properties": {
       "sslPaths": {
+        "type": "object",
         "required": ["ca", "key", "cert"]
       }
     }
