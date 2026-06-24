@@ -7,7 +7,7 @@
     { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
     {
       "type": "object",
-      "required": ["dbs", "schedule"],
+      "required": ["dbs", "schedule", "enrichment"],
       "properties": {
         "dbs": {
           "type": "object",
