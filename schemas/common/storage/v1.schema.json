@@ -1,0 +1,20 @@
+{
+  "$id": "https://mapcolonies.com/common/storage/v1",
+  "type": "object",
+  "title": "commonStorageSchemaV1",
+  "description": "Common storage schema",
+  "required": ["sourceDir"],
+  "properties": {
+    "sourceDir": {
+      "$ref": "#/definitions/sourceDir"
+    }
+  },
+  "definitions": {
+    "sourceDir": {
+      "type": "string",
+      "description": "Data source directory",
+      "minLength": 1,
+      "x-env-value": "STORAGE_SOURCE_DIR"
+    }
+  }
+}
