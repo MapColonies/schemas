@@ -475,6 +475,21 @@
       ]
     },
     {
+      "schemaId": "https://mapcolonies.com/common/db/partial/v2",
+      "schemaPath": "common/db/partial",
+      "version": 2,
+      "instances": [
+        {
+          "name": "db-connection",
+          "value": {
+            "ssl": {
+              "enabled": false
+            }
+          }
+        }
+      ]
+    },
+    {
       "schemaId": "https://mapcolonies.com/common/db/partial/v1",
       "schemaPath": "common/db/partial",
       "version": 1,

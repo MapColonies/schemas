@@ -5739,6 +5739,111 @@
       ]
     },
     {
+      "id": "https://mapcolonies.com/common/db/partial/v2",
+      "path": "common/db/partial",
+      "version": 2,
+      "title": "Schema v2",
+      "description": "database configuration for postgres",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/db/partial/v2",
+        "description": "database configuration for postgres",
+        "type": "object",
+        "required": [
+          "ssl"
+        ],
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "the host of the database",
+            "default": "localhost",
+            "x-env-value": "DB_HOST"
+          },
+          "port": {
+            "type": "integer",
+            "description": "the port of the database",
+            "default": 5432,
+            "x-env-value": "DB_PORT"
+          },
+          "username": {
+            "type": "string",
+            "description": "the username of the database",
+            "default": "postgres",
+            "maxLength": 63,
+            "x-env-value": "DB_USERNAME"
+          },
+          "password": {
+            "type": "string",
+            "description": "the password of the database",
+            "default": "postgres",
+            "x-env-value": "DB_PASSWORD"
+          },
+          "ssl": {
+            "$ref": "#/definitions/ssl"
+          }
+        },
+        "definitions": {
+          "ssl": {
+            "type": "object",
+            "description": "ssl configuration",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "enable ssl",
+                "default": false,
+                "x-env-value": "DB_ENABLE_SSL_AUTH"
+              },
+              "ca": {
+                "type": "string",
+                "description": "the path to the ca file",
+                "x-env-value": "DB_CA_PATH"
+              },
+              "cert": {
+                "type": "string",
+                "description": "the path to the cert file",
+                "x-env-value": "DB_CERT_PATH"
+              },
+              "key": {
+                "type": "string",
+                "description": "the path to the key file",
+                "x-env-value": "DB_KEY_PATH"
+              }
+            },
+            "unevaluatedProperties": false,
+            "if": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "cert",
+                "key"
+              ]
+            },
+            "else": {
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        port: number;\n        ssl: {\n            ca?: string | undefined;\n            cert: string;\n            key: string;\n            enabled: true;\n        } | {\n            ca?: string | undefined;\n            cert?: string | undefined;\n            key?: string | undefined;\n            enabled: false;\n        };\n        host: string;\n        username: string;\n        password: string;\n    };\n    readonly $id: \"https://mapcolonies.com/common/db/partial/v2\";\n    readonly description: \"database configuration for postgres\";\n    readonly type: \"object\";\n    readonly required: readonly [\"ssl\"];\n    readonly properties: {\n        readonly host: {\n            readonly type: \"string\";\n            readonly description: \"the host of the database\";\n            readonly default: \"localhost\";\n            readonly \"x-env-value\": \"DB_HOST\";\n        };\n        readonly port: {\n            readonly type: \"integer\";\n            readonly description: \"the port of the database\";\n            readonly default: 5432;\n            readonly \"x-env-value\": \"DB_PORT\";\n        };\n        readonly username: {\n            readonly type: \"string\";\n            readonly description: \"the username of the database\";\n            readonly default: \"postgres\";\n            readonly maxLength: 63;\n            readonly \"x-env-value\": \"DB_USERNAME\";\n        };\n        readonly password: {\n            readonly type: \"string\";\n            readonly description: \"the password of the database\";\n            readonly default: \"postgres\";\n            readonly \"x-env-value\": \"DB_PASSWORD\";\n        };\n        readonly ssl: {\n            readonly $ref: \"#/definitions/ssl\";\n        };\n    };\n    readonly definitions: {\n        readonly ssl: {\n            readonly type: \"object\";\n            readonly description: \"ssl configuration\";\n            readonly properties: {\n                readonly enabled: {\n                    readonly type: \"boolean\";\n                    readonly description: \"enable ssl\";\n                    readonly default: false;\n                    readonly \"x-env-value\": \"DB_ENABLE_SSL_AUTH\";\n                };\n                readonly ca: {\n                    readonly type: \"string\";\n                    readonly description: \"the path to the ca file\";\n                    readonly \"x-env-value\": \"DB_CA_PATH\";\n                };\n                readonly cert: {\n                    readonly type: \"string\";\n                    readonly description: \"the path to the cert file\";\n                    readonly \"x-env-value\": \"DB_CERT_PATH\";\n                };\n                readonly key: {\n                    readonly type: \"string\";\n                    readonly description: \"the path to the key file\";\n                    readonly \"x-env-value\": \"DB_KEY_PATH\";\n                };\n            };\n            readonly unevaluatedProperties: false;\n            readonly if: {\n                readonly properties: {\n                    readonly enabled: {\n                        readonly const: true;\n                    };\n                };\n            };\n            readonly then: {\n                readonly required: readonly [\"cert\", \"key\"];\n            };\n            readonly else: {\n                readonly properties: {\n                    readonly enabled: {\n                        readonly const: false;\n                    };\n                };\n            };\n        };\n    };\n    readonly title: \"commonDbPartialV2\";\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [],
+      "internalRefs": [
+        "#/definitions/ssl"
+      ],
+      "hasConfig": true,
+      "referencedBy": [
+        "https://mapcolonies.com/common/db/full/v3"
+      ]
+    },
+    {
       "id": "https://mapcolonies.com/common/db/partial/v1",
       "path": "common/db/partial",
       "version": 1,
@@ -5846,6 +5951,59 @@
         "https://mapcolonies.com/common/db/full/v2",
         "https://mapcolonies.com/common/db/full/v1"
       ]
+    },
+    {
+      "id": "https://mapcolonies.com/common/db/full/v3",
+      "path": "common/db/full",
+      "version": 3,
+      "title": "Schema v3",
+      "description": "The full database schema including schema and database name",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/db/full/v3",
+        "description": "The full database schema including schema and database name",
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/db/partial/v2"
+          },
+          {
+            "$ref": "#/definitions/db"
+          }
+        ],
+        "unevaluatedProperties": true,
+        "definitions": {
+          "db": {
+            "type": "object",
+            "required": [
+              "database"
+            ],
+            "properties": {
+              "schema": {
+                "type": "string",
+                "description": "The schema name of the database",
+                "default": "public",
+                "x-env-value": "DB_SCHEMA"
+              },
+              "database": {
+                "type": "string",
+                "description": "The database name",
+                "maxLength": 63,
+                "x-env-value": "DB_NAME"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        port: number;\n        ssl: {\n            ca?: string | undefined;\n            cert: string;\n            key: string;\n            enabled: true;\n        } | {\n            ca?: string | undefined;\n            cert?: string | undefined;\n            key?: string | undefined;\n            enabled: false;\n        };\n        database: string;\n        host: string;\n        username: string;\n        password: string;\n        schema: string;\n    };\n    readonly $id: \"https://mapcolonies.com/common/db/full/v3\";\n    readonly description: \"The full database schema including schema and database name\";\n    readonly type: \"object\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/db/partial/v2\";\n    }, {\n        readonly $ref: \"#/definitions/db\";\n    }];\n    readonly unevaluatedProperties: true;\n    readonly definitions: {\n        readonly db: {\n            readonly type: \"object\";\n            readonly required: readonly [\"database\"];\n            readonly properties: {\n                readonly schema: {\n                    readonly type: \"string\";\n                    readonly description: \"The schema name of the database\";\n                    readonly default: \"public\";\n                    readonly \"x-env-value\": \"DB_SCHEMA\";\n                };\n                readonly database: {\n                    readonly type: \"string\";\n                    readonly description: \"The database name\";\n                    readonly maxLength: 63;\n                    readonly \"x-env-value\": \"DB_NAME\";\n                };\n            };\n        };\n    };\n    readonly title: \"commonDbFullV3\";\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/db/partial/v2"
+      ],
+      "internalRefs": [
+        "#/definitions/db"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v2",
@@ -6629,7 +6787,7 @@
   "categories": [
     {
       "name": "common",
-      "count": 25
+      "count": 27
     },
     {
       "name": "infra",

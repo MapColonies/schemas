@@ -369,12 +369,28 @@
       "degree": 3
     },
     {
+      "id": "https://mapcolonies.com/common/db/partial/v2",
+      "label": "Schema v2",
+      "path": "common/db/partial",
+      "category": "common",
+      "version": 2,
+      "degree": 1
+    },
+    {
       "id": "https://mapcolonies.com/common/db/partial/v1",
       "label": "Schema v1",
       "path": "common/db/partial",
       "category": "common",
       "version": 1,
       "degree": 4
+    },
+    {
+      "id": "https://mapcolonies.com/common/db/full/v3",
+      "label": "Schema v3",
+      "path": "common/db/full",
+      "category": "common",
+      "version": 3,
+      "degree": 1
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v2",
@@ -779,6 +795,11 @@
     {
       "source": "https://mapcolonies.com/common/elastic/full/v1",
       "target": "https://mapcolonies.com/common/elastic/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/db/full/v3",
+      "target": "https://mapcolonies.com/common/db/partial/v2",
       "type": "reference"
     },
     {
