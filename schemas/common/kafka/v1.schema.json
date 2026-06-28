@@ -10,7 +10,8 @@
       "items": { "type": "string" },
       "minItems": 1,
       "description": "List of broker addresses",
-      "x-env-value": "KAFKA_BROKERS"
+      "x-env-value": "KAFKA_BROKERS",
+      "x-env-format": "json"
     },
     "clientId": {
       "type": "string",
