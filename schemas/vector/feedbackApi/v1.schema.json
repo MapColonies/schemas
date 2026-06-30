@@ -51,6 +51,7 @@
       "type": "object",
       "properties": {
         "application": {
+          "additionalProperties": false,
           "type": "object",
           "required": ["hashKey", "userValidation"],
           "properties": {
