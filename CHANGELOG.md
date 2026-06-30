@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.23.0](https://github.com/MapColonies/schemas/compare/v1.22.0...v1.23.0) (2026-06-24)
+
+
+### Features
+
+* mqp v2 schema (MAPCO-10897) ([#163](https://github.com/MapColonies/schemas/issues/163)) ([db33c21](https://github.com/MapColonies/schemas/commit/db33c21a3b774dcbef9fa7793f75aa1b22424cb1))
+
+
+### Bug Fixes
+
+* db optional ca ([#167](https://github.com/MapColonies/schemas/issues/167)) ([5e887f1](https://github.com/MapColonies/schemas/commit/5e887f19c48d290de612f1b72b09666294c3e7ca))
+
 ## [1.22.0](https://github.com/MapColonies/schemas/compare/v1.21.0...v1.22.0) (2026-06-21)
 
 
