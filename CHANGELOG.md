@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.0](https://github.com/MapColonies/schemas/compare/v1.23.0...v1.24.0) (2026-07-02)
+
+
+### Features
+
+* add feedback api ([#162](https://github.com/MapColonies/schemas/issues/162)) ([1a02df3](https://github.com/MapColonies/schemas/commit/1a02df3c250611e73a9604ad669b811167f00654))
+
 ## [1.23.0](https://github.com/MapColonies/schemas/compare/v1.22.0...v1.23.0) (2026-06-24)
 
 
