@@ -1,6 +1,6 @@
 {
-  "$id": "https://mapcolonies.com/common/kafka/v1",
-  "description": "Kafka configuration",
+  "$id": "https://mapcolonies.com/common/kafka/partial/v1",
+  "description": "The partial kafka schema",
   "type": "object",
   "required": ["brokers", "enableSslAuth", "sslPaths"],
   "unevaluatedProperties": true,
@@ -29,24 +29,6 @@
     },
     "sasl": {
       "$ref": "#/definitions/sasl"
-    },
-    "consumer": {
-      "type": "object",
-      "properties": {
-        "groupId": {
-          "type": "string",
-          "description": "Consumer group identifier",
-          "x-env-value": "KAFKA_GROUP_ID"
-        }
-      }
-    },
-    "producer": {
-      "type": "object"
-    },
-    "outputTopic": {
-      "type": "string",
-      "description": "Kafka topic to produce messages to",
-      "x-env-value": "KAFKA_OUTPUT_TOPIC"
     }
   },
   "if": {

@@ -36,13 +36,7 @@
           ]
         },
         "kafka": {
-          "allOf": [
-            { "$ref": "https://mapcolonies.com/common/kafka/v1" },
-            {
-              "type": "object",
-              "required": ["consumer", "producer", "outputTopic"]
-            }
-          ]
+          "$ref": "https://mapcolonies.com/common/kafka/full/v1"
         }
       }
     },
