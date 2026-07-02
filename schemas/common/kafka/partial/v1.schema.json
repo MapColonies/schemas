@@ -42,7 +42,7 @@
     "properties": {
       "sslPaths": {
         "type": "object",
-        "required": ["ca", "key", "cert"]
+        "required": ["key", "cert"]
       }
     }
   },
