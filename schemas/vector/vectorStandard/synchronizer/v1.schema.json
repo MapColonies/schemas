@@ -1,0 +1,255 @@
+{
+  "$id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
+  "type": "object",
+  "title": "vectorStandardSynchronizerSchemaV1",
+  "description": "Vector's standard synchronizer schema",
+  "allOf": [
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
+    {
+      "type": "object",
+      "required": ["dbs", "schedule", "enrichment"],
+      "properties": {
+        "dbs": {
+          "type": "object",
+          "required": ["source", "destination", "s3"],
+          "properties": {
+            "source": { "$ref": "#/definitions/sourceDb" },
+            "destination": { "$ref": "#/definitions/destinationDb" },
+            "s3": { "$ref": "#/definitions/s3" }
+          }
+        },
+        "schedule": { "$ref": "#/definitions/schedule" },
+        "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" },
+        "layersFile": { "$ref": "#/definitions/layersFile" },
+        "aliasesFile": { "$ref": "#/definitions/aliasesFile" },
+        "enrichment": { "$ref": "#/definitions/enrichment" }
+      }
+    }
+  ],
+  "definitions": {
+    "ssl": {
+      "type": "object",
+      "description": "ssl configuration",
+      "unevaluatedProperties": false,
+      "if": { "properties": { "enabled": { "const": true } } },
+      "then": { "required": ["cert", "key"] },
+      "else": { "properties": { "enabled": { "const": false } } }
+    },
+    "sourceDb": {
+      "type": "object",
+      "required": ["database", "ssl", "type"],
+      "properties": {
+        "host": { "type": "string", "description": "the host of the database", "default": "localhost", "x-env-value": "SOURCE_DB_HOST" },
+        "port": { "type": "integer", "description": "the port of the database", "default": 5432, "x-env-value": "SOURCE_DB_PORT" },
+        "username": {
+          "type": "string",
+          "description": "the username of the database",
+          "default": "postgres",
+          "maxLength": 63,
+          "x-env-value": "SOURCE_DB_USERNAME"
+        },
+        "password": { "type": "string", "description": "the password of the database", "default": "postgres", "x-env-value": "SOURCE_DB_PASSWORD" },
+        "schema": { "type": "string", "description": "the schema name of the database", "default": "public", "x-env-value": "SOURCE_DB_SCHEMA" },
+        "database": { "type": "string", "description": "the database name", "maxLength": 63, "x-env-value": "SOURCE_DB_NAME" },
+        "type": { "type": "string", "description": "the type of the database", "default": "postgres", "x-env-value": "SOURCE_DB_TYPE" },
+        "ssl": {
+          "type": "object",
+          "description": "ssl configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "enable ssl",
+              "default": false,
+              "x-env-value": "SOURCE_DB_ENABLE_SSL_AUTH"
+            },
+            "ca": {
+              "type": "string",
+              "description": "the path to the ca file",
+              "x-env-value": "SOURCE_DB_CA_PATH"
+            },
+            "cert": {
+              "type": "string",
+              "description": "the path to the cert file",
+              "x-env-value": "SOURCE_DB_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "the path to the key file",
+              "x-env-value": "SOURCE_DB_KEY_PATH"
+            }
+          },
+          "unevaluatedProperties": false,
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["cert", "key"]
+          },
+          "else": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "destinationDb": {
+      "type": "object",
+      "required": ["database", "ssl", "type"],
+      "properties": {
+        "host": { "type": "string", "description": "the host of the database", "default": "localhost", "x-env-value": "DEST_DB_HOST" },
+        "port": { "type": "integer", "description": "the port of the database", "default": 5432, "x-env-value": "DEST_DB_PORT" },
+        "username": {
+          "type": "string",
+          "description": "the username of the database",
+          "default": "postgres",
+          "maxLength": 63,
+          "x-env-value": "DEST_DB_USERNAME"
+        },
+        "password": { "type": "string", "description": "the password of the database", "default": "postgres", "x-env-value": "DEST_DB_PASSWORD" },
+        "schema": { "type": "string", "description": "the schema name of the database", "default": "public", "x-env-value": "DEST_DB_SCHEMA" },
+        "database": { "type": "string", "description": "the database name", "maxLength": 63, "x-env-value": "DEST_DB_NAME" },
+        "type": { "type": "string", "description": "the type of the database", "default": "postgres", "x-env-value": "DEST_DB_TYPE" },
+        "ssl": {
+          "type": "object",
+          "description": "ssl configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "enable ssl",
+              "default": false,
+              "x-env-value": "DEST_DB_ENABLE_SSL_AUTH"
+            },
+            "ca": {
+              "type": "string",
+              "description": "the path to the ca file",
+              "x-env-value": "DEST_DB_CA_PATH"
+            },
+            "cert": {
+              "type": "string",
+              "description": "the path to the cert file",
+              "x-env-value": "DEST_DB_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "the path to the key file",
+              "x-env-value": "DEST_DB_KEY_PATH"
+            }
+          },
+          "unevaluatedProperties": false,
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["cert", "key"]
+          },
+          "else": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "s3": {
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/s3/full/v2"
+        },
+        {
+          "type": "object",
+          "required": ["fileName"],
+          "properties": {
+            "fileName": {
+              "type": "string",
+              "description": "Lat lon conversion table file name",
+              "x-env-value": "S3_FILE_NAME"
+            },
+            "layersVariable": {
+              "type": "string",
+              "description": "Lat lon conversion table file name",
+              "x-env-value": "S3_LAYERS_VARIABLE"
+            }
+          }
+        }
+      ]
+    },
+    "schedule": {
+      "type": "string",
+      "description": "The cron timing spec",
+      "default": "0 0 * * *",
+      "examples": ["*/1 * * * *"],
+      "x-env-value": "SYNC_FIELDS_CRON"
+    },
+    "indexNameFormat": {
+      "type": "string",
+      "description": "The indexes' names in the source DB",
+      "default": "{layerName}_{column}_idx",
+      "examples": ["{layerName}_{column}_idx"],
+      "x-env-value": "INDEX_NAME_FORMAT"
+    },
+    "layersFile": {
+      "type": "string",
+      "description": "The path to the layers file",
+      "default": "./config/layers.json",
+      "x-env-value": "LAYERS_FILE_PATH"
+    },
+    "aliasesFile": {
+      "type": "string",
+      "description": "The path to the aliases file",
+      "default": "./config/aliases.json",
+      "x-env-value": "ALIASES_FILE_PATH"
+    },
+    "enrichment": {
+      "type": "object",
+      "description": "Enrichment configuration",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "enable enrichment",
+          "default": false,
+          "x-env-value": "ENRICHMENT_ENABLED"
+        },
+        "api": {
+          "type": "string",
+          "description": "Property alias name API",
+          "x-env-value": "ENRICHMENT_API_URL",
+          "default": "https://example.com/layers/{layerName}"
+        },
+        "propertiesPath": {
+          "type": "string",
+          "default": "{layerName}.properties",
+          "x-env-value": "ENRICHMENT_PROPERTIES_PATH"
+        },
+        "aliasField": {
+          "type": "string",
+          "default": "alias",
+          "x-env-value": "ENRICHMENT_ALIAS_FIELD"
+        }
+      },
+      "unevaluatedProperties": false,
+      "if": {
+        "properties": { "enabled": { "const": true } }
+      },
+      "then": {
+        "required": ["api", "propertiesPath", "aliasField"]
+      },
+      "else": {
+        "properties": { "enabled": { "const": false } }
+      }
+    }
+  }
+}
