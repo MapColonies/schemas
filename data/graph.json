@@ -65,6 +65,14 @@
       "degree": 4
     },
     {
+      "id": "https://mapcolonies.com/vector/feedbackApi/v1",
+      "label": "vectorFeedbackApiV1",
+      "path": "vector/feedbackApi",
+      "category": "vector",
+      "version": 1,
+      "degree": 3
+    },
+    {
       "id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
       "label": "vectorExternalToOsmTagMappingV1",
       "path": "vector/externalToOsmTagMapping",
@@ -318,7 +326,7 @@
       "path": "common/redis",
       "category": "common",
       "version": 2,
-      "degree": 2
+      "degree": 3
     },
     {
       "id": "https://mapcolonies.com/common/redis/v1",
@@ -351,6 +359,22 @@
       "category": "common",
       "version": 1,
       "degree": 0
+    },
+    {
+      "id": "https://mapcolonies.com/common/kafka/partial/v1",
+      "label": "Schema v1",
+      "path": "common/kafka/partial",
+      "category": "common",
+      "version": 1,
+      "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/common/kafka/full/v1",
+      "label": "Schema v1",
+      "path": "common/kafka/full",
+      "category": "common",
+      "version": 1,
+      "degree": 2
     },
     {
       "id": "https://mapcolonies.com/common/elastic/partial/v1",
@@ -430,7 +454,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 2,
-      "degree": 12
+      "degree": 13
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v1",
@@ -540,6 +564,21 @@
     {
       "source": "https://mapcolonies.com/vector/geocoding/v1",
       "target": "https://mapcolonies.com/common/elastic/full/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/feedbackApi/v1",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/feedbackApi/v1",
+      "target": "https://mapcolonies.com/common/redis/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/feedbackApi/v1",
+      "target": "https://mapcolonies.com/common/kafka/full/v1",
       "type": "reference"
     },
     {
@@ -790,6 +829,11 @@
     {
       "source": "https://mapcolonies.com/common/s3/full/v1",
       "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/common/kafka/full/v1",
+      "target": "https://mapcolonies.com/common/kafka/partial/v1",
       "type": "reference"
     },
     {

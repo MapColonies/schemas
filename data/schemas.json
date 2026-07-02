@@ -2354,6 +2354,152 @@
       "referencedBy": []
     },
     {
+      "id": "https://mapcolonies.com/vector/feedbackApi/v1",
+      "path": "vector/feedbackApi",
+      "version": 1,
+      "title": "vectorFeedbackApiV1",
+      "description": "Mapping configuration for external vector data to OSM tags",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/feedbackApi/v1",
+        "type": "object",
+        "title": "vectorFeedbackApiV1",
+        "description": "Mapping configuration for external vector data to OSM tags",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+          },
+          {
+            "$ref": "#/definitions/databases"
+          },
+          {
+            "$ref": "#/definitions/appSchema"
+          }
+        ],
+        "definitions": {
+          "databases": {
+            "type": "object",
+            "required": [
+              "redis",
+              "kafka"
+            ],
+            "properties": {
+              "redis": {
+                "allOf": [
+                  {
+                    "$ref": "https://mapcolonies.com/common/redis/v2"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "connectTimeoutMs": {
+                        "type": "number",
+                        "x-env-value": "REDIS_CONNECT_TIMEOUT",
+                        "default": 5000,
+                        "minimum": 500
+                      },
+                      "ttl": {
+                        "type": "number",
+                        "description": "Redis ttl in seconds",
+                        "x-env-value": "REDIS_TTL"
+                      }
+                    },
+                    "required": [
+                      "connectTimeoutMs",
+                      "ttl"
+                    ]
+                  }
+                ]
+              },
+              "kafka": {
+                "$ref": "https://mapcolonies.com/common/kafka/full/v1"
+              }
+            }
+          },
+          "appSchema": {
+            "required": [
+              "application",
+              "schema"
+            ],
+            "type": "object",
+            "properties": {
+              "application": {
+                "additionalProperties": false,
+                "type": "object",
+                "required": [
+                  "hashKey",
+                  "userValidation"
+                ],
+                "properties": {
+                  "hashKey": {
+                    "type": "object",
+                    "required": [
+                      "enabled"
+                    ],
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "x-env-value": "APP_HASHKEY_ENABLED"
+                      },
+                      "value": {
+                        "type": "string",
+                        "x-env-value": "APP_HASHKEY_VALUE"
+                      }
+                    },
+                    "if": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  },
+                  "userValidation": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "x-env-value": "USER_ID_DOMAIN",
+                    "x-env-format": "json"
+                  }
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "x-env-value": "SCHEMA_PROVIDER"
+                  },
+                  "filePath": {
+                    "type": "string",
+                    "x-env-value": "SCHEMA_FILE_PATH"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        schema: {\n            [x: string]: unknown;\n            filePath?: string | undefined;\n            provider?: string | undefined;\n        };\n        redis: {\n            [x: string]: unknown;\n            dbIndex?: number | undefined;\n            prefix?: string | undefined;\n            port: number;\n            host: string;\n            username: string;\n            password: string;\n            tls: {\n                ca: string;\n                cert: string;\n                key: string;\n                enabled: true;\n            } | {\n                ca?: string | undefined;\n                cert?: string | undefined;\n                key?: string | undefined;\n                enabled: false;\n            };\n            ttl: number;\n            connectTimeoutMs: number;\n        };\n        application: {\n            hashKey: {\n                [x: string]: unknown;\n                enabled: true;\n                value: string;\n            } | {\n                [x: string]: unknown;\n                value?: string | undefined;\n                enabled: boolean;\n            };\n            userValidation: string[];\n        };\n        kafka: {\n            [x: string]: unknown;\n            clientId?: string | undefined;\n            sasl?: {\n                [x: string]: unknown;\n                username: string;\n                password: string;\n                mechanism: \"plain\";\n            } | {\n                [x: string]: unknown;\n                username: string;\n                password: string;\n                mechanism: \"scram-sha-256\";\n            } | {\n                [x: string]: unknown;\n                username: string;\n                password: string;\n                mechanism: \"scram-sha-512\";\n            } | undefined;\n            brokers: string[];\n            enableSslAuth: true;\n            sslPaths: {\n                ca?: string | undefined;\n                cert: string;\n                key: string;\n            };\n            consumer: {\n                [x: string]: unknown;\n                groupId?: string | undefined;\n            };\n            producer: {\n                [x: string]: unknown;\n            };\n            outputTopic: string;\n        } | {\n            [x: string]: unknown;\n            clientId?: string | undefined;\n            sasl?: {\n                [x: string]: unknown;\n                username: string;\n                password: string;\n                mechanism: \"plain\";\n            } | {\n                [x: string]: unknown;\n                username: string;\n                password: string;\n                mechanism: \"scram-sha-256\";\n            } | {\n                [x: string]: unknown;\n                username: string;\n                password: string;\n                mechanism: \"scram-sha-512\";\n            } | undefined;\n            brokers: string[];\n            enableSslAuth: boolean;\n            sslPaths: {\n                ca?: string | undefined;\n                cert?: string | undefined;\n                key?: string | undefined;\n            };\n            consumer: {\n                [x: string]: unknown;\n                groupId?: string | undefined;\n            };\n            producer: {\n                [x: string]: unknown;\n            };\n            outputTopic: string;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/feedbackApi/v1\";\n    readonly type: \"object\";\n    readonly title: \"vectorFeedbackApiV1\";\n    readonly description: \"Mapping configuration for external vector data to OSM tags\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly $ref: \"#/definitions/databases\";\n    }, {\n        readonly $ref: \"#/definitions/appSchema\";\n    }];\n    readonly definitions: {\n        readonly databases: {\n            readonly type: \"object\";\n            readonly required: readonly [\"redis\", \"kafka\"];\n            readonly properties: {\n                readonly redis: {\n                    readonly allOf: readonly [{\n                        readonly $ref: \"https://mapcolonies.com/common/redis/v2\";\n                    }, {\n                        readonly type: \"object\";\n                        readonly properties: {\n                            readonly connectTimeoutMs: {\n                                readonly type: \"number\";\n                                readonly \"x-env-value\": \"REDIS_CONNECT_TIMEOUT\";\n                                readonly default: 5000;\n                                readonly minimum: 500;\n                            };\n                            readonly ttl: {\n                                readonly type: \"number\";\n                                readonly description: \"Redis ttl in seconds\";\n                                readonly \"x-env-value\": \"REDIS_TTL\";\n                            };\n                        };\n                        readonly required: readonly [\"connectTimeoutMs\", \"ttl\"];\n                    }];\n                };\n                readonly kafka: {\n                    readonly $ref: \"https://mapcolonies.com/common/kafka/full/v1\";\n                };\n            };\n        };\n        readonly appSchema: {\n            readonly required: readonly [\"application\", \"schema\"];\n            readonly type: \"object\";\n            readonly properties: {\n                readonly application: {\n                    readonly additionalProperties: false;\n                    readonly type: \"object\";\n                    readonly required: readonly [\"hashKey\", \"userValidation\"];\n                    readonly properties: {\n                        readonly hashKey: {\n                            readonly type: \"object\";\n                            readonly required: readonly [\"enabled\"];\n                            readonly properties: {\n                                readonly enabled: {\n                                    readonly type: \"boolean\";\n                                    readonly \"x-env-value\": \"APP_HASHKEY_ENABLED\";\n                                };\n                                readonly value: {\n                                    readonly type: \"string\";\n                                    readonly \"x-env-value\": \"APP_HASHKEY_VALUE\";\n                                };\n                            };\n                            readonly if: {\n                                readonly properties: {\n                                    readonly enabled: {\n                                        readonly const: true;\n                                    };\n                                };\n                            };\n                            readonly then: {\n                                readonly required: readonly [\"value\"];\n                            };\n                        };\n                        readonly userValidation: {\n                            readonly type: \"array\";\n                            readonly items: {\n                                readonly type: \"string\";\n                            };\n                            readonly \"x-env-value\": \"USER_ID_DOMAIN\";\n                            readonly \"x-env-format\": \"json\";\n                        };\n                    };\n                };\n                readonly schema: {\n                    readonly type: \"object\";\n                    readonly properties: {\n                        readonly provider: {\n                            readonly type: \"string\";\n                            readonly \"x-env-value\": \"SCHEMA_PROVIDER\";\n                        };\n                        readonly filePath: {\n                            readonly type: \"string\";\n                            readonly \"x-env-value\": \"SCHEMA_FILE_PATH\";\n                        };\n                    };\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/boilerplate/v2",
+        "https://mapcolonies.com/common/redis/v2",
+        "https://mapcolonies.com/common/kafka/full/v1"
+      ],
+      "internalRefs": [
+        "#/definitions/databases",
+        "#/definitions/appSchema"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
       "path": "vector/externalToOsmTagMapping",
       "version": 1,
@@ -5352,6 +5498,7 @@
       "hasConfig": false,
       "referencedBy": [
         "https://mapcolonies.com/vector/geocoding/v2",
+        "https://mapcolonies.com/vector/feedbackApi/v1",
         "https://mapcolonies.com/vector/externalToOsmTagMapping/v1"
       ]
     },
@@ -5625,6 +5772,240 @@
       "internalRefs": [],
       "hasConfig": false,
       "referencedBy": []
+    },
+    {
+      "id": "https://mapcolonies.com/common/kafka/partial/v1",
+      "path": "common/kafka/partial",
+      "version": 1,
+      "title": "Schema v1",
+      "description": "The partial kafka schema",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/kafka/partial/v1",
+        "description": "The partial kafka schema",
+        "type": "object",
+        "required": [
+          "brokers",
+          "enableSslAuth",
+          "sslPaths"
+        ],
+        "unevaluatedProperties": true,
+        "properties": {
+          "brokers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "List of broker addresses",
+            "x-env-value": "KAFKA_BROKERS",
+            "x-env-format": "json"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Client identifier",
+            "x-env-value": "KAFKA_CLIENT_ID"
+          },
+          "enableSslAuth": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS authentication",
+            "default": false,
+            "x-env-value": "KAFKA_ENABLE_SSL_AUTH"
+          },
+          "sslPaths": {
+            "$ref": "#/definitions/sslPaths"
+          },
+          "sasl": {
+            "$ref": "#/definitions/sasl"
+          }
+        },
+        "if": {
+          "properties": {
+            "enableSslAuth": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "sslPaths": {
+              "type": "object",
+              "required": [
+                "key",
+                "cert"
+              ]
+            }
+          }
+        },
+        "definitions": {
+          "sslPaths": {
+            "type": "object",
+            "description": "SSL certificate paths",
+            "unevaluatedProperties": false,
+            "properties": {
+              "ca": {
+                "type": "string",
+                "description": "Path to the CA certificate file",
+                "x-env-value": "KAFKA_CA_PATH"
+              },
+              "key": {
+                "type": "string",
+                "description": "Path to the client key file",
+                "x-env-value": "KAFKA_KEY_PATH"
+              },
+              "cert": {
+                "type": "string",
+                "description": "Path to the client certificate file",
+                "x-env-value": "KAFKA_CERT_PATH"
+              }
+            }
+          },
+          "sasl": {
+            "type": "object",
+            "description": "SASL authentication configuration",
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "mechanism",
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "mechanism": {
+                    "const": "plain",
+                    "x-env-value": "KAFKA_SASL_MECHANISM"
+                  },
+                  "username": {
+                    "type": "string",
+                    "x-env-value": "KAFKA_SASL_USERNAME"
+                  },
+                  "password": {
+                    "type": "string",
+                    "x-env-value": "KAFKA_SASL_PASSWORD"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "mechanism",
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "mechanism": {
+                    "const": "scram-sha-256",
+                    "x-env-value": "KAFKA_SASL_MECHANISM"
+                  },
+                  "username": {
+                    "type": "string",
+                    "x-env-value": "KAFKA_SASL_USERNAME"
+                  },
+                  "password": {
+                    "type": "string",
+                    "x-env-value": "KAFKA_SASL_PASSWORD"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "mechanism",
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "mechanism": {
+                    "const": "scram-sha-512",
+                    "x-env-value": "KAFKA_SASL_MECHANISM"
+                  },
+                  "username": {
+                    "type": "string",
+                    "x-env-value": "KAFKA_SASL_USERNAME"
+                  },
+                  "password": {
+                    "type": "string",
+                    "x-env-value": "KAFKA_SASL_PASSWORD"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        clientId?: string | undefined;\n        sasl?: {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"plain\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-256\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-512\";\n        } | undefined;\n        brokers: string[];\n        enableSslAuth: true;\n        sslPaths: {\n            ca?: string | undefined;\n            cert: string;\n            key: string;\n        };\n    } | {\n        [x: string]: unknown;\n        clientId?: string | undefined;\n        sasl?: {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"plain\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-256\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-512\";\n        } | undefined;\n        brokers: string[];\n        enableSslAuth: boolean;\n        sslPaths: {\n            ca?: string | undefined;\n            cert?: string | undefined;\n            key?: string | undefined;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/common/kafka/partial/v1\";\n    readonly description: \"The partial kafka schema\";\n    readonly type: \"object\";\n    readonly required: readonly [\"brokers\", \"enableSslAuth\", \"sslPaths\"];\n    readonly unevaluatedProperties: true;\n    readonly properties: {\n        readonly brokers: {\n            readonly type: \"array\";\n            readonly items: {\n                readonly type: \"string\";\n            };\n            readonly minItems: 1;\n            readonly description: \"List of broker addresses\";\n            readonly \"x-env-value\": \"KAFKA_BROKERS\";\n            readonly \"x-env-format\": \"json\";\n        };\n        readonly clientId: {\n            readonly type: \"string\";\n            readonly description: \"Client identifier\";\n            readonly \"x-env-value\": \"KAFKA_CLIENT_ID\";\n        };\n        readonly enableSslAuth: {\n            readonly type: \"boolean\";\n            readonly description: \"Enable SSL/TLS authentication\";\n            readonly default: false;\n            readonly \"x-env-value\": \"KAFKA_ENABLE_SSL_AUTH\";\n        };\n        readonly sslPaths: {\n            readonly $ref: \"#/definitions/sslPaths\";\n        };\n        readonly sasl: {\n            readonly $ref: \"#/definitions/sasl\";\n        };\n    };\n    readonly if: {\n        readonly properties: {\n            readonly enableSslAuth: {\n                readonly const: true;\n            };\n        };\n    };\n    readonly then: {\n        readonly properties: {\n            readonly sslPaths: {\n                readonly type: \"object\";\n                readonly required: readonly [\"key\", \"cert\"];\n            };\n        };\n    };\n    readonly definitions: {\n        readonly sslPaths: {\n            readonly type: \"object\";\n            readonly description: \"SSL certificate paths\";\n            readonly unevaluatedProperties: false;\n            readonly properties: {\n                readonly ca: {\n                    readonly type: \"string\";\n                    readonly description: \"Path to the CA certificate file\";\n                    readonly \"x-env-value\": \"KAFKA_CA_PATH\";\n                };\n                readonly key: {\n                    readonly type: \"string\";\n                    readonly description: \"Path to the client key file\";\n                    readonly \"x-env-value\": \"KAFKA_KEY_PATH\";\n                };\n                readonly cert: {\n                    readonly type: \"string\";\n                    readonly description: \"Path to the client certificate file\";\n                    readonly \"x-env-value\": \"KAFKA_CERT_PATH\";\n                };\n            };\n        };\n        readonly sasl: {\n            readonly type: \"object\";\n            readonly description: \"SASL authentication configuration\";\n            readonly oneOf: readonly [{\n                readonly type: \"object\";\n                readonly required: readonly [\"mechanism\", \"username\", \"password\"];\n                readonly properties: {\n                    readonly mechanism: {\n                        readonly const: \"plain\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_MECHANISM\";\n                    };\n                    readonly username: {\n                        readonly type: \"string\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_USERNAME\";\n                    };\n                    readonly password: {\n                        readonly type: \"string\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_PASSWORD\";\n                    };\n                };\n            }, {\n                readonly type: \"object\";\n                readonly required: readonly [\"mechanism\", \"username\", \"password\"];\n                readonly properties: {\n                    readonly mechanism: {\n                        readonly const: \"scram-sha-256\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_MECHANISM\";\n                    };\n                    readonly username: {\n                        readonly type: \"string\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_USERNAME\";\n                    };\n                    readonly password: {\n                        readonly type: \"string\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_PASSWORD\";\n                    };\n                };\n            }, {\n                readonly type: \"object\";\n                readonly required: readonly [\"mechanism\", \"username\", \"password\"];\n                readonly properties: {\n                    readonly mechanism: {\n                        readonly const: \"scram-sha-512\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_MECHANISM\";\n                    };\n                    readonly username: {\n                        readonly type: \"string\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_USERNAME\";\n                    };\n                    readonly password: {\n                        readonly type: \"string\";\n                        readonly \"x-env-value\": \"KAFKA_SASL_PASSWORD\";\n                    };\n                };\n            }];\n        };\n    };\n    readonly title: \"commonKafkaPartialV1\";\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [],
+      "internalRefs": [
+        "#/definitions/sslPaths",
+        "#/definitions/sasl"
+      ],
+      "hasConfig": false,
+      "referencedBy": [
+        "https://mapcolonies.com/common/kafka/full/v1"
+      ]
+    },
+    {
+      "id": "https://mapcolonies.com/common/kafka/full/v1",
+      "path": "common/kafka/full",
+      "version": 1,
+      "title": "Schema v1",
+      "description": "The full kafka schema including properties",
+      "category": "common",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/common/kafka/full/v1",
+        "description": "The full kafka schema including properties",
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/kafka/partial/v1"
+          },
+          {
+            "$ref": "#/definitions/kafka"
+          }
+        ],
+        "definitions": {
+          "kafka": {
+            "type": "object",
+            "required": [
+              "consumer",
+              "producer",
+              "outputTopic"
+            ],
+            "properties": {
+              "consumer": {
+                "type": "object",
+                "properties": {
+                  "groupId": {
+                    "type": "string",
+                    "description": "Consumer group identifier",
+                    "x-env-value": "KAFKA_GROUP_ID"
+                  }
+                }
+              },
+              "producer": {
+                "type": "object"
+              },
+              "outputTopic": {
+                "type": "string",
+                "description": "Kafka topic to produce messages to",
+                "x-env-value": "KAFKA_OUTPUT_TOPIC"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        clientId?: string | undefined;\n        sasl?: {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"plain\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-256\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-512\";\n        } | undefined;\n        brokers: string[];\n        enableSslAuth: true;\n        sslPaths: {\n            ca?: string | undefined;\n            cert: string;\n            key: string;\n        };\n        consumer: {\n            [x: string]: unknown;\n            groupId?: string | undefined;\n        };\n        producer: {\n            [x: string]: unknown;\n        };\n        outputTopic: string;\n    } | {\n        [x: string]: unknown;\n        clientId?: string | undefined;\n        sasl?: {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"plain\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-256\";\n        } | {\n            [x: string]: unknown;\n            username: string;\n            password: string;\n            mechanism: \"scram-sha-512\";\n        } | undefined;\n        brokers: string[];\n        enableSslAuth: boolean;\n        sslPaths: {\n            ca?: string | undefined;\n            cert?: string | undefined;\n            key?: string | undefined;\n        };\n        consumer: {\n            [x: string]: unknown;\n            groupId?: string | undefined;\n        };\n        producer: {\n            [x: string]: unknown;\n        };\n        outputTopic: string;\n    };\n    readonly $id: \"https://mapcolonies.com/common/kafka/full/v1\";\n    readonly description: \"The full kafka schema including properties\";\n    readonly type: \"object\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/kafka/partial/v1\";\n    }, {\n        readonly $ref: \"#/definitions/kafka\";\n    }];\n    readonly definitions: {\n        readonly kafka: {\n            readonly type: \"object\";\n            readonly required: readonly [\"consumer\", \"producer\", \"outputTopic\"];\n            readonly properties: {\n                readonly consumer: {\n                    readonly type: \"object\";\n                    readonly properties: {\n                        readonly groupId: {\n                            readonly type: \"string\";\n                            readonly description: \"Consumer group identifier\";\n                            readonly \"x-env-value\": \"KAFKA_GROUP_ID\";\n                        };\n                    };\n                };\n                readonly producer: {\n                    readonly type: \"object\";\n                };\n                readonly outputTopic: {\n                    readonly type: \"string\";\n                    readonly description: \"Kafka topic to produce messages to\";\n                    readonly \"x-env-value\": \"KAFKA_OUTPUT_TOPIC\";\n                };\n            };\n        };\n    };\n    readonly title: \"commonKafkaFullV1\";\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/kafka/partial/v1"
+      ],
+      "internalRefs": [
+        "#/definitions/kafka"
+      ],
+      "hasConfig": false,
+      "referencedBy": [
+        "https://mapcolonies.com/vector/feedbackApi/v1"
+      ]
     },
     {
       "id": "https://mapcolonies.com/common/elastic/partial/v1",
@@ -6583,6 +6964,7 @@
         "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v1",
         "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1",
+        "https://mapcolonies.com/vector/feedbackApi/v1",
         "https://mapcolonies.com/vector/externalToOsmTagMapping/v1",
         "https://mapcolonies.com/vector/common/v1",
         "https://mapcolonies.com/infra/jobnik/manager/v1"
@@ -6787,7 +7169,7 @@
   "categories": [
     {
       "name": "common",
-      "count": 27
+      "count": 29
     },
     {
       "name": "infra",
@@ -6795,7 +7177,7 @@
     },
     {
       "name": "vector",
-      "count": 10
+      "count": 11
     }
   ]
 }
