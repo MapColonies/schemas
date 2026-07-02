@@ -1,0 +1,39 @@
+{
+  "$id": "https://mapcolonies.com/common/kafka/full/v1",
+  "description": "The full kafka schema including properties",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/kafka/partial/v1"
+    },
+    {
+      "$ref": "#/definitions/kafka"
+    }
+  ],
+  "definitions": {
+    "kafka": {
+      "type": "object",
+      "required": ["consumer", "producer", "outputTopic"],
+      "properties": {
+        "consumer": {
+          "type": "object",
+          "properties": {
+            "groupId": {
+              "type": "string",
+              "description": "Consumer group identifier",
+              "x-env-value": "KAFKA_GROUP_ID"
+            }
+          }
+        },
+        "producer": {
+          "type": "object"
+        },
+        "outputTopic": {
+          "type": "string",
+          "description": "Kafka topic to produce messages to",
+          "x-env-value": "KAFKA_OUTPUT_TOPIC"
+        }
+      }
+    }
+  }
+}
