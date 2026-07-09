@@ -1,0 +1,55 @@
+{
+  "$id": "https://mapcolonies.com/vector/dumpServer/v1",
+  "description": "The vector dump server service schema",
+  "title": "vectorDumpServerSchemaV1",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v3"
+    },
+    {
+      "type": "object",
+      "required": ["db", "objectStorage"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v3"
+        },
+        "objectStorage": {
+          "$ref": "#/definitions/objectStorage"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "objectStorage": {
+      "type": "object",
+      "description": "The object storage endpoint used for building the dumps download urls",
+      "required": ["protocol", "host", "port"],
+      "properties": {
+        "protocol": {
+          "type": "string",
+          "description": "The protocol of the object storage",
+          "default": "http",
+          "x-env-value": "OBJECT_STORAGE_PROTOCOL"
+        },
+        "host": {
+          "type": "string",
+          "description": "The host of the object storage",
+          "x-env-value": "OBJECT_STORAGE_HOST"
+        },
+        "port": {
+          "type": "integer",
+          "description": "The port of the object storage",
+          "minimum": 1,
+          "maximum": 65535,
+          "x-env-value": "OBJECT_STORAGE_PORT"
+        },
+        "projectId": {
+          "type": "string",
+          "description": "The project id prefixing the bucket name in the dumps download urls",
+          "x-env-value": "OBJECT_STORAGE_PROJECT_ID"
+        }
+      }
+    }
+  }
+}
