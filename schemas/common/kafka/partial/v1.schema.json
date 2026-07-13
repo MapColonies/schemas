@@ -1,0 +1,106 @@
+{
+  "$id": "https://mapcolonies.com/common/kafka/partial/v1",
+  "description": "The partial kafka schema",
+  "type": "object",
+  "required": ["brokers", "enableSslAuth", "sslPaths"],
+  "unevaluatedProperties": true,
+  "properties": {
+    "brokers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "List of broker addresses",
+      "x-env-value": "KAFKA_BROKERS",
+      "x-env-format": "json"
+    },
+    "clientId": {
+      "type": "string",
+      "description": "Client identifier",
+      "x-env-value": "KAFKA_CLIENT_ID"
+    },
+    "enableSslAuth": {
+      "type": "boolean",
+      "description": "Enable SSL/TLS authentication",
+      "default": false,
+      "x-env-value": "KAFKA_ENABLE_SSL_AUTH"
+    },
+    "sslPaths": {
+      "$ref": "#/definitions/sslPaths"
+    },
+    "sasl": {
+      "$ref": "#/definitions/sasl"
+    }
+  },
+  "if": {
+    "properties": {
+      "enableSslAuth": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "sslPaths": {
+        "type": "object",
+        "required": ["key", "cert"]
+      }
+    }
+  },
+  "definitions": {
+    "sslPaths": {
+      "type": "object",
+      "description": "SSL certificate paths",
+      "unevaluatedProperties": false,
+      "properties": {
+        "ca": {
+          "type": "string",
+          "description": "Path to the CA certificate file",
+          "x-env-value": "KAFKA_CA_PATH"
+        },
+        "key": {
+          "type": "string",
+          "description": "Path to the client key file",
+          "x-env-value": "KAFKA_KEY_PATH"
+        },
+        "cert": {
+          "type": "string",
+          "description": "Path to the client certificate file",
+          "x-env-value": "KAFKA_CERT_PATH"
+        }
+      }
+    },
+    "sasl": {
+      "type": "object",
+      "description": "SASL authentication configuration",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["mechanism", "username", "password"],
+          "properties": {
+            "mechanism": { "const": "plain", "x-env-value": "KAFKA_SASL_MECHANISM" },
+            "username": { "type": "string", "x-env-value": "KAFKA_SASL_USERNAME" },
+            "password": { "type": "string", "x-env-value": "KAFKA_SASL_PASSWORD" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["mechanism", "username", "password"],
+          "properties": {
+            "mechanism": { "const": "scram-sha-256", "x-env-value": "KAFKA_SASL_MECHANISM" },
+            "username": { "type": "string", "x-env-value": "KAFKA_SASL_USERNAME" },
+            "password": { "type": "string", "x-env-value": "KAFKA_SASL_PASSWORD" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["mechanism", "username", "password"],
+          "properties": {
+            "mechanism": { "const": "scram-sha-512", "x-env-value": "KAFKA_SASL_MECHANISM" },
+            "username": { "type": "string", "x-env-value": "KAFKA_SASL_USERNAME" },
+            "password": { "type": "string", "x-env-value": "KAFKA_SASL_PASSWORD" }
+          }
+        }
+      ]
+    }
+  }
+}
