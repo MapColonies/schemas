@@ -1,0 +1,19 @@
+[
+  {
+    "name": "vector-planet-dumper",
+    "value": {
+      "telemetry": {
+        "shared": { "serviceName": "planet-dumper" },
+        "tracing": { "isEnabled": false },
+        "logger": { "level": "info", "prettyPrint": false }
+      },
+      "httpClient": { "timeout": 1000 },
+      "postgres": { "enableSslAuth": false },
+      "pgDump": { "verbose": false },
+      "ngDump": { "verbose": false, "maxConcurrency": 4 },
+      "osmium": { "verbose": false, "progress": false },
+      "s3": { "upload": { "concurrency": 4, "partSize": 5 } },
+      "arstotzka": { "enabled": false }
+    }
+  }
+]

@@ -1,0 +1,307 @@
+{
+  "$id": "https://mapcolonies.com/vector/planetDumper/v1",
+  "type": "object",
+  "title": "vectorPlanetDumperV1",
+  "description": "Vector's planet-dumper schema",
+  "required": ["telemetry", "httpClient", "postgres", "pgDump", "ngDump", "osmium", "s3", "arstotzka"],
+  "properties": {
+    "telemetry": {
+      "description": "Telemetry configuration",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "examples": [
+        {
+          "shared": { "serviceName": "planet-dumper" },
+          "tracing": { "isEnabled": false },
+          "logger": { "level": "info", "prettyPrint": false }
+        }
+      ],
+      "properties": {
+        "shared": {
+          "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+        },
+        "tracing": {
+          "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+        },
+        "logger": {
+          "$ref": "https://mapcolonies.com/common/telemetry/logger/v2"
+        },
+        "metrics": {
+          "description": "Metrics configuration"
+        }
+      },
+      "required": ["logger", "shared", "tracing"]
+    },
+    "httpClient": {
+      "description": "Configuration for the internal http client used to talk to the dump-server and to fetch remote replication state files",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["timeout"],
+      "properties": {
+        "timeout": {
+          "type": "integer",
+          "description": "The http client timeout duration in milliseconds",
+          "default": 1000,
+          "exclusiveMinimum": 0,
+          "x-env-value": "HTTP_CLIENT_TIMEOUT"
+        }
+      }
+    },
+    "postgres": {
+      "description": "Configuration for connecting to the source OSM postgres database. Note: host/port/user/password/database themselves are intentionally not part of this schema - pg_dump and psql are invoked as subprocesses and read those natively from the standard PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE environment variables",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["enableSslAuth"],
+      "properties": {
+        "enableSslAuth": {
+          "type": "boolean",
+          "description": "Whether to authenticate to postgres using an SSL client certificate",
+          "default": false,
+          "x-env-value": "POSTGRES_ENABLE_SSL_AUTH"
+        },
+        "sslPaths": {
+          "type": "object",
+          "description": "Paths to the SSL certificate files, required when enableSslAuth is true",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "ca": {
+              "type": "string",
+              "description": "Path to the root CA certificate file",
+              "x-env-value": "POSTGRES_CA_PATH"
+            },
+            "cert": {
+              "type": "string",
+              "description": "Path to the client certificate file",
+              "x-env-value": "POSTGRES_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "Path to the client certificate key file",
+              "x-env-value": "POSTGRES_KEY_PATH"
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "enableSslAuth": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["sslPaths"],
+        "properties": {
+          "sslPaths": {
+            "type": "object",
+            "required": ["ca", "cert", "key"]
+          }
+        }
+      }
+    },
+    "pgDump": {
+      "description": "pg_dump command configuration",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["verbose"],
+      "properties": {
+        "verbose": {
+          "type": "boolean",
+          "description": "Whether to run pg_dump in verbose mode",
+          "default": false,
+          "x-env-value": "PG_DUMP_VERBOSE"
+        }
+      }
+    },
+    "ngDump": {
+      "description": "planet-dump-ng command configuration",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["verbose"],
+      "properties": {
+        "verbose": {
+          "type": "boolean",
+          "description": "Whether to run planet-dump-ng in verbose mode",
+          "default": false,
+          "x-env-value": "NG_DUMP_VERBOSE"
+        },
+        "maxConcurrency": {
+          "type": "integer",
+          "description": "Maximum number of disk writing threads planet-dump-ng will run for each table",
+          "exclusiveMinimum": 0,
+          "x-env-value": "NG_DUMP_MAX_CONCURRENCY"
+        }
+      }
+    },
+    "osmium": {
+      "description": "osmium fileinfo command configuration",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["verbose", "progress"],
+      "properties": {
+        "verbose": {
+          "type": "boolean",
+          "description": "Whether to run osmium in verbose mode",
+          "default": false,
+          "x-env-value": "OSMIUM_VERBOSE"
+        },
+        "progress": {
+          "type": "boolean",
+          "description": "Whether to show a progress bar while osmium runs",
+          "default": false,
+          "x-env-value": "OSMIUM_PROGRESS"
+        }
+      }
+    },
+    "s3": {
+      "description": "S3 upload tuning. Bucket/endpoint/acl are provided per-invocation as CLI arguments rather than static config, since they can differ per run",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["upload"],
+      "properties": {
+        "upload": {
+          "type": "object",
+          "description": "Multipart upload tuning for the created dump file",
+          "default": {},
+          "unevaluatedProperties": false,
+          "required": ["concurrency", "partSize"],
+          "properties": {
+            "concurrency": {
+              "type": "integer",
+              "description": "Number of concurrent parts to upload at once",
+              "default": 4,
+              "exclusiveMinimum": 0,
+              "x-env-value": "S3_UPLOAD_CONCURRENCY"
+            },
+            "partSize": {
+              "type": "integer",
+              "description": "The size in MB of each uploaded part",
+              "default": 5,
+              "exclusiveMinimum": 0,
+              "x-env-value": "S3_UPLOAD_PART_SIZE"
+            }
+          }
+        }
+      }
+    },
+    "arstotzka": {
+      "description": "Optional distributed locking and action tracking integration, active around the pg_dump and ng_dump pipeline stages",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the arstotzka integration is enabled",
+          "default": false,
+          "x-env-value": "ARSTOTZKA_ENABLED"
+        },
+        "services": {
+          "type": "object",
+          "description": "The arstotzka service ids registered for each pipeline stage this app tracks",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "planetDumperPg": {
+              "type": "string",
+              "description": "The registered arstotzka service id for the pg_dump stage",
+              "x-env-value": "ARSTOTZKA_SERVICE_PG"
+            },
+            "planetDumperNg": {
+              "type": "string",
+              "description": "The registered arstotzka service id for the ng_dump stage",
+              "x-env-value": "ARSTOTZKA_SERVICE_NG"
+            }
+          }
+        },
+        "mediator": {
+          "type": "object",
+          "description": "Configuration for the arstotzka mediator client",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "timeout": {
+              "type": "integer",
+              "description": "The mediator http client timeout duration in milliseconds",
+              "exclusiveMinimum": 0,
+              "x-env-value": "MEDIATOR_TIMEOUT"
+            },
+            "enableRetryStrategy": {
+              "type": "boolean",
+              "description": "Whether to enable the mediator client's retry strategy",
+              "default": false,
+              "x-env-value": "MEDIATOR_ENABLE_RETRY_STRATEGY"
+            },
+            "retryStrategy": {
+              "type": "object",
+              "description": "The mediator client's retry strategy, used when enableRetryStrategy is true",
+              "default": {},
+              "unevaluatedProperties": false,
+              "properties": {
+                "retries": {
+                  "type": "integer",
+                  "description": "Number of retry attempts",
+                  "minimum": 0,
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_RETRIES"
+                },
+                "shouldResetTimeout": {
+                  "type": "boolean",
+                  "description": "Whether to reset the client timeout between retries",
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT"
+                },
+                "isExponential": {
+                  "type": "boolean",
+                  "description": "Whether to back off exponentially between retries",
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_IS_EXPONENTIAL"
+                },
+                "delay": {
+                  "type": "integer",
+                  "description": "The base delay in milliseconds between retries",
+                  "minimum": 0,
+                  "x-env-value": "MEDIATOR_RETRY_STRATEGY_DELAY"
+                }
+              }
+            },
+            "actiony": {
+              "type": "object",
+              "description": "The actiony remote's connection options",
+              "default": {},
+              "unevaluatedProperties": false,
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The actiony remote's base url",
+                  "format": "uri",
+                  "x-env-value": "MEDIATOR_ACTIONY_URL"
+                }
+              }
+            },
+            "locky": {
+              "type": "object",
+              "description": "The locky remote's connection options",
+              "default": {},
+              "unevaluatedProperties": false,
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The locky remote's base url",
+                  "format": "uri",
+                  "x-env-value": "MEDIATOR_LOCKY_URL"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
