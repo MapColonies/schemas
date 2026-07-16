@@ -274,8 +274,8 @@
             "actiony": {
               "type": "object",
               "description": "The actiony remote's connection options",
-              "default": {},
               "unevaluatedProperties": false,
+              "required": ["url"],
               "properties": {
                 "url": {
                   "type": "string",
@@ -288,8 +288,8 @@
             "locky": {
               "type": "object",
               "description": "The locky remote's connection options",
-              "default": {},
               "unevaluatedProperties": false,
+              "required": ["url"],
               "properties": {
                 "url": {
                   "type": "string",
@@ -299,6 +299,22 @@
                 }
               }
             }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["services"],
+        "properties": {
+          "services": {
+            "type": "object",
+            "required": ["planetDumperPg", "planetDumperNg"]
           }
         }
       }
