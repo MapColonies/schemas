@@ -310,11 +310,22 @@
         }
       },
       "then": {
-        "required": ["services"],
+        "required": ["services", "mediator"],
         "properties": {
           "services": {
             "type": "object",
             "required": ["planetDumperPg", "planetDumperNg"]
+          },
+          "mediator": {
+            "type": "object",
+            "required": ["actiony", "locky"]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "enabled": {
+            "const": false
           }
         }
       }
