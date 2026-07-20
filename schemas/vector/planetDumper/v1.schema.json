@@ -3,7 +3,7 @@
   "type": "object",
   "title": "vectorPlanetDumperV1",
   "description": "Vector's planet-dumper schema",
-  "required": ["telemetry", "httpClient", "postgres", "pgDump", "ngDump", "osmium", "s3", "arstotzka"],
+  "required": ["telemetry", "httpClient", "postgres", "pgDump", "ngDump", "osmium", "s3", "arstotzka", "cli"],
   "properties": {
     "telemetry": {
       "description": "Telemetry configuration",
@@ -161,12 +161,30 @@
       }
     },
     "s3": {
-      "description": "S3 upload tuning. Bucket/endpoint/acl are provided per-invocation as CLI arguments rather than static config, since they can differ per run",
+      "description": "S3 destination and upload tuning for the created dump file. endpoint/bucketName are required when running the create command directly, or when scheduling with target 'create' - see the root-level conditional",
       "type": "object",
       "default": {},
       "unevaluatedProperties": false,
       "required": ["upload"],
       "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "The s3 endpoint the resulting dump will be uploaded to",
+          "format": "uri",
+          "x-env-value": "S3_ENDPOINT"
+        },
+        "bucketName": {
+          "type": "string",
+          "description": "The bucket the resulting dump will be uploaded to",
+          "x-env-value": "S3_BUCKET_NAME"
+        },
+        "acl": {
+          "type": "string",
+          "description": "The canned acl policy for uploaded objects",
+          "enum": ["authenticated-read", "private", "public-read", "public-read-write"],
+          "default": "private",
+          "x-env-value": "S3_ACL"
+        },
         "upload": {
           "type": "object",
           "description": "Multipart upload tuning for the created dump file",
@@ -328,6 +346,121 @@
             "const": false
           }
         }
+      }
+    },
+    "cli": {
+      "description": "Per-run pipeline parameters for the pg_dump/create/schedule commands, previously supplied as CLI flags",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "required": ["outputFormat", "stateSource", "cleanupMode"],
+      "properties": {
+        "outputFormat": {
+          "type": "string",
+          "description": "The resulting output name format, example: prefix_{state}_{timestamp}_suffix.pbf",
+          "x-env-value": "OUTPUT_FORMAT"
+        },
+        "stateSource": {
+          "type": "string",
+          "description": "Determines state sequence number to source - a replication state url or a specific state number",
+          "default": "1",
+          "x-env-value": "STATE_SOURCE"
+        },
+        "cleanupMode": {
+          "type": "string",
+          "description": "The command execution cleanup mode",
+          "enum": ["none", "pre-clean-others", "post-clean-others", "post-clean-workdir", "post-clean-all"],
+          "default": "none",
+          "x-env-value": "CLEANUP_MODE"
+        },
+        "resume": {
+          "type": "boolean",
+          "description": "Resume already existing dump state",
+          "default": false,
+          "x-env-value": "RESUME"
+        },
+        "info": {
+          "type": "boolean",
+          "description": "Collect info on the resulted dump",
+          "default": false,
+          "x-env-value": "INFO"
+        },
+        "dumpServer": {
+          "type": "object",
+          "description": "Configuration for registering the created dump's metadata with a dump-server",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "description": "The endpoint of the dump-server",
+              "format": "uri",
+              "pattern": "^https?://",
+              "x-env-value": "DUMP_SERVER_ENDPOINT"
+            },
+            "headers": {
+              "type": "array",
+              "description": "The headers to attach to the dump-server request, each formatted as key=value",
+              "default": [],
+              "items": {
+                "type": "string",
+                "pattern": "^[^=]+=[^=]+$"
+              },
+              "x-env-value": "DUMP_SERVER_HEADERS",
+              "x-env-format": "json"
+            }
+          }
+        },
+        "schedule": {
+          "type": "object",
+          "description": "Configuration for the schedule command's cron loop",
+          "default": {},
+          "unevaluatedProperties": false,
+          "properties": {
+            "target": {
+              "type": "string",
+              "description": "Which pipeline to run on each scheduled tick",
+              "enum": ["create", "pg_dump"],
+              "x-env-value": "TARGET"
+            },
+            "cronExpression": {
+              "type": "string",
+              "description": "A cron expression controlling the schedule",
+              "x-env-value": "CRON_EXPRESSION"
+            },
+            "runOnInit": {
+              "type": "boolean",
+              "description": "Immediately run the pipeline once at startup, before waiting for the first scheduled tick",
+              "default": false,
+              "x-env-value": "RUN_ON_INIT"
+            }
+          }
+        }
+      }
+    }
+  },
+  "if": {
+    "required": ["cli"],
+    "properties": {
+      "cli": {
+        "required": ["schedule"],
+        "properties": {
+          "schedule": {
+            "required": ["target"],
+            "properties": {
+              "target": {
+                "const": "create"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "s3": {
+        "required": ["endpoint", "bucketName"]
       }
     }
   }
