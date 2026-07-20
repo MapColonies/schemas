@@ -443,9 +443,11 @@
     "required": ["cli"],
     "properties": {
       "cli": {
+        "type": "object",
         "required": ["schedule"],
         "properties": {
           "schedule": {
+            "type": "object",
             "required": ["target"],
             "properties": {
               "target": {
@@ -460,6 +462,7 @@
   "then": {
     "properties": {
       "s3": {
+        "type": "object",
         "required": ["endpoint", "bucketName"]
       }
     }

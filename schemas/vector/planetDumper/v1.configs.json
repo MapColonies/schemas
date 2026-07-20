@@ -13,7 +13,8 @@
       "ngDump": { "verbose": false, "maxConcurrency": 4 },
       "osmium": { "verbose": false, "progress": false },
       "s3": { "upload": { "concurrency": 4, "partSize": 5 } },
-      "arstotzka": { "enabled": false }
+      "arstotzka": { "enabled": false },
+      "cli": { "outputFormat": "dump_{state}_{timestamp}.pbf", "stateSource": "1", "cleanupMode": "none" }
     }
   }
 ]
