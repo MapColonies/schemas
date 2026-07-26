@@ -27,14 +27,6 @@
     }
   ],
   "definitions": {
-    "ssl": {
-      "type": "object",
-      "description": "ssl configuration",
-      "unevaluatedProperties": false,
-      "if": { "properties": { "enabled": { "const": true } } },
-      "then": { "required": ["cert", "key"] },
-      "else": { "properties": { "enabled": { "const": false } } }
-    },
     "sourceDb": {
       "type": "object",
       "required": ["database", "ssl", "type"],
