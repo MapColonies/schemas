@@ -174,12 +174,12 @@
           "properties": {
             "fileName": {
               "type": "string",
-              "description": "Lat lon conversion table file name",
+              "description": "Lua file name",
               "x-env-value": "S3_FILE_NAME"
             },
             "layersVariable": {
               "type": "string",
-              "description": "Lat lon conversion table file name",
+              "description": "Lua layers variable name",
               "x-env-value": "S3_LAYERS_VARIABLE"
             }
           }
