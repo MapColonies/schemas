@@ -173,6 +173,21 @@
               "type": "string",
               "description": "Lua layers variable name",
               "x-env-value": "S3_LAYERS_VARIABLE"
+            },
+            "aliasFieldName": {
+              "type": "string",
+              "description": "Lua alias field name",
+              "x-env-value": "S3_ALIAS_FIELD_NAME"
+            },
+            "idFieldName": {
+              "type": "string",
+              "description": "Lua id field name",
+              "x-env-value": "S3_ID_FIELD_NAME"
+            },
+            "nameFieldName": {
+              "type": "string",
+              "description": "Lua name field name",
+              "x-env-value": "S3_NAME_FIELD_NAME"
             }
           }
         }
