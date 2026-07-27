@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.25.0](https://github.com/MapColonies/schemas/compare/v1.24.0...v1.25.0) (2026-07-27)
+
+
+### Features
+
+* add vector standard schema ([#149](https://github.com/MapColonies/schemas/issues/149)) ([2860bc4](https://github.com/MapColonies/schemas/commit/2860bc46739610e8c09c2a17fb5625b061d0097f))
+
 ## [1.24.0](https://github.com/MapColonies/schemas/compare/v1.23.0...v1.24.0) (2026-07-02)
 
 
