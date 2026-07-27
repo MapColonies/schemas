@@ -162,7 +162,7 @@
         },
         {
           "type": "object",
-          "required": ["fileName"],
+          "required": ["fileName", "layersVariable", "aliasFieldName", "idFieldName", "nameFieldName"],
           "properties": {
             "fileName": {
               "type": "string",
