@@ -1,7 +1,7 @@
 {
-  "$id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
+  "$id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v2",
   "type": "object",
-  "title": "vectorStandardSynchronizerSchemaV1",
+  "title": "vectorStandardSynchronizerSchemaV2",
   "description": "Vector's standard synchronizer schema",
   "allOf": [
     { "$ref": "https://mapcolonies.com/common/boilerplate/v2" },
@@ -173,6 +173,21 @@
               "type": "string",
               "description": "Lua layers variable name",
               "x-env-value": "S3_LAYERS_VARIABLE"
+            },
+            "aliasFieldName": {
+              "type": "string",
+              "description": "Lua alias field name",
+              "x-env-value": "S3_ALIAS_FIELD_NAME"
+            },
+            "idFieldName": {
+              "type": "string",
+              "description": "Lua id field name",
+              "x-env-value": "S3_ID_FIELD_NAME"
+            },
+            "nameFieldName": {
+              "type": "string",
+              "description": "Lua name field name",
+              "x-env-value": "S3_NAME_FIELD_NAME"
             }
           }
         }
