@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.25.1](https://github.com/MapColonies/schemas/compare/v1.25.0...v1.25.1) (2026-07-28)
+
+
+### Bug Fixes
+
+* fix field name pathing ([#172](https://github.com/MapColonies/schemas/issues/172)) ([b7ffa3b](https://github.com/MapColonies/schemas/commit/b7ffa3b934cfbe6a8720ceac15688cd73f43b920))
+
 ## [1.25.0](https://github.com/MapColonies/schemas/compare/v1.24.0...v1.25.0) (2026-07-27)
 
 
