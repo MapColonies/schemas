@@ -1,6 +1,417 @@
 {
   "schemas": [
     {
+      "id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v2",
+      "path": "vector/vectorStandard/synchronizer",
+      "version": 2,
+      "title": "vectorStandardSynchronizerSchemaV2",
+      "description": "Vector's standard synchronizer schema",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v2",
+        "type": "object",
+        "title": "vectorStandardSynchronizerSchemaV2",
+        "description": "Vector's standard synchronizer schema",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+          },
+          {
+            "type": "object",
+            "required": [
+              "dbs",
+              "schedule",
+              "enrichment"
+            ],
+            "properties": {
+              "dbs": {
+                "type": "object",
+                "required": [
+                  "source",
+                  "destination",
+                  "s3"
+                ],
+                "properties": {
+                  "source": {
+                    "$ref": "#/definitions/sourceDb"
+                  },
+                  "destination": {
+                    "$ref": "#/definitions/destinationDb"
+                  },
+                  "s3": {
+                    "$ref": "#/definitions/s3"
+                  }
+                }
+              },
+              "schedule": {
+                "$ref": "#/definitions/schedule"
+              },
+              "indexNameFormat": {
+                "$ref": "#/definitions/indexNameFormat"
+              },
+              "layersFile": {
+                "$ref": "#/definitions/layersFile"
+              },
+              "aliasesFile": {
+                "$ref": "#/definitions/aliasesFile"
+              },
+              "enrichment": {
+                "$ref": "#/definitions/enrichment"
+              }
+            }
+          }
+        ],
+        "definitions": {
+          "sourceDb": {
+            "type": "object",
+            "required": [
+              "database",
+              "ssl",
+              "type"
+            ],
+            "properties": {
+              "host": {
+                "type": "string",
+                "description": "the host of the database",
+                "default": "localhost",
+                "x-env-value": "SOURCE_DB_HOST"
+              },
+              "port": {
+                "type": "integer",
+                "description": "the port of the database",
+                "default": 5432,
+                "x-env-value": "SOURCE_DB_PORT"
+              },
+              "username": {
+                "type": "string",
+                "description": "the username of the database",
+                "default": "postgres",
+                "maxLength": 63,
+                "x-env-value": "SOURCE_DB_USERNAME"
+              },
+              "password": {
+                "type": "string",
+                "description": "the password of the database",
+                "default": "postgres",
+                "x-env-value": "SOURCE_DB_PASSWORD"
+              },
+              "schema": {
+                "type": "string",
+                "description": "the schema name of the database",
+                "default": "public",
+                "x-env-value": "SOURCE_DB_SCHEMA"
+              },
+              "database": {
+                "type": "string",
+                "description": "the database name",
+                "maxLength": 63,
+                "x-env-value": "SOURCE_DB_NAME"
+              },
+              "type": {
+                "type": "string",
+                "description": "the type of the database",
+                "default": "postgres",
+                "x-env-value": "SOURCE_DB_TYPE"
+              },
+              "ssl": {
+                "type": "object",
+                "description": "ssl configuration",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "enable ssl",
+                    "default": false,
+                    "x-env-value": "SOURCE_DB_ENABLE_SSL_AUTH"
+                  },
+                  "ca": {
+                    "type": "string",
+                    "description": "the path to the ca file",
+                    "x-env-value": "SOURCE_DB_CA_PATH"
+                  },
+                  "cert": {
+                    "type": "string",
+                    "description": "the path to the cert file",
+                    "x-env-value": "SOURCE_DB_CERT_PATH"
+                  },
+                  "key": {
+                    "type": "string",
+                    "description": "the path to the key file",
+                    "x-env-value": "SOURCE_DB_KEY_PATH"
+                  }
+                },
+                "unevaluatedProperties": false,
+                "if": {
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "cert",
+                    "key"
+                  ]
+                },
+                "else": {
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "destinationDb": {
+            "type": "object",
+            "required": [
+              "database",
+              "ssl",
+              "type"
+            ],
+            "properties": {
+              "host": {
+                "type": "string",
+                "description": "the host of the database",
+                "default": "localhost",
+                "x-env-value": "DEST_DB_HOST"
+              },
+              "port": {
+                "type": "integer",
+                "description": "the port of the database",
+                "default": 5432,
+                "x-env-value": "DEST_DB_PORT"
+              },
+              "username": {
+                "type": "string",
+                "description": "the username of the database",
+                "default": "postgres",
+                "maxLength": 63,
+                "x-env-value": "DEST_DB_USERNAME"
+              },
+              "password": {
+                "type": "string",
+                "description": "the password of the database",
+                "default": "postgres",
+                "x-env-value": "DEST_DB_PASSWORD"
+              },
+              "schema": {
+                "type": "string",
+                "description": "the schema name of the database",
+                "default": "public",
+                "x-env-value": "DEST_DB_SCHEMA"
+              },
+              "database": {
+                "type": "string",
+                "description": "the database name",
+                "maxLength": 63,
+                "x-env-value": "DEST_DB_NAME"
+              },
+              "type": {
+                "type": "string",
+                "description": "the type of the database",
+                "default": "postgres",
+                "x-env-value": "DEST_DB_TYPE"
+              },
+              "ssl": {
+                "type": "object",
+                "description": "ssl configuration",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "enable ssl",
+                    "default": false,
+                    "x-env-value": "DEST_DB_ENABLE_SSL_AUTH"
+                  },
+                  "ca": {
+                    "type": "string",
+                    "description": "the path to the ca file",
+                    "x-env-value": "DEST_DB_CA_PATH"
+                  },
+                  "cert": {
+                    "type": "string",
+                    "description": "the path to the cert file",
+                    "x-env-value": "DEST_DB_CERT_PATH"
+                  },
+                  "key": {
+                    "type": "string",
+                    "description": "the path to the key file",
+                    "x-env-value": "DEST_DB_KEY_PATH"
+                  }
+                },
+                "unevaluatedProperties": false,
+                "if": {
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "cert",
+                    "key"
+                  ]
+                },
+                "else": {
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "s3": {
+            "allOf": [
+              {
+                "$ref": "https://mapcolonies.com/common/s3/full/v2"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "fileName",
+                  "layersVariable",
+                  "aliasFieldName",
+                  "idFieldName",
+                  "nameFieldName"
+                ],
+                "properties": {
+                  "fileName": {
+                    "type": "string",
+                    "description": "Lua file name",
+                    "x-env-value": "S3_FILE_NAME"
+                  },
+                  "layersVariable": {
+                    "type": "string",
+                    "description": "Lua layers variable name",
+                    "x-env-value": "S3_LAYERS_VARIABLE"
+                  },
+                  "aliasFieldName": {
+                    "type": "string",
+                    "description": "Lua alias field name",
+                    "x-env-value": "S3_ALIAS_FIELD_NAME"
+                  },
+                  "idFieldName": {
+                    "type": "string",
+                    "description": "Lua id field name",
+                    "x-env-value": "S3_ID_FIELD_NAME"
+                  },
+                  "nameFieldName": {
+                    "type": "string",
+                    "description": "Lua name field name",
+                    "x-env-value": "S3_NAME_FIELD_NAME"
+                  }
+                }
+              }
+            ]
+          },
+          "schedule": {
+            "type": "string",
+            "description": "The cron timing spec",
+            "default": "0 0 * * *",
+            "examples": [
+              "*/1 * * * *"
+            ],
+            "x-env-value": "SYNC_FIELDS_CRON"
+          },
+          "indexNameFormat": {
+            "type": "string",
+            "description": "The indexes' names in the source DB",
+            "default": "{layerName}_{column}_idx",
+            "examples": [
+              "{layerName}_{column}_idx"
+            ],
+            "x-env-value": "INDEX_NAME_FORMAT"
+          },
+          "layersFile": {
+            "type": "string",
+            "description": "The path to the layers file",
+            "default": "./config/layers.json",
+            "x-env-value": "LAYERS_FILE_PATH"
+          },
+          "aliasesFile": {
+            "type": "string",
+            "description": "The path to the aliases file",
+            "default": "./config/aliases.json",
+            "x-env-value": "ALIASES_FILE_PATH"
+          },
+          "enrichment": {
+            "type": "object",
+            "description": "Enrichment configuration",
+            "required": [
+              "enabled"
+            ],
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "enable enrichment",
+                "default": false,
+                "x-env-value": "ENRICHMENT_ENABLED"
+              },
+              "api": {
+                "type": "string",
+                "description": "Property alias name API",
+                "x-env-value": "ENRICHMENT_API_URL",
+                "default": "https://example.com/layers/{layerName}"
+              },
+              "propertiesPath": {
+                "type": "string",
+                "default": "{layerName}.properties",
+                "x-env-value": "ENRICHMENT_PROPERTIES_PATH"
+              },
+              "aliasField": {
+                "type": "string",
+                "default": "alias",
+                "x-env-value": "ENRICHMENT_ALIAS_FIELD"
+              }
+            },
+            "unevaluatedProperties": false,
+            "if": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "api",
+                "propertiesPath",
+                "aliasField"
+              ]
+            },
+            "else": {
+              "properties": {
+                "enabled": {
+                  "const": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        dbs: {\n            [x: string]: unknown;\n            source: {\n                [x: string]: unknown;\n                port: number;\n                database: string;\n                ssl: {\n                    ca?: string | undefined;\n                    cert: string;\n                    key: string;\n                    enabled: true;\n                } | {\n                    cert?: string | undefined;\n                    key?: string | undefined;\n                    ca?: string | undefined;\n                    enabled: false;\n                };\n                type: string;\n                host: string;\n                username: string;\n                password: string;\n                schema: string;\n            };\n            destination: {\n                [x: string]: unknown;\n                port: number;\n                database: string;\n                ssl: {\n                    ca?: string | undefined;\n                    cert: string;\n                    key: string;\n                    enabled: true;\n                } | {\n                    cert?: string | undefined;\n                    key?: string | undefined;\n                    ca?: string | undefined;\n                    enabled: false;\n                };\n                type: string;\n                host: string;\n                username: string;\n                password: string;\n                schema: string;\n            };\n            s3: {\n                [x: string]: unknown;\n                accessKeyId: string;\n                secretAccessKey: string;\n                endpoint: string;\n                bucket: string;\n                fileName: string;\n                region: string;\n                forcePathStyle: boolean;\n                sslEnabled: boolean;\n                sigVersion: string;\n                storageClass: string;\n                layersVariable: string;\n                aliasFieldName: string;\n                idFieldName: string;\n                nameFieldName: string;\n            };\n        };\n        schedule: string;\n        enrichment: {\n            enabled: true;\n            api: string;\n            propertiesPath: string;\n            aliasField: string;\n        } | {\n            enabled: false;\n            api: string;\n            propertiesPath: string;\n            aliasField: string;\n        };\n        indexNameFormat: string;\n        layersFile: string;\n        aliasesFile: string;\n    };\n    readonly $id: \"https://mapcolonies.com/vector/vectorStandard/synchronizer/v2\";\n    readonly type: \"object\";\n    readonly title: \"vectorStandardSynchronizerSchemaV2\";\n    readonly description: \"Vector's standard synchronizer schema\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v2\";\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"dbs\", \"schedule\", \"enrichment\"];\n        readonly properties: {\n            readonly dbs: {\n                readonly type: \"object\";\n                readonly required: readonly [\"source\", \"destination\", \"s3\"];\n                readonly properties: {\n                    readonly source: {\n                        readonly $ref: \"#/definitions/sourceDb\";\n                    };\n                    readonly destination: {\n                        readonly $ref: \"#/definitions/destinationDb\";\n                    };\n                    readonly s3: {\n                        readonly $ref: \"#/definitions/s3\";\n                    };\n                };\n            };\n            readonly schedule: {\n                readonly $ref: \"#/definitions/schedule\";\n            };\n            readonly indexNameFormat: {\n                readonly $ref: \"#/definitions/indexNameFormat\";\n            };\n            readonly layersFile: {\n                readonly $ref: \"#/definitions/layersFile\";\n            };\n            readonly aliasesFile: {\n                readonly $ref: \"#/definitions/aliasesFile\";\n            };\n            readonly enrichment: {\n                readonly $ref: \"#/definitions/enrichment\";\n            };\n        };\n    }];\n    readonly definitions: {\n        readonly sourceDb: {\n            readonly type: \"object\";\n            readonly required: readonly [\"database\", \"ssl\", \"type\"];\n            readonly properties: {\n                readonly host: {\n                    readonly type: \"string\";\n                    readonly description: \"the host of the database\";\n                    readonly default: \"localhost\";\n                    readonly \"x-env-value\": \"SOURCE_DB_HOST\";\n                };\n                readonly port: {\n                    readonly type: \"integer\";\n                    readonly description: \"the port of the database\";\n                    readonly default: 5432;\n                    readonly \"x-env-value\": \"SOURCE_DB_PORT\";\n                };\n                readonly username: {\n                    readonly type: \"string\";\n                    readonly description: \"the username of the database\";\n                    readonly default: \"postgres\";\n                    readonly maxLength: 63;\n                    readonly \"x-env-value\": \"SOURCE_DB_USERNAME\";\n                };\n                readonly password: {\n                    readonly type: \"string\";\n                    readonly description: \"the password of the database\";\n                    readonly default: \"postgres\";\n                    readonly \"x-env-value\": \"SOURCE_DB_PASSWORD\";\n                };\n                readonly schema: {\n                    readonly type: \"string\";\n                    readonly description: \"the schema name of the database\";\n                    readonly default: \"public\";\n                    readonly \"x-env-value\": \"SOURCE_DB_SCHEMA\";\n                };\n                readonly database: {\n                    readonly type: \"string\";\n                    readonly description: \"the database name\";\n                    readonly maxLength: 63;\n                    readonly \"x-env-value\": \"SOURCE_DB_NAME\";\n                };\n                readonly type: {\n                    readonly type: \"string\";\n                    readonly description: \"the type of the database\";\n                    readonly default: \"postgres\";\n                    readonly \"x-env-value\": \"SOURCE_DB_TYPE\";\n                };\n                readonly ssl: {\n                    readonly type: \"object\";\n                    readonly description: \"ssl configuration\";\n                    readonly properties: {\n                        readonly enabled: {\n                            readonly type: \"boolean\";\n                            readonly description: \"enable ssl\";\n                            readonly default: false;\n                            readonly \"x-env-value\": \"SOURCE_DB_ENABLE_SSL_AUTH\";\n                        };\n                        readonly ca: {\n                            readonly type: \"string\";\n                            readonly description: \"the path to the ca file\";\n                            readonly \"x-env-value\": \"SOURCE_DB_CA_PATH\";\n                        };\n                        readonly cert: {\n                            readonly type: \"string\";\n                            readonly description: \"the path to the cert file\";\n                            readonly \"x-env-value\": \"SOURCE_DB_CERT_PATH\";\n                        };\n                        readonly key: {\n                            readonly type: \"string\";\n                            readonly description: \"the path to the key file\";\n                            readonly \"x-env-value\": \"SOURCE_DB_KEY_PATH\";\n                        };\n                    };\n                    readonly unevaluatedProperties: false;\n                    readonly if: {\n                        readonly properties: {\n                            readonly enabled: {\n                                readonly const: true;\n                            };\n                        };\n                    };\n                    readonly then: {\n                        readonly required: readonly [\"cert\", \"key\"];\n                    };\n                    readonly else: {\n                        readonly properties: {\n                            readonly enabled: {\n                                readonly const: false;\n                            };\n                        };\n                    };\n                };\n            };\n        };\n        readonly destinationDb: {\n            readonly type: \"object\";\n            readonly required: readonly [\"database\", \"ssl\", \"type\"];\n            readonly properties: {\n                readonly host: {\n                    readonly type: \"string\";\n                    readonly description: \"the host of the database\";\n                    readonly default: \"localhost\";\n                    readonly \"x-env-value\": \"DEST_DB_HOST\";\n                };\n                readonly port: {\n                    readonly type: \"integer\";\n                    readonly description: \"the port of the database\";\n                    readonly default: 5432;\n                    readonly \"x-env-value\": \"DEST_DB_PORT\";\n                };\n                readonly username: {\n                    readonly type: \"string\";\n                    readonly description: \"the username of the database\";\n                    readonly default: \"postgres\";\n                    readonly maxLength: 63;\n                    readonly \"x-env-value\": \"DEST_DB_USERNAME\";\n                };\n                readonly password: {\n                    readonly type: \"string\";\n                    readonly description: \"the password of the database\";\n                    readonly default: \"postgres\";\n                    readonly \"x-env-value\": \"DEST_DB_PASSWORD\";\n                };\n                readonly schema: {\n                    readonly type: \"string\";\n                    readonly description: \"the schema name of the database\";\n                    readonly default: \"public\";\n                    readonly \"x-env-value\": \"DEST_DB_SCHEMA\";\n                };\n                readonly database: {\n                    readonly type: \"string\";\n                    readonly description: \"the database name\";\n                    readonly maxLength: 63;\n                    readonly \"x-env-value\": \"DEST_DB_NAME\";\n                };\n                readonly type: {\n                    readonly type: \"string\";\n                    readonly description: \"the type of the database\";\n                    readonly default: \"postgres\";\n                    readonly \"x-env-value\": \"DEST_DB_TYPE\";\n                };\n                readonly ssl: {\n                    readonly type: \"object\";\n                    readonly description: \"ssl configuration\";\n                    readonly properties: {\n                        readonly enabled: {\n                            readonly type: \"boolean\";\n                            readonly description: \"enable ssl\";\n                            readonly default: false;\n                            readonly \"x-env-value\": \"DEST_DB_ENABLE_SSL_AUTH\";\n                        };\n                        readonly ca: {\n                            readonly type: \"string\";\n                            readonly description: \"the path to the ca file\";\n                            readonly \"x-env-value\": \"DEST_DB_CA_PATH\";\n                        };\n                        readonly cert: {\n                            readonly type: \"string\";\n                            readonly description: \"the path to the cert file\";\n                            readonly \"x-env-value\": \"DEST_DB_CERT_PATH\";\n                        };\n                        readonly key: {\n                            readonly type: \"string\";\n                            readonly description: \"the path to the key file\";\n                            readonly \"x-env-value\": \"DEST_DB_KEY_PATH\";\n                        };\n                    };\n                    readonly unevaluatedProperties: false;\n                    readonly if: {\n                        readonly properties: {\n                            readonly enabled: {\n                                readonly const: true;\n                            };\n                        };\n                    };\n                    readonly then: {\n                        readonly required: readonly [\"cert\", \"key\"];\n                    };\n                    readonly else: {\n                        readonly properties: {\n                            readonly enabled: {\n                                readonly const: false;\n                            };\n                        };\n                    };\n                };\n            };\n        };\n        readonly s3: {\n            readonly allOf: readonly [{\n                readonly $ref: \"https://mapcolonies.com/common/s3/full/v2\";\n            }, {\n                readonly type: \"object\";\n                readonly required: readonly [\"fileName\", \"layersVariable\", \"aliasFieldName\", \"idFieldName\", \"nameFieldName\"];\n                readonly properties: {\n                    readonly fileName: {\n                        readonly type: \"string\";\n                        readonly description: \"Lua file name\";\n                        readonly \"x-env-value\": \"S3_FILE_NAME\";\n                    };\n                    readonly layersVariable: {\n                        readonly type: \"string\";\n                        readonly description: \"Lua layers variable name\";\n                        readonly \"x-env-value\": \"S3_LAYERS_VARIABLE\";\n                    };\n                    readonly aliasFieldName: {\n                        readonly type: \"string\";\n                        readonly description: \"Lua alias field name\";\n                        readonly \"x-env-value\": \"S3_ALIAS_FIELD_NAME\";\n                    };\n                    readonly idFieldName: {\n                        readonly type: \"string\";\n                        readonly description: \"Lua id field name\";\n                        readonly \"x-env-value\": \"S3_ID_FIELD_NAME\";\n                    };\n                    readonly nameFieldName: {\n                        readonly type: \"string\";\n                        readonly description: \"Lua name field name\";\n                        readonly \"x-env-value\": \"S3_NAME_FIELD_NAME\";\n                    };\n                };\n            }];\n        };\n        readonly schedule: {\n            readonly type: \"string\";\n            readonly description: \"The cron timing spec\";\n            readonly default: \"0 0 * * *\";\n            readonly examples: readonly [\"*/1 * * * *\"];\n            readonly \"x-env-value\": \"SYNC_FIELDS_CRON\";\n        };\n        readonly indexNameFormat: {\n            readonly type: \"string\";\n            readonly description: \"The indexes' names in the source DB\";\n            readonly default: \"{layerName}_{column}_idx\";\n            readonly examples: readonly [\"{layerName}_{column}_idx\"];\n            readonly \"x-env-value\": \"INDEX_NAME_FORMAT\";\n        };\n        readonly layersFile: {\n            readonly type: \"string\";\n            readonly description: \"The path to the layers file\";\n            readonly default: \"./config/layers.json\";\n            readonly \"x-env-value\": \"LAYERS_FILE_PATH\";\n        };\n        readonly aliasesFile: {\n            readonly type: \"string\";\n            readonly description: \"The path to the aliases file\";\n            readonly default: \"./config/aliases.json\";\n            readonly \"x-env-value\": \"ALIASES_FILE_PATH\";\n        };\n        readonly enrichment: {\n            readonly type: \"object\";\n            readonly description: \"Enrichment configuration\";\n            readonly required: readonly [\"enabled\"];\n            readonly properties: {\n                readonly enabled: {\n                    readonly type: \"boolean\";\n                    readonly description: \"enable enrichment\";\n                    readonly default: false;\n                    readonly \"x-env-value\": \"ENRICHMENT_ENABLED\";\n                };\n                readonly api: {\n                    readonly type: \"string\";\n                    readonly description: \"Property alias name API\";\n                    readonly \"x-env-value\": \"ENRICHMENT_API_URL\";\n                    readonly default: \"https://example.com/layers/{layerName}\";\n                };\n                readonly propertiesPath: {\n                    readonly type: \"string\";\n                    readonly default: \"{layerName}.properties\";\n                    readonly \"x-env-value\": \"ENRICHMENT_PROPERTIES_PATH\";\n                };\n                readonly aliasField: {\n                    readonly type: \"string\";\n                    readonly default: \"alias\";\n                    readonly \"x-env-value\": \"ENRICHMENT_ALIAS_FIELD\";\n                };\n            };\n            readonly unevaluatedProperties: false;\n            readonly if: {\n                readonly properties: {\n                    readonly enabled: {\n                        readonly const: true;\n                    };\n                };\n            };\n            readonly then: {\n                readonly required: readonly [\"api\", \"propertiesPath\", \"aliasField\"];\n            };\n            readonly else: {\n                readonly properties: {\n                    readonly enabled: {\n                        readonly const: false;\n                    };\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/boilerplate/v2",
+        "https://mapcolonies.com/common/s3/full/v2"
+      ],
+      "internalRefs": [
+        "#/definitions/sourceDb",
+        "#/definitions/destinationDb",
+        "#/definitions/s3",
+        "#/definitions/schedule",
+        "#/definitions/indexNameFormat",
+        "#/definitions/layersFile",
+        "#/definitions/aliasesFile",
+        "#/definitions/enrichment"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
       "path": "vector/vectorStandard/synchronizer",
       "version": 1,
@@ -5844,6 +6255,7 @@
       ],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/vectorStandard/synchronizer/v2",
         "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
         "https://mapcolonies.com/vector/geocoding/v2",
         "https://mapcolonies.com/vector/geocoding/v1"
@@ -7474,6 +7886,7 @@
       "internalRefs": [],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/vectorStandard/synchronizer/v2",
         "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
         "https://mapcolonies.com/vector/vectorStandard/api/v1",
         "https://mapcolonies.com/vector/retiler/v2",
@@ -7695,7 +8108,7 @@
     },
     {
       "name": "vector",
-      "count": 14
+      "count": 15
     }
   ]
 }
