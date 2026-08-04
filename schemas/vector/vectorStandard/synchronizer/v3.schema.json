@@ -22,6 +22,7 @@
         "indexNameFormat": { "$ref": "#/definitions/indexNameFormat" },
         "layersFile": { "$ref": "#/definitions/layersFile" },
         "aliasesFile": { "$ref": "#/definitions/aliasesFile" },
+        "typeMapFile": { "$ref": "#/definitions/typeMapFile" },
         "enrichment": { "$ref": "#/definitions/enrichment" }
       }
     }
