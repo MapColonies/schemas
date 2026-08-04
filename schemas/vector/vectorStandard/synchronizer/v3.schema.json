@@ -239,8 +239,7 @@
         "api": {
           "type": "string",
           "description": "Property alias name API",
-          "x-env-value": "ENRICHMENT_API_URL",
-          "default": "https://example.com/layers/{layerName}"
+          "x-env-value": "ENRICHMENT_API_URL"
         },
         "propertiesPath": {
           "type": "string",
