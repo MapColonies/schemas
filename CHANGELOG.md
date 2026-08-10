@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0](https://github.com/MapColonies/schemas/compare/v1.25.1...v1.26.0) (2026-08-10)
+
+
+### Features
+
+* add timeout to enrichment api ([#175](https://github.com/MapColonies/schemas/issues/175)) ([8120bb9](https://github.com/MapColonies/schemas/commit/8120bb96f6b4ef19e9d11d913c5bb9c8bf2ab638))
+
 ## [1.25.1](https://github.com/MapColonies/schemas/compare/v1.25.0...v1.25.1) (2026-07-28)
 
 
