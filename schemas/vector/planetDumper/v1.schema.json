@@ -414,8 +414,8 @@
         "schedule": {
           "type": "object",
           "description": "Configuration for the schedule command's cron loop",
-          "default": {},
           "unevaluatedProperties": false,
+          "required": ["target", "cronExpression"],
           "properties": {
             "target": {
               "type": "string",
