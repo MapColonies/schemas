@@ -1,0 +1,173 @@
+{
+  "$id": "https://mapcolonies.com/vector/vectorStandard/namespace/v1",
+  "type": "object",
+  "title": "vectorStandardNamespaceSchemaV1",
+  "description": "A single vector standard namespace - one source database and the layer source describing it. Namespaces are consumed as an array, and the config package stops descending at arrays, so no x-env-value declared or inherited below this point is ever bound. Per namespace values, credentials in particular, are expected to come from referenced config instances.",
+  "required": ["name", "db", "layersFile", "bucket", "layerSource"],
+  "unevaluatedProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The namespace identifier. Appears in the destination database primary keys, in the API path and as a key in the aliases file, so it is restricted to URL safe characters",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+      "maxLength": 63,
+      "examples": ["data-2024", "data-2025"]
+    },
+    "db": {
+      "description": "The source database for this namespace. A config instance of https://mapcolonies.com/common/db/full/v3 can be referenced here directly",
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/db/full/v3"
+        },
+        {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "the type of the database",
+              "default": "postgres"
+            }
+          }
+        }
+      ]
+    },
+    "layersFile": {
+      "type": "string",
+      "description": "The path to this namespace's layers file. Each namespace owns its own file - sharing one across namespaces is always a mistake",
+      "examples": ["./config/layers/data-2025.json"]
+    },
+    "bucket": {
+      "type": "string",
+      "description": "The S3 bucket holding this namespace's layer source. The connection itself is shared and configured once under dbs.s3"
+    },
+    "layerSource": {
+      "$ref": "#/definitions/layerSource"
+    }
+  },
+  "definitions": {
+    "layerSource": {
+      "type": "object",
+      "description": "Where layer identity and property aliases come from. The two modes are mutually exclusive: sharedLua requires the lua fields and carries the enrichment API, perLayerJson forbids enrichment outright, because without a layer id its url template cannot be resolved. The exclusivity is enforced by shape rather than by a runtime check",
+      "required": ["type"],
+      "unevaluatedProperties": false,
+      "properties": {
+        "type": {
+          "description": "Which layer source this namespace uses",
+          "enum": ["sharedLua", "perLayerJson"]
+        },
+        "fileName": {
+          "type": "string",
+          "description": "sharedLua only. The key of the lua file within the bucket"
+        },
+        "layersVariable": {
+          "type": "string",
+          "description": "sharedLua only. Lua layers variable name"
+        },
+        "aliasFieldName": {
+          "type": "string",
+          "description": "sharedLua only. Lua alias field name"
+        },
+        "idFieldName": {
+          "type": "string",
+          "description": "sharedLua only. Lua id field name"
+        },
+        "nameFieldName": {
+          "type": "string",
+          "description": "sharedLua only. Lua name field name"
+        },
+        "enrichment": {
+          "$ref": "#/definitions/enrichment"
+        },
+        "prefix": {
+          "type": "string",
+          "description": "perLayerJson only. Optional key prefix within the bucket, prepended to the file name configured for each layer",
+          "default": ""
+        },
+        "aliasLayerNameField": {
+          "type": "string",
+          "description": "perLayerJson only. The field holding the layer alias",
+          "default": "alias_layer_name"
+        },
+        "fieldsField": {
+          "type": "string",
+          "description": "perLayerJson only. The field holding the array of field definitions",
+          "default": "fields"
+        },
+        "fieldNameField": {
+          "type": "string",
+          "description": "perLayerJson only. The field within a field definition holding the source column name. Matched against the database columns case insensitively",
+          "default": "field_name"
+        },
+        "aliasFieldNameField": {
+          "type": "string",
+          "description": "perLayerJson only. The field within a field definition holding the property alias",
+          "default": "alias_field_name"
+        }
+      },
+      "if": {
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "const": "sharedLua"
+          }
+        }
+      },
+      "then": {
+        "required": ["fileName", "layersVariable", "aliasFieldName", "idFieldName", "nameFieldName", "enrichment"]
+      },
+      "else": {
+        "not": {
+          "required": ["enrichment"]
+        }
+      }
+    },
+    "enrichment": {
+      "type": "object",
+      "description": "sharedLua only. Property alias enrichment over http",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "enable enrichment",
+          "default": false
+        },
+        "api": {
+          "type": "string",
+          "description": "Property alias name API. Supports the {layerName} and {layerId} placeholders"
+        },
+        "propertiesPath": {
+          "type": "string",
+          "default": "{layerName}.properties"
+        },
+        "aliasField": {
+          "type": "string",
+          "default": "alias"
+        },
+        "requestTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout for enrichment API requests in milliseconds",
+          "default": 5000
+        }
+      },
+      "unevaluatedProperties": false,
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["api", "propertiesPath", "aliasField"]
+      },
+      "else": {
+        "properties": {
+          "enabled": {
+            "const": false
+          }
+        }
+      }
+    }
+  }
+}
