@@ -78,31 +78,6 @@
         },
         "enrichment": {
           "$ref": "#/definitions/enrichment"
-        },
-        "prefix": {
-          "type": "string",
-          "description": "perLayerJson only. Optional key prefix within the bucket, prepended to the file name configured for each layer",
-          "default": ""
-        },
-        "aliasLayerNameField": {
-          "type": "string",
-          "description": "perLayerJson only. The field holding the layer alias",
-          "default": "alias_layer_name"
-        },
-        "fieldsField": {
-          "type": "string",
-          "description": "perLayerJson only. The field holding the array of field definitions",
-          "default": "fields"
-        },
-        "fieldNameField": {
-          "type": "string",
-          "description": "perLayerJson only. The field within a field definition holding the source column name. Matched against the database columns case insensitively",
-          "default": "field_name"
-        },
-        "aliasFieldNameField": {
-          "type": "string",
-          "description": "perLayerJson only. The field within a field definition holding the property alias",
-          "default": "alias_field_name"
         }
       },
       "if": {
@@ -119,6 +94,33 @@
       "else": {
         "not": {
           "required": ["enrichment"]
+        },
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "description": "perLayerJson only. Optional key prefix within the bucket, prepended to the file name configured for each layer",
+            "default": ""
+          },
+          "aliasLayerNameField": {
+            "type": "string",
+            "description": "perLayerJson only. The field holding the layer alias",
+            "default": "alias_layer_name"
+          },
+          "fieldsField": {
+            "type": "string",
+            "description": "perLayerJson only. The field holding the array of field definitions",
+            "default": "fields"
+          },
+          "fieldNameField": {
+            "type": "string",
+            "description": "perLayerJson only. The field within a field definition holding the source column name. Matched against the database columns case insensitively",
+            "default": "field_name"
+          },
+          "aliasFieldNameField": {
+            "type": "string",
+            "description": "perLayerJson only. The field within a field definition holding the property alias",
+            "default": "alias_field_name"
+          }
         }
       }
     },
