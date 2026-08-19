@@ -135,19 +135,6 @@
         "api": {
           "type": "string",
           "description": "Property alias name API. Supports the {layerName} and {layerId} placeholders"
-        },
-        "propertiesPath": {
-          "type": "string",
-          "default": "{layerName}.properties"
-        },
-        "aliasField": {
-          "type": "string",
-          "default": "alias"
-        },
-        "requestTimeoutMilliseconds": {
-          "type": "integer",
-          "description": "Timeout for enrichment API requests in milliseconds",
-          "default": 5000
         }
       },
       "unevaluatedProperties": false,
@@ -159,6 +146,21 @@
         }
       },
       "then": {
+        "properties": {
+          "propertiesPath": {
+            "type": "string",
+            "default": "{layerName}.properties"
+          },
+          "aliasField": {
+            "type": "string",
+            "default": "alias"
+          },
+          "requestTimeoutMilliseconds": {
+            "type": "integer",
+            "description": "Timeout for enrichment API requests in milliseconds",
+            "default": 5000
+          }
+        },
         "required": ["api", "propertiesPath", "aliasField"]
       },
       "else": {
