@@ -1,0 +1,179 @@
+{
+  "$id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v4",
+  "type": "object",
+  "title": "vectorStandardSynchronizerSchemaV4",
+  "description": "Vector's standard synchronizer schema. One deployment serves several namespaces, each with its own source database and layer source, writing into a single destination catalog",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "type": "object",
+      "required": ["dbs", "namespaces", "schedule"],
+      "properties": {
+        "dbs": {
+          "type": "object",
+          "required": ["destination", "s3"],
+          "properties": {
+            "destination": {
+              "$ref": "#/definitions/destinationDb"
+            },
+            "s3": {
+              "$ref": "#/definitions/s3"
+            }
+          }
+        },
+        "namespaces": {
+          "$ref": "#/definitions/namespaces"
+        },
+        "schedule": {
+          "$ref": "#/definitions/schedule"
+        },
+        "indexNameFormat": {
+          "$ref": "#/definitions/indexNameFormat"
+        },
+        "aliasesFile": {
+          "$ref": "#/definitions/aliasesFile"
+        },
+        "typeMapFile": {
+          "$ref": "#/definitions/typeMapFile"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "namespaces": {
+      "type": "array",
+      "description": "The namespaces this deployment synchronizes. Each is an independent failure domain: an unreachable source database degrades its own namespace only. Names must be unique, which JSON Schema cannot express over object properties - it is validated at startup instead",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://mapcolonies.com/vector/vectorStandard/namespace/v1"
+      }
+    },
+    "destinationDb": {
+      "type": "object",
+      "description": "The single destination catalog every namespace writes into",
+      "required": ["database", "ssl", "type"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "the host of the database",
+          "default": "localhost",
+          "x-env-value": "DEST_DB_HOST"
+        },
+        "port": {
+          "type": "integer",
+          "description": "the port of the database",
+          "default": 5432,
+          "x-env-value": "DEST_DB_PORT"
+        },
+        "username": {
+          "type": "string",
+          "description": "the username of the database",
+          "default": "postgres",
+          "maxLength": 63,
+          "x-env-value": "DEST_DB_USERNAME"
+        },
+        "password": {
+          "type": "string",
+          "description": "the password of the database",
+          "default": "postgres",
+          "x-env-value": "DEST_DB_PASSWORD"
+        },
+        "schema": {
+          "type": "string",
+          "description": "the schema name of the database",
+          "default": "public",
+          "x-env-value": "DEST_DB_SCHEMA"
+        },
+        "database": {
+          "type": "string",
+          "description": "the database name",
+          "maxLength": 63,
+          "x-env-value": "DEST_DB_NAME"
+        },
+        "type": {
+          "type": "string",
+          "description": "the type of the database",
+          "default": "postgres",
+          "x-env-value": "DEST_DB_TYPE"
+        },
+        "ssl": {
+          "type": "object",
+          "description": "ssl configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "enable ssl",
+              "default": false,
+              "x-env-value": "DEST_DB_ENABLE_SSL_AUTH"
+            },
+            "ca": {
+              "type": "string",
+              "description": "the path to the ca file",
+              "x-env-value": "DEST_DB_CA_PATH"
+            },
+            "cert": {
+              "type": "string",
+              "description": "the path to the cert file",
+              "x-env-value": "DEST_DB_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "the path to the key file",
+              "x-env-value": "DEST_DB_KEY_PATH"
+            }
+          },
+          "unevaluatedProperties": false,
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["cert", "key"]
+          },
+          "else": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "s3": {
+      "$ref": "https://mapcolonies.com/common/s3/partial/v1",
+      "description": "The shared S3 connection. Buckets are configured per namespace, so no bucket is declared here"
+    },
+    "schedule": {
+      "type": "string",
+      "description": "The cron timing spec. One schedule drives every namespace; they are synchronized sequentially within a tick",
+      "default": "0 0 * * *",
+      "examples": ["*/1 * * * *"],
+      "x-env-value": "SYNC_FIELDS_CRON"
+    },
+    "indexNameFormat": {
+      "type": "string",
+      "description": "The indexes' names in the source DB",
+      "default": "{layerName}_{column}_idx",
+      "examples": ["{layerName}_{column}_idx"],
+      "x-env-value": "INDEX_NAME_FORMAT"
+    },
+    "aliasesFile": {
+      "type": "string",
+      "description": "The path to the aliases file, shared by every namespace. Keyed namespace then layer then property, with * accepted at the namespace and layer tiers",
+      "default": "./config/aliases.json",
+      "x-env-value": "ALIASES_FILE_PATH"
+    },
+    "typeMapFile": {
+      "type": "string",
+      "description": "The path to the type map file, shared by every namespace since it describes postgres rather than the data",
+      "default": "./config/typeMap.json",
+      "x-env-value": "TYPE_MAP_FILE_PATH"
+    }
+  }
+}
