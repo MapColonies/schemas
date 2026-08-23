@@ -126,7 +126,7 @@
     },
     "enrichment": {
       "type": "object",
-      "description": "sharedLua only. Property alias enrichment over http",
+      "description": "sharedLua only. Property alias enrichment over http. The settings exist only while it is enabled, so disabling it is exactly { \"enabled\": false }",
       "required": ["enabled"],
       "properties": {
         "enabled": {
@@ -137,10 +137,26 @@
         "api": {
           "type": "string",
           "description": "Property alias name API. Supports the {layerName} and {layerId} placeholders"
+        },
+        "propertiesPath": {
+          "type": "string",
+          "description": "Path to the properties map within the API response. Supports the {layerName} placeholder",
+          "examples": ["{layerName}.properties"]
+        },
+        "aliasField": {
+          "type": "string",
+          "description": "The field within a property entry holding its alias",
+          "examples": ["alias"]
+        },
+        "requestTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout for enrichment API requests in milliseconds",
+          "examples": [5000]
         }
       },
       "unevaluatedProperties": false,
       "if": {
+        "required": ["enabled"],
         "properties": {
           "enabled": {
             "const": true
@@ -148,28 +164,17 @@
         }
       },
       "then": {
-        "properties": {
-          "propertiesPath": {
-            "type": "string",
-            "default": "{layerName}.properties"
-          },
-          "aliasField": {
-            "type": "string",
-            "default": "alias"
-          },
-          "requestTimeoutMilliseconds": {
-            "type": "integer",
-            "description": "Timeout for enrichment API requests in milliseconds",
-            "default": 5000
-          }
-        },
-        "required": ["api", "propertiesPath", "aliasField"]
+        "required": ["api", "propertiesPath", "aliasField", "requestTimeoutMilliseconds"]
       },
       "else": {
         "properties": {
           "enabled": {
             "const": false
-          }
+          },
+          "api": false,
+          "propertiesPath": false,
+          "aliasField": false,
+          "requestTimeoutMilliseconds": false
         }
       }
     }
