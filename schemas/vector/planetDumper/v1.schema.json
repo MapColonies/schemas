@@ -427,12 +427,6 @@
               "type": "string",
               "description": "A cron expression controlling the schedule",
               "x-env-value": "CRON_EXPRESSION"
-            },
-            "runOnInit": {
-              "type": "boolean",
-              "description": "Immediately run the pipeline once at startup, before waiting for the first scheduled tick",
-              "default": false,
-              "x-env-value": "RUN_ON_INIT"
             }
           }
         }
