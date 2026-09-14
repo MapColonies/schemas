@@ -4543,6 +4543,106 @@
       "referencedBy": []
     },
     {
+      "id": "https://mapcolonies.com/vector/dumpServer/v1",
+      "path": "vector/dumpServer",
+      "version": 1,
+      "title": "vectorDumpServerSchemaV1",
+      "description": "The vector dump server service schema",
+      "category": "vector",
+      "rawContent": {
+        "$id": "https://mapcolonies.com/vector/dumpServer/v1",
+        "description": "The vector dump server service schema",
+        "title": "vectorDumpServerSchemaV1",
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "https://mapcolonies.com/common/boilerplate/v3"
+          },
+          {
+            "type": "object",
+            "required": [
+              "db",
+              "objectStorage"
+            ],
+            "properties": {
+              "db": {
+                "allOf": [
+                  {
+                    "$ref": "https://mapcolonies.com/common/db/full/v3"
+                  },
+                  {
+                    "$ref": "#/definitions/dbHealthCheck"
+                  }
+                ]
+              },
+              "objectStorage": {
+                "$ref": "#/definitions/objectStorage"
+              }
+            }
+          }
+        ],
+        "definitions": {
+          "dbHealthCheck": {
+            "type": "object",
+            "properties": {
+              "healthCheckTimeoutMs": {
+                "type": "integer",
+                "description": "The timeout in milliseconds for the database health check query",
+                "default": 5000,
+                "minimum": 1,
+                "x-env-value": "DB_HEALTHCHECK_TIMEOUT_MS"
+              }
+            }
+          },
+          "objectStorage": {
+            "type": "object",
+            "description": "The object storage endpoint used for building the dumps download urls",
+            "required": [
+              "protocol",
+              "host",
+              "port"
+            ],
+            "properties": {
+              "protocol": {
+                "type": "string",
+                "description": "The protocol of the object storage",
+                "default": "http",
+                "x-env-value": "OBJECT_STORAGE_PROTOCOL"
+              },
+              "host": {
+                "type": "string",
+                "description": "The host of the object storage",
+                "x-env-value": "OBJECT_STORAGE_HOST"
+              },
+              "port": {
+                "type": "integer",
+                "description": "The port of the object storage",
+                "minimum": 1,
+                "maximum": 65535,
+                "x-env-value": "OBJECT_STORAGE_PORT"
+              },
+              "projectId": {
+                "type": "string",
+                "description": "The project id prefixing the bucket name in the dumps download urls",
+                "x-env-value": "OBJECT_STORAGE_PROJECT_ID"
+              }
+            }
+          }
+        }
+      },
+      "typeContent": "import { typeSymbol } from '../../symbol.js';\ndeclare const exported: {\n    readonly [typeSymbol]: {\n        [x: string]: unknown;\n        openapiConfig: {\n            filePath: string;\n            basePath: string;\n            rawPath: string;\n            uiPath: string;\n        };\n        telemetry: {\n            metrics?: unknown;\n            logger: {\n                opentelemetryOptions?: {\n                    [x: string]: unknown;\n                    enabled: boolean;\n                    url: string;\n                } | undefined;\n                level: \"info\" | \"trace\" | \"debug\" | \"warn\" | \"error\" | \"fatal\";\n                prettyPrint: boolean;\n            };\n            shared: {\n                serviceName?: string | undefined;\n                serviceVersion?: string | undefined;\n                hostname?: string | undefined;\n            };\n            tracing: {\n                debug?: boolean | undefined;\n                url?: string | undefined;\n                traceRatio?: number | undefined;\n                isEnabled: boolean;\n            };\n        };\n        server: {\n            port: number;\n            request: {\n                payload: {\n                    limit: string;\n                };\n            };\n            response: {\n                compression: {\n                    enabled: boolean;\n                    options: {\n                        [x: string]: unknown;\n                    } | null;\n                };\n            };\n        };\n        db: {\n            [x: string]: unknown;\n            port: number;\n            database: string;\n            ssl: {\n                ca?: string | undefined;\n                cert: string;\n                key: string;\n                enabled: true;\n            } | {\n                cert?: string | undefined;\n                key?: string | undefined;\n                ca?: string | undefined;\n                enabled: false;\n            };\n            host: string;\n            username: string;\n            password: string;\n            schema: string;\n            healthCheckTimeoutMs: number;\n        };\n        objectStorage: {\n            [x: string]: unknown;\n            projectId?: string | undefined;\n            port: number;\n            host: string;\n            protocol: string;\n        };\n    };\n    readonly $id: \"https://mapcolonies.com/vector/dumpServer/v1\";\n    readonly description: \"The vector dump server service schema\";\n    readonly title: \"vectorDumpServerSchemaV1\";\n    readonly type: \"object\";\n    readonly allOf: readonly [{\n        readonly $ref: \"https://mapcolonies.com/common/boilerplate/v3\";\n    }, {\n        readonly type: \"object\";\n        readonly required: readonly [\"db\", \"objectStorage\"];\n        readonly properties: {\n            readonly db: {\n                readonly allOf: readonly [{\n                    readonly $ref: \"https://mapcolonies.com/common/db/full/v3\";\n                }, {\n                    readonly $ref: \"#/definitions/dbHealthCheck\";\n                }];\n            };\n            readonly objectStorage: {\n                readonly $ref: \"#/definitions/objectStorage\";\n            };\n        };\n    }];\n    readonly definitions: {\n        readonly dbHealthCheck: {\n            readonly type: \"object\";\n            readonly properties: {\n                readonly healthCheckTimeoutMs: {\n                    readonly type: \"integer\";\n                    readonly description: \"The timeout in milliseconds for the database health check query\";\n                    readonly default: 5000;\n                    readonly minimum: 1;\n                    readonly \"x-env-value\": \"DB_HEALTHCHECK_TIMEOUT_MS\";\n                };\n            };\n        };\n        readonly objectStorage: {\n            readonly type: \"object\";\n            readonly description: \"The object storage endpoint used for building the dumps download urls\";\n            readonly required: readonly [\"protocol\", \"host\", \"port\"];\n            readonly properties: {\n                readonly protocol: {\n                    readonly type: \"string\";\n                    readonly description: \"The protocol of the object storage\";\n                    readonly default: \"http\";\n                    readonly \"x-env-value\": \"OBJECT_STORAGE_PROTOCOL\";\n                };\n                readonly host: {\n                    readonly type: \"string\";\n                    readonly description: \"The host of the object storage\";\n                    readonly \"x-env-value\": \"OBJECT_STORAGE_HOST\";\n                };\n                readonly port: {\n                    readonly type: \"integer\";\n                    readonly description: \"The port of the object storage\";\n                    readonly minimum: 1;\n                    readonly maximum: 65535;\n                    readonly \"x-env-value\": \"OBJECT_STORAGE_PORT\";\n                };\n                readonly projectId: {\n                    readonly type: \"string\";\n                    readonly description: \"The project id prefixing the bucket name in the dumps download urls\";\n                    readonly \"x-env-value\": \"OBJECT_STORAGE_PROJECT_ID\";\n                };\n            };\n        };\n    };\n};\nexport type schemaType = (typeof exported)[typeof typeSymbol];\nexport default exported;\n",
+      "references": [
+        "https://mapcolonies.com/common/boilerplate/v3",
+        "https://mapcolonies.com/common/db/full/v3"
+      ],
+      "internalRefs": [
+        "#/definitions/dbHealthCheck",
+        "#/definitions/objectStorage"
+      ],
+      "hasConfig": false,
+      "referencedBy": []
+    },
+    {
       "id": "https://mapcolonies.com/vector/common/v1",
       "path": "vector/common",
       "version": 1,
@@ -8310,7 +8410,8 @@
       "hasConfig": false,
       "referencedBy": [
         "https://mapcolonies.com/vector/vectorStandard/common/v1",
-        "https://mapcolonies.com/vector/vectorStandard/api/v1"
+        "https://mapcolonies.com/vector/vectorStandard/api/v1",
+        "https://mapcolonies.com/vector/dumpServer/v1"
       ]
     },
     {
@@ -8688,6 +8789,7 @@
       "internalRefs": [],
       "hasConfig": false,
       "referencedBy": [
+        "https://mapcolonies.com/vector/dumpServer/v1",
         "https://mapcolonies.com/infra/opala/token-kiosk/v3",
         "https://mapcolonies.com/infra/opala/manager/v2"
       ]
@@ -9108,7 +9210,7 @@
     },
     {
       "name": "vector",
-      "count": 17
+      "count": 18
     }
   ]
 }
