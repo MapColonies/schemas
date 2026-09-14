@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.1](https://github.com/MapColonies/schemas/compare/v1.26.0...v1.26.1) (2026-09-14)
+
+
+### Bug Fixes
+
+* planet-dumper ([#170](https://github.com/MapColonies/schemas/issues/170)) ([e144c54](https://github.com/MapColonies/schemas/commit/e144c54aafbfa0f5c090df87010990479ac05a58))
+
 ## [1.26.0](https://github.com/MapColonies/schemas/compare/v1.25.1...v1.26.0) (2026-08-10)
 
 
