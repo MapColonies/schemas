@@ -57,6 +57,14 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/vector/planetDumper/v1",
+      "label": "vectorPlanetDumperV1",
+      "path": "vector/planetDumper",
+      "category": "vector",
+      "version": 1,
+      "degree": 3
+    },
+    {
       "id": "https://mapcolonies.com/vector/metatileQueuePopulator/shared/v2",
       "label": "metatileQueuePopulatorSharedV2",
       "path": "vector/metatileQueuePopulator/shared",
@@ -294,7 +302,7 @@
       "path": "common/telemetry/tracing",
       "category": "common",
       "version": 1,
-      "degree": 7
+      "degree": 8
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/otlp-logger/v1",
@@ -310,7 +318,7 @@
       "path": "common/telemetry/logger",
       "category": "common",
       "version": 2,
-      "degree": 4
+      "degree": 5
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/logger/v1",
@@ -326,7 +334,7 @@
       "path": "common/telemetry/base",
       "category": "common",
       "version": 1,
-      "degree": 7
+      "degree": 8
     },
     {
       "id": "https://mapcolonies.com/common/s3/partial/v1",
@@ -569,6 +577,21 @@
     {
       "source": "https://mapcolonies.com/vector/retiler/v1",
       "target": "https://mapcolonies.com/common/db/full/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/planetDumper/v1",
+      "target": "https://mapcolonies.com/common/telemetry/base/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/planetDumper/v1",
+      "target": "https://mapcolonies.com/common/telemetry/tracing/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/planetDumper/v1",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v2",
       "type": "reference"
     },
     {
