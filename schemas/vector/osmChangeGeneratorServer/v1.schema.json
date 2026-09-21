@@ -1,0 +1,32 @@
+{
+  "$id": "https://mapcolonies.com/vector/osmChangeGeneratorServer/v1",
+  "type": "object",
+  "title": "vectorOsmChangeGeneratorServerSchemaV1",
+  "description": "Vector's Osm-Change-Generator-Server schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "$ref": "#/definitions/appSchema"
+    }
+  ],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "object",
+          "properties": {
+            "shouldHandle3D": {
+              "type": "boolean",
+              "description": "Should handle 3D geometries. If true, it will add altitude tag with the GeoJson's geo altitude value.",
+              "default": false,
+              "x-env-value": "APP_SHOULD_HANDLE_3D"
+            }
+          }
+        }
+      }
+    }
+  }
+}
