@@ -1,6 +1,14 @@
 {
   "nodes": [
     {
+      "id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v4",
+      "label": "vectorStandardSynchronizerSchemaV4",
+      "path": "vector/vectorStandard/synchronizer",
+      "category": "vector",
+      "version": 4,
+      "degree": 3
+    },
+    {
       "id": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v3",
       "label": "vectorStandardSynchronizerSchemaV3",
       "path": "vector/vectorStandard/synchronizer",
@@ -25,12 +33,28 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/vector/vectorStandard/namespace/v1",
+      "label": "vectorStandardNamespaceSchemaV1",
+      "path": "vector/vectorStandard/namespace",
+      "category": "vector",
+      "version": 1,
+      "degree": 2
+    },
+    {
       "id": "https://mapcolonies.com/vector/vectorStandard/common/v1",
       "label": "vectorStandardCommonSchemaV1",
       "path": "vector/vectorStandard/common",
       "category": "vector",
       "version": 1,
       "degree": 1
+    },
+    {
+      "id": "https://mapcolonies.com/vector/vectorStandard/api/v2",
+      "label": "vectorStandardApiSchemaV2",
+      "path": "vector/vectorStandard/api",
+      "category": "vector",
+      "version": 2,
+      "degree": 2
     },
     {
       "id": "https://mapcolonies.com/vector/vectorStandard/api/v1",
@@ -350,7 +374,7 @@
       "path": "common/s3/partial",
       "category": "common",
       "version": 1,
-      "degree": 6
+      "degree": 7
     },
     {
       "id": "https://mapcolonies.com/common/s3/full/v3",
@@ -470,7 +494,7 @@
       "path": "common/db/full",
       "category": "common",
       "version": 3,
-      "degree": 4
+      "degree": 6
     },
     {
       "id": "https://mapcolonies.com/common/db/full/v2",
@@ -510,7 +534,7 @@
       "path": "common/boilerplate",
       "category": "common",
       "version": 2,
-      "degree": 17
+      "degree": 19
     },
     {
       "id": "https://mapcolonies.com/common/boilerplate/v1",
@@ -523,6 +547,21 @@
   ],
   "edges": [
     {
+      "source": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v4",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v4",
+      "target": "https://mapcolonies.com/vector/vectorStandard/namespace/v1",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v4",
+      "target": "https://mapcolonies.com/common/s3/partial/v1",
+      "type": "reference"
+    },
+    {
       "source": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v3",
       "target": "https://mapcolonies.com/common/boilerplate/v2",
       "type": "reference"
@@ -550,10 +589,25 @@
     {
       "source": "https://mapcolonies.com/vector/vectorStandard/synchronizer/v1",
       "target": "https://mapcolonies.com/common/s3/full/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/vectorStandard/namespace/v1",
+      "target": "https://mapcolonies.com/common/db/full/v3",
       "type": "reference"
     },
     {
       "source": "https://mapcolonies.com/vector/vectorStandard/common/v1",
+      "target": "https://mapcolonies.com/common/db/full/v3",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/vectorStandard/api/v2",
+      "target": "https://mapcolonies.com/common/boilerplate/v2",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/vectorStandard/api/v2",
       "target": "https://mapcolonies.com/common/db/full/v3",
       "type": "reference"
     },
