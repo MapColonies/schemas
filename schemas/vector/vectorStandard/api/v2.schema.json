@@ -1,0 +1,61 @@
+{
+  "$id": "https://mapcolonies.com/vector/vectorStandard/api/v2",
+  "type": "object",
+  "title": "vectorStandardApiSchemaV2",
+  "description": "Vector's standard API schema",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "$ref": "#/definitions/databases"
+    },
+    {
+      "$ref": "#/definitions/namespaces"
+    }
+  ],
+  "definitions": {
+    "namespaces": {
+      "type": "object",
+      "required": ["namespaces"],
+      "properties": {
+        "namespaces": {
+          "type": "array",
+          "description": "The namespaces this deployment serves, by name. The synchronizer owns everything else about them, so only the names are repeated here",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "description": "A namespace name, matching one the synchronizer is configured with",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+            "maxLength": 63,
+            "examples": ["data-2024", "data-2025"]
+          }
+        }
+      }
+    },
+    "databases": {
+      "type": "object",
+      "required": ["db"],
+      "properties": {
+        "db": {
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/db/full/v3"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "x-env-value": "DB_TYPE",
+                  "default": "postgres"
+                }
+              },
+              "required": ["type"]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
