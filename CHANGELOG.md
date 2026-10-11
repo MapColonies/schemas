@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://github.com/MapColonies/schemas/compare/v1.26.1...v1.27.0) (2026-10-11)
+
+
+### Features
+
+* add new enrichment features config ([#177](https://github.com/MapColonies/schemas/issues/177)) ([98aef98](https://github.com/MapColonies/schemas/commit/98aef98bef5e178f66506083111d0eebcd105907))
+
 ## [1.26.1](https://github.com/MapColonies/schemas/compare/v1.26.0...v1.26.1) (2026-09-14)
 
 
