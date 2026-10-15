@@ -168,11 +168,11 @@
     "map": {
       "type": "object",
       "description": "DigitalMap provider configuration",
-      "required": ["provider", "url", "format", "client"],
+      "required": ["provider", "url", "format", "wms", "client"],
       "properties": {
         "provider": {
-          "enum": ["wms", "arcgis", "shigola"],
-          "description": "DigitalMap provider kind. shigola sends each metatile's bbox to Shigola's Cache Admin API at url, which renders and caches the tiles itself, so tilesStorage is unused",
+          "enum": ["wms", "arcgis"],
+          "description": "DigitalMap provider kind",
           "x-env-value": "MAP_PROVIDER"
         },
         "url": {
@@ -226,102 +226,7 @@
               "$comment": "This will be deleted in the future with new QGIS versions"
             }
           }
-        },
-        "shigola": {
-          "type": "object",
-          "description": "Shigola Cache Admin API configuration, used when provider is shigola",
-          "required": ["operation", "targets", "timeoutMs"],
-          "properties": {
-            "operation": {
-              "enum": ["purge", "seed"],
-              "description": "The cache operation to run on each metatile's bbox. A seed always overwrites cached tiles, and needs a Shigola with POST /cache/seed",
-              "default": "purge",
-              "x-env-value": "MAP_SHIGOLA_OPERATION"
-            },
-            "targets": {
-              "type": "array",
-              "description": "The Shigola maps to purge or seed",
-              "minItems": 1,
-              "items": {
-                "type": "object",
-                "required": ["map"],
-                "additionalProperties": false,
-                "properties": {
-                  "map": {
-                    "type": "string",
-                    "description": "Shigola map name"
-                  },
-                  "layers": {
-                    "type": "array",
-                    "description": "Narrows a purge to these layers and the map's whole-map tile. A seed is whole-map only and refuses layers",
-                    "minItems": 1,
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "x-env-value": "MAP_SHIGOLA_TARGETS",
-              "x-env-format": "json"
-            },
-            "tileMatrixSets": {
-              "type": "array",
-              "description": "Work on only these tile matrix sets. Omitted, every set each map serves",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "x-env-value": "MAP_SHIGOLA_TILE_MATRIX_SETS",
-              "x-env-format": "json"
-            },
-            "token": {
-              "type": "string",
-              "description": "Bearer token of the Cache Admin API, Shigola's webserver.admin.token. Omitted or empty, no token is sent",
-              "x-env-value": "MAP_SHIGOLA_TOKEN"
-            },
-            "timeoutMs": {
-              "type": "integer",
-              "description": "Cache Admin API request timeout in milliseconds. Keep it above Shigola's request_timeout_ms (60000 by default) so its 503 with counts arrives before retiler gives up",
-              "default": 70000,
-              "x-env-value": "MAP_SHIGOLA_TIMEOUT_MS"
-            }
-          },
-          "if": {
-            "required": ["operation"],
-            "properties": {
-              "operation": {
-                "const": "seed"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "targets": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "not": {
-                    "type": "object",
-                    "required": ["layers"]
-                  }
-                }
-              }
-            }
-          }
         }
-      },
-      "if": {
-        "properties": {
-          "provider": {
-            "const": "shigola"
-          }
-        }
-      },
-      "then": {
-        "required": ["shigola"]
-      },
-      "else": {
-        "required": ["wms"]
       }
     },
     "s3TilesStorageProvider": {
