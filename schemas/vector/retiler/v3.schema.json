@@ -14,13 +14,15 @@
         "app": {
           "type": "object",
           "description": "Application configuration",
-          "required": ["queueName", "project", "tilesStorage", "jobQueue", "parallelism"],
+          "required": ["queueName", "project", "jobQueue", "parallelism"],
           "oneOf": [
             {
-              "required": ["map"]
+              "required": ["map", "tilesStorage"],
+              "not": { "required": ["cachePurger"] }
             },
             {
-              "required": ["cachePurger"]
+              "required": ["cachePurger"],
+              "not": { "required": ["map"] }
             }
           ],
           "properties": {
@@ -243,12 +245,28 @@
     "cachePurger": {
       "type": "object",
       "description": "Cache purger configuration, sends requests to the given URL instead of rendering tiles from a map provider",
-      "required": ["url"],
+      "required": ["url", "map"],
       "properties": {
         "url": {
           "type": "string",
           "description": "Cache purger URL",
           "x-env-value": "CACHE_PURGER_URL"
+        },
+        "map": {
+          "type": "string",
+          "description": "Name of the map whose cache is purged",
+          "x-env-value": "CACHE_PURGER_MAP"
+        },
+        "token": {
+          "type": "string",
+          "description": "Bearer token for the cache purger admin API",
+          "x-env-value": "CACHE_PURGER_TOKEN"
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "description": "Cache purger client timeout in milliseconds",
+          "default": 60000,
+          "x-env-value": "CACHE_PURGER_TIMEOUT_MS"
         }
       }
     },
