@@ -1,0 +1,23 @@
+{
+  "description": "Http reply schema",
+  "$id": "https://mapcolonies.com/raster/common/httpRetry/v1",
+  "type": "object",
+  "properties": {
+    "attempts": {
+      "type": "number",
+      "x-env-value": "HTTP_RETRY_ATTEMPTS",
+      "default": 5
+    },
+    "delay": {
+      "oneOf": [{ "type": "number" }, { "const": "exponential" }],
+      "x-env-value": "HTTP_RETRY_DELAY",
+      "default": "exponential"
+    },
+    "shouldResetTimeout": {
+      "type": "boolean",
+      "x-env-value": "DISABLE_HTTP_CLIENT_LOGS",
+      "default": true
+    }
+  },
+  "required": ["attempts", "delay", "shouldResetTimeout"]
+}
