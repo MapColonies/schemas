@@ -1,0 +1,54 @@
+{
+  "$id": "https://mapcolonies.com/arstotzka/actiony/v1",
+  "type": "object",
+  "title": "arstotzkaActionyV1",
+  "description": "Arstotzka's actiony service schema",
+  "allOf": [
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v4" },
+    {
+      "type": "object",
+      "required": ["telemetry", "db", "mediator"],
+      "properties": {
+        "telemetry": { "type": "object", "required": ["metrics"] },
+        "db": { "$ref": "#/definitions/db" },
+        "mediator": { "$ref": "#/definitions/mediator" }
+      }
+    }
+  ],
+  "definitions": {
+    "db": {
+      "allOf": [
+        { "$ref": "https://mapcolonies.com/common/db/partial/v2" },
+        {
+          "type": "object",
+          "required": ["database"],
+          "properties": {
+            "type": { "type": "string", "description": "TypeORM driver type", "default": "postgres", "x-env-value": "DB_TYPE" },
+            "schema": { "type": "string", "description": "The schema name of the database", "default": "actiony", "x-env-value": "DB_SCHEMA" },
+            "database": { "type": "string", "description": "The database name", "maxLength": 63, "default": "postgres", "x-env-value": "DB_NAME" }
+          }
+        }
+      ]
+    },
+    "mediator": {
+      "type": "object",
+      "required": ["timeout", "enableRetryStrategy", "retryStrategy"],
+      "properties": {
+        "registry": { "type": "object", "properties": { "url": { "type": "string", "x-env-value": "MEDIATOR_REGISTRY_URL" } } },
+        "locky": { "type": "object", "properties": { "url": { "type": "string", "x-env-value": "MEDIATOR_LOCKY_URL" } } },
+        "timeout": { "type": "integer", "default": 10000, "x-env-value": "MEDIATOR_TIMEOUT" },
+        "enableRetryStrategy": { "type": "boolean", "default": false, "x-env-value": "MEDIATOR_ENABLE_RETRY_STRATEGY" },
+        "retryStrategy": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "retries": { "type": "integer", "x-env-value": "MEDIATOR_RETRY_STRATEGY_RETRIES" },
+            "shouldResetTimeout": { "type": "boolean", "x-env-value": "MEDIATOR_RETRY_STRATEGY_SHOULD_RESET_TIMEOUT" },
+            "isExponential": { "type": "boolean", "x-env-value": "MEDIATOR_RETRY_STRATEGY_IS_EXPONENTIAL" },
+            "delay": { "type": "integer", "x-env-value": "MEDIATOR_RETRY_STRATEGY_DELAY" }
+          }
+        }
+      }
+    }
+  }
+}
