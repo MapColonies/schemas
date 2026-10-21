@@ -208,19 +208,23 @@
             "ca": {
               "type": "string",
               "description": "The path to the ca file",
+              "default": "",
               "x-env-value": "REDIS_CA_PATH"
             },
             "key": {
               "type": "string",
               "description": "The path to the key file",
+              "default": "",
               "x-env-value": "REDIS_KEY_PATH"
             },
             "cert": {
               "type": "string",
               "description": "The path to the cert file",
+              "default": "",
               "x-env-value": "REDIS_CERT_PATH"
             }
-          }
+          },
+          "required": ["ca", "key", "cert"]
         },
         "database": {
           "type": "integer",
