@@ -235,7 +235,7 @@
           "x-env-value": "REDIS_KEY_PREFIX"
         }
       },
-      "required": ["host", "port", "enableSslAuth", "sslPaths"]
+      "required": ["host", "port", "enableSslAuth", "sslPaths", "keyPrefix"]
     }
   }
 }
