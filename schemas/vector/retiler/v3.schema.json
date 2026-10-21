@@ -180,6 +180,11 @@
           "description": "DigitalMap provider URL",
           "x-env-value": "MAP_URL"
         },
+        "token": {
+          "type": "string",
+          "description": "Bearer token sent to the DigitalMap provider, used by the shigola provider",
+          "x-env-value": "MAP_TOKEN"
+        },
         "format": {
           "enum": ["jpg", "jpeg", "image/jpeg", "image/png", "image/webp"],
           "description": "DigitalMap provider output format",
