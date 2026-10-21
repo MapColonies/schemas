@@ -169,6 +169,16 @@
       "type": "object",
       "description": "DigitalMap provider configuration",
       "required": ["provider", "url", "format", "wms", "client"],
+      "if": {
+        "properties": {
+          "provider": {
+            "const": "shigola"
+          }
+        }
+      },
+      "then": {
+        "required": ["targetMap"]
+      },
       "properties": {
         "provider": {
           "enum": ["wms", "arcgis", "shigola"],
@@ -184,6 +194,11 @@
           "type": "string",
           "description": "Bearer token sent to the DigitalMap provider, used by the shigola provider",
           "x-env-value": "MAP_TOKEN"
+        },
+        "targetMap": {
+          "type": "string",
+          "description": "Name of the target map whose cache is purged, used by the shigola provider",
+          "x-env-value": "MAP_TARGET_MAP"
         },
         "format": {
           "enum": ["jpg", "jpeg", "image/jpeg", "image/png", "image/webp"],
