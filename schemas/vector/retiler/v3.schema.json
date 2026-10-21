@@ -14,15 +14,7 @@
         "app": {
           "type": "object",
           "description": "Application configuration",
-          "required": ["queueName", "project", "tilesStorage", "jobQueue", "parallelism"],
-          "oneOf": [
-            {
-              "required": ["map"]
-            },
-            {
-              "required": ["cachePurger"]
-            }
-          ],
+          "required": ["queueName", "map", "project", "tilesStorage", "jobQueue", "parallelism"],
           "properties": {
             "project": {
               "$ref": "#/definitions/project"
@@ -50,9 +42,6 @@
             },
             "map": {
               "$ref": "#/definitions/map"
-            },
-            "cachePurger": {
-              "$ref": "#/definitions/cachePurger"
             },
             "tilesStorage": {
               "type": "object",
@@ -182,7 +171,7 @@
       "required": ["provider", "url", "format", "wms", "client"],
       "properties": {
         "provider": {
-          "enum": ["wms", "arcgis"],
+          "enum": ["wms", "arcgis", "shigola"],
           "description": "DigitalMap provider kind",
           "x-env-value": "MAP_PROVIDER"
         },
@@ -237,18 +226,6 @@
               "$comment": "This will be deleted in the future with new QGIS versions"
             }
           }
-        }
-      }
-    },
-    "cachePurger": {
-      "type": "object",
-      "description": "Cache purger configuration, sends requests to the given URL instead of rendering tiles from a map provider",
-      "required": ["url"],
-      "properties": {
-        "url": {
-          "type": "string",
-          "description": "Cache purger URL",
-          "x-env-value": "CACHE_PURGER_URL"
         }
       }
     },
