@@ -168,7 +168,7 @@
     "map": {
       "type": "object",
       "description": "DigitalMap provider configuration",
-      "required": ["provider", "url", "format", "wms", "client"],
+      "required": ["provider", "url", "client"],
       "if": {
         "properties": {
           "provider": {
@@ -178,6 +178,9 @@
       },
       "then": {
         "required": ["shigolaTargets"]
+      },
+      "else": {
+        "required": ["format", "wms"]
       },
       "properties": {
         "provider": {
