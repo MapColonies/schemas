@@ -177,7 +177,7 @@
         }
       },
       "then": {
-        "required": ["purgeTargets"]
+        "required": ["shigolaTargets"]
       },
       "properties": {
         "provider": {
@@ -195,14 +195,14 @@
           "description": "Bearer token sent to the DigitalMap provider, used by the shigola provider",
           "x-env-value": "MAP_TOKEN"
         },
-        "purgeTargets": {
+        "shigolaTargets": {
           "type": "array",
-          "description": "Names of the maps whose cache is purged, used by the shigola provider",
+          "description": "Names of the maps whose cache is seeded or purged, used by the shigola provider",
           "minItems": 1,
           "items": {
             "type": "string"
           },
-          "x-env-value": "MAP_PURGE_TARGETS",
+          "x-env-value": "MAP_SHIGOLA_TARGETS",
           "x-env-format": "json"
         },
         "format": {
