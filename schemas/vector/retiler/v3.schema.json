@@ -200,10 +200,26 @@
         },
         "shigolaTargets": {
           "type": "array",
-          "description": "Names of the maps whose cache is seeded or purged, used by the shigola provider",
+          "description": "Maps whose cache is seeded or purged, used by the shigola provider",
           "minItems": 1,
           "items": {
-            "type": "string"
+            "type": "object",
+            "required": ["map"],
+            "additionalProperties": false,
+            "properties": {
+              "map": {
+                "type": "string",
+                "description": "Name of the map"
+              },
+              "layers": {
+                "type": "array",
+                "description": "Layers of the map to seed or purge, the whole map when omitted",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "x-env-value": "MAP_SHIGOLA_TARGETS",
           "x-env-format": "json"
