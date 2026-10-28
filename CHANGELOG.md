@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.28.0](https://github.com/MapColonies/schemas/compare/v1.27.0...v1.28.0) (2026-10-28)
+
+
+### Features
+
+* add shigola to map provider ([#185](https://github.com/MapColonies/schemas/issues/185)) ([e1beca0](https://github.com/MapColonies/schemas/commit/e1beca0401aa251de1a30199835825e2f22b417f))
+
 ## [1.27.0](https://github.com/MapColonies/schemas/compare/v1.26.1...v1.27.0) (2026-10-11)
 
 
