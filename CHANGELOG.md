@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.29.0](https://github.com/MapColonies/schemas/compare/v1.28.0...v1.29.0) (2026-10-29)
+
+
+### Features
+
+* **schemas:** add vector/detiler v1 schema ([#196](https://github.com/MapColonies/schemas/issues/196)) ([042fe65](https://github.com/MapColonies/schemas/commit/042fe656475b071520aca79000ea78b477123bdb))
+
 ## [1.28.0](https://github.com/MapColonies/schemas/compare/v1.27.0...v1.28.0) (2026-10-28)
 
 
