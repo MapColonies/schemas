@@ -169,6 +169,14 @@
       "degree": 2
     },
     {
+      "id": "https://mapcolonies.com/vector/detiler/v1",
+      "label": "vectorDetilerSchemaV1",
+      "path": "vector/detiler",
+      "category": "vector",
+      "version": 1,
+      "degree": 1
+    },
+    {
       "id": "https://mapcolonies.com/vector/common/v1",
       "label": "commonVectorSchemaV1",
       "path": "vector/common",
@@ -366,7 +374,7 @@
       "path": "common/telemetry/logger",
       "category": "common",
       "version": 1,
-      "degree": 5
+      "degree": 6
     },
     {
       "id": "https://mapcolonies.com/common/telemetry/base/v1",
@@ -787,6 +795,11 @@
     {
       "source": "https://mapcolonies.com/vector/dumpServer/v1",
       "target": "https://mapcolonies.com/common/db/full/v3",
+      "type": "reference"
+    },
+    {
+      "source": "https://mapcolonies.com/vector/detiler/v1",
+      "target": "https://mapcolonies.com/common/telemetry/logger/v1",
       "type": "reference"
     },
     {
