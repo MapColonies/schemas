@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Yahalom Gateway basic configuration",
+  "$id": "https://mapcolonies.com/yahalom-gateway/common/v1",
+  "type": "object",
+  "title": "yahalomGatewayCommonV1",
+  "required": ["openapiConfig", "telemetry", "server", "database"],
+  "properties": {
+    "openapiConfig": {
+      "description": "OpenAPI configuration",
+      "type": "object",
+      "default": {},
+      "examples": [
+        {
+          "filePath": "./openapi3.yaml",
+          "basePath": "/docs",
+          "rawPath": "/api",
+          "uiPath": "/api"
+        }
+      ],
+      "properties": {
+        "filePath": {
+          "default": "./openapi3.yaml",
+          "description": "Path to the OpenAPI 3.0 spec file",
+          "type": "string"
+        },
+        "basePath": {
+          "default": "/docs",
+          "description": "The base path for the OpenAPI UI and raw OpenAPI spec",
+          "type": "string"
+        },
+        "rawPath": {
+          "default": "/api",
+          "description": "The path to the raw OpenAPI spec",
+          "type": "string"
+        },
+        "uiPath": {
+          "default": "/api",
+          "description": "The path to the OpenAPI UI",
+          "type": "string"
+        }
+      },
+      "unevaluatedProperties": false,
+      "required": ["filePath", "basePath", "rawPath", "uiPath"]
+    },
+
+    "telemetry": {
+      "description": "Telemetry configuration",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "examples": [
+        {
+          "shared": { "serviceName": "yahalom-gateway" },
+          "tracing": { "isEnabled": false },
+          "logger": { "level": "info", "prettyPrint": false },
+          "metrics": { "isEnabled": true }
+        }
+      ],
+      "properties": {
+        "shared": {
+          "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+        },
+        "tracing": {
+          "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+        },
+        "logger": {
+          "$ref": "https://mapcolonies.com/common/telemetry/logger/v1"
+        },
+        "metrics": {
+          "description": "Metrics configuration"
+        }
+      },
+      "required": ["logger", "shared", "tracing"]
+    },
+
+    "server": {
+      "description": "Server configuration",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "default": {},
+      "examples": [
+        {
+          "port": 8080,
+          "request": { "payload": { "limit": "1mb" } }
+        }
+      ],
+      "properties": {
+        "port": {
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 8080,
+          "description": "The port the server will listen on",
+          "type": "integer",
+          "x-env-value": "SERVER_PORT"
+        },
+        "request": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "payload": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "limit": {
+                  "default": "1mb",
+                  "description": "The maximum payload size of an incoming request",
+                  "type": "string"
+                }
+              },
+              "unevaluatedProperties": false,
+              "required": ["limit"]
+            }
+          },
+          "unevaluatedProperties": false,
+          "required": ["payload"]
+        },
+        "response": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "compression": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Whether to compress response bodies"
+                },
+                "options": {
+                  "type": ["null", "object"],
+                  "default": null,
+                  "description": "Options for compression module"
+                }
+              },
+              "unevaluatedProperties": false
+            }
+          },
+          "unevaluatedProperties": false
+        }
+      },
+      "required": ["port", "request", "response"]
+    },
+
+    "database": {
+      "description": "Database configuration",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "default": {},
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "the host of the database",
+          "default": "localhost",
+          "x-env-value": "DB_HOST"
+        },
+        "port": {
+          "type": "integer",
+          "description": "the port of the database",
+          "default": 5432,
+          "x-env-value": "DB_PORT"
+        },
+        "username": {
+          "type": "string",
+          "description": "the username of the database",
+          "default": "postgres",
+          "maxLength": 63,
+          "x-env-value": "DB_USERNAME"
+        },
+        "password": {
+          "type": "string",
+          "description": "the password of the database",
+          "default": "postgres",
+          "x-env-value": "DB_PASSWORD"
+        },
+        "database": {
+          "type": "string",
+          "description": "the database name",
+          "default": "default_db_name",
+          "x-env-value": "DB_DATABASE"
+        }
+      },
+      "required": ["host", "port", "username", "password", "database"]
+    }
+  }
+}
