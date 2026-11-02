@@ -1,0 +1,80 @@
+{
+  "$id": "https://mapcolonies.com/infra/jobnik/manager/v2",
+  "description": "The jobnik manager service schema",
+  "title": "jobnikManagerSchemaV2",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v2"
+    },
+    {
+      "type": "object",
+      "required": ["db", "staleTasksSweeperCron", "task", "redis"],
+      "properties": {
+        "db": {
+          "$ref": "https://mapcolonies.com/common/db/full/v2"
+        },
+        "staleTasksSweeperCron": {
+          "$ref": "#/definitions/staleTasksSweeperCron"
+        },
+        "task": {
+          "$ref": "#/definitions/task"
+        },
+        "redis": {
+          "$ref": "#/definitions/redis"
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "staleTasksSweeperCron": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Flag to enable/disable the cron job",
+          "x-env-value": "STALE_TASKS_SWEEPER_CRON_ENABLED"
+        },
+        "schedule": {
+          "type": "string",
+          "description": "The cron timing spec",
+          "default": "0 0 * * *",
+          "examples": ["*/1 * * * *"],
+          "x-env-value": "STALE_TASKS_SWEEPER_CRON_SCHEDULE"
+        }
+      },
+      "required": ["enabled", "schedule"]
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "staleTaskThresholdInMinutes": {
+          "type": "number",
+          "description": "The maximum in-progress period in minutes before a task is considered stale",
+          "default": 60,
+          "minimum": 1,
+          "x-env-value": "TASK_STALE_THRESHOLD_IN_MINUTES"
+        }
+      },
+      "required": ["staleTaskThresholdInMinutes"]
+    },
+    "redis": {
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/redis/v2"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "keyTtlSeconds": {
+              "type": "integer",
+              "description": "TTL in seconds for idempotency keys stored in redis",
+              "default": 86400,
+              "x-env-value": "REDIS_KEY_TTL_SECONDS"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
