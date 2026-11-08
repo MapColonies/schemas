@@ -1,0 +1,514 @@
+{
+  "$id": "https://mapcolonies.com/three_d/yahalom/v1",
+  "type": "object",
+  "title": "yahalom3dV1",
+  "description": "Yahalom 3D client configuration schema",
+  "allOf": [{ "$ref": "https://mapcolonies.com/common/boilerplate/v3" }, { "$ref": "#/definitions/appSchema" }],
+  "definitions": {
+    "appSchema": {
+      "type": "object",
+      "required": ["configurations"],
+      "properties": {
+        "configurations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/yahalomConfiguration" }
+        }
+      }
+    },
+    "yahalomConfiguration": {
+      "type": "object",
+      "required": [
+        "TerrainsFolderPath",
+        "MapsColoniesURL",
+        "MapsColoniesToken",
+        "WmsOrWmtsUrl",
+        "PowerlinesPaths",
+        "BundlesConfiguration",
+        "MainMapsConfig",
+        "SetupPath",
+        "ReleaseNotesImagePath",
+        "AppVersionConfigPath",
+        "AnalyticsFolderPath",
+        "YahalomAnalyticsFolderPath",
+        "MapsToPreInstallFolderPath",
+        "ThumbnailsPath",
+        "MinimapsPath",
+        "SupportChatUrl",
+        "TamarApiConfig",
+        "StatusBarLabel",
+        "VectorIntelligenceConfigs",
+        "PitchRtiZipPath",
+        "AutoTilesetTogglingExclusionList",
+        "TogglingMapClusters",
+        "DefaultAutoTogglingMethod",
+        "VectorApiWrappersConfiguration",
+        "SystemLogConfiguration",
+        "PolygonParameters",
+        "LineParameters",
+        "TextSizes",
+        "GeocodingConfig",
+        "NominatimOsmConfig",
+        "GeoMediaConfig",
+        "EntityInfoConfiguration",
+        "ObstaclesLayerSettings"
+      ],
+      "properties": {
+        "TerrainsFolderPath": { "type": "string" },
+        "MapsColoniesURL": { "type": "string" },
+        "MapsColoniesToken": { "type": "string" },
+        "WmsOrWmtsUrl": { "type": "string" },
+        "PowerlinesPaths": {
+          "type": "object",
+          "properties": {
+            "PathToSmall": { "type": "string" },
+            "PathToBig": { "type": "string" }
+          },
+          "required": ["PathToSmall", "PathToBig"],
+          "additionalProperties": false
+        },
+        "BundlesConfiguration": {
+          "type": "object",
+          "properties": {
+            "PathToSpritesBundle": { "type": "string" }
+          },
+          "required": ["PathToSpritesBundle"],
+          "additionalProperties": false
+        },
+        "MainMapsConfig": {
+          "type": "object",
+          "properties": {
+            "TerrainUrl": { "type": "string" },
+            "CatalogUrl": { "type": "string" },
+            "Token": { "type": "string" },
+            "MainMapsFilter": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "UseEllipsoidTerrain": { "type": "boolean" },
+            "MaxCatalogRecords": { "type": "integer" },
+            "ExtraMaps": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/extraMap" }
+            },
+            "MapsOrder": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "DefaultMap": { "type": "string" },
+            "DefaultMiniMap": { "type": "string" },
+            "DefaultLocalMap": { "type": "string" },
+            "HiddenMaps": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "CompositeMaps": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/compositeMap" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "SetupPath": { "type": "string" },
+        "ReleaseNotesImagePath": { "type": "string" },
+        "AppVersionConfigPath": { "type": "string" },
+        "AnalyticsFolderPath": { "type": "string" },
+        "YahalomAnalyticsFolderPath": { "type": "string" },
+        "MapsToPreInstallFolderPath": { "type": "string" },
+        "ThumbnailsPath": { "type": "string" },
+        "MinimapsPath": { "type": "string" },
+        "SupportChatUrl": { "type": "string" },
+        "TamarApiConfig": {
+          "type": "object",
+          "properties": {
+            "Enabled": { "type": "boolean" },
+            "BaseUrl": { "type": "string" }
+          },
+          "required": ["Enabled", "BaseUrl"],
+          "additionalProperties": false
+        },
+        "StatusBarLabel": { "type": "string" },
+        "VectorIntelligenceConfigs": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/vectorIntelligenceConfig" }
+        },
+        "PitchRtiZipPath": { "type": "string" },
+        "AutoTilesetTogglingExclusionList": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "TogglingMapClusters": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/togglingMapCluster" }
+        },
+        "DefaultAutoTogglingMethod": {
+          "type": "string",
+          "enum": ["NoAutoToggling", "IndividualMaps", "Clusters"]
+        },
+        "VectorApiWrappersConfiguration": {
+          "type": "object",
+          "properties": {
+            "IsMock": { "type": "boolean" },
+            "ConsumingAppName": { "type": "string" },
+            "OutforcesConfig": { "$ref": "#/definitions/outforcesConfig" },
+            "TreeOfKnowledgeConfig": { "$ref": "#/definitions/treeOfKnowledgeConfig" },
+            "AirForceConfig": { "$ref": "#/definitions/airForceConfig" }
+          },
+          "additionalProperties": false
+        },
+        "SystemLogConfiguration": {
+          "type": "object",
+          "properties": {
+            "EnablePublishingAnalytics": { "type": "boolean" },
+            "EnablePublishingTempAnalytics": { "type": "boolean" },
+            "ApplicationUsageConfiguration": { "$ref": "#/definitions/applicationUsageConfiguration" },
+            "LocationPublishConfiguration": { "$ref": "#/definitions/locationPublishConfiguration" },
+            "PerformanceUsageConfiguration": { "$ref": "#/definitions/performanceUsageConfiguration" }
+          },
+          "additionalProperties": false
+        },
+        "PolygonParameters": {
+          "type": "object",
+          "properties": {
+            "PolygonVolumeBufferHeightInMeters": { "type": "number" },
+            "PolygonElevationHeightInMeters": { "type": "number" },
+            "MaxSegmentLength": { "type": "number" },
+            "MaxHeightDifference": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "LineParameters": {
+          "type": "object",
+          "properties": {
+            "LineElevationHeightInMeters": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "TextSizes": {
+          "type": "object",
+          "properties": {
+            "VeryThinSize": { "type": "number" },
+            "ThinSize": { "type": "number" },
+            "MediumSize": { "type": "number" },
+            "ThickSize": { "type": "number" },
+            "VeryThickSize": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "GeocodingConfig": {
+          "type": "object",
+          "properties": {
+            "GeocodingBaseUrl": { "type": "string" },
+            "LocationSearchConfig": { "$ref": "#/definitions/geocodingSearchConfig" },
+            "RouteSearchConfig": { "$ref": "#/definitions/geocodingSearchConfig" },
+            "ItemSearchConfig": { "$ref": "#/definitions/geocodingSearchConfig" },
+            "ControlGridSearchConfig": { "$ref": "#/definitions/geocodingSearchConfig" },
+            "MgrsSearchConfig": { "$ref": "#/definitions/geocodingSearchConfig" },
+            "FeedbackConfig": { "$ref": "#/definitions/feedbackConfig" }
+          },
+          "additionalProperties": false
+        },
+        "NominatimOsmConfig": {
+          "type": "object",
+          "properties": {
+            "OSMBaseUrl": { "type": "string" },
+            "Path": { "type": "string" },
+            "MinSearchLetters": { "type": "integer" },
+            "MaxSearchLetters": { "type": "integer" },
+            "Limit": { "type": "integer" },
+            "AdditionalHeaders": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "Enabled": { "type": "boolean" },
+            "UseToken": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        "GeoMediaConfig": {
+          "type": "object",
+          "properties": {
+            "Enabled": { "type": "boolean" },
+            "Providers": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/geoMediaProvider" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "EntityInfoConfiguration": {
+          "type": "object",
+          "properties": {
+            "SelectedProvider": { "type": "string" },
+            "Wfs": { "$ref": "#/definitions/entityInfoWfsConfig" },
+            "Mqs": { "$ref": "#/definitions/entityInfoMqsConfig" },
+            "FieldDisplay": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/definitions/entityFieldDisplay" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "ObstaclesLayerSettings": {
+          "type": "object",
+          "properties": {
+            "Enabled": { "type": "boolean" },
+            "Token": { "type": "string" },
+            "BaseUrl": { "type": "string" },
+            "Path": { "type": "string" },
+            "TypeName": { "type": "string" },
+            "PageSize": { "type": "integer" },
+            "SortBy": { "type": "string" },
+            "ShowDistance": { "type": "number" },
+            "MaxObstaclesCount": { "type": "integer" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "extraMap": {
+      "type": "object",
+      "properties": {
+        "Identifier": { "type": "string" },
+        "MenuName": { "type": "string" },
+        "MenuIcon": { "type": "string" },
+        "TilesetSource": { "type": "string" },
+        "TileUrlTemplate": { "type": "string" },
+        "Format": { "type": "string" },
+        "TileMatrixSetID": { "type": "string" },
+        "Style": { "type": "string" },
+        "UseGeographicProjection": { "type": "boolean" }
+      },
+      "required": [
+        "Identifier",
+        "MenuName",
+        "MenuIcon",
+        "TilesetSource",
+        "TileUrlTemplate",
+        "Format",
+        "TileMatrixSetID",
+        "Style",
+        "UseGeographicProjection"
+      ],
+      "additionalProperties": false
+    },
+    "compositeMap": {
+      "type": "object",
+      "properties": {
+        "Identifier": { "type": "string" },
+        "Name": { "type": "string" },
+        "Content": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["Identifier", "Name", "Content"],
+      "additionalProperties": false
+    },
+    "vectorIntelligenceConfig": {
+      "type": "object",
+      "properties": {
+        "GeoJsonFilePath": { "type": "string" },
+        "DataType": { "type": "string" }
+      },
+      "required": ["GeoJsonFilePath", "DataType"],
+      "additionalProperties": false
+    },
+    "togglingMapCluster": {
+      "type": "object",
+      "properties": {
+        "Name": { "type": "string" },
+        "MapIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["Name", "MapIds"],
+      "additionalProperties": false
+    },
+    "outforcesConfig": {
+      "type": "object",
+      "properties": {
+        "ApiUrl": { "type": "string" },
+        "AuthenticationToken": { "type": "string" }
+      },
+      "required": ["ApiUrl", "AuthenticationToken"],
+      "additionalProperties": false
+    },
+    "treeOfKnowledgeConfig": {
+      "type": "object",
+      "properties": {
+        "TablesApiUrl": { "type": "string" },
+        "RequiredHeaders": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["TablesApiUrl", "RequiredHeaders"],
+      "additionalProperties": false
+    },
+    "airForceConfig": {
+      "type": "object",
+      "properties": {
+        "BaseUrl": { "type": "string" },
+        "ApiKey": { "type": "string" },
+        "RequiredHeaders": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["BaseUrl", "ApiKey", "RequiredHeaders"],
+      "additionalProperties": false
+    },
+    "applicationUsageConfiguration": {
+      "type": "object",
+      "properties": {
+        "Enable": { "type": "boolean" },
+        "IdleIntervalInSeconds": { "type": "number" },
+        "IdleThresholdInSeconds": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "locationPublishConfiguration": {
+      "type": "object",
+      "properties": {
+        "Enable": { "type": "boolean" },
+        "LocationPublishIntervalInSeconds": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "performanceUsageConfiguration": {
+      "type": "object",
+      "properties": {
+        "Enable": { "type": "boolean" },
+        "PerformanceSampleIntervalInSeconds": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "geocodingSearchConfig": {
+      "type": "object",
+      "properties": {
+        "Enabled": { "type": "boolean" },
+        "Path": { "type": "string" },
+        "Limit": { "type": "integer" },
+        "DisableFuzziness": { "type": "boolean" },
+        "MinSearchLetters": { "type": "integer" },
+        "MaxSearchLetters": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "feedbackConfig": {
+      "type": "object",
+      "properties": {
+        "Enabled": { "type": "boolean" },
+        "Path": { "type": "string" },
+        "UserIdFormat": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "geoMediaProvider": {
+      "type": "object",
+      "properties": {
+        "Method": { "type": "string" },
+        "Url": { "type": "string" },
+        "Body": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "ResponseMapping": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/geoMediaResponseMapping" }
+        }
+      },
+      "required": ["Method", "Url", "ResponseMapping"],
+      "additionalProperties": false
+    },
+    "geoMediaResponseMapping": {
+      "type": "object",
+      "properties": {
+        "Path": { "type": "string" },
+        "Transform": { "type": "string" },
+        "ItemMapping": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/geoMediaFieldMapping" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "geoMediaFieldMapping": {
+      "type": "object",
+      "properties": {
+        "Path": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "entityInfoWfsConfig": {
+      "type": "object",
+      "properties": {
+        "BaseUrl": { "type": "string" },
+        "Path": { "type": "string" },
+        "Layers": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/entityInfoWfsLayer" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "entityInfoWfsLayer": {
+      "type": "object",
+      "properties": {
+        "IsEnabled": { "type": "boolean" },
+        "SearchRadiusMeters": { "type": "number" },
+        "TypeName": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "entityInfoMqsConfig": {
+      "type": "object",
+      "properties": {
+        "BaseUrl": { "type": "string" },
+        "DataStoreName": { "type": "string" },
+        "Layers": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/entityInfoMqsLayer" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "entityInfoMqsLayer": {
+      "type": "object",
+      "properties": {
+        "IsEnabled": { "type": "boolean" },
+        "SearchRadiusMeters": { "type": "number" },
+        "LayerId": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "entityFieldDisplay": {
+      "type": "object",
+      "properties": {
+        "ShowOnlyPinned": { "type": "boolean" },
+        "HiddenFields": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "Fields": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/entityDisplayField" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "entityDisplayField": {
+      "type": "object",
+      "properties": {
+        "Key": { "type": "string" },
+        "Label": { "type": "string" },
+        "Pinned": { "type": "boolean" }
+      },
+      "required": ["Key", "Label", "Pinned"],
+      "additionalProperties": false
+    }
+  }
+}
