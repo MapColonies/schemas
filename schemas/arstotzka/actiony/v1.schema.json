@@ -4,12 +4,33 @@
   "title": "arstotzkaActionyV1",
   "description": "Arstotzka's actiony service schema",
   "allOf": [
-    { "$ref": "https://mapcolonies.com/common/boilerplate/v4" },
+    { "$ref": "https://mapcolonies.com/common/boilerplate/v3" },
     {
       "type": "object",
       "required": ["telemetry", "db", "mediator"],
       "properties": {
         "telemetry": { "type": "object", "required": ["metrics"] },
+        "openapiConfig": {
+          "type": "object",
+          "properties": { "filePath": { "type": "string", "x-env-value": "OPENAPI_FILE_PATH" } }
+        },
+        "server": {
+          "type": "object",
+          "properties": {
+            "request": {
+              "type": "object",
+              "properties": {
+                "payload": { "type": "object", "properties": { "limit": { "type": "string", "x-env-value": "REQUEST_PAYLOAD_LIMIT" } } }
+              }
+            },
+            "response": {
+              "type": "object",
+              "properties": {
+                "compression": { "type": "object", "properties": { "enabled": { "type": "boolean", "x-env-value": "RESPONSE_COMPRESSION_ENABLED" } } }
+              }
+            }
+          }
+        },
         "db": { "$ref": "#/definitions/db" },
         "mediator": { "$ref": "#/definitions/mediator" }
       }
