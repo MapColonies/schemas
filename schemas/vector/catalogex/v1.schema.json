@@ -1,0 +1,217 @@
+{
+  "$id": "https://mapcolonies.com/vector/catalogex/v1",
+  "title": "vectorCatalogexV1",
+  "description": "CatalogEx application configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["server", "telemetry", "database", "readiness"],
+  "properties": {
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["host", "port", "shutdownTimeoutMs"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "x-env-value": "HOST"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "x-env-value": "PORT",
+          "x-env-format": "json"
+        },
+        "shutdownTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "x-env-value": "SHUTDOWN_TIMEOUT_MS",
+          "x-env-format": "json"
+        }
+      }
+    },
+    "telemetry": {
+      "description": "Telemetry configuration",
+      "type": "object",
+      "default": {},
+      "unevaluatedProperties": false,
+      "properties": {
+        "shared": {
+          "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
+        },
+        "tracing": {
+          "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
+        },
+        "logger": {
+          "$ref": "https://mapcolonies.com/common/telemetry/logger/v2"
+        },
+        "metrics": {
+          "description": "Metrics configuration"
+        }
+      },
+      "required": ["logger", "shared", "tracing"]
+    },
+    "database": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["host", "port", "database", "user", "maxConnections", "idleTimeoutMs", "connectionTimeoutMs", "enableSslAuth", "password"],
+          "properties": {
+            "host": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_HOST"
+            },
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535,
+              "x-env-value": "POSTGRES_PORT",
+              "x-env-format": "json"
+            },
+            "database": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_DB"
+            },
+            "user": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_USER"
+            },
+            "maxConnections": {
+              "type": "integer",
+              "minimum": 1,
+              "x-env-value": "DB_POOL_MAX",
+              "x-env-format": "json"
+            },
+            "idleTimeoutMs": {
+              "type": "integer",
+              "minimum": 0,
+              "x-env-value": "DB_IDLE_TIMEOUT_MS",
+              "x-env-format": "json"
+            },
+            "connectionTimeoutMs": {
+              "type": "integer",
+              "minimum": 1,
+              "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+              "x-env-format": "json"
+            },
+            "enableSslAuth": {
+              "type": "boolean",
+              "const": false,
+              "x-env-value": "DB_ENABLE_SSL_AUTH",
+              "x-env-format": "json"
+            },
+            "password": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_PASSWORD"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["host", "port", "database", "user", "maxConnections", "idleTimeoutMs", "connectionTimeoutMs", "enableSslAuth", "sslPaths"],
+          "properties": {
+            "host": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_HOST"
+            },
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535,
+              "x-env-value": "POSTGRES_PORT",
+              "x-env-format": "json"
+            },
+            "database": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_DB"
+            },
+            "user": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "POSTGRES_USER"
+            },
+            "maxConnections": {
+              "type": "integer",
+              "minimum": 1,
+              "x-env-value": "DB_POOL_MAX",
+              "x-env-format": "json"
+            },
+            "idleTimeoutMs": {
+              "type": "integer",
+              "minimum": 0,
+              "x-env-value": "DB_IDLE_TIMEOUT_MS",
+              "x-env-format": "json"
+            },
+            "connectionTimeoutMs": {
+              "type": "integer",
+              "minimum": 1,
+              "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+              "x-env-format": "json"
+            },
+            "enableSslAuth": {
+              "type": "boolean",
+              "const": true,
+              "x-env-value": "DB_ENABLE_SSL_AUTH",
+              "x-env-format": "json"
+            },
+            "sslPaths": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["cert", "key", "ca"],
+              "properties": {
+                "cert": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "x-env-value": "DB_CERT_PATH"
+                },
+                "key": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "x-env-value": "DB_KEY_PATH"
+                },
+                "ca": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S",
+                  "x-env-value": "DB_CA_PATH"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["queryTimeoutMs"],
+      "properties": {
+        "queryTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "x-env-value": "READINESS_QUERY_TIMEOUT_MS",
+          "x-env-format": "json"
+        }
+      }
+    }
+  }
+}
