@@ -1,0 +1,84 @@
+{
+  "$id": "https://mapcolonies.com/vector/catalogex/v1",
+  "title": "vectorCatalogexV1",
+  "description": "CatalogEx application configuration",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v3"
+    },
+    {
+      "$ref": "#/definitions/catalogex"
+    }
+  ],
+  "unevaluatedProperties": false,
+  "definitions": {
+    "catalogex": {
+      "type": "object",
+      "required": ["application", "database", "readiness"],
+      "properties": {
+        "application": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shutdownTimeoutMs"],
+          "properties": {
+            "shutdownTimeoutMs": {
+              "type": "integer",
+              "minimum": 1,
+              "x-env-value": "SHUTDOWN_TIMEOUT_MS",
+              "x-env-format": "json"
+            }
+          }
+        },
+        "database": {
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/db/full/v3"
+            },
+            {
+              "type": "object",
+              "required": ["maxConnections", "idleTimeoutMs", "connectionTimeoutMs"],
+              "properties": {
+                "maxConnections": {
+                  "type": "integer",
+                  "description": "Maximum number of connections in the database pool.",
+                  "minimum": 1,
+                  "x-env-value": "DB_POOL_MAX",
+                  "x-env-format": "json"
+                },
+                "idleTimeoutMs": {
+                  "type": "integer",
+                  "description": "Time in milliseconds before an idle pool connection is closed.",
+                  "minimum": 0,
+                  "x-env-value": "DB_IDLE_TIMEOUT_MS",
+                  "x-env-format": "json"
+                },
+                "connectionTimeoutMs": {
+                  "type": "integer",
+                  "description": "Timeout in milliseconds for establishing a database connection.",
+                  "minimum": 1,
+                  "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+                  "x-env-format": "json"
+                }
+              }
+            }
+          ]
+        },
+        "readiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["queryTimeoutMs"],
+          "properties": {
+            "queryTimeoutMs": {
+              "type": "integer",
+              "description": "Timeout in milliseconds for the database readiness query.",
+              "minimum": 1,
+              "x-env-value": "READINESS_QUERY_TIMEOUT_MS",
+              "x-env-format": "json"
+            }
+          }
+        }
+      }
+    }
+  }
+}
