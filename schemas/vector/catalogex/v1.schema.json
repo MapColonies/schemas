@@ -3,101 +3,80 @@
   "title": "vectorCatalogexV1",
   "description": "CatalogEx application configuration",
   "type": "object",
-  "additionalProperties": false,
-  "required": ["server", "telemetry", "database", "readiness"],
-  "properties": {
-    "server": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["host", "port", "shutdownTimeoutMs"],
-      "properties": {
-        "host": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "x-env-value": "HOST"
-        },
-        "port": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 65535,
-          "x-env-value": "PORT",
-          "x-env-format": "json"
-        },
-        "shutdownTimeoutMs": {
-          "type": "integer",
-          "minimum": 1,
-          "x-env-value": "SHUTDOWN_TIMEOUT_MS",
-          "x-env-format": "json"
-        }
-      }
+  "allOf": [
+    {
+      "$ref": "https://mapcolonies.com/common/boilerplate/v3"
     },
-    "telemetry": {
-      "description": "Telemetry configuration",
+    {
+      "$ref": "#/definitions/catalogex"
+    }
+  ],
+  "unevaluatedProperties": false,
+  "definitions": {
+    "catalogex": {
       "type": "object",
-      "default": {},
-      "unevaluatedProperties": false,
+      "required": ["application", "database", "readiness"],
       "properties": {
-        "shared": {
-          "$ref": "https://mapcolonies.com/common/telemetry/base/v1"
-        },
-        "tracing": {
-          "$ref": "https://mapcolonies.com/common/telemetry/tracing/v1"
-        },
-        "logger": {
-          "$ref": "https://mapcolonies.com/common/telemetry/logger/v2"
-        },
-        "metrics": {
-          "description": "Metrics configuration"
-        }
-      },
-      "required": ["logger", "shared", "tracing"]
-    },
-    "database": {
-      "allOf": [
-        {
-          "$ref": "https://mapcolonies.com/common/db/full/v3"
-        },
-        {
+        "application": {
           "type": "object",
-          "required": ["maxConnections", "idleTimeoutMs", "connectionTimeoutMs"],
+          "additionalProperties": false,
+          "required": ["shutdownTimeoutMs"],
           "properties": {
-            "maxConnections": {
+            "shutdownTimeoutMs": {
               "type": "integer",
-              "description": "Maximum number of connections in the database pool.",
               "minimum": 1,
-              "x-env-value": "DB_POOL_MAX",
-              "x-env-format": "json"
-            },
-            "idleTimeoutMs": {
-              "type": "integer",
-              "description": "Time in milliseconds before an idle pool connection is closed.",
-              "minimum": 0,
-              "x-env-value": "DB_IDLE_TIMEOUT_MS",
-              "x-env-format": "json"
-            },
-            "connectionTimeoutMs": {
-              "type": "integer",
-              "description": "Timeout in milliseconds for establishing a database connection.",
-              "minimum": 1,
-              "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+              "x-env-value": "SHUTDOWN_TIMEOUT_MS",
               "x-env-format": "json"
             }
           }
-        }
-      ]
-    },
-    "readiness": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["queryTimeoutMs"],
-      "properties": {
-        "queryTimeoutMs": {
-          "type": "integer",
-          "description": "Timeout in milliseconds for the database readiness query.",
-          "minimum": 1,
-          "x-env-value": "READINESS_QUERY_TIMEOUT_MS",
-          "x-env-format": "json"
+        },
+        "database": {
+          "allOf": [
+            {
+              "$ref": "https://mapcolonies.com/common/db/full/v3"
+            },
+            {
+              "type": "object",
+              "required": ["maxConnections", "idleTimeoutMs", "connectionTimeoutMs"],
+              "properties": {
+                "maxConnections": {
+                  "type": "integer",
+                  "description": "Maximum number of connections in the database pool.",
+                  "minimum": 1,
+                  "x-env-value": "DB_POOL_MAX",
+                  "x-env-format": "json"
+                },
+                "idleTimeoutMs": {
+                  "type": "integer",
+                  "description": "Time in milliseconds before an idle pool connection is closed.",
+                  "minimum": 0,
+                  "x-env-value": "DB_IDLE_TIMEOUT_MS",
+                  "x-env-format": "json"
+                },
+                "connectionTimeoutMs": {
+                  "type": "integer",
+                  "description": "Timeout in milliseconds for establishing a database connection.",
+                  "minimum": 1,
+                  "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+                  "x-env-format": "json"
+                }
+              }
+            }
+          ]
+        },
+        "readiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["queryTimeoutMs"],
+          "properties": {
+            "queryTimeoutMs": {
+              "type": "integer",
+              "description": "Timeout in milliseconds for the database readiness query.",
+              "minimum": 1,
+              "x-env-value": "READINESS_QUERY_TIMEOUT_MS",
+              "x-env-format": "json"
+            }
+          }
         }
       }
     }
