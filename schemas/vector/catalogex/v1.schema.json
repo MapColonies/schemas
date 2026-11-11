@@ -54,116 +54,35 @@
       "required": ["logger", "shared", "tracing"]
     },
     "database": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["host", "port", "database", "user", "maxConnections", "idleTimeoutMs", "connectionTimeoutMs", "enableSslAuth"],
-      "properties": {
-        "host": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "x-env-value": "POSTGRES_HOST"
+      "allOf": [
+        {
+          "$ref": "https://mapcolonies.com/common/db/full/v3"
         },
-        "port": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 65535,
-          "x-env-value": "POSTGRES_PORT",
-          "x-env-format": "json"
-        },
-        "database": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "x-env-value": "POSTGRES_DB"
-        },
-        "user": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "x-env-value": "POSTGRES_USER"
-        },
-        "maxConnections": {
-          "type": "integer",
-          "minimum": 1,
-          "x-env-value": "DB_POOL_MAX",
-          "x-env-format": "json"
-        },
-        "idleTimeoutMs": {
-          "type": "integer",
-          "minimum": 0,
-          "x-env-value": "DB_IDLE_TIMEOUT_MS",
-          "x-env-format": "json"
-        },
-        "connectionTimeoutMs": {
-          "type": "integer",
-          "minimum": 1,
-          "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
-          "x-env-format": "json"
-        },
-        "enableSslAuth": {
-          "type": "boolean",
-          "description": "Selects client certificate authentication when true and password authentication when false; the two modes are exclusive.",
-          "x-env-value": "DB_ENABLE_SSL_AUTH",
-          "x-env-format": "json"
-        },
-        "password": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "x-env-value": "POSTGRES_PASSWORD"
-        },
-        "sslPaths": {
+        {
           "type": "object",
-          "description": "Paths required for client certificate authentication.",
-          "additionalProperties": false,
-          "required": ["cert", "key", "ca"],
+          "required": ["maxConnections", "idleTimeoutMs", "connectionTimeoutMs"],
           "properties": {
-            "cert": {
-              "type": "string",
-              "description": "Path to the PEM client certificate file.",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "DB_CERT_PATH"
+            "maxConnections": {
+              "type": "integer",
+              "description": "Maximum number of connections in the database pool.",
+              "minimum": 1,
+              "x-env-value": "DB_POOL_MAX",
+              "x-env-format": "json"
             },
-            "key": {
-              "type": "string",
-              "description": "Path to the PEM client private key file.",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "DB_KEY_PATH"
+            "idleTimeoutMs": {
+              "type": "integer",
+              "description": "Time in milliseconds before an idle pool connection is closed.",
+              "minimum": 0,
+              "x-env-value": "DB_IDLE_TIMEOUT_MS",
+              "x-env-format": "json"
             },
-            "ca": {
-              "type": "string",
-              "description": "Path to the PEM CA bundle used to verify the database server certificate.",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "DB_CA_PATH"
+            "connectionTimeoutMs": {
+              "type": "integer",
+              "description": "Timeout in milliseconds for establishing a database connection.",
+              "minimum": 1,
+              "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+              "x-env-format": "json"
             }
-          }
-        }
-      },
-      "anyOf": [
-        {
-          "properties": {
-            "enableSslAuth": {
-              "const": false
-            }
-          },
-          "required": ["password"],
-          "not": {
-            "required": ["sslPaths"]
-          }
-        },
-        {
-          "properties": {
-            "enableSslAuth": {
-              "const": true
-            }
-          },
-          "required": ["sslPaths"],
-          "not": {
-            "required": ["password"]
           }
         }
       ]
