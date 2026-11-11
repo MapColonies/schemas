@@ -54,148 +54,116 @@
       "required": ["logger", "shared", "tracing"]
     },
     "database": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["host", "port", "database", "user", "maxConnections", "idleTimeoutMs", "connectionTimeoutMs", "enableSslAuth"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "x-env-value": "POSTGRES_HOST"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "x-env-value": "POSTGRES_PORT",
+          "x-env-format": "json"
+        },
+        "database": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "x-env-value": "POSTGRES_DB"
+        },
+        "user": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "x-env-value": "POSTGRES_USER"
+        },
+        "maxConnections": {
+          "type": "integer",
+          "minimum": 1,
+          "x-env-value": "DB_POOL_MAX",
+          "x-env-format": "json"
+        },
+        "idleTimeoutMs": {
+          "type": "integer",
+          "minimum": 0,
+          "x-env-value": "DB_IDLE_TIMEOUT_MS",
+          "x-env-format": "json"
+        },
+        "connectionTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
+          "x-env-format": "json"
+        },
+        "enableSslAuth": {
+          "type": "boolean",
+          "description": "Selects client certificate authentication when true and password authentication when false; the two modes are exclusive.",
+          "x-env-value": "DB_ENABLE_SSL_AUTH",
+          "x-env-format": "json"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "x-env-value": "POSTGRES_PASSWORD"
+        },
+        "sslPaths": {
+          "type": "object",
+          "description": "Paths required for client certificate authentication.",
+          "additionalProperties": false,
+          "required": ["cert", "key", "ca"],
+          "properties": {
+            "cert": {
+              "type": "string",
+              "description": "Path to the PEM client certificate file.",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "DB_CERT_PATH"
+            },
+            "key": {
+              "type": "string",
+              "description": "Path to the PEM client private key file.",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "DB_KEY_PATH"
+            },
+            "ca": {
+              "type": "string",
+              "description": "Path to the PEM CA bundle used to verify the database server certificate.",
+              "minLength": 1,
+              "pattern": "\\S",
+              "x-env-value": "DB_CA_PATH"
+            }
+          }
+        }
+      },
       "anyOf": [
         {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["host", "port", "database", "user", "maxConnections", "idleTimeoutMs", "connectionTimeoutMs", "enableSslAuth", "password"],
           "properties": {
-            "host": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_HOST"
-            },
-            "port": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 65535,
-              "x-env-value": "POSTGRES_PORT",
-              "x-env-format": "json"
-            },
-            "database": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_DB"
-            },
-            "user": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_USER"
-            },
-            "maxConnections": {
-              "type": "integer",
-              "minimum": 1,
-              "x-env-value": "DB_POOL_MAX",
-              "x-env-format": "json"
-            },
-            "idleTimeoutMs": {
-              "type": "integer",
-              "minimum": 0,
-              "x-env-value": "DB_IDLE_TIMEOUT_MS",
-              "x-env-format": "json"
-            },
-            "connectionTimeoutMs": {
-              "type": "integer",
-              "minimum": 1,
-              "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
-              "x-env-format": "json"
-            },
             "enableSslAuth": {
-              "type": "boolean",
-              "const": false,
-              "x-env-value": "DB_ENABLE_SSL_AUTH",
-              "x-env-format": "json"
-            },
-            "password": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_PASSWORD"
+              "const": false
             }
+          },
+          "required": ["password"],
+          "not": {
+            "required": ["sslPaths"]
           }
         },
         {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["host", "port", "database", "user", "maxConnections", "idleTimeoutMs", "connectionTimeoutMs", "enableSslAuth", "sslPaths"],
           "properties": {
-            "host": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_HOST"
-            },
-            "port": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 65535,
-              "x-env-value": "POSTGRES_PORT",
-              "x-env-format": "json"
-            },
-            "database": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_DB"
-            },
-            "user": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "\\S",
-              "x-env-value": "POSTGRES_USER"
-            },
-            "maxConnections": {
-              "type": "integer",
-              "minimum": 1,
-              "x-env-value": "DB_POOL_MAX",
-              "x-env-format": "json"
-            },
-            "idleTimeoutMs": {
-              "type": "integer",
-              "minimum": 0,
-              "x-env-value": "DB_IDLE_TIMEOUT_MS",
-              "x-env-format": "json"
-            },
-            "connectionTimeoutMs": {
-              "type": "integer",
-              "minimum": 1,
-              "x-env-value": "DB_CONNECTION_TIMEOUT_MS",
-              "x-env-format": "json"
-            },
             "enableSslAuth": {
-              "type": "boolean",
-              "const": true,
-              "x-env-value": "DB_ENABLE_SSL_AUTH",
-              "x-env-format": "json"
-            },
-            "sslPaths": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": ["cert", "key", "ca"],
-              "properties": {
-                "cert": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "\\S",
-                  "x-env-value": "DB_CERT_PATH"
-                },
-                "key": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "\\S",
-                  "x-env-value": "DB_KEY_PATH"
-                },
-                "ca": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "\\S",
-                  "x-env-value": "DB_CA_PATH"
-                }
-              }
+              "const": true
             }
+          },
+          "required": ["sslPaths"],
+          "not": {
+            "required": ["password"]
           }
         }
       ]
@@ -207,6 +175,7 @@
       "properties": {
         "queryTimeoutMs": {
           "type": "integer",
+          "description": "Timeout in milliseconds for the database readiness query.",
           "minimum": 1,
           "x-env-value": "READINESS_QUERY_TIMEOUT_MS",
           "x-env-format": "json"
