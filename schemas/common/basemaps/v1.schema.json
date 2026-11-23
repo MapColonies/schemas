@@ -1,0 +1,84 @@
+{
+  "$id": "https://mapcolonies.com/common/basemaps/v1",
+  "title": "commonBasemapsV1",
+  "description": "The basemaps stored by basemap-management. Generated from the @map-colonies/app-shared Zod schemas by basemap-management (npm run generate:config-schema) - do not edit by hand.",
+  "type": "object",
+  "properties": {
+    "basemaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "thumbnail": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "width": { "type": "number", "enum": [128] },
+              "height": { "type": "number", "enum": [128] }
+            },
+            "required": ["url", "width", "height"]
+          },
+          "isCurrent": { "type": "boolean" },
+          "isForPreview": { "type": "boolean" },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "order": { "type": "integer", "minimum": 0 },
+                "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+                "shouldBeUsedInModelDraping": { "type": "boolean" },
+                "source": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "type": "string", "enum": ["CATALOG_RESOURCE"] },
+                        "domain": { "type": "string", "enum": ["RASTER"] },
+                        "uniqueness": {
+                          "type": "object",
+                          "properties": {
+                            "productId": { "type": ["string", "null"], "description": "Raster catalog product id" },
+                            "productType": {
+                              "type": ["string", "null"],
+                              "description": "Raster product type (wire values as in @map-colonies/types, e.g. Orthophoto)"
+                            }
+                          },
+                          "description": "Identifies a raster catalog product by productId + productType"
+                        }
+                      },
+                      "required": ["type", "domain", "uniqueness"]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": { "type": "string", "enum": ["EXTERNAL"] },
+                        "details": {
+                          "type": "object",
+                          "properties": {
+                            "protocol": { "type": "string", "description": "Serving protocol of an external layer" },
+                            "name": { "type": "string" },
+                            "url": { "type": "string" }
+                          },
+                          "required": ["protocol", "name", "url"]
+                        }
+                      },
+                      "required": ["type", "details"]
+                    }
+                  ]
+                }
+              },
+              "required": ["id", "order", "opacity", "source"]
+            }
+          },
+          "id": { "type": "string" }
+        },
+        "required": ["name", "thumbnail", "isCurrent", "isForPreview", "layers", "id"]
+      },
+      "description": "Every stored basemap. Ids are unique (enforced by basemap-management, not by this schema)."
+    }
+  },
+  "required": ["basemaps"]
+}
