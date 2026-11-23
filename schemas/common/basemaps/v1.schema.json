@@ -1,7 +1,7 @@
 {
   "$id": "https://mapcolonies.com/common/basemaps/v1",
-  "title": "commonBasemapsV1",
-  "description": "The basemaps stored by basemap-management. Generated from the @map-colonies/app-shared Zod schemas by basemap-management - do not edit by hand.",
+  "title": "basemaps",
+  "description": "Generated from the @map-colonies/app-shared Zod schemas by basemap-management - do not edit by hand.",
   "type": "object",
   "properties": {
     "basemaps": {
@@ -169,6 +169,5 @@
   "required": [
     "basemaps"
   ],
-  "additionalProperties": false,
-  "$schema": "https://json-schema.org/draft/2019-09/schema#"
+  "additionalProperties": false
 }
