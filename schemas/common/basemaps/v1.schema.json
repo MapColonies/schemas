@@ -28,11 +28,7 @@
                 "const": 128
               }
             },
-            "required": [
-              "url",
-              "width",
-              "height"
-            ],
+            "required": ["url", "width", "height"],
             "additionalProperties": false
           },
           "isCurrent": {
@@ -78,17 +74,11 @@
                           "type": "object",
                           "properties": {
                             "productId": {
-                              "type": [
-                                "string",
-                                "null"
-                              ],
+                              "type": ["string", "null"],
                               "description": "Raster catalog product id"
                             },
                             "productType": {
-                              "type": [
-                                "string",
-                                "null"
-                              ],
+                              "type": ["string", "null"],
                               "description": "Raster product type (wire values as in @map-colonies/types, e.g. Orthophoto)"
                             }
                           },
@@ -96,11 +86,7 @@
                           "description": "Identifies a raster catalog product by productId + productType"
                         }
                       },
-                      "required": [
-                        "type",
-                        "domain",
-                        "uniqueness"
-                      ],
+                      "required": ["type", "domain", "uniqueness"],
                       "additionalProperties": false
                     },
                     {
@@ -122,52 +108,62 @@
                             },
                             "url": {
                               "type": "string"
+                            },
+                            "extras": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": true,
+                              "description": "Provider-specific extra fields not covered by protocol/name/url (e.g. WMTS/XYZ options)"
                             }
                           },
-                          "required": [
-                            "protocol",
-                            "name",
-                            "url"
-                          ],
-                          "additionalProperties": true
+                          "required": ["protocol", "name", "url"],
+                          "additionalProperties": false
                         }
                       },
-                      "required": [
-                        "type",
-                        "details"
-                      ],
+                      "required": ["type", "details"],
                       "additionalProperties": false
                     }
                   ]
                 }
               },
-              "required": [
-                "id",
-                "order",
-                "opacity",
-                "source"
-              ],
+              "required": ["id", "order", "opacity", "source"],
               "additionalProperties": false
-            }
+            },
+            "uniqueItemProperties": ["order"]
           },
           "id": {
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "thumbnail",
-          "isCurrent",
-          "isForPreview",
-          "layers",
-          "id"
-        ],
+        "required": ["name", "thumbnail", "isCurrent", "isForPreview", "layers", "id"],
         "additionalProperties": false
-      }
+      },
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "isCurrent": {
+                "const": true
+              }
+            },
+            "required": ["isCurrent"]
+          },
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "isForPreview": {
+                "const": true
+              }
+            },
+            "required": ["isForPreview"]
+          },
+          "maxContains": 1
+        }
+      ]
     }
   },
-  "required": [
-    "basemaps"
-  ],
+  "required": ["basemaps"],
   "additionalProperties": false
 }
